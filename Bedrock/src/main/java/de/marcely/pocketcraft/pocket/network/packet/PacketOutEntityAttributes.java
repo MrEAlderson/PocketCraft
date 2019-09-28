@@ -1,0 +1,34 @@
+package de.marcely.pocketcraft.pocket.network.packet;
+
+import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
+import de.marcely.pocketcraft.bedrock.entity.EntityAttribute;
+import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
+
+public class PacketOutEntityAttributes extends PCPacket {
+	
+	public long entityRuntimeID;
+	public EntityAttribute[] attributes;
+	
+	public PacketOutEntityAttributes(){
+		super(PacketType.OutEntityAttributes);
+	}
+
+	@Override
+	public void encode(EByteArrayWriter writer) throws Exception {
+		writer.writeUnsignedVarLong(entityRuntimeID);
+		
+		// why a different scheme tho
+		writer.writeUnsignedVarInt(attributes.length);
+		
+		for(EntityAttribute attr:attributes){
+			writer.writeLFloat(attr.type.minValue);
+			writer.writeLFloat(attr.type.maxValue);
+			writer.writeLFloat(attr.value);
+			writer.writeLFloat(attr.type.defaultValue);
+			writer.writeString(attr.type.name);
+		}
+	}
+
+	@Override
+	public void decode(EByteArrayReader reader) throws Exception { }
+}

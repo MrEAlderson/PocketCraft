@@ -1,0 +1,20 @@
+package de.marcely.pocketcraft.bedrock.network;
+
+public enum Channel {
+	
+	NONE(0),
+	PRIORITY(1),
+	WORLD_CHUNKS(2),
+	MOVEMENT(3),
+	BLOCKS(4),
+	WORLD_EVENTS(5),
+	ENTITY_HOSPITAL(6),
+	CHAT(7),
+	END(31);
+	
+	public final int id;
+	
+	private Channel(int id){
+		this.id = id;
+	}
+}
