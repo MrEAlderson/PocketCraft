@@ -17,8 +17,8 @@ public class PacketOutFullChunk extends PCPacket {
 
 	@Override
 	public void encode(EByteArrayWriter writer) throws Exception {
-		writer.writeSignedVarInt(posX);
-		writer.writeSignedVarInt(posZ);
+		writer.writeSignedVarInt(this.posX);
+		writer.writeSignedVarInt(this.posZ);
 		writer.writeUnsignedVarInt(this.sectionsAmount);
 		writer.writeBoolean(this.isCachingEnabled);
 		

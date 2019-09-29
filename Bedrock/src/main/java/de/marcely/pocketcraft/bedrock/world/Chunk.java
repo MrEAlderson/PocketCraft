@@ -1,5 +1,10 @@
 package de.marcely.pocketcraft.bedrock.world;
 
+import java.io.IOException;
+
+import de.marcely.pocketcraft.bedrock.network.packet.PacketOutFullChunk;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketType;
+import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
 import lombok.Getter;
 
 public class Chunk {
@@ -27,5 +32,50 @@ public class Chunk {
 	
 	public void setBlockData(int x, int y, int z, byte data){
 		this.sections[y >> 4].setBlockData(x, y%16, z, data);
+	}
+	
+	private byte[] getData() throws IOException {
+		final EByteArrayWriter stream = new EByteArrayWriter();
+		
+		// sections
+		{
+			for(int si=0; si<16; si++){
+				final ChunkSection section = this.sections[si];
+				
+				stream.writeSignedByte((byte) 0); // unkown
+				stream.write(section.getData());
+			}
+		}
+		
+		stream.write(new byte[16*16]); // biomes
+		stream.writeSignedByte((byte) 0); // unkown
+		stream.writeSignedVarInt(0); // extra data
+		
+		// block entities
+		{
+			
+		}
+		
+		stream.close();
+		
+		return stream.toByteArray();
+	}
+	
+	public PacketOutFullChunk buildPacket(int x, int z){
+		final PacketOutFullChunk packet = (PacketOutFullChunk) PacketType.OutFullChunk.newInstance();
+		
+		packet.posX = x;
+		packet.posZ = z;
+		packet.sectionsAmount = 16;
+		packet.isCachingEnabled = false;
+		
+		try{
+			packet.data = getData();
+		}catch(IOException e){
+			e.printStackTrace();
+			return null;
+		}
+		
+		return packet;
 	}
 }

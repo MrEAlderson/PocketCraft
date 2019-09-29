@@ -219,6 +219,8 @@ public enum PacketType {
 			return new PacketSetLocalPlayerInitialized(false);
 		case InSetLocalPlayerInitialized:
 			return new PacketSetLocalPlayerInitialized(true);
+		case InClientCacheStatus:
+			return new PacketInClientCacheStatusPacket();
 		default:
 			return null;
 		}

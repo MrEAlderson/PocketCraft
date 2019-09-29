@@ -11,10 +11,12 @@ import de.marcely.pocketcraft.bedrock.network.packet.PCPacket;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketInResourcePackStatus;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketOutAvailableResourcePacks;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketOutAvailableResourcePacks2;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketOutChunkRadiusChange;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketOutGame;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketOutLoginStatus;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketType;
 import de.marcely.pocketcraft.bedrock.server.player.Player;
+import de.marcely.pocketcraft.bedrock.world.Chunk;
 
 public class LoginSequence extends Sequence {
 	
@@ -88,8 +90,46 @@ public class LoginSequence extends Sequence {
 				player.sendPacket(out);
 			}
 		
-		}else if(packet.status == PacketInResourcePackStatus.COMPLETED)
+		}else if(packet.status == PacketInResourcePackStatus.COMPLETED){
 			sendGamePacket();
+			
+			// test
+			{
+				final PacketOutChunkRadiusChange out = (PacketOutChunkRadiusChange) PacketType.OutChunkRadiusChange.newInstance();
+				
+				out.radius = 8;
+				
+				player.sendPacket(out);
+			}
+			
+			// send chunks
+			{
+				final Chunk chunk = new Chunk();
+				
+				for(int ix=0; ix<16; ix++){
+					for(int iy=0; iy<96; iy++){
+						for(int iz=0; iz<16; iz++){
+							chunk.setBlockId(ix, iy, iz, (short) 1);
+						}
+					}
+				}
+				
+				for(int ix=-5; ix<=5; ix++){
+					for(int iz=-5; iz<=5; iz++){
+						player.sendPacket(chunk.buildPacket(ix, iz));
+					}
+				}
+			}
+			
+			// done
+			{
+				final PacketOutLoginStatus out = (PacketOutLoginStatus) PacketType.OutLoginStatus.newInstance();
+				
+				out.result = PacketOutLoginStatus.PLAYER_SPAWN;
+				
+				player.sendPacket(out);
+			}
+		}
 	}
 	
 	private void sendGamePacket(){
