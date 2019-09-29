@@ -33,9 +33,10 @@ public class BlockMapping {
 		
 		{
 			final ByteArrayWriter writer = new ByteArrayWriter();
-			final JsonObject root = (JsonObject) new JsonParser().parse(new InputStreamReader(Resources.getResourceAsStream("required_block_states.json")));
+			final JsonObject idsRoot = (JsonObject) new JsonParser().parse(new InputStreamReader(Resources.getResourceAsStream("block_id_map.json")));
+			final JsonObject statesRoot = (JsonObject) new JsonParser().parse(new InputStreamReader(Resources.getResourceAsStream("required_block_states.json")));
 			
-			for(Entry<String, JsonElement> e1:root.entrySet()){
+			for(Entry<String, JsonElement> e1:statesRoot.entrySet()){
 				for(Entry<String, JsonElement> e2:((JsonObject) e1.getValue()).entrySet()){
 					final String name = e1.getKey() + ":" + e2.getKey();
 					
@@ -44,6 +45,7 @@ public class BlockMapping {
 						
 						writer.writeString(name);
 						writer.writeLShort(state);
+						writer.writeLShort(idsRoot.get(name).getAsInt());
 						
 						instance.cachedTableSize++;
 					}

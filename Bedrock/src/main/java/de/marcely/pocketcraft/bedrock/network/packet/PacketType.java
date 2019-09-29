@@ -71,7 +71,8 @@ public enum PacketType {
 	OutSetLocalPlayerInitialized(0x71, Channel.NONE),
 	InSetLocalPlayerInitialized(0x71),
 	OutAvailableEntityIdentifiers(0x77, Channel.NONE),
-	OutBiomeDefinitionList(0x07A, Channel.NONE);
+	OutBiomeDefinitionList(0x07A, Channel.NONE),
+	InClientCacheStatus(0x81);
 	
 	public static final Map<Short, PacketType> TYPES_IN = new HashMap<>();
 	public static final Map<Short, PacketType> TYPES_OUT = new HashMap<>();

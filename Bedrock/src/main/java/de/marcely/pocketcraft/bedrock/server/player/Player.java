@@ -2,12 +2,18 @@ package de.marcely.pocketcraft.bedrock.server.player;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import com.whirvis.jraknet.RakNetPacket;
 import com.whirvis.jraknet.peer.RakNetClientPeer;
+import com.whirvis.jraknet.protocol.Reliability;
 
 import de.marcely.pocketcraft.bedrock.network.packet.PCPacket;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketBatch;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketType;
 import de.marcely.pocketcraft.bedrock.server.player.sequence.Sequence;
+import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
 import lombok.Getter;
 
 public class Player {
@@ -42,12 +48,42 @@ public class Player {
 		sendPacket(packet, true);
 	}
 	
-	private void sendPacket(PCPacket packet, boolean needACK){
+	private void sendPacket(PCPacket packet, boolean reliable){
+		if(packet.type != PacketType.Batch){
+			final PacketBatch batch = new PacketBatch();
+			
+			try{
+				batch.writePayload(Arrays.asList(packet), packet.compressionLevel);
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+			
+			sendPacket(batch);
+			
+			return;
+		}
+		
 		for(PacketListener listener:this.packetListeners){
 			if(!listener.onSend(packet))
 				return;
 		}
 		
+		{
+			final RakNetPacket rnPacket = new RakNetPacket(packet.type.id);
+			final EByteArrayWriter stream = new EByteArrayWriter();
+			
+			try{
+				packet.encode(stream);
+				
+				rnPacket.write(stream.toByteArray());
+				
+				stream.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+			
+			this.client.sendMessage(reliable ? Reliability.RELIABLE_ORDERED : Reliability.UNRELIABLE, 2, rnPacket);
+		}
 	}
 	
 	public void handlePacket(PCPacket packet) throws Exception {

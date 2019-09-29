@@ -4,6 +4,7 @@ import de.marcely.pocketcraft.bedrock.component.BlockMapping;
 import de.marcely.pocketcraft.bedrock.component.Difficulty;
 import de.marcely.pocketcraft.bedrock.component.GameMode;
 import de.marcely.pocketcraft.bedrock.component.GameRules;
+import de.marcely.pocketcraft.bedrock.component.ItemMapping;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
@@ -43,7 +44,7 @@ public class PacketOutGame extends PCPacket {
     public GameRules gameRules;
     public boolean bonusChest;
     public boolean startWithMap;
-    public int permissionLevel;
+    public int defaultPermissionLevel;
     public int serverChunkTickRange;
     public boolean hasLockedBehaviorPack;
     public boolean hasLockedResourcePack;
@@ -51,6 +52,7 @@ public class PacketOutGame extends PCPacket {
     public boolean useMsaGamertagsOnly;
     public boolean isFromWorldTemplate;
     public boolean isWorldTemplateOptionLocked;
+    public boolean isOnlySpawningV1Villagers;
     
     public String levelId;
     public String worldName;
@@ -97,7 +99,7 @@ public class PacketOutGame extends PCPacket {
         this.gameRules.write(writer); //
         writer.writeBoolean(this.bonusChest);
         writer.writeBoolean(this.startWithMap);
-        writer.writeSignedVarInt(this.permissionLevel); //
+        writer.writeSignedVarInt(this.defaultPermissionLevel); //
         writer.writeLInt(this.serverChunkTickRange);
         writer.writeBoolean(this.hasLockedBehaviorPack);
         writer.writeBoolean(this.hasLockedResourcePack);
@@ -105,6 +107,7 @@ public class PacketOutGame extends PCPacket {
         writer.writeBoolean(this.useMsaGamertagsOnly);
         writer.writeBoolean(this.isFromWorldTemplate);
         writer.writeBoolean(this.isWorldTemplateOptionLocked);
+        writer.writeBoolean(this.isOnlySpawningV1Villagers);
         
         writer.writeString(this.levelId);
         writer.writeString(this.worldName);
@@ -117,7 +120,8 @@ public class PacketOutGame extends PCPacket {
         writer.writeUnsignedVarInt(BlockMapping.INSTANCE.cachedTableSize);
         writer.write(BlockMapping.INSTANCE.cachedTable);
         
-        System.out.println(BlockMapping.INSTANCE.cachedTableSize);
+        writer.writeUnsignedVarInt(ItemMapping.INSTANCE.cachedTableSize);
+        writer.write(ItemMapping.INSTANCE.cachedTable);
         
         writer.writeString(this.multiplayerCorrelationID);
 	}
