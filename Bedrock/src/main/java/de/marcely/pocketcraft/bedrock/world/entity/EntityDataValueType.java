@@ -1,4 +1,4 @@
-package de.marcely.pocketcraft.bedrock.entity;
+package de.marcely.pocketcraft.bedrock.world.entity;
 
 import java.awt.Color;
 import java.io.IOException;

@@ -1,7 +1,7 @@
 package de.marcely.pocketcraft.bedrock.network.packet;
 
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
-import de.marcely.pocketcraft.bedrock.entity.EntityMetadata;
+import de.marcely.pocketcraft.bedrock.world.entity.EntityMetadata;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
 public class PacketOutEntityData extends PCPacket {

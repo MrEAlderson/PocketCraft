@@ -2,10 +2,10 @@ package de.marcely.pocketcraft.bedrock.network.packet;
 
 import java.util.UUID;
 
-import de.marcely.pocketcraft.bedrock.entity.EntityLink;
-import de.marcely.pocketcraft.bedrock.entity.EntityMetadata;
 import de.marcely.pocketcraft.bedrock.inventory.Item;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
+import de.marcely.pocketcraft.bedrock.world.entity.EntityLink;
+import de.marcely.pocketcraft.bedrock.world.entity.EntityMetadata;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
 public class PacketOutSpawnEntityPlayer extends PCPacket {

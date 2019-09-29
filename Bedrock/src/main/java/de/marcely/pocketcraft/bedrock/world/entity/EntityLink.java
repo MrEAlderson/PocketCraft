@@ -1,4 +1,4 @@
-package de.marcely.pocketcraft.bedrock.entity;
+package de.marcely.pocketcraft.bedrock.world.entity;
 
 import java.io.IOException;
 
