@@ -13,6 +13,7 @@
 	
 	<groupId>de.marcely.pocketcraft</groupId>
 	<artifactId>Utils</artifactId>
+	<packaging>jar</packaging>
 
 	<build>
 		<plugins>

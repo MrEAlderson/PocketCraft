@@ -13,7 +13,8 @@
 	
 	<groupId>de.marcely.pocketcraft</groupId>
 	<artifactId>RakNet</artifactId>
-
+	<packaging>jar</packaging>
+	
 	<dependencies>
 		<dependency>
 			<groupId>de.marcely.pocketcraft</groupId>

@@ -3,7 +3,6 @@ package de.marcely.pocketcraft.raknet.server;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,9 +41,9 @@ public abstract class RakNetServer {
 	public final Map<String, Client> clients = new HashMap<>();
 	@Getter private int currentTPS;
 	
-	public RakNetServer(int port){
+	public RakNetServer(InetAddress address, int port){
 		this.serverID = new Random().nextLong();
-		this.udpServer = new UDPServer(port, BUFFERSIZE);
+		this.udpServer = new UDPServer(address, port, BUFFERSIZE);
 	}
 	
 	public abstract void onConnect(Client client);
@@ -57,7 +56,9 @@ public abstract class RakNetServer {
 	
 	
 	
-	public int getPort(){ return this.udpServer.port; }
+	public InetAddress getAddress(){ return this.udpServer.getAddress(); }
+	
+	public int getPort(){ return this.udpServer.getPort(); }
 	
 	public boolean run(){
 		if(isRunning())
@@ -71,13 +72,7 @@ public abstract class RakNetServer {
 		
 		this.running = true;
 		
-		String address = "localhost";
-		
-		try{
-			address = InetAddress.getLocalHost().getHostAddress();
-		}catch(UnknownHostException e1){ }
-		
-		new UThread(Application.RAKNET, "server", address + ":" + getPort()){
+		new UThread(Application.RAKNET, "server", getAddress().getHostAddress() + ":" + getPort()){
 			long t = System.currentTimeMillis();
 			int tps = 0;
 			

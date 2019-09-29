@@ -13,12 +13,14 @@ import lombok.Getter;
 
 public class UDPServer {
 	
-	public final int port, bufferSize;
+	@Getter private final InetAddress address;
+	@Getter private final int port, bufferSize;
 	
 	private DatagramSocket socket;
 	@Getter private final Queue<QueuedDatagramPacket> queue = new ConcurrentLinkedQueue<>();
 	
-	public UDPServer(int port, int bufferSize){
+	public UDPServer(InetAddress address, int port, int bufferSize){
+		this.address = address;
 		this.port = port;
 		this.bufferSize = bufferSize;
 	}
@@ -28,16 +30,17 @@ public class UDPServer {
 	public boolean run() throws SocketException {
 		if(isRunning()) return false;
 		
-		this.socket = new DatagramSocket(port);
+		this.socket = new DatagramSocket(this.port, this.address);
 		
 		new Thread(){
 			public void run(){
 				while(isRunning()){
-					final byte[] buffer = new byte[bufferSize];
-					final DatagramPacket packet = new DatagramPacket(buffer, bufferSize);
+					final byte[] buffer = new byte[UDPServer.this.bufferSize];
+					final DatagramPacket packet = new DatagramPacket(buffer, UDPServer.this.bufferSize);
 					
 					try{
 						socket.receive(packet);
+						System.out.println("receive: " + packet.getLength());
 					}catch(IOException e){
 						final String msg = e.getMessage();
 						
