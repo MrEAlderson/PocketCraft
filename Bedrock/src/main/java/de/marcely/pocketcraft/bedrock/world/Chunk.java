@@ -3,12 +3,9 @@ package de.marcely.pocketcraft.bedrock.world;
 import java.io.IOException;
 
 import de.marcely.pocketcraft.bedrock.network.packet.PCPacket;
-import de.marcely.pocketcraft.bedrock.network.packet.PacketBatch;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketOutFullChunk;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketType;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
-import de.marcely.pocketcraft.utils.io.ByteArrayWriter;
-import de.marcely.pocketcraft.utils.io.ZLib;
 import lombok.Getter;
 
 public class Chunk {
@@ -78,29 +75,6 @@ public class Chunk {
 		}catch(IOException e){
 			e.printStackTrace();
 			return null;
-		}
-		
-		byte[] totalData = null;
-		
-		try(EByteArrayWriter stream = new EByteArrayWriter()){
-			stream.writeUnsignedVarInt(packet.type.id);
-			packet.encode(stream);
-			
-			totalData = stream.toByteArray();
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		
-		final PacketBatch batch = new PacketBatch();
-		
-		try(EByteArrayWriter stream = new EByteArrayWriter()){
-			stream.writeUnsignedVarInt(totalData.length);
-			stream.write(totalData);
-			
-			batch.payload = ZLib.deflate(stream.toByteArray(), packet.compressionLevel);
-		}catch(Exception e){
-			e.printStackTrace();
 		}
 		
 		return packet;
