@@ -1,5 +1,7 @@
 package de.marcely.pocketcraft.bedrock.component;
 
+import lombok.Getter;
+
 public enum GameRule {
 	
     COMMAND_BLOCK_OUTPUT("commandBlockOutput", FieldType.BOOL),
@@ -22,8 +24,8 @@ public enum GameRule {
     TNT_EXPLODES("tntExplodes", FieldType.BOOL),
     SHOW_DEATH_MESSAGE("showDeathMessage", FieldType.BOOL);
 	
-	public final String id;
-	public final FieldType fieldType;
+	@Getter private final String id;
+	@Getter private final FieldType fieldType;
 	
 	private GameRule(String id, FieldType fieldType){
 		this.id = id;
@@ -33,8 +35,13 @@ public enum GameRule {
 	
 	public static enum FieldType {
 		
+		UNKOWN,
 		BOOL,
-		UNSIGNED_VAR_INT,
-		LFLOAT;
+		INT,
+		FLOAT;
+		
+		public byte getId(){
+			return (byte) this.ordinal();
+		}
 	}
 }

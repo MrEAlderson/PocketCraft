@@ -1,6 +1,6 @@
 package de.marcely.pocketcraft.bedrock.server.player.sequence;
 
-import java.util.UUID;
+import java.util.Random;
 
 import de.marcely.pocketcraft.bedrock.component.Difficulty;
 import de.marcely.pocketcraft.bedrock.component.Dimension;
@@ -8,12 +8,14 @@ import de.marcely.pocketcraft.bedrock.component.GameMode;
 import de.marcely.pocketcraft.bedrock.component.GameRules;
 import de.marcely.pocketcraft.bedrock.component.ResourcePack;
 import de.marcely.pocketcraft.bedrock.network.packet.PCPacket;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketInLogin;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketInResourcePackStatus;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketOutAvailableResourcePacks;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketOutAvailableResourcePacks2;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketOutChunkRadiusChange;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketOutGame;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketOutLoginStatus;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketOutNetworkChunkPublisherUpdate;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketType;
 import de.marcely.pocketcraft.bedrock.server.player.Player;
 import de.marcely.pocketcraft.bedrock.world.Chunk;
@@ -31,6 +33,8 @@ public class LoginSequence extends Sequence {
 	
 	@Override
 	public boolean onReceive(PCPacket packet){
+		System.out.println("lol:: " + packet.type);
+		
 		switch(state){
 		case STATE_WAITING:
 			handleWaiting(packet);
@@ -48,7 +52,11 @@ public class LoginSequence extends Sequence {
 		if(rawPacket.type != PacketType.InLogin)
 			return;
 		
-		// final PacketInLogin packet = (PacketInLogin) rawPacket;
+		final PacketInLogin packet = (PacketInLogin) rawPacket;
+		
+		System.out.println("locale: " + packet.locale);
+		System.out.println("id: " + packet.id);
+		System.out.println("username: " + packet.username);
 		
 		{
 			final PacketOutLoginStatus out = (PacketOutLoginStatus) PacketType.OutLoginStatus.newInstance();
@@ -91,7 +99,18 @@ public class LoginSequence extends Sequence {
 			}
 		
 		}else if(packet.status == PacketInResourcePackStatus.COMPLETED){
+			this.player.initEntity(new Random().nextInt());
+			
 			sendGamePacket();
+			
+			// done
+			{
+				final PacketOutLoginStatus out = (PacketOutLoginStatus) PacketType.OutLoginStatus.newInstance();
+				
+				out.result = PacketOutLoginStatus.PLAYER_SPAWN;
+				
+				player.sendPacket(out);
+			}
 			
 			// test
 			{
@@ -114,37 +133,42 @@ public class LoginSequence extends Sequence {
 					}
 				}
 				
-				for(int ix=-5; ix<=5; ix++){
-					for(int iz=-5; iz<=5; iz++){
+				for(int ix=-6; ix<=6; ix++){
+					for(int iz=-6; iz<=6; iz++){
 						player.sendPacket(chunk.buildPacket(ix, iz));
 					}
 				}
 			}
 			
-			// done
+			// tells the client that the chunks are ready to be displayed
 			{
-				final PacketOutLoginStatus out = (PacketOutLoginStatus) PacketType.OutLoginStatus.newInstance();
+				final PacketOutNetworkChunkPublisherUpdate out = (PacketOutNetworkChunkPublisherUpdate) PacketType.OutNetworkChunkPublisherUpdate.newInstance();
 				
-				out.result = PacketOutLoginStatus.PLAYER_SPAWN;
+				out.x = 0;
+				out.y = 100;
+				out.z = 0;
+				out.radius = 6;
 				
-				player.sendPacket(out);
+			    player.sendPacket(out);
 			}
+			
+			player.getEntity().sendAllMetadata(player);
 		}
 	}
 	
 	private void sendGamePacket(){
 		final PacketOutGame out = (PacketOutGame) PacketType.OutGame.newInstance();
 		
-		out.entityUniqueId = 0;
-		out.entityRuntimeId = 0;
-		out.gamemode = GameMode.ADVENTURE;
+		out.entityUniqueId = this.player.getEntity().getId();
+		out.entityRuntimeId = this.player.getEntity().getId();
+		out.gamemode = GameMode.SURVIVAL;
 		out.x = 0;
 		out.y = 100;
 		out.z = 0;
 		out.yaw = 0F;
 		out.pitch = 0F;
 		out.seed = -1;
-		out.dimension = (byte) (Dimension.OVERWORLD.getId() & 0xFF);
+		out.dimension = (byte) (Dimension.OVERWORLD.getId());
 		out.generator = 1;
 		out.worldGamemode = GameMode.ADVENTURE;
 		out.difficulty = Difficulty.NORMAL;
@@ -152,7 +176,7 @@ public class LoginSequence extends Sequence {
 		out.spawnY = 100;
 		out.spawnZ = 0;
 		out.hasAchievementsDisabled = true;
-		out.time = 1; //-1 = not stopped, any positive value = stopped at that time
+		out.time = -1; //-1 = not stopped, any positive value = stopped at that time
 		out.eduMode = false;
 		out.hasEduFeaturesEnabled = false;
 		out.rainLevel = 0F;
@@ -181,7 +205,7 @@ public class LoginSequence extends Sequence {
 		out.isWorldTemplateOptionLocked = false;
 		out.enchantmentSeed = 0;
 		out.gameRules = GameRules.newDefaultInstance();
-		out.multiplayerCorrelationID = UUID.randomUUID().toString();
+		out.multiplayerCorrelationID = "";
 		
 		player.sendPacket(out);
 	}

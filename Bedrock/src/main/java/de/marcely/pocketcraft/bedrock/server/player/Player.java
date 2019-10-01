@@ -9,11 +9,16 @@ import com.whirvis.jraknet.RakNetPacket;
 import com.whirvis.jraknet.peer.RakNetClientPeer;
 import com.whirvis.jraknet.protocol.Reliability;
 
+import de.marcely.pocketcraft.bedrock.component.GameRules;
 import de.marcely.pocketcraft.bedrock.network.packet.PCPacket;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketBatch;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketOutGameRules;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketType;
 import de.marcely.pocketcraft.bedrock.server.player.sequence.Sequence;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
+import de.marcely.pocketcraft.bedrock.world.World;
+import de.marcely.pocketcraft.bedrock.world.entity.Entity;
+import de.marcely.pocketcraft.bedrock.world.entity.EntityType;
 import lombok.Getter;
 
 public class Player {
@@ -21,6 +26,9 @@ public class Player {
 	@Getter private final RakNetClientPeer client;
 	
 	@Getter private final List<PacketListener> packetListeners = new ArrayList<>(4);
+	
+	@Getter private final World world = new World();
+	@Getter private Entity entity;
 	
 	public Player(RakNetClientPeer client){
 		this.client = client;
@@ -112,5 +120,17 @@ public class Player {
 		
 		// replace with new one
 		this.packetListeners.add(seq);
+	}
+	
+	public void initEntity(long id){
+		this.entity = new Entity(EntityType.PLAYER, id);
+	}
+	
+	public void sendGameRules(GameRules gr){
+		final PacketOutGameRules packet = (PacketOutGameRules) PacketType.OutGameRules.newInstance();
+		
+		packet.gameRules = gr;
+		
+		this.sendPacket(packet);
 	}
 }

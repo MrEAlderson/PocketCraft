@@ -64,6 +64,7 @@ public enum PacketType {
 	InChangeCheatSettings(0x40),
 	InChunkRadiusChangeRequest(0x45),
 	OutChunkRadiusChange(0x46, Channel.NONE),
+	OutGameRules(0x48, Channel.NONE),
 	OutAvailableCommands(0x4C, Channel.CHAT),
 	InCommandRequest(0x4D),
 	OutChangeServer(0x55, Channel.PRIORITY),
@@ -71,6 +72,7 @@ public enum PacketType {
 	OutSetLocalPlayerInitialized(0x71, Channel.NONE),
 	InSetLocalPlayerInitialized(0x71),
 	OutAvailableEntityIdentifiers(0x77, Channel.NONE),
+	OutNetworkChunkPublisherUpdate(0x79, Channel.NONE),
 	OutBiomeDefinitionList(0x07A, Channel.NONE),
 	InClientCacheStatus(0x81);
 	
@@ -205,20 +207,26 @@ public enum PacketType {
 			return new PacketInChunkRadiusChangeRequest();
 		case OutChunkRadiusChange:
 			return new PacketOutChunkRadiusChange();
+		case OutGameRules:
+			return new PacketOutGameRules();
+		case OutAvailableCommands:
+			return new PacketOutAvailableCommands();
 		case InCommandRequest:
 			return new PacketInCommandRequest();
 		case OutChangeServer:
 			return new PacketOutChangeServer();
 		case OutPlaySound:
 			return new PacketOutPlaySound();
-		case OutAvailableEntityIdentifiers:
-			return new PacketOutAvailableEntityIdentifiers();
-		case OutBiomeDefinitionList:
-			return new PacketOutBiomeDefinitionList();
 		case OutSetLocalPlayerInitialized:
 			return new PacketSetLocalPlayerInitialized(false);
 		case InSetLocalPlayerInitialized:
 			return new PacketSetLocalPlayerInitialized(true);
+		case OutAvailableEntityIdentifiers:
+			return new PacketOutAvailableEntityIdentifiers();
+		case OutNetworkChunkPublisherUpdate:
+			return new PacketOutNetworkChunkPublisherUpdate();
+		case OutBiomeDefinitionList:
+			return new PacketOutBiomeDefinitionList();
 		case InClientCacheStatus:
 			return new PacketInClientCacheStatusPacket();
 		default:

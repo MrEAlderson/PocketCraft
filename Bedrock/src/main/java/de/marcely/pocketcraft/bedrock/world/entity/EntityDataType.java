@@ -1,5 +1,7 @@
 package de.marcely.pocketcraft.bedrock.world.entity;
 
+import lombok.Getter;
+
 public enum EntityDataType {
 	
 	FLAGS(0, EntityDataValueType.LONG),
@@ -10,30 +12,27 @@ public enum EntityDataType {
 	OWNER_ID(5, EntityDataValueType.LONG),
 	TARGET_ID(6, EntityDataValueType.LONG),
 	AIR(7, EntityDataValueType.SHORT),
-	POTION_COLOR(8, EntityDataValueType.COLOR),
+	POTION_COLOR(8, EntityDataValueType.INT /* ARGB */),
 	POTION_AMBIENT(9, EntityDataValueType.BYTE),
-	/* 10 */
+	JUMP_DURATION(10, EntityDataValueType.LONG),
 	HURT_TIME(11, EntityDataValueType.INT),
 	HURT_DIRECTION(12, EntityDataValueType.INT),
 	PADDLE_TIME_LEFT(13, EntityDataValueType.FLOAT),
 	PADDLE_TIME_RIGHT(14, EntityDataValueType.FLOAT),
 	EXPERIENCE(15, EntityDataValueType.INT),
-	MINECRAFT_DISPLAY_BLOCK(16, EntityDataValueType.INT),
-	HORSE_FLAGS(16, EntityDataValueType.INT),
-	/* 16 */
-	MINECRAFT_DISPLAY_OFFSET(17, EntityDataValueType.INT),
-	SHOOTER_ID(17, EntityDataValueType.LONG),
-	MINECRAFT_HAS_DISPLAY(18, EntityDataValueType.BOOLEAN),
-	HORSE_TYPE(19, EntityDataValueType.BYTE),
+	DISPLAY_ITEM(16, EntityDataValueType.INT),
+	DISPLAY_OFFSET(17, EntityDataValueType.INT),
+	HAS_DISPLAY(18, EntityDataValueType.BYTE /* BOOL */),
+	/* 19 */
 	/* 20 */
 	/* 21*/
-	CHARGE_AMOUNT(22, EntityDataValueType.BYTE),
-	ENDERMAN_HELD_ITEM_ID(23, EntityDataValueType.SHORT),
+	/* 22 */
+	ENDERMAN_HELD_ITEM_RUNTIME_ID(23, EntityDataValueType.SHORT),
 	ENTITY_AGE(24, EntityDataValueType.SHORT),
 	/* 25 */
 	PLAYER_FLAGS(26, EntityDataValueType.BYTE),
-	PLAYER_INDEX(27, EntityDataValueType.INT),
-	PLAYER_BED_POSITION(28, EntityDataValueType.BLOCK_LOCATION),
+	/* 27 */
+	PLAYER_BED_POSITION(28, EntityDataValueType.FLOOR_VECTOR3),
 	FIREBALL_POWER_X(29, EntityDataValueType.FLOAT),
 	FIREBALL_POWER_Y(30, EntityDataValueType.FLOAT),
 	FIREBALL_POWER_Z(31, EntityDataValueType.FLOAT),
@@ -44,48 +43,71 @@ public enum EntityDataType {
 	POTION_AUX_VALUE(36, EntityDataValueType.SHORT),
 	LEAD_HOLDER_ID(37, EntityDataValueType.LONG),
 	SCALE(38, EntityDataValueType.FLOAT),
-	HAS_NPC_COMPONENT(39, EntityDataValueType.BYTE /* not sure */),
-	SKIN_ID(40, EntityDataValueType.STRING),
-	NPC_SKIN_ID(41, EntityDataValueType.STRING),
-	URL_TAG(42, EntityDataValueType.STRING),
-	MAX_AIR(43, EntityDataValueType.SHORT),
-	MARK_VARIANT(44, EntityDataValueType.INT),
-	CONTAINER_TYPE(45, EntityDataValueType.BYTE),
-	CONTAINER_BASE_SIZE(46, EntityDataValueType.INT),
-	CONTAINER_EXTRA_SLOTS_PER_STRENGTH(47, EntityDataValueType.INT),
-	BLOCK_TARGET(48, EntityDataValueType.BLOCK_LOCATION),
-	WITHER_INVULNERABLE_TICKS(49, EntityDataValueType.INT),
-	WITHER_TARGET_HEAD_CENTER(50, EntityDataValueType.LONG),
-	WITHER_TARGET_HEAD_LEFT(51, EntityDataValueType.LONG),
-	WITHER_TARGET_HEAD_RIGHT(52, EntityDataValueType.LONG),
-	/* 53 */
-	BOUNDING_BOX_WIDTH(54, EntityDataValueType.FLOAT),
-	BOUNDING_BOX_HEIGHT(55, EntityDataValueType.FLOAT),
-	FUSE_LENGTH(56, EntityDataValueType.INT),
-	RIDER_SEAT_POSITION(57, EntityDataValueType.LOCATION),
-	RIDER_ROTATION_LOCKED(58, EntityDataValueType.BYTE),
-	RIDER_MAX_ROTATION(59, EntityDataValueType.FLOAT),
-	RIDER_MIN_ROTATION(60, EntityDataValueType.FLOAT),
-	AREA_EFFECT_CLOUD_RADIUS(61, EntityDataValueType.FLOAT),
-	AREA_EFFECT_CLOUD_WAITING(62, EntityDataValueType.INT),
-	AREA_EFFECT_CLOUD_PARTICLE_ID(63, EntityDataValueType.INT),
-	/* 64 */
-	SHULKER_ATTACH_FACE(65, EntityDataValueType.BYTE),
-	/* 66 */
-	SHULKER_ATTACH_POS(67, EntityDataValueType.BLOCK_LOCATION),
-	TRADING_PLAYER_EID(68, EntityDataValueType.LONG),
-	/* 69
-	 * 70
-	 */
-	COMMAND_BLOCK_COMMAND(71, EntityDataValueType.STRING),
-	COMMAND_BLOCK_LAST_OUTPUT(72, EntityDataValueType.STRING),
-	COMMAND_BLOCK_TRACK_OUTPUT(73, EntityDataValueType.BYTE),
-	CONTROLLING_RIDER_SEAT_NUMBER(74, EntityDataValueType.BYTE),
-	STRENGTH(75, EntityDataValueType.INT),
-	MAX_STRENGTH(76, EntityDataValueType.INT),
-	// TODO: add more
-	FLAGS2(92, EntityDataValueType.LONG);
-	// TODO: add more
+	INTERACTIVE_TAG(39, EntityDataValueType.STRING),
+	NPC_SKIN_ID(40, EntityDataValueType.STRING),
+	URL_TAG(41, EntityDataValueType.STRING),
+	MAX_AIR(42, EntityDataValueType.SHORT),
+	MARK_VARIANT(43, EntityDataValueType.INT),
+	CONTAINER_TYPE(44, EntityDataValueType.BYTE),
+	CONTAINER_BASE_SIZE(45, EntityDataValueType.INT),
+	CONTAINER_EXTRA_SLOTS_PER_STRENGTH(46, EntityDataValueType.INT),
+	BLOCK_TARGET(47, EntityDataValueType.FLOOR_VECTOR3),
+	WITHER_INVULNERABLE_TICKS(48, EntityDataValueType.INT),
+	WITHER_TARGET_HEAD_CENTER(49, EntityDataValueType.LONG),
+	WITHER_TARGET_HEAD_LEFT(50, EntityDataValueType.LONG),
+	WITHER_TARGET_HEAD_RIGHT(51, EntityDataValueType.LONG),
+	/* 52 */
+	BOUNDING_BOX_WIDTH(53, EntityDataValueType.FLOAT),
+	BOUNDING_BOX_HEIGHT(54, EntityDataValueType.FLOAT),
+	FUSE_LENGTH(55, EntityDataValueType.INT),
+	RIDER_SEAT_POSITION(56, EntityDataValueType.VECTOR3),
+	RIDER_ROTATION_LOCKED(57, EntityDataValueType.BYTE),
+	RIDER_MAX_ROTATION(58, EntityDataValueType.FLOAT),
+	RIDER_MIN_ROTATION(69, EntityDataValueType.FLOAT),
+	AREA_EFFECT_CLOUD_RADIUS(60, EntityDataValueType.FLOAT),
+	AREA_EFFECT_CLOUD_WAITING(61, EntityDataValueType.INT),
+	AREA_EFFECT_CLOUD_PARTICLE_ID(62, EntityDataValueType.INT),
+	/* 63 */
+	SHULKER_ATTACH_FACE(64, EntityDataValueType.BYTE),
+	/* 65 */
+	SHULKER_ATTACH_POS(66, EntityDataValueType.VECTOR3),
+	TRADING_PLAYER_EID(67, EntityDataValueType.LONG),
+	/* 68 */
+	/* 69 */
+	COMMAND_BLOCK_COMMAND(70, EntityDataValueType.STRING),
+	COMMAND_BLOCK_LAST_OUTPUT(71, EntityDataValueType.STRING),
+	COMMAND_BLOCK_TRACK_OUTPUT(72, EntityDataValueType.BYTE),
+	CONTROLLING_RIDER_SEAT_NUMBER(73, EntityDataValueType.BYTE),
+	STRENGTH(74, EntityDataValueType.INT),
+	MAX_STRENGTH(75, EntityDataValueType.INT),
+	/* 76 */
+	LIMITED_LIFE(77, null /* TODO */),
+	ARMOR_STAND_POSE_INDEX(78, EntityDataValueType.INT),
+	ENDER_CRYSTAL_TIME_OFFSET(79, EntityDataValueType.INT),
+	ALWAYS_SHOW_NAMETAG(80, EntityDataValueType.BYTE),
+	COLOR2(81, EntityDataValueType.BYTE),
+	/* 82 */
+	SCORE_TAG(83, EntityDataValueType.STRING),
+	BALLOON_ATTACHED_ENTITY(84, EntityDataValueType.LONG),
+	PUFFERFISH_SIZE(85, null /* TODO */),
+	/* 86 */
+	/* 87 */
+	/* 88 */
+	/* 89 */
+	/* 90 */
+	FLAGS_EXTENDED(91, EntityDataValueType.LONG),
+	/* 92 */
+	/* 93 */
+	/* 94 */
+	/* 95 */
+	/* 96 */
+	/* 97 */
+	/* 98 */
+	/* 99 */
+	/* 100 */
+	/* 101 */
+	/* 102 */
+	SKIN_ID(103, EntityDataValueType.INT);
 	
     public static final int FLAG_ONFIRE = 0;
     public static final int FLAG_SNEAKING = 1;
@@ -178,10 +200,10 @@ public enum EntityDataType {
 	//87 used by NearestAttackableTargetGoal
 	
 	public static final int PLAYER_FLAG_SLEEP = 1;
-	public static final int PLAYER_FLAG_DEAD = 2; //TODO: CHECK
+	public static final int PLAYER_FLAG_DEAD = 2;
     
-	public final int id;
-	public final EntityDataValueType valueType;
+	@Getter private final int id;
+	@Getter private final EntityDataValueType valueType;
 	
 	private EntityDataType(int id, EntityDataValueType valueType){
 		this.id = id;

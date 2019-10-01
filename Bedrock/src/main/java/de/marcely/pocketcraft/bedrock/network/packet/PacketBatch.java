@@ -38,16 +38,15 @@ public class PacketBatch extends PCPacket {
 			}
 			
 			final EByteArrayReader reader2 = new EByteArrayReader(reader.readByteArray());
-			final byte id = reader2.readSignedByte();
+			final short id = (short) reader2.readUnsignedVarInt();
 			final PacketType type = PacketType.TYPES_IN.get((short) id);
 			
 			if(type != null){
 				final PCPacket packet = type.newInstance();
-				// reader2.read(2);
 				packet.decode(reader2);
 				list.add(packet);
 			}else
-				System.out.println("Received unkown packet '" + BinaryUtil.bytesToDisplayedHex(id) + "'");
+				System.out.println("Received unkown packet '" + BinaryUtil.bytesToDisplayedHex((byte) id) + "'");
 			
 			reader2.close();
 		}
@@ -61,13 +60,12 @@ public class PacketBatch extends PCPacket {
 		final EByteArrayWriter writer = new EByteArrayWriter();
 		
 		for(PCPacket packet:packets){
-			final EByteArrayWriter writer2 = new EByteArrayWriter();
-			
-			writer2.writeSignedByte((byte) packet.type.id);
-			// writer2.writeSignedShort((short) 0);
-			packet.encode(writer2);
-			writer.writeByteArray(writer2.toByteArray());
-			writer2.close();
+			try(EByteArrayWriter writer2 = new EByteArrayWriter()){
+				writer2.writeUnsignedVarInt(packet.type.id);
+				packet.encode(writer2);
+				
+				writer.writeByteArray(writer2.toByteArray());
+			}
 		}
 		
 		this.payload = ZLib.deflate(writer.toByteArray(), compressionLevel);

@@ -72,9 +72,9 @@ public class EByteArrayWriter extends ByteArrayWriter {
     	writeUnsignedVarInt(m.getValues().size());
     	
     	for(Entry<EntityDataType, Object> e:m.getValues().entrySet()){
-    		writeUnsignedVarInt(e.getKey().id);
-    		writeUnsignedVarInt(e.getKey().valueType.id);
-    		e.getKey().valueType.write(e.getValue(), this);
+    		writeUnsignedVarInt(e.getKey().getId());
+    		writeUnsignedVarInt(e.getKey().getValueType().getId());
+    		e.getKey().getValueType().write(e.getValue(), this);
     	}
     }
     
