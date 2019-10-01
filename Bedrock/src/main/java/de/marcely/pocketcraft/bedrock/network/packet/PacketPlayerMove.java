@@ -1,7 +1,6 @@
 package de.marcely.pocketcraft.bedrock.network.packet;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.jetbrains.annotations.Nullable;
 
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
@@ -25,7 +24,7 @@ public class PacketPlayerMove extends PCPacket {
 		writer.writeLFloat(pitch);
 		writer.writeLFloat(yaw);
 		writer.writeLFloat(headYaw);
-		writer.writeSignedByte(mode.id);
+		writer.writeSignedByte(mode.getId());
 		writer.writeBoolean(onGround);
 		writer.writeUnsignedVarLong(ridingEntityID);
 		
@@ -44,7 +43,7 @@ public class PacketPlayerMove extends PCPacket {
 		this.pitch = reader.readLFloat();
 		this.yaw = reader.readLFloat();
 		this.headYaw = reader.readLFloat();
-		this.mode = PlayerMoveType.VALUES.get(reader.readSignedByte());
+		this.mode = PlayerMoveType.ofId(reader.readSignedByte());
 		this.onGround = reader.readBoolean();
 		this.ridingEntityID = reader.readUnsignedVarLong();
 		
@@ -58,22 +57,21 @@ public class PacketPlayerMove extends PCPacket {
 	
 	public static enum PlayerMoveType {
 		
-		NORMAL((byte) 0x0),
-		RESET((byte) 0x1),
-		TELEPORT((byte) 0x2),
-		PITCH((byte) 0x3);
+		// do not change order
+		NORMAL,
+		RESET,
+		TELEPORT,
+		PITCH;
 		
-		public static final Map<Byte, PlayerMoveType> VALUES = new HashMap<>();
-		
-		public final byte id;
-		
-		static {
-			for(PlayerMoveType type:values())
-				VALUES.put(type.id, type);
+		public byte getId(){
+			return (byte) this.ordinal();
 		}
 		
-		private PlayerMoveType(byte id){
-			this.id = id;
+		public static @Nullable PlayerMoveType ofId(byte id){
+			if(id < 0 || id >= values().length)
+				return null;
+			else
+				return PlayerMoveType.values()[id];
 		}
 	}
 }

@@ -8,17 +8,26 @@ import de.marcely.pocketcraft.bedrock.component.GameMode;
 import de.marcely.pocketcraft.bedrock.component.GameRules;
 import de.marcely.pocketcraft.bedrock.component.ResourcePack;
 import de.marcely.pocketcraft.bedrock.network.packet.PCPacket;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityPermissions;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityPermissions.CommandPermissionLevel;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityPermissions.PermissionLevel;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketInLogin;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketInResourcePackStatus;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketOutAvailableResourcePacks;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketOutAvailableResourcePacks2;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketOutChunkRadiusChange;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketOutEntityAttributes;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketOutGame;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketOutGameMode;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketOutLoginStatus;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketOutNetworkChunkPublisherUpdate;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketPlayerMove;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketType;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketPlayerMove.PlayerMoveType;
 import de.marcely.pocketcraft.bedrock.server.player.Player;
 import de.marcely.pocketcraft.bedrock.world.Chunk;
+import de.marcely.pocketcraft.bedrock.world.entity.EntityAttribute;
+import de.marcely.pocketcraft.bedrock.world.entity.EntityAttributeType;
 
 public class LoginSequence extends Sequence {
 	
@@ -103,11 +112,59 @@ public class LoginSequence extends Sequence {
 			
 			sendGamePacket();
 			
+			// test
+			{
+				final PacketOutEntityAttributes out = (PacketOutEntityAttributes) PacketType.OutEntityAttributes.newInstance();
+				
+				out.entityRuntimeID = this.player.getEntity().getId();
+				out.attributes = new EntityAttribute[]{
+						new EntityAttribute(EntityAttributeType.HEALTH, EntityAttributeType.HEALTH.defaultValue),
+						new EntityAttribute(EntityAttributeType.FOOD, EntityAttributeType.FOOD.defaultValue),
+						new EntityAttribute(EntityAttributeType.MOVEMENT_SPEED, EntityAttributeType.MOVEMENT_SPEED.defaultValue),
+						new EntityAttribute(EntityAttributeType.EXPERIENCE_LEVEL, EntityAttributeType.EXPERIENCE_LEVEL.defaultValue),
+						new EntityAttribute(EntityAttributeType.EXPERIENCE, EntityAttributeType.EXPERIENCE.defaultValue),
+						new EntityAttribute(EntityAttributeType.ABSORPTION, EntityAttributeType.ABSORPTION.defaultValue),
+						new EntityAttribute(EntityAttributeType.ATTACK_DAMAGE, EntityAttributeType.ATTACK_DAMAGE.defaultValue),
+						new EntityAttribute(EntityAttributeType.EXHAUSTION, EntityAttributeType.EXHAUSTION.defaultValue),
+						new EntityAttribute(EntityAttributeType.FOLLOW_RANGE, EntityAttributeType.FOLLOW_RANGE.defaultValue),
+						new EntityAttribute(EntityAttributeType.KNOCKBACK_RESISTANCE, EntityAttributeType.KNOCKBACK_RESISTANCE.defaultValue),
+						new EntityAttribute(EntityAttributeType.SATURATION, EntityAttributeType.SATURATION.defaultValue)
+					};
+				
+				player.sendPacket(out);
+			}
+			
+			// test
+			{
+				final PacketEntityPermissions out = (PacketEntityPermissions) PacketType.OutEntityPermissions.newInstance();
+				
+				out.entityUID = this.player.getEntity().getId();
+				out.permLevel = PermissionLevel.MEMBER;
+				out.cmdPermLevel = CommandPermissionLevel.NORMAL;
+				
+				//if(this.gamemode == PGameMode.SPECTATOR){
+				//	packet.out |= PacketEntityPermissions.FLAG1_WORLD_IMMUTABLE;
+				//	packet.out |= PacketEntityPermissions.FLAG1_NO_PVP;
+				//	packet.out |= PacketEntityPermissions.FLAG1_NO_CLIP;		
+				//}
+				
+				player.sendPacket(out);
+			}
+			
 			// done
 			{
 				final PacketOutLoginStatus out = (PacketOutLoginStatus) PacketType.OutLoginStatus.newInstance();
 				
 				out.result = PacketOutLoginStatus.PLAYER_SPAWN;
+				
+				player.sendPacket(out);
+			}
+			
+			// test
+			{
+				final PacketOutGameMode out = (PacketOutGameMode) PacketType.OutGameMode.newInstance();
+				
+				out.mode = GameMode.CREATIVE;
 				
 				player.sendPacket(out);
 			}
@@ -140,6 +197,8 @@ public class LoginSequence extends Sequence {
 				}
 			}
 			
+			player.getEntity().sendAllMetadata(player);
+			
 			// tells the client that the chunks are ready to be displayed
 			{
 				final PacketOutNetworkChunkPublisherUpdate out = (PacketOutNetworkChunkPublisherUpdate) PacketType.OutNetworkChunkPublisherUpdate.newInstance();
@@ -152,7 +211,19 @@ public class LoginSequence extends Sequence {
 			    player.sendPacket(out);
 			}
 			
-			player.getEntity().sendAllMetadata(player);
+			// test
+			{
+				final PacketPlayerMove move = (PacketPlayerMove) PacketType.OutPlayerMove.newInstance();
+				
+				move.entityRuntimeID = player.getEntity().getId();
+				move.posX = 10;
+				move.posY = 99;
+				move.posZ = 00;
+				move.mode = PlayerMoveType.TELEPORT;
+				move.onGround = false;
+				
+				player.sendPacket(move);
+			}
 			
 			// login done
 			player.setSequence(Sequence.get(Sequence.PLAY, player));

@@ -15,8 +15,8 @@ public class PacketOutEntityData extends PCPacket {
 
 	@Override
 	public void encode(EByteArrayWriter writer) throws Exception {
-		writer.writeUnsignedVarLong(entityRuntimeID);
-		writer.writeMetadata(metadata);
+		writer.writeUnsignedVarLong(this.entityRuntimeID);
+		writer.writeMetadata(this.metadata);
 	}
 
 	@Override

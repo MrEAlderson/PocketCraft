@@ -101,6 +101,8 @@ public class EntityMetadata {
 	}
 	
 	public void applyDefault(Entity entity){
+		System.out.println(":)");
+		
 		setShort(EntityDataType.AIR, (short) 400);
 		setShort(EntityDataType.MAX_AIR, (short) 400);
 		setFloat(EntityDataType.SCALE, 1F);
@@ -109,18 +111,22 @@ public class EntityMetadata {
 		setLong(EntityDataType.LEAD_HOLDER_ID, (long) -1);
 		setFloat(EntityDataType.BOUNDING_BOX_WIDTH, 1F);
 		setFloat(EntityDataType.BOUNDING_BOX_HEIGHT, 1F);
-		setInt(EntityDataType.HEALTH, 20);
+		setInt(EntityDataType.HEALTH, 10);
 		
 		entity.setDataFlag(EntityDataType.FLAG_HAS_COLLISION, true);
 		
 		if(entity.getType() == EntityType.PLAYER){
 			setByte(EntityDataType.PLAYER_FLAGS, (byte) 0);
 			setVector3(EntityDataType.PLAYER_BED_POSITION, new Vector3());
+			setString(EntityDataType.NAMETAG, "Notch");
 			
 			entity.setDataFlag(EntityDataType.FLAG_BREATHING, true); // false = is inside water
 			entity.setDataFlag(EntityDataType.FLAG_AFFECTED_BY_GRAVITY, true);
-			entity.setDataFlag(EntityDataType.FLAG_IMMOBILE, true);
-			entity.setDataFlag(EntityDataType.FLAG_CAN_CLIMB, true);
+			// entity.setDataFlag(EntityDataType.FLAG_IMMOBILE, true);
+			// entity.setDataFlag(EntityDataType.FLAG_CAN_CLIMB, true);
+			
+			System.out.println(getLong(EntityDataType.FLAGS));
+			System.out.println(getShort(EntityDataType.AIR));
 		}
 	}
 }

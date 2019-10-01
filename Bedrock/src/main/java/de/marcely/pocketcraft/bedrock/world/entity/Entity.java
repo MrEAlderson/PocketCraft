@@ -1,6 +1,7 @@
 package de.marcely.pocketcraft.bedrock.world.entity;
 
 import de.marcely.pocketcraft.bedrock.network.packet.PacketOutEntityData;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketType;
 import de.marcely.pocketcraft.bedrock.server.player.Player;
 import lombok.Getter;
 
@@ -26,7 +27,7 @@ public class Entity {
 		
 		long flags = this.metadata.getLong(EntityDataType.FLAGS);
 		
-		flags ^= 1L << id;
+		flags ^= 1L << key;
 		
 		this.metadata.setLong(EntityDataType.FLAGS, flags);
 	}
@@ -40,24 +41,24 @@ public class Entity {
 		
 		byte flags = this.metadata.getByte(EntityDataType.PLAYER_FLAGS);
 		
-		flags ^= 1 << id;
+		flags ^= 1 << key;
 		
 		this.metadata.setByte(EntityDataType.PLAYER_FLAGS, flags);
 	}
 	
 	public boolean getDataFlag(int key){
-		return (this.metadata.getLong(EntityDataType.FLAGS) & (1L << id)) > 0;
+		return (this.metadata.getLong(EntityDataType.FLAGS) & (1L << key)) > 0;
 	}
 	
 	public boolean getDataPlayerFlag(int key){
 		if(this.type != EntityType.PLAYER)
 			throw new IllegalStateException("Entity isn't a player");
 		
-		return ((this.metadata.getByte(EntityDataType.PLAYER_FLAGS) & 0xFF) & (1 << id)) > 0;
+		return ((this.metadata.getByte(EntityDataType.PLAYER_FLAGS) & 0xFF) & (1 << key)) > 0;
 	}
 	
 	public void sendAllMetadata(Player to){
-		final PacketOutEntityData packet = new PacketOutEntityData();
+		final PacketOutEntityData packet = (PacketOutEntityData) PacketType.OutEntityData.newInstance();
 		
 		packet.entityRuntimeID = this.id;
 		packet.metadata = this.metadata;
