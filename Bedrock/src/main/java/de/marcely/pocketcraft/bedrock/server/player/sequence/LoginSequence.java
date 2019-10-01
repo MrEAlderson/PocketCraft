@@ -153,6 +153,9 @@ public class LoginSequence extends Sequence {
 			}
 			
 			player.getEntity().sendAllMetadata(player);
+			
+			// login done
+			player.setSequence(Sequence.get(Sequence.PLAY, player));
 		}
 	}
 	

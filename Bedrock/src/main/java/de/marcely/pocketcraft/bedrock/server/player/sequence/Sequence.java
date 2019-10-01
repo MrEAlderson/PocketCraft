@@ -9,6 +9,7 @@ public abstract class Sequence implements PacketAdapter {
 	
 	public static final byte DEAD = 0;
 	public static final byte LOGIN = 1;
+	public static final byte PLAY = 2;
 	
 	protected final Player player;
 	
@@ -22,6 +23,8 @@ public abstract class Sequence implements PacketAdapter {
 			return new DeadSequence(player);
 		case LOGIN:
 			return new LoginSequence(player);
+		case PLAY:
+			return new PlaySequence(player);
 		default:
 			throw new InvalidParameterException("type is null");
 		}

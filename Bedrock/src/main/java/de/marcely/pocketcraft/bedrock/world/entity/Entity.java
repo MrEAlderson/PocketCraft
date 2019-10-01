@@ -53,7 +53,7 @@ public class Entity {
 		if(this.type != EntityType.PLAYER)
 			throw new IllegalStateException("Entity isn't a player");
 		
-		return ((this.metadata.getLong(EntityDataType.PLAYER_FLAGS) & 0xFF) & (1L << id)) > 0;
+		return ((this.metadata.getByte(EntityDataType.PLAYER_FLAGS) & 0xFF) & (1 << id)) > 0;
 	}
 	
 	public void sendAllMetadata(Player to){
