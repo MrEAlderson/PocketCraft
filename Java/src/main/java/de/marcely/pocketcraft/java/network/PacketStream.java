@@ -1,4 +1,4 @@
-package de.marcely.pocketcraft.java;
+package de.marcely.pocketcraft.java.network;
 
 import java.io.Closeable;
 

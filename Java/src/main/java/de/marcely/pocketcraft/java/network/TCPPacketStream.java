@@ -3,7 +3,6 @@ package de.marcely.pocketcraft.java.network;
 import java.io.IOException;
 import java.net.InetAddress;
 
-import de.marcely.pocketcraft.java.PacketStream;
 import de.marcely.pocketcraft.java.network.packet.Packet;
 import lombok.Getter;
 

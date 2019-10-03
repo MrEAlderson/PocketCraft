@@ -1,6 +1,6 @@
 package de.marcely.pocketcraft.java.client;
 
-import de.marcely.pocketcraft.java.PacketStream;
+import de.marcely.pocketcraft.java.network.PacketStream;
 import lombok.Getter;
 
 public class JavaClient {
