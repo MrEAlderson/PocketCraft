@@ -16,6 +16,7 @@ import de.marcely.pocketcraft.java.network.sequence.Sequence;
 import de.marcely.pocketcraft.java.network.sequence.SequenceHolder;
 import de.marcely.pocketcraft.java.network.sequence.SequenceType;
 import de.marcely.pocketcraft.java.network.sequence.type.DeadSequence;
+import de.marcely.pocketcraft.utils.scheduler.Scheduler;
 import lombok.Getter;
 
 public class JavaClient implements SequenceHolder, ConnectionInterface {
@@ -29,6 +30,8 @@ public class JavaClient implements SequenceHolder, ConnectionInterface {
 	@Getter private final List<ClientListener> listeners = new ArrayList<>(4);
 	@Getter private final List<PacketListener> packetListeners = new ArrayList<>(4);
 	
+	@Getter private Sequence sequence;
+	
 	public JavaClient(Connection conn, Protocol protocol, LoginGoal goal){
 		this.connection = conn;
 		this.protocol = protocol;
@@ -36,36 +39,35 @@ public class JavaClient implements SequenceHolder, ConnectionInterface {
 		
 		this.session = new GameSession(this);
 		
-		this.packetListeners.add(new DeadSequence(this));
+		this.packetListeners.add(this.sequence = new DeadSequence(this));
+		
+		conn.setInterface(this);
+		protocol.defineIds();
 	}
 
 	@Override
 	public void setSequence(Sequence seq){
+		if(this.sequence.getType() == seq.getType())
+			return;
+		
 		for(int i=0; i<this.packetListeners.size(); i++){
 			final PacketListener listener = this.packetListeners.get(i);
 			
 			if(listener instanceof Sequence){
-				if(seq == listener)
-					return;
-				
 				this.packetListeners.set(i, seq);
+				this.sequence = seq;
 				
-				seq.run((Sequence) listener);
+				try{
+					seq.run((Sequence) listener);
+				}catch(Exception e){
+					e.printStackTrace();
+				}catch(Error e){
+					e.printStackTrace();
+				}
+				
 				return;
 			}
 		}
-	}
-
-	@Override
-	public Sequence getSequence(){
-		for(int i=0; i<this.packetListeners.size(); i++){
-			final PacketListener listener = this.packetListeners.get(i);
-			
-			if(listener instanceof Sequence)
-				return (Sequence) listener;
-		}
-		
-		return null;
 	}
 
 	@Override
@@ -130,7 +132,7 @@ public class JavaClient implements SequenceHolder, ConnectionInterface {
 
 	@Override
 	public void onReady(){
-		this.setSequence(this.protocol.newSequenceInstance(SequenceType.HANDSHAKE));
+		this.setSequence(this.protocol.newSequenceInstance(SequenceType.HANDSHAKE, this));
 		
 		for(ClientListener listener:this.listeners){
 			try{
@@ -160,18 +162,31 @@ public class JavaClient implements SequenceHolder, ConnectionInterface {
 		return !this.connection.isClosed();
 	}
 	
+	private int schedulerId;
+	
 	public boolean connect() throws IOException {
 		if(isRunning())
 			return false;
 		
 		this.connection.open();
 		
+		// TODO: Improve asap
+		Scheduler.runAsyncRepeated(() -> {
+			try{
+				tick();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}, 0, 1000/20);
+		
 		return true;
 	}
 	
 	public boolean close(){
-		if(isRunning())
+		if(!isRunning())
 			return false;
+		
+		Scheduler.cancel(this.schedulerId);
 		
 		try{
 			this.connection.close();
@@ -180,6 +195,23 @@ public class JavaClient implements SequenceHolder, ConnectionInterface {
 		}
 		
 		return true;
+	}
+	
+	public void tick(){
+		// fetch packets
+		{
+			Packet packet = null;
+			
+			while((packet = this.connection.fetch()) != null){
+				System.out.println(packet.getClass().getName());
+				
+				try{
+					handlePacket(packet);
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+		}	
 	}
 	
 	public boolean registerListener(ClientListener listener){

@@ -9,24 +9,24 @@ import de.marcely.pocketcraft.java.network.packet.PacketBuilder;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import io.netty.handler.codec.MessageToByteEncoder;
+import io.netty.handler.timeout.ReadTimeoutException;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import lombok.Getter;
-import lombok.Setter;
 
 public class TCPClientConnection extends Connection {
 	
 	@Getter private final InetAddress address;
 	@Getter private final int port;
-	
-	@Getter @Setter private int timeout = 6;
 	
 	private Channel channel;
 	
@@ -45,21 +45,30 @@ public class TCPClientConnection extends Connection {
 		bootstrap.group(new NioEventLoopGroup());
 		bootstrap.channel(NioSocketChannel.class);
 		bootstrap.remoteAddress(this.address, this.port);
+		bootstrap.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 10000);
 		bootstrap.handler(new ChannelInitializer<SocketChannel>(){
 			protected void initChannel(SocketChannel ch) throws Exception {
-				ch.pipeline().addLast("timeout_handler", new ReadTimeoutHandler(timeout));
+				ch.pipeline().addLast("timeout_handler", new ReadTimeoutHandler(15));
 				ch.pipeline().addLast("packet_decoder", new PacketDecoder());
 				ch.pipeline().addLast("packet_encoder", new PacketEncoder());
 				ch.pipeline().addLast("packet_handler", new PacketHandler());
 			}
 		});
 		
-		this.channel = bootstrap.connect().channel();
+		try{
+			final ChannelFuture future = bootstrap.connect();
+			
+			this.channel = future.channel();
+			
+			future.sync();
+		}catch(InterruptedException e){
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
 	public void close() throws IOException {
-		if(!isClosed())
+		if(isClosed())
 			return;
 		
 		this.channel.close();
@@ -72,7 +81,19 @@ public class TCPClientConnection extends Connection {
 
 	@Override
 	public void write(Packet packet){
-		this.channel.write(packet);
+		if(isClosed()){
+			System.out.println("oop");
+			return;
+		}
+		
+		System.out.println("okii " + packet.getClass().getName());
+		
+		try {
+			this.channel.writeAndFlush(packet).sync();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	
@@ -84,7 +105,15 @@ public class TCPClientConnection extends Connection {
 		protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
 			final byte[] data = new byte[in.readableBytes()];
 			
-			out.add(PacketBuilder.construct(data, getSharedKey(), getCompressionThreshold(), getProtocol(), true));
+			System.out.println("read");
+			
+			out.add(PacketBuilder.construct(
+					data,
+					getSharedKey(),
+					getCompressionThreshold(),
+					getInterface().getProtocol(),
+					getInterface().getSequence().getType(),
+					true));
 		}
 	}
 	
@@ -92,21 +121,25 @@ public class TCPClientConnection extends Connection {
 
 		@Override
 		protected void encode(ChannelHandlerContext ctx, Packet packet, ByteBuf out) throws Exception {
-			final int packetId = packet.getProperties().getId(getProtocol().getProtocolVersion());
+			final int packetId = packet.getProperties().getId(getInterface().getProtocol().getProtocolVersion());
 			
-			out.writeBytes(PacketBuilder.deconstruct(packet, packetId, getSharedKey(), getCompressionThreshold()));
+			out.writeBytes(PacketBuilder.deconstruct(
+					packet,
+					packetId,
+					getSharedKey(),
+					getCompressionThreshold()));
 		}
 	}
 	
 	private class PacketHandler extends SimpleChannelInboundHandler<Packet> {
 		
 		@Override
-		public void channelActive(ChannelHandlerContext channelhandlercontext) throws Exception {
+		public void channelActive(ChannelHandlerContext ctx) throws Exception {
 			getInterface().onReady();
 		}
 		
 		@Override
-		public void channelInactive(ChannelHandlerContext channelhandlercontext) throws Exception {
+		public void channelInactive(ChannelHandlerContext ctx) throws Exception {
 			getInterface().onClose();
 		}
 		
@@ -117,7 +150,10 @@ public class TCPClientConnection extends Connection {
 		
 		@Override
 	    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-			cause.printStackTrace();
+			if(cause instanceof ReadTimeoutException)
+				channelInactive(ctx);
+			else
+				cause.printStackTrace();
 		}
 	}
 }

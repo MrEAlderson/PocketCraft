@@ -9,7 +9,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import org.jetbrains.annotations.Nullable;
 
 import de.marcely.pocketcraft.java.network.packet.Packet;
-import de.marcely.pocketcraft.java.network.protocol.Protocol;
 import lombok.Getter;
 
 public abstract class Connection implements Closeable {
@@ -17,7 +16,6 @@ public abstract class Connection implements Closeable {
 	private ConnectionInterface interf;
 	@Getter private Key sharedKey = null;
 	@Getter private int compressionThreshold = -1;
-	@Getter private Protocol protocol;
 	
 	protected final Queue<Packet> packetReadQueue = new ConcurrentLinkedQueue<>();
 	
@@ -50,9 +48,5 @@ public abstract class Connection implements Closeable {
 	
 	public void setCompressionThreshold(int threshold){
 		this.compressionThreshold = threshold;
-	}
-	
-	public void setProtocol(Protocol protocol){
-		this.protocol = protocol;
 	}
 }

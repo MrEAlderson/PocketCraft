@@ -23,11 +23,11 @@ public enum SequenceType {
 		case HANDSHAKE:
 			return new V1HandshakeSequence(holder);
 		case LOGIN:
-			break;
+			return new V1LoginSequence(holder);
 		case PLAY:
 			return new PlaySequence(holder);
 		case STATUS:
-			break;
+			return new V1StatusSequence(holder);
 		}
 		
 		return null;

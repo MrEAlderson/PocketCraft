@@ -2,17 +2,28 @@ package de.marcely.pocketcraft.java.network.packet.handshake.v1;
 
 import de.marcely.pocketcraft.java.network.packet.Packet;
 import de.marcely.pocketcraft.java.network.packet.PacketProperties;
+import de.marcely.pocketcraft.java.network.sequence.SequenceType;
 import de.marcely.pocketcraft.java.util.EByteArrayReader;
 import de.marcely.pocketcraft.java.util.EByteArrayWriter;
 
 public class V1PacketHandshake extends Packet {
 	
-	private static final PacketProperties PROPERTIES = new PacketProperties();
+	public static final PacketProperties PROPERTIES = new PacketProperties();
 	
 	public int protocolVersion;
 	public String serverAddress;
 	public int serverPort;
 	public byte nextState;
+	
+	@Override
+	public SequenceType getSequence(){
+		return SequenceType.HANDSHAKE;
+	}
+
+	@Override
+	public byte getSource(){
+		return CLIENT;
+	}
 	
 	@Override
 	public void write(EByteArrayWriter stream) throws Exception {
@@ -29,7 +40,7 @@ public class V1PacketHandshake extends Packet {
 		this.serverPort = stream.readUnsignedShort();
 		this.nextState = (byte) stream.readSignedVarInt();
 	}
-
+	
 	@Override
 	public PacketProperties getProperties(){
 		return PROPERTIES;

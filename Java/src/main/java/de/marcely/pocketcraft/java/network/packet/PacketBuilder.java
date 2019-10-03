@@ -10,6 +10,7 @@ import javax.crypto.NoSuchPaddingException;
 import org.jetbrains.annotations.Nullable;
 
 import de.marcely.pocketcraft.java.network.protocol.Protocol;
+import de.marcely.pocketcraft.java.network.sequence.SequenceType;
 import de.marcely.pocketcraft.java.util.EByteArrayReader;
 import de.marcely.pocketcraft.java.util.EByteArrayWriter;
 import de.marcely.pocketcraft.utils.io.ZLib;
@@ -75,7 +76,7 @@ public class PacketBuilder {
 	}
 	
 	@SuppressWarnings("resource")
-	public static Packet construct(byte[] data, @Nullable Key sharedKey, int compressionThreshold, Protocol protocol, boolean isClient) throws Exception {
+	public static Packet construct(byte[] data, @Nullable Key sharedKey, int compressionThreshold, Protocol protocol, SequenceType seq, boolean isClient) throws Exception {
 		EByteArrayReader stream = new EByteArrayReader(data);
 		
 		// decrypt
@@ -100,7 +101,7 @@ public class PacketBuilder {
 		}
 		
 		final int packetId = stream.readSignedVarInt();
-		final Packet packet = isClient ? protocol.getPacketByClientPlayId(packetId) : protocol.getPacketByServerPlayId(packetId);
+		final Packet packet = protocol.getPacketById(packetId, seq, isClient ? Packet.CLIENT : Packet.SERVER);
 		
 		if(packet == null)
 			throw new IOException("Unkown packet with id " + packetId);
