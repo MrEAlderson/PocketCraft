@@ -16,6 +16,7 @@
 		<module>Java</module>
 		<module>Utils</module>
 		<module>BedrockTest</module>
+		<module>JavaTest</module>
 	</modules>
 
 	<dependencies>

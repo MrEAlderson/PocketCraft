@@ -1,6 +1,7 @@
 package de.marcely.pocketcraft.java.network;
 
 import java.io.Closeable;
+import java.io.IOException;
 import java.security.Key;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -21,6 +22,9 @@ public abstract class Connection implements Closeable {
 	protected final Queue<Packet> packetReadQueue = new ConcurrentLinkedQueue<>();
 	
 	
+	public abstract void open() throws IOException;
+	
+	public abstract void close() throws IOException;
 	
 	public abstract boolean isClosed();
 	

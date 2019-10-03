@@ -1,5 +1,6 @@
 package de.marcely.pocketcraft.java.client;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import de.marcely.pocketcraft.java.network.sequence.ClientLoginInfo;
 import de.marcely.pocketcraft.java.network.sequence.ClientLoginResult;
 import de.marcely.pocketcraft.java.network.sequence.Sequence;
 import de.marcely.pocketcraft.java.network.sequence.SequenceHolder;
+import de.marcely.pocketcraft.java.network.sequence.SequenceType;
 import de.marcely.pocketcraft.java.network.sequence.type.DeadSequence;
 import lombok.Getter;
 
@@ -128,6 +130,8 @@ public class JavaClient implements SequenceHolder, ConnectionInterface {
 
 	@Override
 	public void onReady(){
+		this.setSequence(this.protocol.newSequenceInstance(SequenceType.HANDSHAKE));
+		
 		for(ClientListener listener:this.listeners){
 			try{
 				listener.onReady();
@@ -150,6 +154,32 @@ public class JavaClient implements SequenceHolder, ConnectionInterface {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public boolean isRunning(){
+		return !this.connection.isClosed();
+	}
+	
+	public boolean connect() throws IOException {
+		if(isRunning())
+			return false;
+		
+		this.connection.open();
+		
+		return true;
+	}
+	
+	public boolean close(){
+		if(isRunning())
+			return false;
+		
+		try{
+			this.connection.close();
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+		
+		return true;
 	}
 	
 	public boolean registerListener(ClientListener listener){

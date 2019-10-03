@@ -31,7 +31,8 @@ public class TCPClientConnection extends Connection {
 		this.port = port;
 	}
 	
-	public void run() throws IOException {
+	@Override
+	public void open() throws IOException {
 		if(!isClosed())
 			return;
 		
@@ -52,6 +53,14 @@ public class TCPClientConnection extends Connection {
 	}
 	
 	@Override
+	public void close() throws IOException {
+		if(!isClosed())
+			return;
+		
+		this.channel.close();
+	}
+	
+	@Override
 	public boolean isClosed(){
 		return this.channel == null || !this.channel.isOpen();
 	}
@@ -59,14 +68,6 @@ public class TCPClientConnection extends Connection {
 	@Override
 	public void write(Packet packet){
 		this.channel.write(packet);
-	}
-	
-	@Override
-	public void close() throws IOException {
-		if(!isClosed())
-			return;
-		
-		this.channel.close();
 	}
 	
 	
