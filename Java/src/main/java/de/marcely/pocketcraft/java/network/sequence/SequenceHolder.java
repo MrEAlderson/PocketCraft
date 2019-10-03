@@ -1,5 +1,6 @@
 package de.marcely.pocketcraft.java.network.sequence;
 
+import de.marcely.pocketcraft.java.network.Connection;
 import de.marcely.pocketcraft.java.network.packet.Packet;
 
 public interface SequenceHolder {
@@ -9,6 +10,8 @@ public interface SequenceHolder {
 	public abstract Sequence getSequence();
 	
 	public abstract void sendPacket(Packet packet);
+	
+	public abstract Connection getConnection();
 	
 	public abstract Object getLoginInfo(); // Must be ClientLoginInfo or ServerLoginInfo
 	

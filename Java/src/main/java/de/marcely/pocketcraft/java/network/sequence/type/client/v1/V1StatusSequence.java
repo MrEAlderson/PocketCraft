@@ -4,19 +4,19 @@ import de.marcely.pocketcraft.java.network.sequence.Sequence;
 import de.marcely.pocketcraft.java.network.sequence.SequenceHolder;
 import de.marcely.pocketcraft.java.network.sequence.SequenceType;
 
-public class HandshakeSequence extends Sequence {
+public class V1StatusSequence extends Sequence {
 
-	public HandshakeSequence(SequenceHolder holder){
+	public V1StatusSequence(SequenceHolder holder){
 		super(holder);
+	}
+	
+	@Override
+	public SequenceType getType(){
+		return SequenceType.STATUS;
 	}
 
 	@Override
 	public void run(Sequence oldSequence){
 		
-	}
-
-	@Override
-	public SequenceType getType(){
-		return SequenceType.HANDSHAKE;
 	}
 }
