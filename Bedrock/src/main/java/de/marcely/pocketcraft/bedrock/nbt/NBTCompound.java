@@ -1,4 +1,4 @@
-package de.marcely.pocketcraft.pocket.nbt;
+package de.marcely.pocketcraft.bedrock.nbt;
 
 import java.nio.ByteOrder;
 import java.util.HashMap;
@@ -7,18 +7,18 @@ import java.util.Map;
 
 import org.jetbrains.annotations.Nullable;
 
-import de.marcely.pocketcraft.pocket.nbt.value.NBTValue;
-import de.marcely.pocketcraft.pocket.nbt.value.NBTValueByte;
-import de.marcely.pocketcraft.pocket.nbt.value.NBTValueByteArray;
-import de.marcely.pocketcraft.pocket.nbt.value.NBTValueCompound;
-import de.marcely.pocketcraft.pocket.nbt.value.NBTValueDouble;
-import de.marcely.pocketcraft.pocket.nbt.value.NBTValueFloat;
-import de.marcely.pocketcraft.pocket.nbt.value.NBTValueInt;
-import de.marcely.pocketcraft.pocket.nbt.value.NBTValueIntArray;
-import de.marcely.pocketcraft.pocket.nbt.value.NBTValueList;
-import de.marcely.pocketcraft.pocket.nbt.value.NBTValueLong;
-import de.marcely.pocketcraft.pocket.nbt.value.NBTValueShort;
-import de.marcely.pocketcraft.pocket.nbt.value.NBTValueString;
+import de.marcely.pocketcraft.bedrock.nbt.value.NBTValue;
+import de.marcely.pocketcraft.bedrock.nbt.value.NBTValueByte;
+import de.marcely.pocketcraft.bedrock.nbt.value.NBTValueByteArray;
+import de.marcely.pocketcraft.bedrock.nbt.value.NBTValueCompound;
+import de.marcely.pocketcraft.bedrock.nbt.value.NBTValueDouble;
+import de.marcely.pocketcraft.bedrock.nbt.value.NBTValueFloat;
+import de.marcely.pocketcraft.bedrock.nbt.value.NBTValueInt;
+import de.marcely.pocketcraft.bedrock.nbt.value.NBTValueIntArray;
+import de.marcely.pocketcraft.bedrock.nbt.value.NBTValueList;
+import de.marcely.pocketcraft.bedrock.nbt.value.NBTValueLong;
+import de.marcely.pocketcraft.bedrock.nbt.value.NBTValueShort;
+import de.marcely.pocketcraft.bedrock.nbt.value.NBTValueString;
 import de.marcely.pocketcraft.utils.io.ByteArrayReader;
 import de.marcely.pocketcraft.utils.io.ByteArrayWriter;
 import lombok.Getter;

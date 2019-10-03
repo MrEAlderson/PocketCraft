@@ -1,10 +1,10 @@
-package de.marcely.pocketcraft.pocket.nbt;
+package de.marcely.pocketcraft.bedrock.nbt;
 
 import java.nio.ByteOrder;
 
-import de.marcely.pocketcraft.pocket.nbt.value.NBTNumericValue;
-import de.marcely.pocketcraft.pocket.nbt.value.NBTValue;
-import de.marcely.pocketcraft.pocket.nbt.value.NBTValueString;
+import de.marcely.pocketcraft.bedrock.nbt.value.NBTNumericValue;
+import de.marcely.pocketcraft.bedrock.nbt.value.NBTValue;
+import de.marcely.pocketcraft.bedrock.nbt.value.NBTValueString;
 import de.marcely.pocketcraft.utils.io.ByteArrayReader;
 import de.marcely.pocketcraft.utils.io.ByteArrayWriter;
 import lombok.Getter;

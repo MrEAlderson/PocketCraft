@@ -1,4 +1,4 @@
-package de.marcely.pocketcraft.pocket.nbt.value;
+package de.marcely.pocketcraft.bedrock.nbt.value;
 
 import de.marcely.pocketcraft.utils.io.ByteArrayReader;
 import de.marcely.pocketcraft.utils.io.ByteArrayWriter;

@@ -1,4 +1,4 @@
-package de.marcely.pocketcraft.pocket.nbt.value;
+package de.marcely.pocketcraft.bedrock.nbt.value;
 
 import java.nio.ByteOrder;
 

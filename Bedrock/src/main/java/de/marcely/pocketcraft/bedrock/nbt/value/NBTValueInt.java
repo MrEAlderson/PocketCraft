@@ -1,26 +1,26 @@
-package de.marcely.pocketcraft.pocket.nbt.value;
+package de.marcely.pocketcraft.bedrock.nbt.value;
 
 import java.nio.ByteOrder;
 
 import de.marcely.pocketcraft.utils.io.ByteArrayReader;
 import de.marcely.pocketcraft.utils.io.ByteArrayWriter;
 
-public class NBTValueLong extends NBTNumericValue<Long> {
+public class NBTValueInt extends NBTNumericValue<Integer> {
 
-	public NBTValueLong(Long value){
+	public NBTValueInt(Integer value){
 		super(value);
 	}
 
 	@Override
-	public byte getID(){ return TYPE_LONG; }
+	public byte getID(){ return TYPE_INT; }
 
 	@Override
 	public void write(ByteArrayWriter stream, ByteOrder order) throws Exception {
-		stream.writeSignedVarLong(this.value, order);
+		stream.writeSignedVarInt(this.value);
 	}
 
 	@Override
 	public void read(ByteArrayReader stream, ByteOrder order) throws Exception {
-		this.value = stream.readSignedVarLong(order);
+		this.value = stream.readSignedVarInt();
 	}
 }
