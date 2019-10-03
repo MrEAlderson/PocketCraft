@@ -4,7 +4,7 @@ import java.io.Closeable;
 
 import org.jetbrains.annotations.Nullable;
 
-import de.marcely.pocketcraft.bedrock.network.packet.Packet;
+import de.marcely.pocketcraft.java.network.packet.Packet;
 
 public interface PacketStream extends Closeable {
 	

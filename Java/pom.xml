@@ -16,6 +16,13 @@
 	
 	<dependencies>
 		<dependency>
+			<groupId>de.marcely.pocketcraft</groupId>
+			<artifactId>Utils</artifactId>
+			<version>${project.parent.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		
+		<dependency>
 			<groupId>io.netty</groupId>
 			<artifactId>netty-handler</artifactId>
 			<version>4.1.38.Final</version>
