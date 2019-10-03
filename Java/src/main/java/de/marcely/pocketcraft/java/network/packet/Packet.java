@@ -8,4 +8,6 @@ public abstract class Packet {
 	public abstract void write(EByteArrayWriter stream) throws Exception;
 	
 	public abstract void read(EByteArrayReader stream) throws Exception;
+	
+	public abstract PacketProperties getProperties();
 }

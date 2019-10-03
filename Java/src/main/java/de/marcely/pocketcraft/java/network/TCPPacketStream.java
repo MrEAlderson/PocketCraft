@@ -11,6 +11,9 @@ public class TCPPacketStream implements PacketStream {
 	@Getter private final InetAddress address;
 	@Getter private final int port;
 	
+	private byte[] sharedKey = null;
+	private boolean isCompressionEnabled = false;
+	
 	public TCPPacketStream(InetAddress address, int port){
 		this.address = address;
 		this.port = port;
@@ -21,6 +24,16 @@ public class TCPPacketStream implements PacketStream {
 			return;
 		
 		
+	}
+	
+	@Override
+	public void enableEncryption(byte[] sharedKey){
+		this.sharedKey = sharedKey;
+	}
+
+	@Override
+	public void enableCompression(){
+		this.isCompressionEnabled = true;
 	}
 	
 	@Override

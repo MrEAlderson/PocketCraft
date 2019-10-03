@@ -8,6 +8,14 @@ import java.nio.charset.StandardCharsets;
 
 public class ByteArrayWriter extends ByteArrayOutputStream {
 	
+	public ByteArrayWriter(){
+		super();
+	}
+	
+	public ByteArrayWriter(int initCapacity){
+		super(initCapacity);
+	}
+	
 	public void writeByteArray(byte[] data) throws IOException {
 		writeUnsignedVarInt(data.length);
 		write(data);

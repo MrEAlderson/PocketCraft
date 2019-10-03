@@ -10,5 +10,9 @@ public interface PacketStream extends Closeable {
 	
 	public boolean isClosed();
 	
+	public void enableEncryption(byte[] sharedKey);
+	
+	public void enableCompression();
+	
 	public @Nullable Packet fetch();
 }
