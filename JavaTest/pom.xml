@@ -51,7 +51,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>de.marcely.pocketcraft.bedrocktest.Main</mainClass>
+							<mainClass>de.marcely.pocketcraft.javatest.Main</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
