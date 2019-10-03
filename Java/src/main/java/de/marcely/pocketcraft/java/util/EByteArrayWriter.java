@@ -32,4 +32,8 @@ public class EByteArrayWriter extends ByteArrayWriter {
 			writeSignedByte(temp);
 		}while(value != 0);
 	}
+	
+	public void writeIdentifier(String val) throws IOException {
+		writeString(val);
+	}
 }

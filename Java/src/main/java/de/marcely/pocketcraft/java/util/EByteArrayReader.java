@@ -47,4 +47,8 @@ public class EByteArrayReader extends ByteArrayReader {
 		
 		return result;
 	}
+	
+	public String readIdentifier() throws IOException {
+		return readString(32767);
+	}
 }
