@@ -1,24 +1,24 @@
-package de.marcely.pocketcraft.java.network.packet.login.v1;
+package de.marcely.pocketcraft.java.network.packet.status.v1;
 
 import de.marcely.pocketcraft.java.network.packet.Packet;
 import de.marcely.pocketcraft.java.network.packet.PacketProperties;
 import de.marcely.pocketcraft.java.util.EByteArrayReader;
 import de.marcely.pocketcraft.java.util.EByteArrayWriter;
 
-public class V1PacketLoginStart extends Packet {
+public class V1PacketStatusPing extends Packet {
 
 	private static final PacketProperties PROPERTIES = new PacketProperties();
 	
-	public String username;
+	public long time;
 	
 	@Override
 	public void write(EByteArrayWriter stream) throws Exception {
-		stream.writeString(this.username);
+		stream.writeSignedLong(this.time);
 	}
 
 	@Override
 	public void read(EByteArrayReader stream) throws Exception {
-		this.username = stream.readString();
+		this.time = stream.readSignedLong();
 	}
 
 	@Override

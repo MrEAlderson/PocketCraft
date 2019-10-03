@@ -9,9 +9,6 @@ public class V1PacketHandshake extends Packet {
 	
 	private static final PacketProperties PROPERTIES = new PacketProperties();
 	
-	public static final byte STATE_STATUS = 1;
-	public static final byte STATE_LOGIN = 2;
-	
 	public int protocolVersion;
 	public String serverAddress;
 	public int serverPort;
@@ -19,12 +16,18 @@ public class V1PacketHandshake extends Packet {
 	
 	@Override
 	public void write(EByteArrayWriter stream) throws Exception {
-		
+		stream.writeSignedVarInt(this.protocolVersion);
+		stream.writeString(this.serverAddress);
+		stream.writeUnsignedShort(this.serverPort);
+		stream.writeSignedVarInt(this.nextState);
 	}
 
 	@Override
 	public void read(EByteArrayReader stream) throws Exception {
-		
+		this.protocolVersion = stream.readSignedVarInt();
+		this.serverAddress = stream.readString(255);
+		this.serverPort = stream.readUnsignedShort();
+		this.nextState = (byte) stream.readSignedVarInt();
 	}
 
 	@Override

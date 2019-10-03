@@ -6,5 +6,4 @@ public class ClientLoginResult {
 	
 	public UUID id;
 	public String username;
-	public byte[] sharedSecretKey;
 }

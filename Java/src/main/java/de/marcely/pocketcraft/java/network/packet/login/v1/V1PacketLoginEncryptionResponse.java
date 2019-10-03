@@ -5,22 +5,25 @@ import de.marcely.pocketcraft.java.network.packet.PacketProperties;
 import de.marcely.pocketcraft.java.util.EByteArrayReader;
 import de.marcely.pocketcraft.java.util.EByteArrayWriter;
 
-public class V1PacketLoginStart extends Packet {
+public class V1PacketLoginEncryptionResponse extends Packet {
 
 	private static final PacketProperties PROPERTIES = new PacketProperties();
 	
-	public String username;
+	public byte[] sharedKey;
+	public byte[] verifyToken;
 	
 	@Override
 	public void write(EByteArrayWriter stream) throws Exception {
-		stream.writeString(this.username);
+		stream.writeByteArray(this.sharedKey);
+		stream.writeByteArray(this.verifyToken);
 	}
 
 	@Override
 	public void read(EByteArrayReader stream) throws Exception {
-		this.username = stream.readString();
+		this.sharedKey = stream.readByteArray();
+		this.verifyToken = stream.readByteArray();
 	}
-
+	
 	@Override
 	public PacketProperties getProperties(){
 		return PROPERTIES;
