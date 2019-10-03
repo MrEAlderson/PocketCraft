@@ -20,6 +20,11 @@ public class EByteArrayReader extends ByteArrayReader {
 	}
 	
 	@Override
+	public byte[] readByteArray() throws IOException {
+		return read(readSignedVarInt());
+	}
+	
+	@Override
 	public int readSignedVarInt() throws IOException {
 		return (int) readSignedVarNumber(5);
 	}

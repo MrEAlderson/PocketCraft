@@ -107,15 +107,20 @@ public class TCPClientConnection extends Connection {
 			
 			in.readBytes(data);
 			
-			System.out.println("read");
-			
+			try{
 			out.add(PacketBuilder.construct(
 					data,
 					getSharedKey(),
 					getCompressionThreshold(),
 					getInterface().getProtocol(),
 					getInterface().getSequence().getType(),
-					true));
+					false));
+			}catch(IOException e){
+				if(e.getMessage() != null && e.getMessage().startsWith("Unkown packet with id ")){
+					
+				}else
+					e.printStackTrace();
+			}
 		}
 	}
 	
@@ -124,8 +129,6 @@ public class TCPClientConnection extends Connection {
 		@Override
 		protected void encode(ChannelHandlerContext ctx, Packet packet, ByteBuf out) throws Exception {
 			final int packetId = packet.getProperties().getId(getInterface().getProtocol().getProtocolVersion());
-			
-			System.out.println("write");
 			
 			out.writeBytes(PacketBuilder.deconstruct(
 					packet,

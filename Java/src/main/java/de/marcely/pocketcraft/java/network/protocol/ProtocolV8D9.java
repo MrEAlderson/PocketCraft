@@ -22,14 +22,16 @@ public class ProtocolV8D9 extends Protocol {
 		
 		setPacketIds(SequenceType.LOGIN, CLIENT, new Class[]{
 				V1PacketLoginStart.class,
-				V1PacketLoginEncryptionResponse.class
+				V1PacketLoginEncryptionResponse.class,
+				V1PacketLoginPluginReponse.class
 		});
 		
 		setPacketIds(SequenceType.LOGIN, SERVER, new Class[]{
 				V1PacketLoginDisconnect.class,
 				V1PacketLoginEncryptionRequest.class,
 				V1PacketLoginSuccess.class,
-				V1PacketLoginSetCompression.class
+				V1PacketLoginSetCompression.class,
+				V1PacketLoginPluginRequest.class
 		});
 	}
 

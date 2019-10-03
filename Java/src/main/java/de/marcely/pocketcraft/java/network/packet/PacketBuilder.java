@@ -17,7 +17,7 @@ import de.marcely.pocketcraft.utils.io.ZLib;
 
 public class PacketBuilder {
 	
-	private static Cipher CIPHER;
+	public static Cipher CIPHER;
 	
 	static {
 		try{
@@ -76,7 +76,7 @@ public class PacketBuilder {
 	}
 	
 	@SuppressWarnings("resource")
-	public static Packet construct(byte[] data, @Nullable Key sharedKey, int compressionThreshold, Protocol protocol, SequenceType seq, boolean isClient) throws Exception {
+	public static Packet construct(byte[] data, @Nullable Key sharedKey, int compressionThreshold, Protocol protocol, SequenceType seq, boolean isByClient) throws Exception {
 		EByteArrayReader stream = new EByteArrayReader(data);
 		
 		// decrypt
@@ -85,23 +85,28 @@ public class PacketBuilder {
 			data = CIPHER.doFinal(data);
 		}
 		
-		final int startPos = stream.getPos();
 		final int length = stream.readSignedVarInt();
 		
 		// decompress
 		if(compressionThreshold >= 0){
+			final int startPos = stream.getPos();
 			final int uncompressedDataLength = stream.readSignedVarInt();
 			
-			data = ZLib.inflate(stream.read(length - (stream.getPos() - startPos)));
-			
-			if(data.length != uncompressedDataLength)
-				throw new IOException("Uncompressed packet has an unexpected size (" + data.length + ", expected " + uncompressedDataLength + ")");
-			
+			if(uncompressedDataLength >= 1){
+					data = ZLib.inflate(stream.read(length - (stream.getPos() - startPos)));
+				
+				if(data.length != uncompressedDataLength)
+					throw new IOException("Uncompressed packet has an unexpected size (" + data.length + ", expected " + uncompressedDataLength + ")");
+			}else
+				data = stream.read(length - (stream.getPos() - startPos));
+				
 			stream = new EByteArrayReader(data);
-		}
+		
+		}else
+			stream = new EByteArrayReader(stream.read(length));
 		
 		final int packetId = stream.readSignedVarInt();
-		final Packet packet = protocol.getPacketById(packetId, seq, isClient ? Packet.CLIENT : Packet.SERVER);
+		final Packet packet = protocol.getPacketById(packetId, seq, isByClient ? Packet.CLIENT : Packet.SERVER);
 		
 		if(packet == null)
 			throw new IOException("Unkown packet with id " + packetId);

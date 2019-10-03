@@ -15,6 +15,12 @@ public class EByteArrayWriter extends ByteArrayWriter {
 	}
 	
 	@Override
+	public void writeByteArray(byte[] array) throws IOException {
+		writeSignedVarInt(array.length);
+		write(array);
+	}
+	
+	@Override
 	public void writeSignedVarInt(int value) throws IOException {
 		writeSignedVarLong(value);
 	}

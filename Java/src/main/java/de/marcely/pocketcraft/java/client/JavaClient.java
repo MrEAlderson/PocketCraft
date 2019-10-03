@@ -203,8 +203,6 @@ public class JavaClient implements SequenceHolder, ConnectionInterface {
 			Packet packet = null;
 			
 			while((packet = this.connection.fetch()) != null){
-				System.out.println(packet.getClass().getName());
-				
 				try{
 					handlePacket(packet);
 				}catch(Exception e){

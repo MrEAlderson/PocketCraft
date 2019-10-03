@@ -9,6 +9,8 @@ public class V1PacketLoginEncryptionResponse extends LoginPacket {
 
 	public static final PacketProperties PROPERTIES = new PacketProperties();
 	
+	public byte[] publicKey;
+	
 	public byte[] sharedKey;
 	public byte[] verifyToken;
 
@@ -19,8 +21,12 @@ public class V1PacketLoginEncryptionResponse extends LoginPacket {
 	
 	@Override
 	public void write(EByteArrayWriter stream) throws Exception {
-		stream.writeByteArray(this.sharedKey);
-		stream.writeByteArray(this.verifyToken);
+		try(EByteArrayWriter stream2 = new EByteArrayWriter(64)){
+			stream2.writeByteArray(this.sharedKey);
+			stream2.writeByteArray(this.verifyToken);
+			
+			
+		}
 	}
 
 	@Override
