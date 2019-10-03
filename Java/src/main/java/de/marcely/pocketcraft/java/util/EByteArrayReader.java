@@ -18,4 +18,33 @@ public class EByteArrayReader extends ByteArrayReader {
 		
 		return str;
 	}
+	
+	@Override
+	public int readSignedVarInt() throws IOException {
+		return (int) readSignedVarNumber(5);
+	}
+	
+	@Override
+	public long readSignedVarLong() throws IOException {
+		return readSignedVarNumber(10);
+	}
+	
+	private long readSignedVarNumber(int maxSize) throws IOException {
+		int numRead = 0;
+		long result = 0;
+		byte read;
+		
+		do {
+			final int value = ((read = readSignedByte()) & 0b01111111);
+			
+			result |= (value << (7 * numRead));
+			
+			numRead++;
+			
+			if(numRead > maxSize)
+				throw new RuntimeException("VarNumber is too big");
+		}while((read & 0b10000000) != 0);
+		
+		return result;
+	}
 }

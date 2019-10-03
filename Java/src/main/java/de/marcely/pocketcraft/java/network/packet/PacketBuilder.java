@@ -21,7 +21,7 @@ public class PacketBuilder {
 	
 	static {
 		try{
-			CIPHER = Cipher.getInstance("AES/CFB8");
+			CIPHER = Cipher.getInstance("AES/CFB8/NoPadding");
 		}catch(NoSuchAlgorithmException | NoSuchPaddingException e){
 			e.printStackTrace();
 		}
@@ -44,7 +44,7 @@ public class PacketBuilder {
 		}
 		
 		// compress
-		if(data.length >= compressionThreshold){
+		if(data.length >= compressionThreshold && compressionThreshold >= 0){
 			data = ZLib.deflate(data);
 		}
 		

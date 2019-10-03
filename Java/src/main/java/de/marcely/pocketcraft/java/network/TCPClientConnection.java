@@ -105,6 +105,8 @@ public class TCPClientConnection extends Connection {
 		protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
 			final byte[] data = new byte[in.readableBytes()];
 			
+			in.readBytes(data);
+			
 			System.out.println("read");
 			
 			out.add(PacketBuilder.construct(
@@ -122,6 +124,8 @@ public class TCPClientConnection extends Connection {
 		@Override
 		protected void encode(ChannelHandlerContext ctx, Packet packet, ByteBuf out) throws Exception {
 			final int packetId = packet.getProperties().getId(getInterface().getProtocol().getProtocolVersion());
+			
+			System.out.println("write");
 			
 			out.writeBytes(PacketBuilder.deconstruct(
 					packet,
