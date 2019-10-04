@@ -17,6 +17,7 @@
 		<module>Utils</module>
 		<module>BedrockTest</module>
 		<module>JavaTest</module>
+		<module>Translate</module>
 	</modules>
 
 	<dependencies>
