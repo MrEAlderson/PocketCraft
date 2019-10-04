@@ -11,12 +11,9 @@
 
 	<modules>
 		<module>Bukkit</module>
-		<module>RakNet</module>
 		<module>Bedrock</module>
 		<module>Java</module>
 		<module>Utils</module>
-		<module>BedrockTest</module>
-		<module>JavaTest</module>
 		<module>Translate</module>
 		<module>TestApp</module>
 	</modules>
