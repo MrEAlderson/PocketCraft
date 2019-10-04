@@ -2,20 +2,20 @@ package de.marcely.pocketcraft.java.network;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.security.Key;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.jetbrains.annotations.Nullable;
 
 import de.marcely.pocketcraft.java.network.packet.Packet;
+import de.marcely.pocketcraft.java.network.packet.PacketBuilder;
 import lombok.Getter;
 
 public abstract class Connection implements Closeable {
 	
+	@Getter protected final PacketBuilder packetBuilder = new PacketBuilder();
+	
 	private ConnectionInterface interf;
-	@Getter private Key sharedKey = null;
-	@Getter private int compressionThreshold = -1;
 	
 	protected final Queue<Packet> packetReadQueue = new ConcurrentLinkedQueue<>();
 	
@@ -40,13 +40,5 @@ public abstract class Connection implements Closeable {
 	
 	public ConnectionInterface getInterface(){
 		return this.interf;
-	}
-	
-	public void setEncryptionKey(@Nullable Key sharedKey){
-		this.sharedKey = sharedKey;
-	}
-	
-	public void setCompressionThreshold(int threshold){
-		this.compressionThreshold = threshold;
 	}
 }

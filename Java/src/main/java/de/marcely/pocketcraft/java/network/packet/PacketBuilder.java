@@ -1,11 +1,12 @@
 package de.marcely.pocketcraft.java.network.packet;
 
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.security.Key;
-import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 import javax.crypto.Cipher;
-import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.IvParameterSpec;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -14,20 +15,43 @@ import de.marcely.pocketcraft.java.network.sequence.SequenceType;
 import de.marcely.pocketcraft.java.util.EByteArrayReader;
 import de.marcely.pocketcraft.java.util.EByteArrayWriter;
 import de.marcely.pocketcraft.utils.io.ZLib;
+import lombok.Getter;
+import lombok.Setter;
 
 public class PacketBuilder {
 	
-	public static Cipher CIPHER;
+	@Getter @Setter private Cipher readCipher, writeCipher;
+	@Getter @Setter private int compressionThreshold = -1;
 	
-	static {
+	private byte[] decryptBuffer = new byte[0];
+	
+	public PacketBuilder(){ }
+	
+	public void setKey(@Nullable Key key){
+		if(key == null){
+			this.readCipher = null;
+			this.writeCipher = null;
+			
+			return;
+		}
+		
+		this.writeCipher = getCipher(1, key);
+		this.readCipher = getCipher(2, key);
+	}
+	
+	private Cipher getCipher(int opmode, Key key){
 		try{
-			CIPHER = Cipher.getInstance("AES/CFB8/NoPadding");
-		}catch(NoSuchAlgorithmException | NoSuchPaddingException e){
-			e.printStackTrace();
+			final Cipher cipher = Cipher.getInstance("AES/CFB8/NoPadding");
+			
+			cipher.init(opmode, key, new IvParameterSpec(key.getEncoded()));
+			
+			return cipher;
+		}catch(GeneralSecurityException e){
+			throw new RuntimeException(e);
 		}
 	}
 	
-	public static byte[] deconstruct(Packet packet, int packetId, @Nullable Key sharedKey, int compressionThreshold) throws Exception {
+	public byte[] deconstruct(Packet packet, int packetId) throws Exception {
 		final EByteArrayWriter stream = new EByteArrayWriter();
 		byte[] data = null;
 		int uncompressedDataLength = -1;
@@ -67,24 +91,26 @@ public class PacketBuilder {
 		}
 		
 		// encrypt
-		if(sharedKey != null){
-			CIPHER.init(Cipher.ENCRYPT_MODE, sharedKey);
-			data = CIPHER.doFinal(data);
+		if(this.writeCipher != null){
+			data = this.writeCipher.update(data);
 		}
 		
 		return data;
 	}
 	
 	@SuppressWarnings("resource")
-	public static Packet construct(byte[] data, @Nullable Key sharedKey, int compressionThreshold, Protocol protocol, SequenceType seq, boolean isByClient) throws Exception {
-		EByteArrayReader stream = new EByteArrayReader(data);
-		
+	public Packet construct(byte[] data, Protocol protocol, SequenceType seq, boolean isByClient) throws Exception {
 		// decrypt
-		if(sharedKey != null){
-			CIPHER.init(Cipher.DECRYPT_MODE, sharedKey);
-			data = CIPHER.doFinal(data);
+		if(this.readCipher != null){
+			final int decryptedSize = this.readCipher.getOutputSize(data.length);
+			
+			if(this.decryptBuffer.length < decryptedSize)
+				this.decryptBuffer = new byte[decryptedSize];
+			
+			data = Arrays.copyOfRange(this.decryptBuffer, 0, this.readCipher.update(data, 0, data.length, this.decryptBuffer));
 		}
 		
+		EByteArrayReader stream = new EByteArrayReader(data);
 		final int length = stream.readSignedVarInt();
 		
 		// decompress

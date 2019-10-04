@@ -4,7 +4,6 @@ import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 
 import javax.crypto.KeyGenerator;
-import javax.crypto.spec.SecretKeySpec;
 
 import de.marcely.pocketcraft.java.network.packet.Packet;
 import de.marcely.pocketcraft.java.network.packet.login.v1.V1PacketLoginEncryptionRequest;
@@ -48,15 +47,17 @@ public class V1LoginSequence extends Sequence {
 		if(rawPacket instanceof V1PacketLoginEncryptionRequest){
 			final V1PacketLoginEncryptionRequest packet = (V1PacketLoginEncryptionRequest) rawPacket;
 			
-			this.holder.getConnection().setEncryptionKey(new SecretKeySpec(packet.publicKey, "AES"));
-			
 			// send
 			{
 				final V1PacketLoginEncryptionResponse out = new V1PacketLoginEncryptionResponse();
 				Key key = null;
 				
 				try{
-					key = KeyGenerator.getInstance("AES").generateKey();
+					final KeyGenerator generator = KeyGenerator.getInstance("AES/CFB8/NoPadding");
+					
+					generator.init(128);
+					
+					key = generator.generateKey();
 					
 					out.sharedKey = key.getEncoded();
 				}catch(NoSuchAlgorithmException e){
@@ -64,17 +65,18 @@ public class V1LoginSequence extends Sequence {
 				}
 				
 				out.verifyToken = packet.verifyToken;
+				out.write_publicKey = packet.publicKey;
 				
 				this.holder.sendPacket(out);
 				
-				this.holder.getConnection().setEncryptionKey(key);
+				this.holder.getConnection().getPacketBuilder().setKey(key);;
 			}
 		
 		// == set compression
 		}else if(rawPacket instanceof V1PacketLoginSetCompression){
 			final V1PacketLoginSetCompression packet = (V1PacketLoginSetCompression) rawPacket;
 			
-			this.holder.getConnection().setCompressionThreshold(packet.threshold);
+			this.holder.getConnection().getPacketBuilder().setCompressionThreshold(packet.threshold);
 		
 		// == success
 		}else if(rawPacket instanceof V1PacketLoginSuccess){

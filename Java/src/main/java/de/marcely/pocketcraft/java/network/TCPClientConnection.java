@@ -5,7 +5,6 @@ import java.net.InetAddress;
 import java.util.List;
 
 import de.marcely.pocketcraft.java.network.packet.Packet;
-import de.marcely.pocketcraft.java.network.packet.PacketBuilder;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
@@ -108,10 +107,8 @@ public class TCPClientConnection extends Connection {
 			in.readBytes(data);
 			
 			try{
-			out.add(PacketBuilder.construct(
+			out.add(packetBuilder.construct(
 					data,
-					getSharedKey(),
-					getCompressionThreshold(),
 					getInterface().getProtocol(),
 					getInterface().getSequence().getType(),
 					false));
@@ -130,11 +127,9 @@ public class TCPClientConnection extends Connection {
 		protected void encode(ChannelHandlerContext ctx, Packet packet, ByteBuf out) throws Exception {
 			final int packetId = packet.getProperties().getId(getInterface().getProtocol().getProtocolVersion());
 			
-			out.writeBytes(PacketBuilder.deconstruct(
+			out.writeBytes(packetBuilder.deconstruct(
 					packet,
-					packetId,
-					getSharedKey(),
-					getCompressionThreshold()));
+					packetId));
 		}
 	}
 	
