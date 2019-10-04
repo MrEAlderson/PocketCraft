@@ -1,4 +1,4 @@
-package de.marcely.pocketcraft.bedrocktest;
+package de.marcely.testapp;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -7,7 +7,7 @@ import com.whirvis.jraknet.RakNetException;
 
 import de.marcely.pocketcraft.bedrock.server.BedrockServer;
 
-public class Main {
+public class BedrockMain {
 
 	public static void main(String[] args){
 		if(args.length < 2){

@@ -1,4 +1,4 @@
-package de.marcely.pocketcraft.javatest;
+package de.marcely.testapp;
 
 import java.net.InetAddress;
 
@@ -7,7 +7,7 @@ import de.marcely.pocketcraft.java.network.LoginGoal;
 import de.marcely.pocketcraft.java.network.TCPClientConnection;
 import de.marcely.pocketcraft.java.network.protocol.ProtocolV8D9;
 
-public class Main {
+public class JavaMain {
 
 	public static void main(String[] args) throws Exception {
 		if(args.length < 2){
