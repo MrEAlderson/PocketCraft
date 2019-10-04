@@ -68,11 +68,11 @@ public class ProtocolV8D9 extends Protocol {
 				null, // chat
 				null, // update time
 				null, // entity equipment
-				null, // spawn position
+				V8D9PacketPlaySpawnPosition.class,
 				null, // update health
 				null, // respawn
 				null, // position
-				null, // held item slot
+				V8D9PacketPlaySetHeldItemSlot.class, // held item slot
 				null, // bed
 				null, // animation
 				null, // named entity spawn
@@ -120,15 +120,15 @@ public class ProtocolV8D9 extends Protocol {
 				null, // open sign editor
 				null, // statistic
 				null, // player info
-				null, // abilities
+				V8D9PacketPlayAbilities.class,
 				null, // tab complete
 				null, // scoreboard objective
 				null, // scoreboard score
 				null, // scoreboard display objective
 				null, // scoreboard team
-				V8D9PacketPlayCustomPayload.class, // custom payload
+				V8D9PacketPlayCustomPayload.class,
 				null, // kick
-				null, // server difficulty
+				V8D9PacketPlayGameDifficulty.class,
 				null, // combat event
 				null, // camera
 				null, // world border

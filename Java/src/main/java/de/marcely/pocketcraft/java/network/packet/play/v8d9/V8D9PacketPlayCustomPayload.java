@@ -8,19 +8,19 @@ public class V8D9PacketPlayCustomPayload extends PlayPacket {
 
 	public static final PacketProperties PROPERTIES = new PacketProperties();
 	
-	public int id;
+	public String id;
 	public byte[] payload;
 
 	@Override
 	public void write(EByteBuf stream) throws Exception {
-		stream.writeVarInt(this.id);
-		stream.writeByteArray(this.payload);
+		stream.writeString(this.id, 20);
+		stream.write(this.payload);
 	}
 
 	@Override
 	public void read(EByteBuf stream) throws Exception {
-		this.id = stream.readVarInt();
-		this.payload = stream.readByteArray();
+		this.id = stream.readString(20);
+		this.payload = stream.read(stream.readableBytes());
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package de.marcely.pocketcraft.java.util;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
+import de.marcely.pocketcraft.utils.math.Vector3;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 
@@ -112,6 +113,14 @@ public class EByteBuf {
 	public void writeUUID(UUID id){
 		writeLong(id.getMostSignificantBits());
 		writeLong(id.getLeastSignificantBits());
+	}
+	
+	public void writeBlockPosition(int x, int y, int z){
+		writeLong(((x & 0x3FFFFFF) << 38) | ((z & 0x3FFFFFF) << 12) | (y & 0xFFF));
+	}
+	
+	public void writeBlockPosition(Vector3 vec){
+		writeBlockPosition(vec.getFloorX(), vec.getFloorY(), vec.getFloorZ());
 	}
 	
 	public void read(byte[] dst){
@@ -231,6 +240,12 @@ public class EByteBuf {
 	
 	public UUID readUUID(){
 		return new UUID(readLong(), readLong());
+	}
+	
+	public Vector3 readBlockPosition(){
+		final long val = readLong();
+		
+		return new Vector3(val >> 38, val & 0xFFF, (val << 26 >> 38));
 	}
 	
 	public EByteBuf readAsBuf(int length){
