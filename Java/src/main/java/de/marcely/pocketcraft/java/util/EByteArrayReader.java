@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import de.marcely.pocketcraft.utils.io.ByteArrayReader;
 
+@Deprecated
 public class EByteArrayReader extends ByteArrayReader {
 
 	public EByteArrayReader(byte[] array){

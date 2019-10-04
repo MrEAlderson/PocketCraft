@@ -2,8 +2,7 @@ package de.marcely.pocketcraft.java.network.packet.login.v1;
 
 import de.marcely.pocketcraft.java.network.packet.LoginPacket;
 import de.marcely.pocketcraft.java.network.packet.PacketProperties;
-import de.marcely.pocketcraft.java.util.EByteArrayReader;
-import de.marcely.pocketcraft.java.util.EByteArrayWriter;
+import de.marcely.pocketcraft.java.util.EByteBuf;
 
 public class V1PacketLoginSetCompression extends LoginPacket {
 
@@ -17,13 +16,13 @@ public class V1PacketLoginSetCompression extends LoginPacket {
 	}
 	
 	@Override
-	public void write(EByteArrayWriter stream) throws Exception {
-		stream.writeSignedVarInt(this.threshold);
+	public void write(EByteBuf stream) throws Exception {
+		stream.writeVarInt(this.threshold);
 	}
 
 	@Override
-	public void read(EByteArrayReader stream) throws Exception {
-		this.threshold = stream.readSignedVarInt();
+	public void read(EByteBuf stream) throws Exception {
+		this.threshold = stream.readVarInt();
 	}
 	
 	@Override

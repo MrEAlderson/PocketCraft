@@ -7,8 +7,7 @@ import java.security.spec.X509EncodedKeySpec;
 
 import de.marcely.pocketcraft.java.network.packet.LoginPacket;
 import de.marcely.pocketcraft.java.network.packet.PacketProperties;
-import de.marcely.pocketcraft.java.util.EByteArrayReader;
-import de.marcely.pocketcraft.java.util.EByteArrayWriter;
+import de.marcely.pocketcraft.java.util.EByteBuf;
 
 public class V1PacketLoginEncryptionRequest extends LoginPacket {
 
@@ -24,21 +23,24 @@ public class V1PacketLoginEncryptionRequest extends LoginPacket {
 	}
 	
 	@Override
-	public void write(EByteArrayWriter stream) throws Exception {
+	public void write(EByteBuf stream) throws Exception {
 		stream.writeString(this.serverId);
 		stream.writeByteArray(this.publicKey.getEncoded());
 		stream.writeByteArray(this.verifyToken);
 	}
 
 	@Override
-	public void read(EByteArrayReader stream) throws Exception {
+	public void read(EByteBuf stream) throws Exception {
 		this.serverId = stream.readString(20);
 		{
-
-			final EncodedKeySpec spec = new X509EncodedKeySpec(stream.readByteArray());
-			final KeyFactory factory = KeyFactory.getInstance("RSA");
-			
-			this.publicKey = factory.generatePublic(spec);
+			try{
+				final EncodedKeySpec spec = new X509EncodedKeySpec(stream.readByteArray());
+				final KeyFactory factory = KeyFactory.getInstance("RSA");
+				
+				this.publicKey = factory.generatePublic(spec);
+			}catch(Exception e){
+				System.out.println("Public key reconstitute failed!");
+			}
 		}
 		this.verifyToken = stream.readByteArray();
 	}

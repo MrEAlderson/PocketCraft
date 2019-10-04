@@ -170,15 +170,6 @@ public class JavaClient implements SequenceHolder, ConnectionInterface {
 		
 		this.connection.open();
 		
-		// TODO: Improve asap
-		Scheduler.runAsyncRepeated(() -> {
-			try{
-				tick();
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-		}, 0, 1000/20);
-		
 		return true;
 	}
 	
@@ -195,21 +186,6 @@ public class JavaClient implements SequenceHolder, ConnectionInterface {
 		}
 		
 		return true;
-	}
-	
-	public void tick(){
-		// fetch packets
-		{
-			Packet packet = null;
-			
-			while((packet = this.connection.fetch()) != null){
-				try{
-					handlePacket(packet);
-				}catch(Exception e){
-					e.printStackTrace();
-				}
-			}
-		}	
 	}
 	
 	public boolean registerListener(ClientListener listener){

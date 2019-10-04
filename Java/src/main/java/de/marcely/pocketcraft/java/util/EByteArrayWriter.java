@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import de.marcely.pocketcraft.utils.io.ByteArrayWriter;
 
+@Deprecated
 public class EByteArrayWriter extends ByteArrayWriter {
 	
 	public EByteArrayWriter(){

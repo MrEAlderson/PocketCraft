@@ -54,8 +54,10 @@ public abstract class Protocol {
 	
 	private void addIdToPackets(Class<Packet>[] packets){
 		for(int id=0; id<packets.length; id++){
-
 			final Class<Packet> clazz = packets[id];
+			
+			if(clazz == null)
+				continue;
 			
 			try{
 				final PacketProperties properties = (PacketProperties) clazz.getField("PROPERTIES").get(null);

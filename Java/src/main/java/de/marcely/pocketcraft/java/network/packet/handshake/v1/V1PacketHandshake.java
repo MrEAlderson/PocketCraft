@@ -3,8 +3,7 @@ package de.marcely.pocketcraft.java.network.packet.handshake.v1;
 import de.marcely.pocketcraft.java.network.packet.Packet;
 import de.marcely.pocketcraft.java.network.packet.PacketProperties;
 import de.marcely.pocketcraft.java.network.sequence.SequenceType;
-import de.marcely.pocketcraft.java.util.EByteArrayReader;
-import de.marcely.pocketcraft.java.util.EByteArrayWriter;
+import de.marcely.pocketcraft.java.util.EByteBuf;
 
 public class V1PacketHandshake extends Packet {
 	
@@ -26,19 +25,19 @@ public class V1PacketHandshake extends Packet {
 	}
 	
 	@Override
-	public void write(EByteArrayWriter stream) throws Exception {
-		stream.writeSignedVarInt(this.protocolVersion);
+	public void write(EByteBuf stream) throws Exception {
+		stream.writeVarInt(this.protocolVersion);
 		stream.writeString(this.serverAddress);
 		stream.writeUnsignedShort(this.serverPort);
-		stream.writeSignedVarInt(this.nextState);
+		stream.writeVarInt(this.nextState);
 	}
 
 	@Override
-	public void read(EByteArrayReader stream) throws Exception {
-		this.protocolVersion = stream.readSignedVarInt();
+	public void read(EByteBuf stream) throws Exception {
+		this.protocolVersion = stream.readVarInt();
 		this.serverAddress = stream.readString(255);
 		this.serverPort = stream.readUnsignedShort();
-		this.nextState = (byte) stream.readSignedVarInt();
+		this.nextState = (byte) stream.readVarInt();
 	}
 	
 	@Override

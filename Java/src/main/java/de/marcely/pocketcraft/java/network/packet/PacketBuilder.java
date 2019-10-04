@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.security.Key;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
@@ -12,15 +13,14 @@ import org.jetbrains.annotations.Nullable;
 
 import de.marcely.pocketcraft.java.network.protocol.Protocol;
 import de.marcely.pocketcraft.java.network.sequence.SequenceType;
-import de.marcely.pocketcraft.java.util.EByteArrayReader;
-import de.marcely.pocketcraft.java.util.EByteArrayWriter;
+import de.marcely.pocketcraft.java.util.EByteBuf;
 import de.marcely.pocketcraft.utils.io.ZLib;
 import lombok.Getter;
 import lombok.Setter;
 
 public class PacketBuilder {
 	
-	@Getter @Setter private Cipher readCipher, writeCipher;
+	private Cipher readCipher, writeCipher;
 	@Getter @Setter private int compressionThreshold = -1;
 	
 	private byte[] decryptBuffer = new byte[0];
@@ -52,19 +52,19 @@ public class PacketBuilder {
 	}
 	
 	public byte[] deconstruct(Packet packet, int packetId) throws Exception {
-		final EByteArrayWriter stream = new EByteArrayWriter();
+		final EByteBuf stream = new EByteBuf();
 		byte[] data = null;
 		int uncompressedDataLength = -1;
 		
 		// write data 
 		{
-			stream.writeSignedVarInt(packetId);
+			stream.writeVarInt(packetId);
 			packet.write(stream);
 			
-			data = stream.toByteArray();
+			data = Arrays.copyOfRange(stream.array(), 0, stream.writerIndex());
 			uncompressedDataLength = data.length;
 			
-			stream.reset();
+			stream.resetWriterIndex();
 		}
 		
 		// compress
@@ -74,20 +74,20 @@ public class PacketBuilder {
 		
 		// construct packet data part
 		if(compressionThreshold >= 0){
-			stream.writeSignedVarInt((data.length >= compressionThreshold) ? uncompressedDataLength : 0);
+			stream.writeVarInt((data.length >= compressionThreshold) ? uncompressedDataLength : 0);
 			stream.write(data);
 			
-			data = stream.toByteArray();
+			data = Arrays.copyOfRange(stream.array(), 0, stream.writerIndex());
 			
-			stream.reset();
+			stream.resetWriterIndex();
 		}
 		
 		// construct packet
 		{
-			stream.writeSignedVarInt(data.length);
+			stream.writeVarInt(data.length);
 			stream.write(data);
 			
-			data = stream.toByteArray();
+			data = Arrays.copyOfRange(stream.array(), 0, stream.writerIndex());
 		}
 		
 		// encrypt
@@ -98,40 +98,55 @@ public class PacketBuilder {
 		return data;
 	}
 	
-	@SuppressWarnings("resource")
-	public Packet construct(byte[] data, Protocol protocol, SequenceType seq, boolean isByClient) throws Exception {
+	public void construct(EByteBuf stream, Protocol protocol, SequenceType seq, boolean isByClient, List<Object> out) throws Exception {
 		// decrypt
 		if(this.readCipher != null){
-			final int decryptedSize = this.readCipher.getOutputSize(data.length);
+			final byte[] data = stream.read(stream.readableBytes());
+			final int decryptedSize = this.readCipher.getOutputSize(stream.readableBytes());
 			
 			if(this.decryptBuffer.length < decryptedSize)
 				this.decryptBuffer = new byte[decryptedSize];
 			
-			data = Arrays.copyOfRange(this.decryptBuffer, 0, this.readCipher.update(data, 0, data.length, this.decryptBuffer));
+			stream = new EByteBuf(Arrays.copyOfRange(this.decryptBuffer, 0, this.readCipher.update(data, 0, data.length, this.decryptBuffer)));
 		}
 		
-		EByteArrayReader stream = new EByteArrayReader(data);
-		final int length = stream.readSignedVarInt();
+		final int length = stream.readVarInt();
+		
+		if(stream.readableBytes() < length)
+			throw new IOException("Malformed packet: Packet is larger than buffer");
+		
+		if(length < 0)
+			throw new IOException("Malformed packet: Packet is smaller than 0");
+		
+		stream = stream.readAsBuf(length);
 		
 		// decompress
-		if(compressionThreshold >= 0){
-			final int startPos = stream.getPos();
-			final int uncompressedDataLength = stream.readSignedVarInt();
+		if(this.compressionThreshold >= 0){
+			final int uncompressedDataLength = stream.readVarInt();
 			
-			if(uncompressedDataLength >= 1){
-					data = ZLib.inflate(stream.read(length - (stream.getPos() - startPos)));
+			System.out.println(uncompressedDataLength);
+			
+			if(uncompressedDataLength != 0){
+				if(uncompressedDataLength < this.compressionThreshold)
+					throw new IOException("Malformed packet: Uncompressed packet is below threshold " + this.compressionThreshold);
 				
-				if(data.length != uncompressedDataLength)
-					throw new IOException("Uncompressed packet has an unexpected size (" + data.length + ", expected " + uncompressedDataLength + ")");
-			}else
-				data = stream.read(length - (stream.getPos() - startPos));
+				if(uncompressedDataLength > 2097152)
+					throw new IOException("Malformed packet: Uncompressed packet is larger than limitation");
 				
-			stream = new EByteArrayReader(data);
+				final byte[] data = ZLib.inflate(stream.read(stream.readableBytes()));
+				
+				if(stream.readableBytes() < data.length)
+					return;
+				
+				stream = new EByteBuf(data);
+			}
+		}
 		
-		}else
-			stream = new EByteArrayReader(stream.read(length));
+		if(stream.readableBytes() == 0)
+			return;
 		
-		final int packetId = stream.readSignedVarInt();
+		final int packetId = stream.readVarInt();
+		
 		final Packet packet = protocol.getPacketById(packetId, seq, isByClient ? Packet.CLIENT : Packet.SERVER);
 		
 		if(packet == null)
@@ -139,6 +154,6 @@ public class PacketBuilder {
 		
 		packet.read(stream);
 		
-		return packet;
+		out.add(packet);
 	}
 }

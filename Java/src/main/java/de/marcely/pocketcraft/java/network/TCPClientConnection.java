@@ -5,6 +5,7 @@ import java.net.InetAddress;
 import java.util.List;
 
 import de.marcely.pocketcraft.java.network.packet.Packet;
+import de.marcely.pocketcraft.java.util.EByteBuf;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
@@ -99,22 +100,19 @@ public class TCPClientConnection extends Connection {
 	
 	
 	private class PacketDecoder extends ByteToMessageDecoder {
-
+	
 		@Override
-		protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
-			final byte[] data = new byte[in.readableBytes()];
-			
-			in.readBytes(data);
-			
+		protected void decode(ChannelHandlerContext ctx, ByteBuf buf, List<Object> out) throws Exception {
 			try{
-			out.add(packetBuilder.construct(
-					data,
-					getInterface().getProtocol(),
-					getInterface().getSequence().getType(),
-					false));
+				packetBuilder.construct(
+						new EByteBuf(buf),
+						getInterface().getProtocol(),
+						getInterface().getSequence().getType(),
+						false,
+						out);
 			}catch(IOException e){
 				if(e.getMessage() != null && e.getMessage().startsWith("Unkown packet with id ")){
-					
+					System.out.println(e.getMessage());
 				}else
 					e.printStackTrace();
 			}
@@ -147,7 +145,7 @@ public class TCPClientConnection extends Connection {
 		
 		@Override
 		protected void channelRead0(ChannelHandlerContext ctx, Packet packet) throws Exception {
-			packetReadQueue.add(packet);
+			getInterface().handlePacket(packet);
 		}
 		
 		@Override

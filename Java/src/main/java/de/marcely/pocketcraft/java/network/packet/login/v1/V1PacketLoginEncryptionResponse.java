@@ -2,13 +2,13 @@ package de.marcely.pocketcraft.java.network.packet.login.v1;
 
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.util.Arrays;
 
 import javax.crypto.Cipher;
 
 import de.marcely.pocketcraft.java.network.packet.LoginPacket;
 import de.marcely.pocketcraft.java.network.packet.PacketProperties;
-import de.marcely.pocketcraft.java.util.EByteArrayReader;
-import de.marcely.pocketcraft.java.util.EByteArrayWriter;
+import de.marcely.pocketcraft.java.util.EByteBuf;
 
 public class V1PacketLoginEncryptionResponse extends LoginPacket {
 
@@ -26,29 +26,34 @@ public class V1PacketLoginEncryptionResponse extends LoginPacket {
 	}
 	
 	@Override
-	public void write(EByteArrayWriter stream) throws Exception {
+	public void write(EByteBuf stream) throws Exception {
 		final Cipher cipher = Cipher.getInstance("RSA");
 		
 		cipher.init(Cipher.ENCRYPT_MODE, this.write_publicKey);
 		
-		try(EByteArrayWriter stream2 = new EByteArrayWriter(64)){
-			stream2.writeByteArray(this.sharedKey);
-			stream2.writeByteArray(this.verifyToken);
+		{
+			final int index = stream.writerIndex();
+			stream.markWriterIndex();
 			
-			stream.write(cipher.doFinal(stream2.toByteArray()));
+			stream.writeByteArray(this.sharedKey);
+			stream.writeByteArray(this.verifyToken);
+			
+			final byte[] data = Arrays.copyOfRange(stream.array(), index, stream.writerIndex());
+			
+			stream.resetWriterIndex();
+			stream.write(cipher.doFinal(data));
 		}
 	}
-
-	@SuppressWarnings("resource")
+	
 	@Override
-	public void read(EByteArrayReader stream) throws Exception {
+	public void read(EByteBuf stream) throws Exception {
 		// decrypt
 		{
 			final Cipher cipher = Cipher.getInstance("RSA");
 		
 			cipher.init(Cipher.DECRYPT_MODE, this.read_privateKey);
 			
-			stream = new EByteArrayReader(cipher.doFinal(stream.read(stream.available())));
+			stream = new EByteBuf(cipher.doFinal(stream.read(stream.readableBytes())));
 		}
 		
 		// read

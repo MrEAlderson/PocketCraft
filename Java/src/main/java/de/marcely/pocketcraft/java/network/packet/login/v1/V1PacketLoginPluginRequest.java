@@ -2,8 +2,7 @@ package de.marcely.pocketcraft.java.network.packet.login.v1;
 
 import de.marcely.pocketcraft.java.network.packet.LoginPacket;
 import de.marcely.pocketcraft.java.network.packet.PacketProperties;
-import de.marcely.pocketcraft.java.util.EByteArrayReader;
-import de.marcely.pocketcraft.java.util.EByteArrayWriter;
+import de.marcely.pocketcraft.java.util.EByteBuf;
 
 public class V1PacketLoginPluginRequest extends LoginPacket {
 
@@ -19,17 +18,17 @@ public class V1PacketLoginPluginRequest extends LoginPacket {
 	}
 	
 	@Override
-	public void write(EByteArrayWriter stream) throws Exception {
-		stream.writeSignedVarInt(this.messageId);
+	public void write(EByteBuf stream) throws Exception {
+		stream.writeVarInt(this.messageId);
 		stream.writeIdentifier(this.channel);
 		stream.write(this.data);
 	}
 
 	@Override
-	public void read(EByteArrayReader stream) throws Exception {
-		this.messageId = stream.readSignedVarInt();
+	public void read(EByteBuf stream) throws Exception {
+		this.messageId = stream.readVarInt();
 		this.channel = stream.readIdentifier();
-		this.data = stream.read(stream.available());
+		this.data = stream.read(stream.readableBytes());
 	}
 	
 	@Override

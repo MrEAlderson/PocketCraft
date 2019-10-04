@@ -3,8 +3,7 @@ package de.marcely.pocketcraft.java.network.packet.status.v1;
 import de.marcely.pocketcraft.java.network.packet.Packet;
 import de.marcely.pocketcraft.java.network.packet.PacketProperties;
 import de.marcely.pocketcraft.java.network.sequence.SequenceType;
-import de.marcely.pocketcraft.java.util.EByteArrayReader;
-import de.marcely.pocketcraft.java.util.EByteArrayWriter;
+import de.marcely.pocketcraft.java.util.EByteBuf;
 
 public class V1PacketStatusRequest extends Packet {
 
@@ -21,10 +20,10 @@ public class V1PacketStatusRequest extends Packet {
 	}
 	
 	@Override
-	public void write(EByteArrayWriter stream) throws Exception { }
+	public void write(EByteBuf stream) throws Exception { }
 
 	@Override
-	public void read(EByteArrayReader stream) throws Exception { }
+	public void read(EByteBuf stream) throws Exception { }
 
 	@Override
 	public PacketProperties getProperties(){
