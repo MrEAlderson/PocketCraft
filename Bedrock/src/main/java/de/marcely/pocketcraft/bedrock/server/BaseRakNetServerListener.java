@@ -49,7 +49,7 @@ public class BaseRakNetServerListener implements RakNetServerListener {
 	
 	@Override
 	public void onDisconnect(RakNetServer server, InetSocketAddress address, RakNetClientPeer client, String reason){
-		final Player player = this.server.getPlayer(client);
+		// final Player player = this.server.getPlayer(client);
 		
 		this.server.getConnections().remove(client);
 		
