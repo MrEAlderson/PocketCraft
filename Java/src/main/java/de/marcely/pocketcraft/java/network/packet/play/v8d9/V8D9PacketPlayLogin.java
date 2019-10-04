@@ -22,11 +22,6 @@ public class V8D9PacketPlayLogin extends PlayPacket {
 	public boolean reducedDebugInfo;
 	
 	@Override
-	public byte getSource(){
-		return SERVER;
-	}
-
-	@Override
 	public void write(EByteBuf stream) throws Exception {
 		stream.writeInt(this.entityId);
 		stream.writeUnsignedByte(this.gamemode.getId() | (this.isHardcore ? 0x8 : 0));
@@ -46,9 +41,18 @@ public class V8D9PacketPlayLogin extends PlayPacket {
 			this.gamemode = GameMode.ofId(gm & 0xFFFFFFF7);
 			this.isHardcore = ((gm & 0x8) == 0x8);
 		}
-		this.dimension = Dimension.ofId(stream.readInt());
-		this.difficulty = Difficulty.ofId(stream.readUnsignedByte());
+		System.out.println(this.entityId);
+		System.out.println(this.gamemode + " " + this.isHardcore);
+		int i = stream.readInt();
+		System.out.println("dimension: " + i);
+		this.dimension = Dimension.ofId(i);
+		System.out.println(this.dimension);
+		i = stream.readUnsignedByte();
+		System.out.println("difficulty: " + i);
+		this.difficulty = Difficulty.ofId(i);
+		System.out.println(this.difficulty);
 		this.maxPlayers = stream.readUnsignedByte();
+		System.out.println(this.maxPlayers);
 		this.levelType = stream.readString(16);
 		this.reducedDebugInfo = stream.readBoolean();
 	}

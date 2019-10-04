@@ -44,6 +44,9 @@ public abstract class Protocol {
 		try{
 			final Class<Packet> clazz = packets[id];
 			
+			if(clazz == null)
+				return null;
+			
 			return clazz.newInstance();
 		}catch(Exception e){
 			e.printStackTrace();

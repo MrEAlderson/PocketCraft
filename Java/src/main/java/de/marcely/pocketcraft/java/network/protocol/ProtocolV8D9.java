@@ -23,16 +23,14 @@ public class ProtocolV8D9 extends Protocol {
 		
 		setPacketIds(SequenceType.LOGIN, CLIENT, new Class[]{
 				V1PacketLoginStart.class,
-				V1PacketLoginEncryptionResponse.class,
-				V1PacketLoginPluginReponse.class
+				V1PacketLoginEncryptionResponse.class
 		});
 		
 		setPacketIds(SequenceType.LOGIN, SERVER, new Class[]{
 				V1PacketLoginDisconnect.class,
 				V1PacketLoginEncryptionRequest.class,
 				V1PacketLoginSuccess.class,
-				V1PacketLoginSetCompression.class,
-				V1PacketLoginPluginRequest.class
+				V1PacketLoginSetCompression.class
 		});
 		
 		setPacketIds(SequenceType.PLAY, CLIENT, new Class[]{
@@ -59,7 +57,7 @@ public class ProtocolV8D9 extends Protocol {
 				null, // tab complete
 				null, // settings
 				null, // client command
-				null, // custom payload
+				V8D9PacketPlayCustomPayload.class,
 				null, // spectate
 				null  // resource pack status
 		});
@@ -128,7 +126,7 @@ public class ProtocolV8D9 extends Protocol {
 				null, // scoreboard score
 				null, // scoreboard display objective
 				null, // scoreboard team
-				null, // custom payload
+				V8D9PacketPlayCustomPayload.class, // custom payload
 				null, // kick
 				null, // server difficulty
 				null, // combat event

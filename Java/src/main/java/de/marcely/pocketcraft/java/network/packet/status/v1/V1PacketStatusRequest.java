@@ -13,11 +13,6 @@ public class V1PacketStatusRequest extends Packet {
 	public SequenceType getSequence(){
 		return SequenceType.STATUS;
 	}
-
-	@Override
-	public byte getSource(){
-		return CLIENT;
-	}
 	
 	@Override
 	public void write(EByteBuf stream) throws Exception { }

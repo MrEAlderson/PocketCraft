@@ -19,11 +19,6 @@ public class V1PacketLoginEncryptionResponse extends LoginPacket {
 	
 	public byte[] sharedKey;
 	public byte[] verifyToken;
-
-	@Override
-	public byte getSource(){
-		return CLIENT;
-	}
 	
 	@Override
 	public void write(EByteBuf stream) throws Exception {

@@ -9,11 +9,6 @@ public class V8D9PacketPlayKeepAlive extends PlayPacket {
 	public static final PacketProperties PROPERTIES = new PacketProperties();
 	
 	public int id;
-	
-	@Override
-	public byte getSource(){
-		return SERVER;
-	}
 
 	@Override
 	public void write(EByteBuf stream) throws Exception {

@@ -18,11 +18,6 @@ public class V1PacketHandshake extends Packet {
 	public SequenceType getSequence(){
 		return SequenceType.HANDSHAKE;
 	}
-
-	@Override
-	public byte getSource(){
-		return CLIENT;
-	}
 	
 	@Override
 	public void write(EByteBuf stream) throws Exception {

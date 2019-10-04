@@ -15,11 +15,6 @@ public class V1PacketStatusPong extends Packet {
 	public SequenceType getSequence(){
 		return SequenceType.STATUS;
 	}
-
-	@Override
-	public byte getSource(){
-		return SERVER;
-	}
 	
 	@Override
 	public void write(EByteBuf stream) throws Exception {

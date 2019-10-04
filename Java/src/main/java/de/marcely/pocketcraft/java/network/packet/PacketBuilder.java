@@ -118,6 +118,9 @@ public class PacketBuilder {
 		if(length < 0)
 			throw new IOException("Malformed packet: Packet is smaller than 0");
 		
+		if(length == 0)
+			return;
+		
 		stream = stream.readAsBuf(length);
 		
 		// decompress
@@ -147,7 +150,7 @@ public class PacketBuilder {
 		
 		final int packetId = stream.readVarInt();
 		
-		final Packet packet = protocol.getPacketById(packetId, seq, isByClient ? Packet.CLIENT : Packet.SERVER);
+		final Packet packet = protocol.getPacketById(packetId, seq, isByClient ? Protocol.CLIENT : Protocol.SERVER);
 		
 		if(packet == null)
 			throw new IOException("Unkown packet with id " + packetId);

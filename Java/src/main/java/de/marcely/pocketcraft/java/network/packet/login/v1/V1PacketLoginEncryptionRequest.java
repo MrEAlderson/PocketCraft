@@ -18,11 +18,6 @@ public class V1PacketLoginEncryptionRequest extends LoginPacket {
 	public byte[] verifyToken;
 	
 	@Override
-	public byte getSource(){
-		return SERVER;
-	}
-	
-	@Override
 	public void write(EByteBuf stream) throws Exception {
 		stream.writeString(this.serverId);
 		stream.writeByteArray(this.publicKey.getEncoded());

@@ -11,11 +11,6 @@ public class V1PacketLoginPluginReponse extends LoginPacket {
 	public int messageId;
 	public boolean success;
 	public byte[] data;
-
-	@Override
-	public byte getSource(){
-		return CLIENT;
-	}
 	
 	@Override
 	public void write(EByteBuf stream) throws Exception {

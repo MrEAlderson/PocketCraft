@@ -9,11 +9,6 @@ public class V1PacketLoginStart extends LoginPacket {
 	public static final PacketProperties PROPERTIES = new PacketProperties();
 	
 	public String username;
-
-	@Override
-	public byte getSource(){
-		return CLIENT;
-	}
 	
 	@Override
 	public void write(EByteBuf stream) throws Exception {

@@ -5,13 +5,7 @@ import de.marcely.pocketcraft.java.util.EByteBuf;
 
 public abstract class Packet {
 	
-	public static final byte CLIENT = 0;
-	public static final byte SERVER = 1;
-	
-	
 	public abstract SequenceType getSequence();
-	
-	public abstract byte getSource();
 	
 	public abstract void write(EByteBuf stream) throws Exception;
 	

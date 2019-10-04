@@ -11,11 +11,6 @@ public class V1PacketLoginPluginRequest extends LoginPacket {
 	public int messageId;
 	public String channel;
 	public byte[] data;
-
-	@Override
-	public byte getSource(){
-		return SERVER;
-	}
 	
 	@Override
 	public void write(EByteBuf stream) throws Exception {
