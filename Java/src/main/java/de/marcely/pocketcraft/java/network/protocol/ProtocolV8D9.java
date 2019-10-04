@@ -72,7 +72,7 @@ public class ProtocolV8D9 extends Protocol {
 				null, // update health
 				null, // respawn
 				null, // position
-				V8D9PacketPlaySetHeldItemSlot.class, // held item slot
+				V8D9PacketPlaySetHeldItemSlot.class,
 				null, // bed
 				null, // animation
 				null, // named entity spawn
@@ -118,7 +118,7 @@ public class ProtocolV8D9 extends Protocol {
 				null, // map
 				null, // tile entity data
 				null, // open sign editor
-				null, // statistic
+				V8D9PacketPlayStatistics.class,
 				null, // player info
 				V8D9PacketPlayAbilities.class,
 				null, // tab complete
