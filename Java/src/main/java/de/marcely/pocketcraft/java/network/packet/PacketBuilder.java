@@ -88,6 +88,7 @@ public class PacketBuilder {
 			stream.write(data);
 			
 			data = Arrays.copyOfRange(stream.array(), 0, stream.writerIndex());
+			stream.release();
 		}
 		
 		// encrypt
@@ -110,10 +111,14 @@ public class PacketBuilder {
 			stream = new EByteBuf(Arrays.copyOfRange(this.decryptBuffer, 0, this.readCipher.update(data, 0, data.length, this.decryptBuffer)));
 		}
 		
+		stream.markReaderIndex();
+		
 		final int length = stream.readVarInt();
 		
-		if(stream.readableBytes() < length)
-			throw new IOException("Malformed packet: Packet is larger than buffer");
+		if(stream.readableBytes() < length){
+			stream.resetReaderIndex();
+			return;
+		}
 		
 		if(length < 0)
 			throw new IOException("Malformed packet: Packet is smaller than 0");
@@ -123,40 +128,46 @@ public class PacketBuilder {
 		
 		stream = stream.readAsBuf(length);
 		
-		// decompress
-		if(this.compressionThreshold >= 0){
-			final int uncompressedDataLength = stream.readVarInt();
-			
-			System.out.println(uncompressedDataLength);
-			
-			if(uncompressedDataLength != 0){
-				if(uncompressedDataLength < this.compressionThreshold)
-					throw new IOException("Malformed packet: Uncompressed packet is below threshold " + this.compressionThreshold);
+		try{
+		
+			// decompress
+			if(this.compressionThreshold >= 0){
+				final int uncompressedDataLength = stream.readVarInt();
 				
-				if(uncompressedDataLength > 2097152)
-					throw new IOException("Malformed packet: Uncompressed packet is larger than limitation");
-				
-				final byte[] data = ZLib.inflate(stream.read(stream.readableBytes()));
-				
-				if(stream.readableBytes() < data.length)
-					return;
-				
-				stream = new EByteBuf(data);
+				if(uncompressedDataLength != 0){
+					if(uncompressedDataLength < this.compressionThreshold)
+						throw new IOException("Malformed packet: Uncompressed packet is below threshold " + this.compressionThreshold);
+					
+					if(uncompressedDataLength > 2097152)
+						throw new IOException("Malformed packet: Uncompressed packet is larger than limitation");
+					
+					final byte[] data = ZLib.inflate(stream.read(stream.readableBytes()));
+					
+					if(stream.readableBytes() < data.length)
+						return;
+					
+					stream.release();
+					stream = new EByteBuf(data);
+				}
 			}
+			
+			if(stream.readableBytes() == 0)
+				return;
+			
+			final int packetId = stream.readVarInt();
+			
+			final Packet packet = protocol.getPacketById(packetId, seq, isByClient ? Protocol.CLIENT : Protocol.SERVER);
+			
+			if(packet == null)
+				throw new IOException("Unkown packet with id " + packetId);
+	
+			
+			packet.read(stream);
+			
+			out.add(packet);
+		
+		}finally{
+			stream.release();
 		}
-		
-		if(stream.readableBytes() == 0)
-			return;
-		
-		final int packetId = stream.readVarInt();
-		
-		final Packet packet = protocol.getPacketById(packetId, seq, isByClient ? Protocol.CLIENT : Protocol.SERVER);
-		
-		if(packet == null)
-			throw new IOException("Unkown packet with id " + packetId);
-		
-		packet.read(stream);
-		
-		out.add(packet);
 	}
 }

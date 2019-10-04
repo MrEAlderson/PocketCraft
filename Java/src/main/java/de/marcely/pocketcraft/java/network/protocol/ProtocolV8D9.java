@@ -102,7 +102,7 @@ public class ProtocolV8D9 extends Protocol {
 				null, // block action
 				null, // block break animation
 				null, // map chunk bulk
-				null, // explosion,
+				null, // explosion
 				null, // world event
 				null, // named sound effect
 				null, // world particles
@@ -133,7 +133,7 @@ public class ProtocolV8D9 extends Protocol {
 				null, // camera
 				null, // world border
 				null, // title
-				null, // set compression
+				V8D9PacketPlaySetCompression.class,
 				null, // player list header footer
 				null, // resource pack send
 				null  // update entity nbt

@@ -86,8 +86,6 @@ public class TCPClientConnection extends Connection {
 			return;
 		}
 		
-		System.out.println("okii " + packet.getClass().getName());
-		
 		try {
 			this.channel.writeAndFlush(packet).sync();
 		} catch (InterruptedException e) {

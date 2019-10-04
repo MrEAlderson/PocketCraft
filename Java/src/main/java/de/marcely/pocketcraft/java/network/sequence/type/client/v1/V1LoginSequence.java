@@ -41,8 +41,6 @@ public class V1LoginSequence extends Sequence {
 	
 	@Override
 	public boolean onReceive(Packet rawPacket){
-		System.out.println(rawPacket.getClass().getName());
-		
 		// == encryption request
 		if(rawPacket instanceof V1PacketLoginEncryptionRequest){
 			final V1PacketLoginEncryptionRequest packet = (V1PacketLoginEncryptionRequest) rawPacket;
