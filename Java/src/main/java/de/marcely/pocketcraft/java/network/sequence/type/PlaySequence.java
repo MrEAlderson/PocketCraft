@@ -5,9 +5,9 @@ import de.marcely.pocketcraft.java.network.sequence.Sequence;
 import de.marcely.pocketcraft.java.network.sequence.SequenceHolder;
 import de.marcely.pocketcraft.java.network.sequence.SequenceType;
 
-public class PlaySequence extends Sequence {
+public class PlaySequence<T extends SequenceHolder> extends Sequence<T> {
 
-	public PlaySequence(SequenceHolder holder){
+	public PlaySequence(T holder){
 		super(holder);
 	}
 
@@ -17,7 +17,7 @@ public class PlaySequence extends Sequence {
 	}
 
 	@Override
-	public void run(Sequence oldSequence){ }
+	public void run(Sequence<T> oldSequence){ }
 	
 	@Override
 	public boolean onSend(Packet packet){

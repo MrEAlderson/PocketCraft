@@ -5,9 +5,9 @@ import de.marcely.pocketcraft.java.network.sequence.Sequence;
 import de.marcely.pocketcraft.java.network.sequence.SequenceHolder;
 import de.marcely.pocketcraft.java.network.sequence.SequenceType;
 
-public class DeadSequence extends Sequence {
+public class DeadSequence<T extends SequenceHolder> extends Sequence<T> {
 
-	public DeadSequence(SequenceHolder holder){
+	public DeadSequence(T holder){
 		super(holder);
 	}
 
@@ -17,7 +17,7 @@ public class DeadSequence extends Sequence {
 	}
 
 	@Override
-	public void run(Sequence oldSequence){ }
+	public void run(Sequence<T> oldSequence){ }
 	
 	@Override
 	public boolean onSend(Packet packet){

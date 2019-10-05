@@ -94,8 +94,6 @@ public class LoginSequence extends Sequence {
 		
 		final PacketInResourcePackStatus packet = (PacketInResourcePackStatus) rawPacket;
 		
-		System.out.println(packet.status);
-		
 		if(packet.status == PacketInResourcePackStatus.HAVE_ALL_PACKS){
 			{
 				final PacketOutAvailableResourcePacks2 out = (PacketOutAvailableResourcePacks2) PacketType.OutAvailableResourcePacks2.newInstance();
@@ -227,6 +225,8 @@ public class LoginSequence extends Sequence {
 			
 			// login done
 			player.setSequence(Sequence.get(Sequence.PLAY, player));
+		
+			player.getServer().getListeners().forEach(listener -> listener.onConnect(player));
 		}
 	}
 	

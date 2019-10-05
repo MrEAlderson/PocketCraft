@@ -3,13 +3,13 @@ package de.marcely.pocketcraft.java.network.sequence.type.client.v1;
 import de.marcely.pocketcraft.java.network.LoginGoal;
 import de.marcely.pocketcraft.java.network.packet.handshake.v1.V1PacketHandshake;
 import de.marcely.pocketcraft.java.network.sequence.ClientLoginInfo;
+import de.marcely.pocketcraft.java.network.sequence.ClientSequenceHolder;
 import de.marcely.pocketcraft.java.network.sequence.Sequence;
-import de.marcely.pocketcraft.java.network.sequence.SequenceHolder;
 import de.marcely.pocketcraft.java.network.sequence.SequenceType;
 
-public class V1HandshakeSequence extends Sequence {
+public class V1HandshakeSequence extends Sequence<ClientSequenceHolder> {
 
-	public V1HandshakeSequence(SequenceHolder holder){
+	public V1HandshakeSequence(ClientSequenceHolder holder){
 		super(holder);
 	}
 
@@ -19,7 +19,7 @@ public class V1HandshakeSequence extends Sequence {
 	}
 
 	@Override
-	public void run(Sequence oldSequence){
+	public void run(Sequence<ClientSequenceHolder> oldSequence){
 		final ClientLoginInfo info = (ClientLoginInfo) this.holder.getLoginInfo();
 		final V1PacketHandshake packet = new V1PacketHandshake();
 		

@@ -4,9 +4,10 @@ import org.jetbrains.annotations.Nullable;
 
 import de.marcely.pocketcraft.java.network.packet.Packet;
 import de.marcely.pocketcraft.java.network.packet.PacketProperties;
+import de.marcely.pocketcraft.java.network.sequence.ClientSequenceHolder;
 import de.marcely.pocketcraft.java.network.sequence.Sequence;
-import de.marcely.pocketcraft.java.network.sequence.SequenceHolder;
 import de.marcely.pocketcraft.java.network.sequence.SequenceType;
+import de.marcely.pocketcraft.java.network.sequence.ServerSequenceHolder;
 
 public abstract class Protocol {
 	
@@ -18,7 +19,9 @@ public abstract class Protocol {
 	
 	public abstract int getProtocolVersion();
 	
-	public abstract Sequence newSequenceInstance(SequenceType type, SequenceHolder holder);
+	public abstract Sequence<ClientSequenceHolder> newClientSequenceInstance(SequenceType type, ClientSequenceHolder holder);
+	
+	public abstract Sequence<ServerSequenceHolder> newServerSequenceInstance(SequenceType type, ServerSequenceHolder holder);
 	
 	public abstract void defineIds();
 	

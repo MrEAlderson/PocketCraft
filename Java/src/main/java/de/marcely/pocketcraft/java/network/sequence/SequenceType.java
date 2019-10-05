@@ -16,20 +16,24 @@ public enum SequenceType {
 		return (byte) this.ordinal();
 	}
 	
-	public Sequence newV1ClientInstance(SequenceHolder holder){
+	public Sequence<ClientSequenceHolder> newV1ClientInstance(ClientSequenceHolder holder){
 		switch(this){
 		case DEAD:
-			return new DeadSequence(holder);
+			return new DeadSequence<ClientSequenceHolder>(holder);
 		case HANDSHAKE:
 			return new V1HandshakeSequence(holder);
 		case LOGIN:
 			return new V1LoginSequence(holder);
 		case PLAY:
-			return new PlaySequence(holder);
+			return new PlaySequence<ClientSequenceHolder>(holder);
 		case STATUS:
 			return new V1StatusSequence(holder);
 		}
 		
+		return null;
+	}
+	
+	public Sequence<ServerSequenceHolder> newV1ServerInstance(ServerSequenceHolder holder){
 		return null;
 	}
 }

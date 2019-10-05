@@ -10,7 +10,7 @@ public interface ConnectionInterface {
 	
 	public void onClose();
 	
-	public Sequence getSequence();
+	public Sequence<?> getSequence();
 	
 	public Protocol getProtocol();
 	

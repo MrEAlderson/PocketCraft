@@ -13,14 +13,14 @@ import de.marcely.pocketcraft.java.network.packet.login.v1.V1PacketLoginStart;
 import de.marcely.pocketcraft.java.network.packet.login.v1.V1PacketLoginSuccess;
 import de.marcely.pocketcraft.java.network.sequence.ClientLoginInfo;
 import de.marcely.pocketcraft.java.network.sequence.ClientLoginResult;
+import de.marcely.pocketcraft.java.network.sequence.ClientSequenceHolder;
 import de.marcely.pocketcraft.java.network.sequence.Sequence;
-import de.marcely.pocketcraft.java.network.sequence.SequenceHolder;
 import de.marcely.pocketcraft.java.network.sequence.SequenceType;
 import de.marcely.pocketcraft.java.network.sequence.type.PlaySequence;
 
-public class V1LoginSequence extends Sequence {
+public class V1LoginSequence extends Sequence<ClientSequenceHolder> {
 	
-	public V1LoginSequence(SequenceHolder holder){
+	public V1LoginSequence(ClientSequenceHolder holder){
 		super(holder);
 	}
 	
@@ -30,7 +30,7 @@ public class V1LoginSequence extends Sequence {
 	}
 
 	@Override
-	public void run(Sequence oldSequence){
+	public void run(Sequence<ClientSequenceHolder> oldSequence){
 		final ClientLoginInfo info = (ClientLoginInfo) this.holder.getLoginInfo();
 		final V1PacketLoginStart packet = new V1PacketLoginStart();
 		
@@ -85,7 +85,7 @@ public class V1LoginSequence extends Sequence {
 			result.username = packet.username;
 			
 			this.holder.completeLogin(result);
-			this.holder.setSequence(new PlaySequence(this.holder));
+			this.holder.setSequence(new PlaySequence<ClientSequenceHolder>(this.holder));
 		}
 		
 		return true;

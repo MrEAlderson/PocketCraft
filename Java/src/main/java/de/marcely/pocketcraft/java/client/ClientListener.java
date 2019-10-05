@@ -1,10 +1,14 @@
 package de.marcely.pocketcraft.java.client;
 
+import de.marcely.pocketcraft.java.network.ServerInfo;
+
 public interface ClientListener {
 	
-	public abstract void onReady();
+	public void onReady();
 	
-	public abstract void onConnect();
+	public void onConnect();
 	
-	public abstract void onDisconnect();
+	public void onDisconnect();
+	
+	public void onServerInfo(ServerInfo info);
 }

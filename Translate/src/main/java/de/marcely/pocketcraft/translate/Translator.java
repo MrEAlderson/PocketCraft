@@ -1,5 +1,5 @@
 package de.marcely.pocketcraft.translate;
 
-public class Translator {
-
+public abstract class Translator {
+	
 }

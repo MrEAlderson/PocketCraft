@@ -1,8 +1,10 @@
 package de.marcely.pocketcraft.bedrock.server;
 
 import java.net.InetAddress;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.jetbrains.annotations.Nullable;
@@ -20,6 +22,8 @@ public class BedrockServer {
 	@Getter private RakNetServer rakNet;
 	
 	@Getter private Map<RakNetClientPeer, Player> connections = new HashMap<>();
+	
+	@Getter private List<ServerListener> listeners = new ArrayList<>(4);
 	
 	public BedrockServer(InetAddress address, int port){
 		this(address, port, RakNetServer.INFINITE_CONNECTIONS);
@@ -67,5 +71,16 @@ public class BedrockServer {
 		this.rakNet.shutdown();
 		
 		return true;
+	}
+	
+	public boolean registerListener(ServerListener listener){
+		if(this.listeners.contains(listener))
+			return false;
+		
+		return this.listeners.add(listener);
+	}
+	
+	public boolean unregisterListener(ServerListener listener){
+		return this.listeners.remove(listener);
 	}
 }

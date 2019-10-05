@@ -3,9 +3,10 @@ package de.marcely.pocketcraft.java.network.protocol;
 import de.marcely.pocketcraft.java.network.packet.handshake.v1.*;
 import de.marcely.pocketcraft.java.network.packet.login.v1.*;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.*;
+import de.marcely.pocketcraft.java.network.sequence.ClientSequenceHolder;
 import de.marcely.pocketcraft.java.network.sequence.Sequence;
-import de.marcely.pocketcraft.java.network.sequence.SequenceHolder;
 import de.marcely.pocketcraft.java.network.sequence.SequenceType;
+import de.marcely.pocketcraft.java.network.sequence.ServerSequenceHolder;
 
 public class ProtocolV8D9 extends Protocol {
 	
@@ -141,7 +142,12 @@ public class ProtocolV8D9 extends Protocol {
 	}
 
 	@Override
-	public Sequence newSequenceInstance(SequenceType type, SequenceHolder holder){
+	public Sequence<ClientSequenceHolder> newClientSequenceInstance(SequenceType type, ClientSequenceHolder holder){
 		return type.newV1ClientInstance(holder);
+	}
+	
+	@Override
+	public Sequence<ServerSequenceHolder> newServerSequenceInstance(SequenceType type, ServerSequenceHolder holder){
+		return type.newV1ServerInstance(holder);
 	}
 }

@@ -4,8 +4,8 @@ import java.net.InetSocketAddress;
 
 import com.whirvis.jraknet.RakNet;
 import com.whirvis.jraknet.RakNetPacket;
+import com.whirvis.jraknet.identifier.MinecraftIdentifier;
 import com.whirvis.jraknet.peer.RakNetClientPeer;
-import com.whirvis.jraknet.protocol.ConnectionType;
 import com.whirvis.jraknet.server.RakNetServer;
 import com.whirvis.jraknet.server.RakNetServerListener;
 import com.whirvis.jraknet.server.ServerPing;
@@ -32,28 +32,21 @@ public class BaseRakNetServerListener implements RakNetServerListener {
 	}
 	
 	@Override
-	public void onConnect(RakNetServer server, InetSocketAddress address, ConnectionType connectionType){
-		System.out.println("Client from address " + address + " has connected to the server " + connectionType);
-	}
-	
-	@Override
 	public void onLogin(RakNetServer server, RakNetClientPeer client){
-		final Player player = new Player(client);
-		
-		player.setSequence(Sequence.get(Sequence.LOGIN, player));
+		final Player player = new Player(this.server, client);
 		
 		this.server.getConnections().put(client, player);
 		
-		System.out.println("Connected!");
+		player.setSequence(Sequence.get(Sequence.LOGIN, player));
 	}
 	
 	@Override
 	public void onDisconnect(RakNetServer server, InetSocketAddress address, RakNetClientPeer client, String reason){
-		// final Player player = this.server.getPlayer(client);
+		final Player player = this.server.getPlayer(client);
 		
 		this.server.getConnections().remove(client);
 		
-		System.out.println("Disconnected");
+		this.server.getListeners().forEach(listener -> listener.onDisconnect(player));
 	}
 	
 	@Override
@@ -90,6 +83,12 @@ public class BaseRakNetServerListener implements RakNetServerListener {
 	
 	@Override
 	public void onPing(RakNetServer server, ServerPing ping){
+		final ServerInfoRequest request = new ServerInfoRequest(ping.getSender()){
+			public void reply(MinecraftIdentifier identifier){
+				
+			}
+		};
 		
+		this.server.getListeners().forEach(listener -> listener.onServerInfoRequest(request));
 	}
 }
