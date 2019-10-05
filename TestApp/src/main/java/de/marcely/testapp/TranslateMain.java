@@ -7,7 +7,7 @@ import de.marcely.pocketcraft.java.network.Connection;
 import de.marcely.pocketcraft.java.network.TCPClientConnection;
 import de.marcely.pocketcraft.java.network.protocol.Protocol;
 import de.marcely.pocketcraft.java.network.protocol.ProtocolV8D9;
-import de.marcely.pocketcraft.translate.bedrocktojava.version.BedrockToJavaTranslator;
+import de.marcely.pocketcraft.translate.BedrockToJavaTranslator;
 
 public class TranslateMain {
 	

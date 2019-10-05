@@ -1,4 +1,4 @@
-package de.marcely.pocketcraft.translate.bedrocktojava.version;
+package de.marcely.pocketcraft.translate.bedrocktojava.packet;
 
 import com.whirvis.jraknet.identifier.MinecraftIdentifier;
 
@@ -10,6 +10,7 @@ import de.marcely.pocketcraft.java.client.ClientAdapter;
 import de.marcely.pocketcraft.java.network.LoginGoal;
 import de.marcely.pocketcraft.java.network.ServerInfo;
 import de.marcely.pocketcraft.java.network.ServerInfo.DetailedServerInfo;
+import de.marcely.pocketcraft.translate.BedrockToJavaTranslator;
 
 public class BedrockServerInterface implements ServerListener {
 	
