@@ -3,76 +3,76 @@ package de.marcely.pocketcraft.bedrock.network.packet;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.jetbrains.annotations.Nullable;
-
 import de.marcely.pocketcraft.bedrock.network.Channel;
+import lombok.Getter;
 
 public enum PacketType {
 	
-	Batch(0xFE),
+	Batch(0xFE, Channel.NONE, PacketBatch.class),
 	
-	Login(0x01),
-	LoginStatus(0x02, Channel.NONE),
-	Disconnect(0x05, Channel.NONE),
-	AvailableResourcePacks(0x06, Channel.NONE),
-	AvailableResourcePacks2(0x07, Channel.NONE),
-	ResourcePackStatus(0x08),
-	Text(0x09, Channel.CHAT),
-	WorldTime(0x0A, Channel.NONE),
-	Game(0x0B, Channel.NONE),
-	SpawnEntityPlayer(0x0C, Channel.ENTITY_HOSPITAL),
-	SpawnEntity(0x0D, Channel.ENTITY_HOSPITAL),
-	DestroyEntity(0x0E, Channel.ENTITY_HOSPITAL),
-	SpawnEntityItem(0x0F, Channel.ENTITY_HOSPITAL),
-	EntityMove(0x12, Channel.MOVEMENT),
-	PlayerMove(0x13, Channel.MOVEMENT),
-	BlockChange(0x15, Channel.BLOCKS),
-	SpawnEntityPainting(0x16, Channel.ENTITY_HOSPITAL),
-	Explosion(0x17, Channel.BLOCKS),
-	WorldEvent(0x19, Channel.NONE),
-	BlockEvent(0x1A, Channel.BLOCKS),
-	EntityEvent(0x1B, Channel.NONE),
-	EntityAttributes(0x1D, Channel.NONE),
-	InventoryAction(0x1E),
-	EntityEquipment(0x1F, Channel.ENTITY_HOSPITAL),
-	EntityArmor(0x20, Channel.ENTITY_HOSPITAL),
-	BlockPick(0x22),
-	PlayerAction(0x24, Channel.NONE),
-	EntityData(0x27, Channel.ENTITY_HOSPITAL),
-	EntityVelocity(0x28, Channel.NONE),
-	EntityAnimate(0x2C, Channel.NONE),
-	Respawn(0x2D, Channel.NONE),
-	ContainerOpen(0x2E, Channel.NONE),
-	ContainerClose(0x2F, Channel.NONE),
-	InventoryContent(0x31, Channel.NONE), 
-	InventorySetItem(0x32, Channel.NONE),
-	CraftingData(0x34, Channel.NONE),
-	EntityPermissions(0x37, Channel.NONE),
-	BlockEntityData(0x38, Channel.BLOCKS),
-	FullChunk(0x3A, Channel.WORLD_CHUNKS),
-	GameDifficulty(0x3C, Channel.NONE),
-	ChangeDimension(0x3D, Channel.PRIORITY),
-	GameMode(0x3E, Channel.NONE),
-	PlayerList(0x3F, Channel.NONE),
-	ChangeCheatSettings(0x40),
-	ChunkRadiusChangeRequest(0x45),
-	ChunkRadiusChange(0x46, Channel.NONE),
-	GameRules(0x48, Channel.NONE),
-	AvailableCommands(0x4C, Channel.CHAT),
-	CommandRequest(0x4D),
-	ChangeServer(0x55, Channel.PRIORITY),
-	PlaySound(0x56, Channel.NONE),
-	SetLocalPlayerInitialized(0x71, Channel.NONE),
-	AvailableEntityIdentifiers(0x77, Channel.NONE),
-	NetworkChunkPublisherUpdate(0x79, Channel.NONE),
-	BiomeDefinitionList(0x07A, Channel.NONE),
-	ClientCacheStatus(0x81);
+	Login(0x01, Channel.NONE, PacketLogin.class),
+	LoginStatus(0x02, Channel.NONE, PacketLoginStatus.class),
+	Disconnect(0x05, Channel.NONE, PacketDisconnect.class),
+	AvailableResourcePacks(0x06, Channel.NONE, PacketAvailableResourcePacks.class),
+	AvailableResourcePacks2(0x07, Channel.NONE, PacketAvailableResourcePacks2.class),
+	ResourcePackStatus(0x08, Channel.NONE, PacketResourcePackStatus.class),
+	Text(0x09, Channel.CHAT, PacketText.class),
+	WorldTime(0x0A, Channel.WORLD_EVENTS, PacketWorldTime.class),
+	Game(0x0B, Channel.NONE, PacketGame.class),
+	SpawnEntityPlayer(0x0C, Channel.ENTITY, PacketSpawnEntityPlayer.class),
+	SpawnEntity(0x0D, Channel.ENTITY, PacketSpawnEntity.class),
+	DestroyEntity(0x0E, Channel.ENTITY, PacketDestroyEntity.class),
+	SpawnEntityItem(0x0F, Channel.ENTITY, PacketSpawnEntityItem.class),
+	EntityMove(0x12, Channel.MOVEMENT, PacketEntityMove.class),
+	PlayerMove(0x13, Channel.MOVEMENT, PacketPlayerMove.class),
+	BlockChange(0x15, Channel.BLOCKS, PacketBlockChange.class),
+	SpawnEntityPainting(0x16, Channel.ENTITY, PacketSpawnEntityPainting.class),
+	Explosion(0x17, Channel.BLOCKS, PacketExplosion.class),
+	WorldEvent(0x19, Channel.WORLD_EVENTS, PacketWorldEvent.class),
+	BlockEvent(0x1A, Channel.BLOCKS, PacketBlockEvent.class),
+	EntityEvent(0x1B, Channel.ENTITY, PacketEntityEvent.class),
+	EntityAttributes(0x1D, Channel.ENTITY, PacketEntityAttributes.class),
+	InventoryAction(0x1E, Channel.INVENTORY, PacketInventoryAction.class),
+	EntityEquipment(0x1F, Channel.ENTITY, PacketEntityEquipment.class),
+	EntityArmor(0x20, Channel.ENTITY, PacketEntityArmor.class),
+	BlockPick(0x22, Channel.BLOCKS, PacketBlockPick.class),
+	PlayerAction(0x24, Channel.NONE, PacketPlayerAction.class),
+	EntityData(0x27, Channel.ENTITY, PacketEntityData.class),
+	EntityVelocity(0x28, Channel.ENTITY, PacketEntityVelocity.class),
+	EntityAnimate(0x2C, Channel.ENTITY, PacketEntityAnimate.class),
+	Respawn(0x2D, Channel.PRIORITY, PacketRespawn.class),
+	ContainerOpen(0x2E, Channel.INVENTORY, PacketContainerOpen.class),
+	ContainerClose(0x2F, Channel.INVENTORY, PacketContainerClose.class),
+	InventoryContent(0x31, Channel.INVENTORY, PacketInventoryContent.class), 
+	InventorySetItem(0x32, Channel.INVENTORY, PacketInventorySetItem.class),
+	CraftingData(0x34, Channel.NONE, PacketCraftingData.class),
+	EntityPermissions(0x37, Channel.NONE, PacketEntityPermissions.class),
+	BlockEntityData(0x38, Channel.BLOCKS, PacketBlockEntityData.class),
+	FullChunk(0x3A, Channel.WORLD_CHUNKS, PacketFullChunk.class),
+	GameDifficulty(0x3C, Channel.NONE, PacketGameDifficulty.class),
+	ChangeDimension(0x3D, Channel.PRIORITY, PacketChangeDimension.class),
+	GameMode(0x3E, Channel.NONE, PacketGameMode.class),
+	PlayerList(0x3F, Channel.NONE, PacketPlayerList.class),
+	ChangeCheatSettings(0x40, Channel.NONE, PacketChangeCheatSettings.class),
+	ChunkRadiusChangeRequest(0x45, Channel.WORLD_CHUNKS, PacketChunkRadiusChangeRequest.class),
+	ChunkRadiusChange(0x46, Channel.WORLD_CHUNKS, PacketChunkRadiusChange.class),
+	GameRules(0x48, Channel.NONE, PacketGameRules.class),
+	AvailableCommands(0x4C, Channel.CHAT, PacketAvailableCommands.class),
+	CommandRequest(0x4D, Channel.CHAT, PacketCommandRequest.class),
+	ChangeServer(0x55, Channel.PRIORITY, PacketChangeServer.class),
+	PlaySound(0x56, Channel.WORLD_EVENTS, PacketPlaySound.class),
+	SetLocalPlayerInitialized(0x71, Channel.NONE, PacketSetLocalPlayerInitialized.class),
+	AvailableEntityIdentifiers(0x77, Channel.NONE, PacketAvailableEntityIdentifiers.class),
+	NetworkChunkPublisherUpdate(0x79, Channel.WORLD_CHUNKS, PacketNetworkChunkPublisherUpdate.class),
+	BiomeDefinitionList(0x07A, Channel.NONE, PacketBiomeDefinitionList.class),
+	ClientCacheStatus(0x81, Channel.NONE, PacketClientCacheStatus.class);
 	
 	public static final Map<Short, PacketType> TYPES_IN = new HashMap<>();
 	public static final Map<Short, PacketType> TYPES_OUT = new HashMap<>();
 	
-	public final short id;
-	public @Nullable Channel channel;
+	@Getter private final short id;
+	@Getter private Channel channel;
+	private final Class<? extends PCPacket> clazz;
 	
 	static {
 		for(PacketType type:values()){
@@ -83,130 +83,18 @@ public enum PacketType {
 		}
 	}
 	
-	private PacketType(int id){
+	private PacketType(int id, Channel channel, Class<? extends PCPacket> clazz){
 		this.id = (short) id;
-	}
-	
-	private PacketType(int id, Channel channel){
-		this(id);
-		
 		this.channel = channel;
+		this.clazz = clazz;
 	}
 	
 	public PCPacket newInstance(){
-		switch(this){
-		case Batch:
-			return new PacketBatch();
-		case Login:
-			return new PacketInLogin();
-		case LoginStatus:
-			return new PacketLoginStatus();
-		case Disconnect:
-			return new PacketDisconnect();
-		case AvailableResourcePacks:
-			return new PacketAvailableResourcePacks();
-		case AvailableResourcePacks2:
-			return new PacketAvailableResourcePacks2();
-		case ResourcePackStatus:
-			return new PacketResourcePackStatus();
-		case Text:
-			return new PacketText();
-		case Game:
-			return new PacketGame();
-		case SpawnEntityPlayer:
-			return new PacketSpawnEntityPlayer();
-		case SpawnEntity:
-			return new PacketSpawnEntity();
-		case DestroyEntity:
-			return new PacketDestroyEntity();
-		case SpawnEntityItem:
-			return new PacketSpawnEntityItem();
-		case BlockEvent:
-			return new PacketBlockEvent();
-		case EntityEvent:
-			return new PacketEntityEvent();
-		case PlayerMove:
-			return new PacketPlayerMove();
-		case BlockChange:
-			return new PacketBlockChange();
-		case SpawnEntityPainting:
-			return new PacketSpawnEntityPainting();
-		case Explosion:
-			return new PacketExplosion();
-		case EntityAttributes:
-			return new PacketEntityAttributes();
-		case InventoryAction:
-			return new PacketInventoryAction();
-		case EntityEquipment:
-			return new PacketEntityEquipment();
-		case EntityArmor:
-			return new PacketEntityArmor();
-		case WorldEvent:
-			return new PacketWorldEvent();
-		case BlockPick:
-			return new PacketBlockPick();
-		case PlayerAction:
-			return new PacketPlayerAction();
-		case EntityData:
-			return new PacketEntityData();
-		case EntityVelocity:
-			return new PacketEntityVelocity();
-		case EntityAnimate:
-			return new PacketEntityAnimate();
-		case Respawn:
-			return new PacketRespawn();
-		case ContainerOpen:
-			return new PacketContainerOpen();
-		case ContainerClose:
-			return new PacketContainerClose();
-		case InventoryContent:
-			return new PacketInventoryContent();
-		case InventorySetItem:
-			return new PacketInventorySetItem();
-		case CraftingData:
-			return new PacketCraftingData();
-		case EntityPermissions:
-			return new PacketEntityPermissions();
-		case BlockEntityData:
-			return new PacketBlockEntityData();
-		case FullChunk:
-			return new PacketFullChunk();
-		case GameDifficulty:
-			return new PacketGameDifficulty();
-		case ChangeDimension:
-			return new PacketChangeDimension();
-		case GameMode:
-			return new PacketGameMode();
-		case PlayerList:
-			return new PacketPlayerList();
-		case ChangeCheatSettings:
-			return new PacketChangeCheatSettings();
-		case ChunkRadiusChangeRequest:
-			return new PacketChunkRadiusChangeRequest();
-		case ChunkRadiusChange:
-			return new PacketChunkRadiusChange();
-		case GameRules:
-			return new PacketGameRules();
-		case AvailableCommands:
-			return new PacketAvailableCommands();
-		case CommandRequest:
-			return new PacketCommandRequest();
-		case ChangeServer:
-			return new PacketChangeServer();
-		case PlaySound:
-			return new PacketPlaySound();
-		case SetLocalPlayerInitialized:
-			return new PacketSetLocalPlayerInitialized();
-		case AvailableEntityIdentifiers:
-			return new PacketAvailableEntityIdentifiers();
-		case NetworkChunkPublisherUpdate:
-			return new PacketNetworkChunkPublisherUpdate();
-		case BiomeDefinitionList:
-			return new PacketBiomeDefinitionList();
-		case ClientCacheStatus:
-			return new PacketClientCacheStatusPacket();
-		default:
-			return null;
+		try{
+			return this.clazz.newInstance();
+		}catch(Exception e){
+			e.printStackTrace();
+			throw new RuntimeException("Failed to create new instance of packet");
 		}
 	}
 }

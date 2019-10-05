@@ -3,11 +3,11 @@ package de.marcely.pocketcraft.bedrock.network.packet;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
 
-public class PacketClientCacheStatusPacket extends PCPacket {
+public class PacketClientCacheStatus extends PCPacket {
 	
 	public boolean isEnabled;
 	
-	public PacketClientCacheStatusPacket(){
+	public PacketClientCacheStatus(){
 		super(PacketType.ClientCacheStatus);
 	}
 

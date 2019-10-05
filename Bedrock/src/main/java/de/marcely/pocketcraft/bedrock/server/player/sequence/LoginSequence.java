@@ -11,7 +11,7 @@ import de.marcely.pocketcraft.bedrock.network.packet.PCPacket;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityPermissions;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityPermissions.CommandPermissionLevel;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityPermissions.PermissionLevel;
-import de.marcely.pocketcraft.bedrock.network.packet.PacketInLogin;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketLogin;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketResourcePackStatus;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketAvailableResourcePacks;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketAvailableResourcePacks2;
@@ -42,8 +42,6 @@ public class LoginSequence extends Sequence {
 	
 	@Override
 	public boolean onReceive(PCPacket packet){
-		System.out.println("lol:: " + packet.type);
-		
 		switch(state){
 		case STATE_WAITING:
 			handleWaiting(packet);
@@ -58,10 +56,10 @@ public class LoginSequence extends Sequence {
 	}
 	
 	private void handleWaiting(PCPacket rawPacket){
-		if(rawPacket.type != PacketType.Login)
+		if(rawPacket.getType() != PacketType.Login)
 			return;
 		
-		final PacketInLogin packet = (PacketInLogin) rawPacket;
+		final PacketLogin packet = (PacketLogin) rawPacket;
 		
 		System.out.println("locale: " + packet.locale);
 		System.out.println("id: " + packet.id);
@@ -89,7 +87,7 @@ public class LoginSequence extends Sequence {
 	}
 	
 	private void handleResourcePack(PCPacket rawPacket){
-		if(rawPacket.type != PacketType.ResourcePackStatus)
+		if(rawPacket.getType() != PacketType.ResourcePackStatus)
 			return;
 		
 		final PacketResourcePackStatus packet = (PacketResourcePackStatus) rawPacket;

@@ -58,7 +58,7 @@ public class BedrockClient {
 	}
 	
 	private void sendPacket(PCPacket packet, boolean reliable){
-		if(packet.type != PacketType.Batch){
+		if(packet.getType() != PacketType.Batch){
 			final PacketBatch batch = new PacketBatch();
 			
 			try{
@@ -78,7 +78,7 @@ public class BedrockClient {
 		}
 		
 		{
-			final RakNetPacket rnPacket = new RakNetPacket(packet.type.id);
+			final RakNetPacket rnPacket = new RakNetPacket(packet.getType().getId());
 			final EByteArrayWriter stream = new EByteArrayWriter();
 			
 			try{

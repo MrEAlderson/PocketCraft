@@ -8,8 +8,9 @@ public enum Channel {
 	MOVEMENT(3),
 	BLOCKS(4),
 	WORLD_EVENTS(5),
-	ENTITY_HOSPITAL(6),
+	ENTITY(6),
 	CHAT(7),
+	INVENTORY(8),
 	END(31);
 	
 	public final int id;

@@ -61,7 +61,7 @@ public class PacketBatch extends PCPacket {
 		
 		for(PCPacket packet:packets){
 			try(EByteArrayWriter writer2 = new EByteArrayWriter()){
-				writer2.writeUnsignedVarInt(packet.type.id);
+				writer2.writeUnsignedVarInt(packet.getType().getId());
 				packet.encode(writer2);
 				
 				writer.writeByteArray(writer2.toByteArray());

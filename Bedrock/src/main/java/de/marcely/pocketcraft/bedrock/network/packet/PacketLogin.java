@@ -14,7 +14,7 @@ import de.marcely.pocketcraft.bedrock.component.SkinData;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
-public class PacketInLogin extends PCPacket {
+public class PacketLogin extends PCPacket {
 	
 	public String username;
 	public int protocolVersion;
@@ -29,7 +29,7 @@ public class PacketInLogin extends PCPacket {
 	public byte[] clientDataJwt;
 	public byte[] clientData;
 	
-	public PacketInLogin(){
+	public PacketLogin(){
 		super(PacketType.Login);
 	}
 

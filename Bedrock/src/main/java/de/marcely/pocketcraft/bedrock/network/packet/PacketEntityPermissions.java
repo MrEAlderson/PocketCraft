@@ -45,7 +45,7 @@ public class PacketEntityPermissions extends PCPacket {
 	public void decode(EByteArrayReader reader) throws Exception { }
 	
 	public static PacketEntityPermissions getDefault(long entityUID){
-		final PacketEntityPermissions nPacket = (PacketEntityPermissions) PacketType.EntityPermissions.newInstance();
+		final PacketEntityPermissions nPacket = new PacketEntityPermissions();
 		
 		nPacket.flags1 = PacketEntityPermissions.FLAG1_AUTO_JUMP | PacketEntityPermissions.FLAG1_WORLD_BUILDER;
 		nPacket.flags2 = PacketEntityPermissions.FLAG2_BUILD_AND_MINE | PacketEntityPermissions.FLAG2_DOORS_AND_SWITCHES |
