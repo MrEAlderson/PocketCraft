@@ -7,8 +7,8 @@ public class PacketContainerClose extends PCPacket {
 
 	public byte windowID;
 	
-	public PacketContainerClose(boolean in){
-		super(in ? PacketType.InContainerClose : PacketType.OutContainerClose);
+	public PacketContainerClose(){
+		super(PacketType.ContainerClose);
 	}
 
 	@Override

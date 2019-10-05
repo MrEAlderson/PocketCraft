@@ -3,7 +3,7 @@ package de.marcely.pocketcraft.bedrock.world;
 import java.io.IOException;
 
 import de.marcely.pocketcraft.bedrock.network.packet.PCPacket;
-import de.marcely.pocketcraft.bedrock.network.packet.PacketOutFullChunk;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketFullChunk;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketType;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
 import lombok.Getter;
@@ -63,7 +63,7 @@ public class Chunk {
 	}
 	
 	public PCPacket buildPacket(int x, int z){
-		final PacketOutFullChunk packet = (PacketOutFullChunk) PacketType.OutFullChunk.newInstance();
+		final PacketFullChunk packet = (PacketFullChunk) PacketType.FullChunk.newInstance();
 		
 		packet.posX = x;
 		packet.posZ = z;

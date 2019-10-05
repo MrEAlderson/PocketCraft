@@ -12,8 +12,8 @@ public class PacketEntityAnimate extends PCPacket {
 	public EntityAnimateType type;
 	public float unkown;
 	
-	public PacketEntityAnimate(boolean in){
-		super(in ? PacketType.InEntityAnimate : PacketType.OutEntityAnimate);
+	public PacketEntityAnimate(){
+		super(PacketType.EntityAnimate);
 	}
 
 	@Override

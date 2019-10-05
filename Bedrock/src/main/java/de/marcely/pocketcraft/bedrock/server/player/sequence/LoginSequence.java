@@ -12,15 +12,15 @@ import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityPermissions;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityPermissions.CommandPermissionLevel;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityPermissions.PermissionLevel;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketInLogin;
-import de.marcely.pocketcraft.bedrock.network.packet.PacketInResourcePackStatus;
-import de.marcely.pocketcraft.bedrock.network.packet.PacketOutAvailableResourcePacks;
-import de.marcely.pocketcraft.bedrock.network.packet.PacketOutAvailableResourcePacks2;
-import de.marcely.pocketcraft.bedrock.network.packet.PacketOutChunkRadiusChange;
-import de.marcely.pocketcraft.bedrock.network.packet.PacketOutEntityAttributes;
-import de.marcely.pocketcraft.bedrock.network.packet.PacketOutGame;
-import de.marcely.pocketcraft.bedrock.network.packet.PacketOutGameMode;
-import de.marcely.pocketcraft.bedrock.network.packet.PacketOutLoginStatus;
-import de.marcely.pocketcraft.bedrock.network.packet.PacketOutNetworkChunkPublisherUpdate;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketResourcePackStatus;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketAvailableResourcePacks;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketAvailableResourcePacks2;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketChunkRadiusChange;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityAttributes;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketGame;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketGameMode;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketLoginStatus;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketNetworkChunkPublisherUpdate;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketPlayerMove;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketType;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketPlayerMove.PlayerMoveType;
@@ -58,7 +58,7 @@ public class LoginSequence extends Sequence {
 	}
 	
 	private void handleWaiting(PCPacket rawPacket){
-		if(rawPacket.type != PacketType.InLogin)
+		if(rawPacket.type != PacketType.Login)
 			return;
 		
 		final PacketInLogin packet = (PacketInLogin) rawPacket;
@@ -68,15 +68,15 @@ public class LoginSequence extends Sequence {
 		System.out.println("username: " + packet.username);
 		
 		{
-			final PacketOutLoginStatus out = (PacketOutLoginStatus) PacketType.OutLoginStatus.newInstance();
+			final PacketLoginStatus out = (PacketLoginStatus) PacketType.LoginStatus.newInstance();
 			
-			out.result = PacketOutLoginStatus.SUCCESS;
+			out.result = PacketLoginStatus.SUCCESS;
 			
 			player.sendPacket(out);
 		}
 		
 		{
-			final PacketOutAvailableResourcePacks out = (PacketOutAvailableResourcePacks) PacketType.OutAvailableResourcePacks.newInstance();
+			final PacketAvailableResourcePacks out = (PacketAvailableResourcePacks) PacketType.AvailableResourcePacks.newInstance();
 			
 			out.mustAccept = true;
 			out.behaviourPacks = new ResourcePack[0];
@@ -89,14 +89,14 @@ public class LoginSequence extends Sequence {
 	}
 	
 	private void handleResourcePack(PCPacket rawPacket){
-		if(rawPacket.type != PacketType.InResourcePackStatus)
+		if(rawPacket.type != PacketType.ResourcePackStatus)
 			return;
 		
-		final PacketInResourcePackStatus packet = (PacketInResourcePackStatus) rawPacket;
+		final PacketResourcePackStatus packet = (PacketResourcePackStatus) rawPacket;
 		
-		if(packet.status == PacketInResourcePackStatus.HAVE_ALL_PACKS){
+		if(packet.status == PacketResourcePackStatus.HAVE_ALL_PACKS){
 			{
-				final PacketOutAvailableResourcePacks2 out = (PacketOutAvailableResourcePacks2) PacketType.OutAvailableResourcePacks2.newInstance();
+				final PacketAvailableResourcePacks2 out = (PacketAvailableResourcePacks2) PacketType.AvailableResourcePacks2.newInstance();
 				
 				out.mustAccept = false;
 				out.behaviourPacks = new ResourcePack[0];
@@ -105,14 +105,14 @@ public class LoginSequence extends Sequence {
 				player.sendPacket(out);
 			}
 		
-		}else if(packet.status == PacketInResourcePackStatus.COMPLETED){
+		}else if(packet.status == PacketResourcePackStatus.COMPLETED){
 			this.player.initEntity(new Random().nextInt());
 			
 			sendGamePacket();
 			
 			// test
 			{
-				final PacketOutEntityAttributes out = (PacketOutEntityAttributes) PacketType.OutEntityAttributes.newInstance();
+				final PacketEntityAttributes out = (PacketEntityAttributes) PacketType.EntityAttributes.newInstance();
 				
 				out.entityRuntimeID = this.player.getEntity().getId();
 				out.attributes = new EntityAttribute[]{
@@ -134,7 +134,7 @@ public class LoginSequence extends Sequence {
 			
 			// test
 			{
-				final PacketEntityPermissions out = (PacketEntityPermissions) PacketType.OutEntityPermissions.newInstance();
+				final PacketEntityPermissions out = (PacketEntityPermissions) PacketType.EntityPermissions.newInstance();
 				
 				out.entityUID = this.player.getEntity().getId();
 				out.permLevel = PermissionLevel.MEMBER;
@@ -151,16 +151,16 @@ public class LoginSequence extends Sequence {
 			
 			// done
 			{
-				final PacketOutLoginStatus out = (PacketOutLoginStatus) PacketType.OutLoginStatus.newInstance();
+				final PacketLoginStatus out = (PacketLoginStatus) PacketType.LoginStatus.newInstance();
 				
-				out.result = PacketOutLoginStatus.PLAYER_SPAWN;
+				out.result = PacketLoginStatus.PLAYER_SPAWN;
 				
 				player.sendPacket(out);
 			}
 			
 			// test
 			{
-				final PacketOutGameMode out = (PacketOutGameMode) PacketType.OutGameMode.newInstance();
+				final PacketGameMode out = (PacketGameMode) PacketType.GameMode.newInstance();
 				
 				out.mode = GameMode.CREATIVE;
 				
@@ -169,7 +169,7 @@ public class LoginSequence extends Sequence {
 			
 			// test
 			{
-				final PacketOutChunkRadiusChange out = (PacketOutChunkRadiusChange) PacketType.OutChunkRadiusChange.newInstance();
+				final PacketChunkRadiusChange out = (PacketChunkRadiusChange) PacketType.ChunkRadiusChange.newInstance();
 				
 				out.radius = 8;
 				
@@ -199,7 +199,7 @@ public class LoginSequence extends Sequence {
 			
 			// tells the client that the chunks are ready to be displayed
 			{
-				final PacketOutNetworkChunkPublisherUpdate out = (PacketOutNetworkChunkPublisherUpdate) PacketType.OutNetworkChunkPublisherUpdate.newInstance();
+				final PacketNetworkChunkPublisherUpdate out = (PacketNetworkChunkPublisherUpdate) PacketType.NetworkChunkPublisherUpdate.newInstance();
 				
 				out.x = 0;
 				out.y = 100;
@@ -211,7 +211,7 @@ public class LoginSequence extends Sequence {
 			
 			// test
 			{
-				final PacketPlayerMove move = (PacketPlayerMove) PacketType.OutPlayerMove.newInstance();
+				final PacketPlayerMove move = (PacketPlayerMove) PacketType.PlayerMove.newInstance();
 				
 				move.entityRuntimeID = player.getEntity().getId();
 				move.posX = 10;
@@ -231,7 +231,7 @@ public class LoginSequence extends Sequence {
 	}
 	
 	private void sendGamePacket(){
-		final PacketOutGame out = (PacketOutGame) PacketType.OutGame.newInstance();
+		final PacketGame out = (PacketGame) PacketType.Game.newInstance();
 		
 		out.entityUniqueId = this.player.getEntity().getId();
 		out.entityRuntimeId = this.player.getEntity().getId();
@@ -263,7 +263,7 @@ public class LoginSequence extends Sequence {
 		out.commandsEnabled = true;
 		out.isTexturePacksRequired = true;
 		out.bonusChest = false;
-		out.defaultPermissionLevel = PacketOutGame.PERMISSION_LEVEL_MEMBER;
+		out.defaultPermissionLevel = PacketGame.PERMISSION_LEVEL_MEMBER;
 		out.levelId = ""; // folder name in base64
 		out.worldName = "";
 		out.premiumWorldTemplateID = "";

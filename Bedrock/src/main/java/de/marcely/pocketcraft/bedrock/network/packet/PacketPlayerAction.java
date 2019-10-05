@@ -12,8 +12,8 @@ public class PacketPlayerAction extends PCPacket {
 	public PlayerActionType type;
 	public int x, y, z, face;
 	
-	public PacketPlayerAction(boolean in){
-		super(in ? PacketType.InPlayerAction : PacketType.OutPlayerAction);
+	public PacketPlayerAction(){
+		super(PacketType.PlayerAction);
 	}
 
 	@Override

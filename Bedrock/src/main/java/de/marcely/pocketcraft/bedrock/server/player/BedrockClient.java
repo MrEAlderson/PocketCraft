@@ -12,7 +12,7 @@ import com.whirvis.jraknet.protocol.Reliability;
 import de.marcely.pocketcraft.bedrock.component.GameRules;
 import de.marcely.pocketcraft.bedrock.network.packet.PCPacket;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketBatch;
-import de.marcely.pocketcraft.bedrock.network.packet.PacketOutGameRules;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketGameRules;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketType;
 import de.marcely.pocketcraft.bedrock.server.BedrockServer;
 import de.marcely.pocketcraft.bedrock.server.player.sequence.Sequence;
@@ -128,7 +128,7 @@ public class BedrockClient {
 	}
 	
 	public void sendGameRules(GameRules gr){
-		final PacketOutGameRules packet = (PacketOutGameRules) PacketType.OutGameRules.newInstance();
+		final PacketGameRules packet = (PacketGameRules) PacketType.GameRules.newInstance();
 		
 		packet.gameRules = gr;
 		

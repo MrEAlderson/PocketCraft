@@ -1,6 +1,6 @@
 package de.marcely.pocketcraft.bedrock.world.entity;
 
-import de.marcely.pocketcraft.bedrock.network.packet.PacketOutEntityData;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityData;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketType;
 import de.marcely.pocketcraft.bedrock.server.player.BedrockClient;
 import lombok.Getter;
@@ -58,7 +58,7 @@ public class Entity {
 	}
 	
 	public void sendAllMetadata(BedrockClient to){
-		final PacketOutEntityData packet = (PacketOutEntityData) PacketType.OutEntityData.newInstance();
+		final PacketEntityData packet = (PacketEntityData) PacketType.EntityData.newInstance();
 		
 		packet.entityRuntimeID = this.id;
 		packet.metadata = this.metadata;

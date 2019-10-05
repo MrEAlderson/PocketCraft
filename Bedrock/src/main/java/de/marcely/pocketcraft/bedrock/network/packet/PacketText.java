@@ -16,8 +16,8 @@ public class PacketText extends PCPacket {
     public String thirdPartyName = "";
     public int platformID;
 	
-	public PacketText(boolean in){
-		super(in ? PacketType.InText : PacketType.OutText);
+	public PacketText(){
+		super(PacketType.Text);
 	}
 
 	@Override

@@ -13,8 +13,8 @@ public class PacketPlayerMove extends PCPacket {
     public boolean onGround;
     public int teleportCause = 0, teleportItem = 0;
 	
-	public PacketPlayerMove(boolean in){
-		super(in ? PacketType.InPlayerMove : PacketType.OutPlayerMove);
+	public PacketPlayerMove(){
+		super(PacketType.PlayerMove);
 	}
 
 	@Override

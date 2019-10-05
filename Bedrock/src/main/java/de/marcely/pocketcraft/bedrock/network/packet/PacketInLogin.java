@@ -30,7 +30,7 @@ public class PacketInLogin extends PCPacket {
 	public byte[] clientData;
 	
 	public PacketInLogin(){
-		super(PacketType.InLogin);
+		super(PacketType.Login);
 	}
 
 	@Override

@@ -10,8 +10,8 @@ public class PacketEntityEquipment extends PCPacket {
 	public Item item;
 	public byte inventorySlot, hotbarSlot, windowID;
 	
-	public PacketEntityEquipment(boolean in){
-		super(in ? PacketType.InEntityEquipment : PacketType.OutEntityEquipment);
+	public PacketEntityEquipment(){
+		super(PacketType.EntityEquipment);
 	}
 
 	@Override
