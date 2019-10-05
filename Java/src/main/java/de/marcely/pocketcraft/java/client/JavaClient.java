@@ -89,8 +89,6 @@ public class JavaClient implements ClientSequenceHolder, ConnectionInterface {
 	}
 	
 	public void handlePacket(Packet packet){
-		System.out.println(packet.getClass().getName());
-		
 		for(PacketListener listener:this.packetListeners){
 			try{
 				if(!listener.onReceive(packet))
