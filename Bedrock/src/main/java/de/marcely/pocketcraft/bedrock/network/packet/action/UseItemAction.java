@@ -3,7 +3,7 @@ package de.marcely.pocketcraft.bedrock.network.packet.action;
 import java.io.IOException;
 
 import de.marcely.pocketcraft.bedrock.component.BlockFace;
-import de.marcely.pocketcraft.bedrock.inventory.Item;
+import de.marcely.pocketcraft.bedrock.component.inventory.Item;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
 public class UseItemAction extends Action {

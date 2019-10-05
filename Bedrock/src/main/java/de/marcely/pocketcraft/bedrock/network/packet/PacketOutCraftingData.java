@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import de.marcely.pocketcraft.bedrock.inventory.Item;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
+import de.marcely.pocketcraft.bedrock.component.inventory.Item;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
 public class PacketOutCraftingData extends PCPacket {

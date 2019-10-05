@@ -1,4 +1,4 @@
-package de.marcely.pocketcraft.bedrock.inventory;
+package de.marcely.pocketcraft.bedrock.component.inventory;
 
 public enum WindowType {
 	
