@@ -24,7 +24,7 @@ import de.marcely.pocketcraft.bedrock.network.packet.PacketOutNetworkChunkPublis
 import de.marcely.pocketcraft.bedrock.network.packet.PacketPlayerMove;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketType;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketPlayerMove.PlayerMoveType;
-import de.marcely.pocketcraft.bedrock.server.player.Player;
+import de.marcely.pocketcraft.bedrock.server.player.BedrockClient;
 import de.marcely.pocketcraft.bedrock.world.Chunk;
 import de.marcely.pocketcraft.bedrock.world.entity.EntityAttribute;
 import de.marcely.pocketcraft.bedrock.world.entity.EntityAttributeType;
@@ -36,7 +36,7 @@ public class LoginSequence extends Sequence {
 	
 	private byte state = STATE_WAITING;
 	
-	protected LoginSequence(Player player){
+	protected LoginSequence(BedrockClient player){
 		super(player);
 	}
 	

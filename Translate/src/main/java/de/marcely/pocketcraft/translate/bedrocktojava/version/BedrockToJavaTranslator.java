@@ -1,4 +1,4 @@
-package de.marcely.pocketcraft.translate.bedrocktojava;
+package de.marcely.pocketcraft.translate.bedrocktojava.version;
 
 import java.io.IOException;
 
@@ -6,7 +6,6 @@ import com.whirvis.jraknet.RakNetException;
 
 import de.marcely.pocketcraft.bedrock.server.BedrockServer;
 import de.marcely.pocketcraft.java.client.ClientAdapter;
-import de.marcely.pocketcraft.java.client.ClientListener;
 import de.marcely.pocketcraft.java.client.JavaClient;
 import de.marcely.pocketcraft.java.network.Connection;
 import de.marcely.pocketcraft.java.network.LoginGoal;

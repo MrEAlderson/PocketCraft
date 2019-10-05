@@ -1,6 +1,8 @@
 package de.marcely.pocketcraft.java.component.chat;
 
+import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -11,7 +13,7 @@ import com.google.gson.JsonParseException;
 
 import lombok.Getter;
 
-public abstract class ChatBaseComponent {
+public abstract class ChatBaseComponent implements Iterable<ChatBaseComponent> {
 	
 	@Getter private final ChatModifier modifier = new ChatModifier();
 	@Getter private final List<ChatBaseComponent> siblings = new ArrayList<>();
@@ -20,6 +22,17 @@ public abstract class ChatBaseComponent {
 	
 	public void addSibling(ChatBaseComponent sibling){
 		this.siblings.add(sibling);
+	}
+	
+	public String asPlainText(){
+		final StringBuilder builder = new StringBuilder();
+		
+		for(ChatBaseComponent component:this){
+			if(component instanceof ChatTextComponent)
+				builder.append(((ChatTextComponent) component).getText());
+		}
+		
+		return builder.toString();
 	}
 	
 	public String writeAsString(){
@@ -90,7 +103,15 @@ public abstract class ChatBaseComponent {
 	}
 	
 	public static ChatBaseComponent parse(String data){
-		return parse(new Gson().fromJson(data, JsonElement.class));
+		final Gson gson = new Gson();
+		final Object el = gson.fromJson(gson.newJsonReader(new StringReader(data)), Object.class);
+		
+		if(el instanceof String)
+			return new ChatTextComponent((String) el);
+		else if(el instanceof JsonElement)
+			return parse((JsonElement) el);
+		else
+			throw new JsonParseException("Don't know how to turn " + el + " into a Component");
 	}
 	
 	public static ChatBaseComponent parse(JsonElement el){
@@ -180,5 +201,23 @@ public abstract class ChatBaseComponent {
 		}
 		
 		return component;
+	}
+	
+	@Override
+	public Iterator<ChatBaseComponent> iterator(){
+		return new Iterator<ChatBaseComponent>(){
+			
+			int index = -1;
+			
+			@Override
+			public boolean hasNext(){
+				return index < siblings.size();
+			}
+
+			@Override
+			public ChatBaseComponent next(){
+				return (index++) == -1 ? ChatBaseComponent.this : siblings.get(index);
+			}
+		};
 	}
 }

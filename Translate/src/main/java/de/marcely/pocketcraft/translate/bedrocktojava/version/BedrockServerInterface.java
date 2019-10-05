@@ -1,11 +1,11 @@
-package de.marcely.pocketcraft.translate.bedrocktojava;
+package de.marcely.pocketcraft.translate.bedrocktojava.version;
 
 import com.whirvis.jraknet.identifier.MinecraftIdentifier;
 
 import de.marcely.pocketcraft.bedrock.network.Protocol;
 import de.marcely.pocketcraft.bedrock.server.ServerInfoRequest;
 import de.marcely.pocketcraft.bedrock.server.ServerListener;
-import de.marcely.pocketcraft.bedrock.server.player.Player;
+import de.marcely.pocketcraft.bedrock.server.player.BedrockClient;
 import de.marcely.pocketcraft.java.client.ClientAdapter;
 import de.marcely.pocketcraft.java.network.LoginGoal;
 import de.marcely.pocketcraft.java.network.ServerInfo;
@@ -39,7 +39,7 @@ public class BedrockServerInterface implements ServerListener {
 						software = software.substring(0, software.length()-1);
 					
 					request.reply(new MinecraftIdentifier(
-							detailed.getDescription(),
+							detailed.getDescription().asPlainText(),
 							Protocol.VERSION,
 							version,
 							detailed.getOnlinePlayers(),
@@ -53,12 +53,12 @@ public class BedrockServerInterface implements ServerListener {
 	}
 
 	@Override
-	public void onConnect(Player player){
+	public void onConnect(BedrockClient player){
 		
 	}
 
 	@Override
-	public void onDisconnect(Player player){
+	public void onDisconnect(BedrockClient player){
 		
 	}
 }

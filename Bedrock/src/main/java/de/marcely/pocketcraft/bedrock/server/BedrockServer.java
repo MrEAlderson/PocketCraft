@@ -14,14 +14,14 @@ import com.whirvis.jraknet.identifier.MinecraftIdentifier;
 import com.whirvis.jraknet.peer.RakNetClientPeer;
 import com.whirvis.jraknet.server.RakNetServer;
 
-import de.marcely.pocketcraft.bedrock.server.player.Player;
+import de.marcely.pocketcraft.bedrock.server.player.BedrockClient;
 import lombok.Getter;
 
 public class BedrockServer {
 	
 	@Getter private RakNetServer rakNet;
 	
-	@Getter private Map<RakNetClientPeer, Player> connections = new HashMap<>();
+	@Getter private Map<RakNetClientPeer, BedrockClient> connections = new HashMap<>();
 	
 	@Getter private List<ServerListener> listeners = new ArrayList<>(4);
 	
@@ -47,11 +47,11 @@ public class BedrockServer {
 		return this.rakNet.isRunning();
 	}
 	
-	public Collection<Player> getPlayers(){
+	public Collection<BedrockClient> getPlayers(){
 		return this.connections.values();
 	}
 	
-	public @Nullable Player getPlayer(RakNetClientPeer client){
+	public @Nullable BedrockClient getPlayer(RakNetClientPeer client){
 		return this.connections.get(client);
 	}
 	

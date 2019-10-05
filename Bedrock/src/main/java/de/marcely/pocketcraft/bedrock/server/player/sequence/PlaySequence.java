@@ -1,11 +1,11 @@
 package de.marcely.pocketcraft.bedrock.server.player.sequence;
 
 import de.marcely.pocketcraft.bedrock.network.packet.PCPacket;
-import de.marcely.pocketcraft.bedrock.server.player.Player;
+import de.marcely.pocketcraft.bedrock.server.player.BedrockClient;
 
 public class PlaySequence extends Sequence {
 
-	protected PlaySequence(Player player){
+	protected PlaySequence(BedrockClient player){
 		super(player);
 	}
 	

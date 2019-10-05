@@ -14,7 +14,7 @@ import com.whirvis.jraknet.server.ServerPing;
 import de.marcely.pocketcraft.bedrock.network.packet.PCPacket;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketBatch;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketType;
-import de.marcely.pocketcraft.bedrock.server.player.Player;
+import de.marcely.pocketcraft.bedrock.server.player.BedrockClient;
 import de.marcely.pocketcraft.bedrock.server.player.sequence.Sequence;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 import de.marcely.pocketcraft.utils.Application;
@@ -34,7 +34,7 @@ public class BaseRakNetServerListener implements RakNetServerListener {
 	
 	@Override
 	public void onLogin(RakNetServer server, RakNetClientPeer client){
-		final Player player = new Player(this.server, client);
+		final BedrockClient player = new BedrockClient(this.server, client);
 		
 		this.server.getConnections().put(client, player);
 		
@@ -43,7 +43,7 @@ public class BaseRakNetServerListener implements RakNetServerListener {
 	
 	@Override
 	public void onDisconnect(RakNetServer server, InetSocketAddress address, RakNetClientPeer client, String reason){
-		final Player player = this.server.getPlayer(client);
+		final BedrockClient player = this.server.getPlayer(client);
 		
 		this.server.getConnections().remove(client);
 		
@@ -53,7 +53,7 @@ public class BaseRakNetServerListener implements RakNetServerListener {
 	@Override
 	public void handleMessage(RakNetServer server, RakNetClientPeer client, RakNetPacket rawPacket, int channel){
 		final PacketType type = PacketType.TYPES_IN.get(rawPacket.getId());
-		final Player player = this.server.getPlayer(client);
+		final BedrockClient player = this.server.getPlayer(client);
 		
 		if(type == null){
 			this.logger.warn("Received weird packet " + RakNet.toHexStringId(rawPacket) + " (" + client.getAddress().getHostString() + ")");

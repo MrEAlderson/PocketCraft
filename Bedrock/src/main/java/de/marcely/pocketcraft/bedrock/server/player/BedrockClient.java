@@ -17,22 +17,20 @@ import de.marcely.pocketcraft.bedrock.network.packet.PacketType;
 import de.marcely.pocketcraft.bedrock.server.BedrockServer;
 import de.marcely.pocketcraft.bedrock.server.player.sequence.Sequence;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
-import de.marcely.pocketcraft.bedrock.world.World;
 import de.marcely.pocketcraft.bedrock.world.entity.Entity;
 import de.marcely.pocketcraft.bedrock.world.entity.EntityType;
 import lombok.Getter;
 
-public class Player {
+public class BedrockClient {
 	
 	@Getter private final BedrockServer server;
 	@Getter private final RakNetClientPeer client;
 	
 	@Getter private final List<PacketListener> packetListeners = new ArrayList<>(4);
 	
-	@Getter private final World world = new World();
 	@Getter private Entity entity;
 	
-	public Player(BedrockServer server, RakNetClientPeer client){
+	public BedrockClient(BedrockServer server, RakNetClientPeer client){
 		this.server = server;
 		this.client = client;
 		
