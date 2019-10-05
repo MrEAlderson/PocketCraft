@@ -1,11 +1,15 @@
 package de.marcely.pocketcraft.translate.bedrocktojava;
 
+import com.whirvis.jraknet.identifier.MinecraftIdentifier;
+
+import de.marcely.pocketcraft.bedrock.network.Protocol;
 import de.marcely.pocketcraft.bedrock.server.ServerInfoRequest;
 import de.marcely.pocketcraft.bedrock.server.ServerListener;
 import de.marcely.pocketcraft.bedrock.server.player.Player;
 import de.marcely.pocketcraft.java.client.ClientAdapter;
 import de.marcely.pocketcraft.java.network.LoginGoal;
 import de.marcely.pocketcraft.java.network.ServerInfo;
+import de.marcely.pocketcraft.java.network.ServerInfo.DetailedServerInfo;
 
 public class BedrockServerInterface implements ServerListener {
 	
@@ -23,8 +27,26 @@ public class BedrockServerInterface implements ServerListener {
 			
 			client.registerListener(new ClientAdapter(){
 				public void onServerInfo(ServerInfo info){
-					System.out.println("ping: " + info.getPing());
-					System.out.println("status: " + info.getStatus());
+					final DetailedServerInfo detailed = info.getDetailed();
+					
+					if(detailed == null)
+						return;
+					
+					final String version = detailed.getVersionName().replaceAll("[^0-9.]", "");
+					String software = detailed.getVersionName().replace(version, "");
+					
+					while(software.endsWith(" "))
+						software = software.substring(0, software.length()-1);
+					
+					request.reply(new MinecraftIdentifier(
+							detailed.getDescription(),
+							Protocol.VERSION,
+							version,
+							detailed.getOnlinePlayers(),
+							detailed.getMaxPlayers(),
+							translator.getBedrockServer().getRakNet().getGloballyUniqueId(),
+							software,
+							""));
 				}
 			});
 		}, LoginGoal.SERVER_INFO);

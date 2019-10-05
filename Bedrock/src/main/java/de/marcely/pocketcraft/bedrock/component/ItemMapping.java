@@ -3,9 +3,9 @@ package de.marcely.pocketcraft.bedrock.component;
 import java.io.InputStreamReader;
 import java.util.Map.Entry;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 import de.marcely.pocketcraft.bedrock.Resources;
 import de.marcely.pocketcraft.utils.io.ByteArrayWriter;
@@ -32,7 +32,7 @@ public class ItemMapping {
 		
 		{
 			final ByteArrayWriter writer = new ByteArrayWriter();
-			final JsonObject statesRoot = (JsonObject) new JsonParser().parse(new InputStreamReader(Resources.getResourceAsStream("item_id_map.json")));
+			final JsonObject statesRoot = new Gson().fromJson(new InputStreamReader(Resources.getResourceAsStream("item_id_map.json")), JsonObject.class);
 			
 			for(Entry<String, JsonElement> e:statesRoot.entrySet()){
 				writer.writeString(e.getKey());

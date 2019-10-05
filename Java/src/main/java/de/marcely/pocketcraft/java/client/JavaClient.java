@@ -17,7 +17,6 @@ import de.marcely.pocketcraft.java.network.sequence.ClientSequenceHolder;
 import de.marcely.pocketcraft.java.network.sequence.Sequence;
 import de.marcely.pocketcraft.java.network.sequence.SequenceType;
 import de.marcely.pocketcraft.java.network.sequence.type.DeadSequence;
-import de.marcely.pocketcraft.utils.scheduler.Scheduler;
 import lombok.Getter;
 
 public class JavaClient implements ClientSequenceHolder, ConnectionInterface {
@@ -171,8 +170,6 @@ public class JavaClient implements ClientSequenceHolder, ConnectionInterface {
 		return !this.connection.isClosed();
 	}
 	
-	private int schedulerId;
-	
 	public boolean connect() throws IOException {
 		if(isRunning())
 			return false;
@@ -186,10 +183,9 @@ public class JavaClient implements ClientSequenceHolder, ConnectionInterface {
 		if(!isRunning())
 			return false;
 		
-		Scheduler.cancel(this.schedulerId);
-		
 		try{
 			this.connection.close();
+			System.out.println("close");
 		}catch(IOException e){
 			e.printStackTrace();
 		}

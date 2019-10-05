@@ -94,6 +94,11 @@ public class TCPClientConnection extends Connection {
 		}
 	}
 	
+	@Override
+	public TCPClientConnection clone(){
+		return (TCPClientConnection) super.clone();
+	}
+	
 	
 	
 	
@@ -121,7 +126,10 @@ public class TCPClientConnection extends Connection {
 
 		@Override
 		protected void encode(ChannelHandlerContext ctx, Packet packet, ByteBuf out) throws Exception {
-			final int packetId = packet.getProperties().getId(getInterface().getProtocol().getProtocolVersion());
+			final Integer packetId = packet.getProperties().getId(getInterface().getProtocol().getProtocolVersion());
+			
+			if(packetId == null)
+				throw new IOException("Failed to look for packet id of " + packet.getClass().getName());
 			
 			out.writeBytes(packetBuilder.deconstruct(
 					packet,

@@ -43,6 +43,8 @@ public class V1StatusSequence extends Sequence<ClientSequenceHolder> {
 			final long time = ((V1PacketStatusPong) rawPacket).time;
 			
 			this.info.setPing(System.currentTimeMillis() - time);
+			
+			this.holder.onServerInfo(this.info);
 		}
 		
 		return true;

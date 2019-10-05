@@ -3,10 +3,10 @@ package de.marcely.pocketcraft.bedrock.component;
 import java.io.InputStreamReader;
 import java.util.Map.Entry;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 import de.marcely.pocketcraft.bedrock.Resources;
 import de.marcely.pocketcraft.utils.io.ByteArrayWriter;
@@ -33,8 +33,8 @@ public class BlockMapping {
 		
 		{
 			final ByteArrayWriter writer = new ByteArrayWriter();
-			final JsonObject idsRoot = (JsonObject) new JsonParser().parse(new InputStreamReader(Resources.getResourceAsStream("block_id_map.json")));
-			final JsonObject statesRoot = (JsonObject) new JsonParser().parse(new InputStreamReader(Resources.getResourceAsStream("required_block_states.json")));
+			final JsonObject idsRoot = new Gson().fromJson(new InputStreamReader(Resources.getResourceAsStream("block_id_map.json")), JsonObject.class);
+			final JsonObject statesRoot = new Gson().fromJson(new InputStreamReader(Resources.getResourceAsStream("required_block_states.json")), JsonObject.class);
 			
 			for(Entry<String, JsonElement> e1:statesRoot.entrySet()){
 				for(Entry<String, JsonElement> e2:((JsonObject) e1.getValue()).entrySet()){

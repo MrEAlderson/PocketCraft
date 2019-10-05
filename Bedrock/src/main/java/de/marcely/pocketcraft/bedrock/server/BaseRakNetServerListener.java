@@ -6,6 +6,7 @@ import com.whirvis.jraknet.RakNet;
 import com.whirvis.jraknet.RakNetPacket;
 import com.whirvis.jraknet.identifier.MinecraftIdentifier;
 import com.whirvis.jraknet.peer.RakNetClientPeer;
+import com.whirvis.jraknet.protocol.status.UnconnectedPong;
 import com.whirvis.jraknet.server.RakNetServer;
 import com.whirvis.jraknet.server.RakNetServerListener;
 import com.whirvis.jraknet.server.ServerPing;
@@ -83,9 +84,18 @@ public class BaseRakNetServerListener implements RakNetServerListener {
 	
 	@Override
 	public void onPing(RakNetServer server, ServerPing ping){
+		ping.setIdentifier(null);
+		
 		final ServerInfoRequest request = new ServerInfoRequest(ping.getSender()){
 			public void reply(MinecraftIdentifier identifier){
+				final UnconnectedPong out = new UnconnectedPong();
 				
+				out.timestamp = ping.getPingPacket().timestamp;
+				out.pongId = server.getPongId();
+				out.identifier = identifier;
+				out.encode();
+				
+				server.sendNettyMessage(out, ping.getSender());
 			}
 		};
 		

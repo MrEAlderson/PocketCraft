@@ -1,0 +1,48 @@
+package de.marcely.pocketcraft.java.component.chat;
+
+import org.jetbrains.annotations.Nullable;
+
+import lombok.Getter;
+
+public enum ChatColor {
+	
+	BLACK("black"),
+	DARK_BLUE("dark_blue"),
+	DARK_GREEN("dark_green"),
+	DARK_AQUA("dark_aqua"),
+	DARK_RED("dark_red"),
+	DARK_PURPLE("dark_purple"),
+	GOLD("gold"),
+	GRAY("gray"),
+	DARK_GRAY("dark_gray"),
+	BLUE("blue"),
+	GREEN("green"),
+	AQUA("aqua"),
+	RED("red"),
+	LIGHT_PURPLE("light_purple"),
+	YELLOW("yellow"),
+	WHITE("white"),
+	
+	RANDOM("obfuscated"),
+	BOLD("bold"),
+	STRIKETHROUGH("strikethrough"),
+	UNDERLINE("underline"),
+	ITALIC("italic"),
+	
+	RESET("reset");
+	
+	@Getter private final String name;
+	
+	private ChatColor(String name){
+		this.name = name;
+	}
+	
+	public static @Nullable ChatColor getByName(String name){
+		for(ChatColor color:values()){
+			if(color.name.equals(name))
+				return color;
+		}
+		
+		return null;
+	}
+}

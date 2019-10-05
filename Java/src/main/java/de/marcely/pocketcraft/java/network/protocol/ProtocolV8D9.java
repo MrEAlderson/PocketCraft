@@ -3,6 +3,7 @@ package de.marcely.pocketcraft.java.network.protocol;
 import de.marcely.pocketcraft.java.network.packet.handshake.v1.*;
 import de.marcely.pocketcraft.java.network.packet.login.v1.*;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.*;
+import de.marcely.pocketcraft.java.network.packet.status.v1.*;
 import de.marcely.pocketcraft.java.network.sequence.ClientSequenceHolder;
 import de.marcely.pocketcraft.java.network.sequence.Sequence;
 import de.marcely.pocketcraft.java.network.sequence.SequenceType;
@@ -20,6 +21,16 @@ public class ProtocolV8D9 extends Protocol {
 	public void defineIds(){
 		setPacketIds(SequenceType.HANDSHAKE, CLIENT, new Class[]{
 				V1PacketHandshake.class
+		});
+		
+		setPacketIds(SequenceType.STATUS, CLIENT, new Class[]{
+				V1PacketStatusRequest.class,
+				V1PacketStatusPing.class
+		});
+		
+		setPacketIds(SequenceType.STATUS, SERVER, new Class[]{
+				V1PacketStatusResponse.class,
+				V1PacketStatusPong.class
 		});
 		
 		setPacketIds(SequenceType.LOGIN, CLIENT, new Class[]{

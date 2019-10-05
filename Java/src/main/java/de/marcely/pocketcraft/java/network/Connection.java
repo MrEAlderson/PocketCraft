@@ -7,7 +7,7 @@ import de.marcely.pocketcraft.java.network.packet.Packet;
 import de.marcely.pocketcraft.java.network.packet.PacketBuilder;
 import lombok.Getter;
 
-public abstract class Connection implements Closeable {
+public abstract class Connection implements Closeable, Cloneable {
 	
 	@Getter protected final PacketBuilder packetBuilder = new PacketBuilder();
 	
@@ -29,5 +29,16 @@ public abstract class Connection implements Closeable {
 	
 	public ConnectionInterface getInterface(){
 		return this.interf;
+	}
+	
+	@Override
+	public Connection clone(){
+		try{
+			return (Connection) super.clone();
+		}catch(CloneNotSupportedException e){
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 }
