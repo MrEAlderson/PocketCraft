@@ -328,4 +328,8 @@ public class EByteBuf {
 	public boolean release(){
 		return this.buffer.release();
 	}
+	
+	public void skipBytes(int length){
+		this.buffer.skipBytes(length);
+	}
 }

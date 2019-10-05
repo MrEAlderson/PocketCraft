@@ -108,12 +108,12 @@ public class ProtocolV8D9 extends Protocol {
 				null, // remove entity effect
 				null, // experience
 				null, // update attributes
-				null, // map chunk
+				V8D9PacketPlayMapChunk.class,
 				null, // multi block change
 				null, // block change
 				null, // block action
 				null, // block break animation
-				null, // map chunk bulk
+				V8D9PacketPlayMapChunkBulk.class,
 				null, // explosion
 				null, // world event
 				null, // named sound effect
