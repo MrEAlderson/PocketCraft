@@ -78,7 +78,7 @@ public class ProtocolV8D9 extends Protocol {
 				V8D9PacketPlayKeepAlive.class,
 				V8D9PacketPlayLogin.class,
 				V8D9PacketPlayServerChatMessage.class,
-				null, // update time
+				V8D9PacketPlayWorldTime.class,
 				null, // entity equipment
 				V8D9PacketPlaySpawnPosition.class,
 				null, // update health
