@@ -5,6 +5,7 @@ import java.net.InetAddress;
 import java.util.List;
 
 import de.marcely.pocketcraft.java.network.packet.Packet;
+import de.marcely.pocketcraft.java.network.protocol.Protocol;
 import de.marcely.pocketcraft.java.util.EByteBuf;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
@@ -126,7 +127,7 @@ public class TCPClientConnection extends Connection {
 
 		@Override
 		protected void encode(ChannelHandlerContext ctx, Packet packet, ByteBuf out) throws Exception {
-			final Integer packetId = packet.getProperties().getId(getInterface().getProtocol().getProtocolVersion());
+			final Integer packetId = packet.getProperties().getId(getInterface().getProtocol().getProtocolVersion(), Protocol.CLIENT);
 			
 			if(packetId == null)
 				throw new IOException("Failed to look for packet id of " + packet.getClass().getName());

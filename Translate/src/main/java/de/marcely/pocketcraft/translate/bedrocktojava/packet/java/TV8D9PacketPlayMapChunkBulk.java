@@ -9,7 +9,7 @@ public class TV8D9PacketPlayMapChunkBulk extends JavaPacketTranslator<V8D9Packet
 
 	@Override
 	public void handle(V8D9PacketPlayMapChunkBulk packet, Player player){
-		for(int i=0; i<packet.x.length; i++){
+		/*for(int i=0; i<packet.x.length; i++){
 			final int x = packet.x[i];
 			final int z = packet.z[i];
 			final byte[] data = packet.data[i];
@@ -34,6 +34,6 @@ public class TV8D9PacketPlayMapChunkBulk extends JavaPacketTranslator<V8D9Packet
 			
 			// finally send it
 			player.sendPacket(newChunk.buildPacket(x, z));
-		}
+		}*/
 	}
 }

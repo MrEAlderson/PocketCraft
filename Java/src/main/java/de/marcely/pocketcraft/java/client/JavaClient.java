@@ -10,6 +10,7 @@ import de.marcely.pocketcraft.java.network.LoginGoal;
 import de.marcely.pocketcraft.java.network.ServerInfo;
 import de.marcely.pocketcraft.java.network.packet.Packet;
 import de.marcely.pocketcraft.java.network.packet.PacketListener;
+import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayKeepAlive;
 import de.marcely.pocketcraft.java.network.protocol.Protocol;
 import de.marcely.pocketcraft.java.network.sequence.ClientLoginInfo;
 import de.marcely.pocketcraft.java.network.sequence.ClientLoginResult;
@@ -73,6 +74,9 @@ public class JavaClient implements ClientSequenceHolder, ConnectionInterface {
 
 	@Override
 	public void sendPacket(Packet packet){
+		if(!(packet instanceof V8D9PacketPlayKeepAlive))
+			System.out.println("send: " + packet.getClass().getSimpleName());
+		
 		for(PacketListener listener:this.packetListeners){
 			try{
 				if(!listener.onSend(packet))
@@ -88,9 +92,12 @@ public class JavaClient implements ClientSequenceHolder, ConnectionInterface {
 	}
 	
 	public void handlePacket(Packet packet){
-		for(PacketListener listener:this.packetListeners){
+		if(!(packet instanceof V8D9PacketPlayKeepAlive))
+			System.out.println("handle: " + packet.getClass().getSimpleName());
+		
+		for(int i=this.packetListeners.size()-1; i>=0; i--){
 			try{
-				if(!listener.onReceive(packet))
+				if(!this.packetListeners.get(i).onReceive(packet))
 					return;
 			}catch(Exception e){
 				e.printStackTrace();
@@ -185,7 +192,6 @@ public class JavaClient implements ClientSequenceHolder, ConnectionInterface {
 		
 		try{
 			this.connection.close();
-			System.out.println("close");
 		}catch(IOException e){
 			e.printStackTrace();
 		}

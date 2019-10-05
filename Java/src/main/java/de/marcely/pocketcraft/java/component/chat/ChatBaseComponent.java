@@ -1,13 +1,14 @@
 package de.marcely.pocketcraft.java.component.chat;
 
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
@@ -102,16 +103,13 @@ public abstract class ChatBaseComponent implements Iterable<ChatBaseComponent> {
 		return obj;
 	}
 	
+	// TODO look for a better solution (remove try/catch)
 	public static ChatBaseComponent parse(String data){
-		final Gson gson = new Gson();
-		final Object el = gson.fromJson(gson.newJsonReader(new StringReader(data)), Object.class);
-		
-		if(el instanceof String)
-			return new ChatTextComponent((String) el);
-		else if(el instanceof JsonElement)
-			return parse((JsonElement) el);
-		else
-			throw new JsonParseException("Don't know how to turn " + el + " into a Component");
+		try{
+			return parse(new GsonBuilder().setLenient().create().fromJson(data, JsonElement.class));
+		}catch(JsonIOException e){
+			return new ChatTextComponent(data);
+		}
 	}
 	
 	public static ChatBaseComponent parse(JsonElement el){
@@ -181,7 +179,7 @@ public abstract class ChatBaseComponent implements Iterable<ChatBaseComponent> {
 				throw new JsonParseException("Unexpected empty array of components");
 			
 			for(int i=0; i<extra.size(); i++){
-				component.addSibling(parse(extra.get(i).getAsJsonArray()));
+				component.addSibling(parse(extra.get(i).getAsJsonObject()));
 			}
 		}
 		

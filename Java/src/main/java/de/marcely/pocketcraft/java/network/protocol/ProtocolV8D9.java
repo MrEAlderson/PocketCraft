@@ -49,10 +49,10 @@ public class ProtocolV8D9 extends Protocol {
 				V8D9PacketPlayKeepAlive.class,
 				V8D9PacketPlayClientChatMessage.class,
 				null, // use entity
-				null, // flying
-				null, // flying.position
-				null, // flying.look
-				null, // flying.positionlook
+				V8D9PacketPlayClientStanding.class,
+				V8D9PacketPlayClientPosition.class,
+				V8D9PacketPlayClientLook.class,
+				V8D9PacketPlayClientPositionLook.class,
 				null, // block dig
 				null, // block place
 				null, // held item slot
@@ -67,8 +67,8 @@ public class ProtocolV8D9 extends Protocol {
 				null, // update sign
 				null, // abilities
 				null, // tab complete
-				null, // settings
-				null, // client command
+				V8D9PacketPlayClientSettings.class,
+				V8D9PacketPlayClientCommand.class,
 				V8D9PacketPlayCustomPayload.class,
 				null, // spectate
 				null  // resource pack status

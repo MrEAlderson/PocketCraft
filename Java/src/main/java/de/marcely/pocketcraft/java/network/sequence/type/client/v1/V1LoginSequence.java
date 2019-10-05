@@ -83,9 +83,9 @@ public class V1LoginSequence extends Sequence<ClientSequenceHolder> {
 			
 			result.id = packet.id;
 			result.username = packet.username;
-			
-			this.holder.completeLogin(result);
+
 			this.holder.setSequence(new PlaySequence<ClientSequenceHolder>(this.holder));
+			this.holder.completeLogin(result);
 		}
 		
 		return true;

@@ -4,16 +4,19 @@ import de.marcely.pocketcraft.bedrock.network.packet.PCPacket;
 import de.marcely.pocketcraft.bedrock.server.player.BedrockClient;
 import de.marcely.pocketcraft.java.client.JavaClient;
 import de.marcely.pocketcraft.java.network.packet.Packet;
+import de.marcely.pocketcraft.translate.BedrockToJavaTranslator;
 import lombok.Getter;
 
 public class Player {
 	
+	@Getter private final BedrockToJavaTranslator translator;
 	@Getter private final BedrockClient bedrock;
 	@Getter private final JavaClient java;
 	
 	@Getter private final World world = new World();
 	
-	public Player(BedrockClient bedrock, JavaClient java){
+	public Player(BedrockToJavaTranslator translator, BedrockClient bedrock, JavaClient java){
+		this.translator = translator;
 		this.bedrock = bedrock;
 		this.java = java;
 	}

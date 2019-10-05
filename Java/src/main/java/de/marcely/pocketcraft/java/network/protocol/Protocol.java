@@ -34,7 +34,7 @@ public abstract class Protocol {
 	protected void setPacketIds(SequenceType sequence, byte source, Class<Packet>[] packets){
 		this.packets[sequence.ordinal()*2+source] = packets;
 		
-		addIdToPackets(packets);
+		addIdToPackets(packets, source);
 	}
 	
 	// TODO: Add packet pooling
@@ -58,7 +58,7 @@ public abstract class Protocol {
 		return null;
 	}
 	
-	private void addIdToPackets(Class<Packet>[] packets){
+	private void addIdToPackets(Class<Packet>[] packets, byte source){
 		for(int id=0; id<packets.length; id++){
 			final Class<Packet> clazz = packets[id];
 			
@@ -68,7 +68,7 @@ public abstract class Protocol {
 			try{
 				final PacketProperties properties = (PacketProperties) clazz.getField("PROPERTIES").get(null);
 				
-				properties.setId(getProtocolVersion(), id);
+				properties.setId(getProtocolVersion(), id, source);
 			}catch(Exception e){
 				e.printStackTrace();
 				throw new IllegalStateException("Missing or invalid PROPERTIES field for " + clazz.getName());

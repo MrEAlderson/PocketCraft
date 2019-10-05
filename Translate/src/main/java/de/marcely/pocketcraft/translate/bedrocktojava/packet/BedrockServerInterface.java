@@ -11,6 +11,7 @@ import de.marcely.pocketcraft.java.network.LoginGoal;
 import de.marcely.pocketcraft.java.network.ServerInfo;
 import de.marcely.pocketcraft.java.network.ServerInfo.DetailedServerInfo;
 import de.marcely.pocketcraft.translate.BedrockToJavaTranslator;
+import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
 
 public class BedrockServerInterface implements ServerListener {
 	
@@ -54,12 +55,47 @@ public class BedrockServerInterface implements ServerListener {
 	}
 
 	@Override
-	public void onConnect(BedrockClient player){
-		
+	public void onConnect(BedrockClient bedrockClient){
+		this.translator.openConnection((client) -> {
+			if(client == null)
+				System.out.println("Failed to open a connection");
+			
+			client.registerListener(new ClientAdapter(){
+				public void onConnect(){
+					final Player player = new Player(translator, bedrockClient, client);
+					final DefaultPacketListener listener = new DefaultPacketListener(player);
+					
+					player.getBedrock().registerListener(listener);
+					player.getJava().registerPacketListener(listener);
+					
+					translator.addPlayer(player);
+				}
+				
+				public void onDisconnect(){
+					System.out.println("Server close");
+					bedrockClient.getClient().disconnect();
+					
+					final Player player = translator.getPlayer(bedrockClient.getClient().getAddress());
+					
+					if(player == null)
+						return;
+					
+					translator.removePlayer(player);
+				}
+			});
+		}, LoginGoal.PLAY);
 	}
 
 	@Override
-	public void onDisconnect(BedrockClient player){
+	public void onDisconnect(BedrockClient client){
+		System.out.println("Client close");
+		final Player player = translator.getPlayer(client.getClient().getAddress());
 		
+		if(player == null)
+			return;
+		
+		player.getJava().close();
+		
+		translator.removePlayer(player);
 	}
 }
