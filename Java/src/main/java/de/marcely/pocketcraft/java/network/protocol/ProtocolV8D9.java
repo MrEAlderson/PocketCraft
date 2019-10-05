@@ -47,7 +47,7 @@ public class ProtocolV8D9 extends Protocol {
 		
 		setPacketIds(SequenceType.PLAY, CLIENT, new Class[]{
 				V8D9PacketPlayKeepAlive.class,
-				null, // chat
+				V8D9PacketPlayClientChatMessage.class,
 				null, // use entity
 				null, // flying
 				null, // flying.position
@@ -77,7 +77,7 @@ public class ProtocolV8D9 extends Protocol {
 		setPacketIds(SequenceType.PLAY, SERVER, new Class[]{
 				V8D9PacketPlayKeepAlive.class,
 				V8D9PacketPlayLogin.class,
-				null, // chat
+				V8D9PacketPlayServerChatMessage.class,
 				null, // update time
 				null, // entity equipment
 				V8D9PacketPlaySpawnPosition.class,

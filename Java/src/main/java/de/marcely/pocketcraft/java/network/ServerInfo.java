@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import de.marcely.pocketcraft.java.component.chat.ChatBaseComponent;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -37,7 +38,7 @@ public class ServerInfo {
 	
 	public static class DetailedServerInfo {
 		
-		@Getter private String description;
+		@Getter private ChatBaseComponent description;
 		@Getter private int maxPlayers;
 		@Getter private int onlinePlayers;
 		@Getter private String versionName;
@@ -47,7 +48,7 @@ public class ServerInfo {
 			final DetailedServerInfo result = new DetailedServerInfo();
 			final JsonObject root = new Gson().fromJson(status, JsonObject.class);
 			
-			result.description = root.get("description").getAsString();
+			result.description = ChatBaseComponent.parse(root.get("description").getAsString());
 			
 			{
 				final JsonObject players = root.getAsJsonObject("players");

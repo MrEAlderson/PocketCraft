@@ -3,6 +3,7 @@ package de.marcely.pocketcraft.java.util;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
+import de.marcely.pocketcraft.java.component.chat.ChatBaseComponent;
 import de.marcely.pocketcraft.utils.math.Vector3;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -121,6 +122,10 @@ public class EByteBuf {
 	
 	public void writeBlockPosition(Vector3 vec){
 		writeBlockPosition(vec.getFloorX(), vec.getFloorY(), vec.getFloorZ());
+	}
+	
+	public void writeChat(ChatBaseComponent chat){
+		writeString(chat.writeAsString());
 	}
 	
 	public void read(byte[] dst){
@@ -246,6 +251,10 @@ public class EByteBuf {
 		final long val = readLong();
 		
 		return new Vector3(val >> 38, val & 0xFFF, (val << 26 >> 38));
+	}
+	
+	public ChatBaseComponent readChat(){
+		return ChatBaseComponent.parse(readString());
 	}
 	
 	public EByteBuf readAsBuf(int length){
