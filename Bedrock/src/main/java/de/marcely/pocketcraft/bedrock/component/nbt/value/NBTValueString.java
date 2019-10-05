@@ -1,4 +1,4 @@
-package de.marcely.pocketcraft.bedrock.nbt.value;
+package de.marcely.pocketcraft.bedrock.component.nbt.value;
 
 import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
