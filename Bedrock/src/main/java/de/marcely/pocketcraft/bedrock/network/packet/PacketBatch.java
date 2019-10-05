@@ -39,7 +39,7 @@ public class PacketBatch extends PCPacket {
 			
 			final EByteArrayReader reader2 = new EByteArrayReader(reader.readByteArray());
 			final short id = (short) reader2.readUnsignedVarInt();
-			final PacketType type = PacketType.TYPES_IN.get((short) id);
+			final PacketType type = PacketType.TYPES.get((short) id);
 			
 			if(type != null){
 				final PCPacket packet = type.newInstance();

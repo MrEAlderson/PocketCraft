@@ -52,7 +52,7 @@ public class BaseRakNetServerListener implements RakNetServerListener {
 	
 	@Override
 	public void handleMessage(RakNetServer server, RakNetClientPeer client, RakNetPacket rawPacket, int channel){
-		final PacketType type = PacketType.TYPES_IN.get(rawPacket.getId());
+		final PacketType type = PacketType.TYPES.get(rawPacket.getId());
 		final BedrockClient player = this.server.getPlayer(client);
 		
 		if(type == null){

@@ -67,20 +67,15 @@ public enum PacketType {
 	BiomeDefinitionList(0x07A, Channel.NONE, PacketBiomeDefinitionList.class),
 	ClientCacheStatus(0x81, Channel.NONE, PacketClientCacheStatus.class);
 	
-	public static final Map<Short, PacketType> TYPES_IN = new HashMap<>();
-	public static final Map<Short, PacketType> TYPES_OUT = new HashMap<>();
+	public static final Map<Short, PacketType> TYPES = new HashMap<>();
 	
 	@Getter private final short id;
 	@Getter private Channel channel;
 	private final Class<? extends PCPacket> clazz;
 	
 	static {
-		for(PacketType type:values()){
-			if(type.channel != null)
-				TYPES_OUT.put(type.id, type);
-			else
-				TYPES_IN.put(type.id, type);
-		}
+		for(PacketType type:values())
+			TYPES.put(type.id, type);
 	}
 	
 	private PacketType(int id, Channel channel, Class<? extends PCPacket> clazz){
