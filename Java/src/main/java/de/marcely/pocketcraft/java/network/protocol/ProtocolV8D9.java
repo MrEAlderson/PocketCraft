@@ -139,7 +139,7 @@ public class ProtocolV8D9 extends Protocol {
 				V8D9PacketPlayScoreboardDisplay.class,
 				V8D9PacketPlayScoreboardTeam.class,
 				V8D9PacketPlayCustomPayload.class,
-				null, // kick
+				V8D9PacketPlayKick.class,
 				V8D9PacketPlayGameDifficulty.class,
 				null, // combat event
 				null, // camera

@@ -36,18 +36,17 @@ public class TV8D9PacketPlayMapChunkBulk extends JavaPacketTranslator<V8D9Packet
 			
 			// finally send it
 			player.sendPacket(newChunk.buildPacket(x, z));
-		}
-		
-		// tells the client that the chunks are ready to be displayed
-		{
-			final PacketNetworkChunkPublisherUpdate out = (PacketNetworkChunkPublisherUpdate) PacketType.NetworkChunkPublisherUpdate.newInstance();
 			
-			out.x = (int) player.serverX;
-			out.y = 100;
-			out.z = (int) player.serverZ;
-			out.radius = 6;
-			
-		    player.sendPacket(out);
+			{
+				final PacketNetworkChunkPublisherUpdate out = (PacketNetworkChunkPublisherUpdate) PacketType.NetworkChunkPublisherUpdate.newInstance();
+				
+				out.x = x*16;
+				out.y = 10;
+				out.z = z*16;
+				out.radius = 1;
+				
+			    player.sendPacket(out);
+			}
 		}
 	}
 }

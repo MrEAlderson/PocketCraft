@@ -20,29 +20,29 @@ public class TV8D9PacketPlayTeleport extends JavaPacketTranslator<V8D9PacketPlay
 		// read it
 		{
 			if((packet.flags & V8D9PacketPlayTeleport.FLAG_REL_X) > 0)
-				player.serverX += packet.x;
+				player.setX(player.getX() + ((float) packet.x));
 			else
-				player.serverX = packet.x;
+				player.setX((float) packet.x);
 			
 			if((packet.flags & V8D9PacketPlayTeleport.FLAG_REL_Y) > 0)
-				player.serverY += packet.y;
+				player.setY(player.getY() + ((float) packet.y));
 			else
-				player.serverY = packet.y;
+				player.setY((float) packet.x);
 			
 			if((packet.flags & V8D9PacketPlayTeleport.FLAG_REL_Z) > 0)
-				player.serverZ += packet.z;
+				player.setZ(player.getZ() + ((float) packet.z));
 			else
-				player.serverZ = packet.z;
+				player.setZ((float) packet.z);
 			
 			if((packet.flags & V8D9PacketPlayTeleport.FLAG_REL_X_ROT) > 0)
-				player.serverYaw += packet.yaw;
+				player.setYaw(player.getYaw() + packet.yaw);
 			else
-				player.serverYaw = packet.yaw;
+				player.setYaw(packet.yaw);
 			
 			if((packet.flags & V8D9PacketPlayTeleport.FLAG_REL_Y_ROT) > 0)
-				player.serverPitch += packet.pitch;
+				player.setPitch(player.getPitch() + packet.pitch);
 			else
-				player.serverPitch = packet.pitch;
+				player.setPitch(packet.pitch);
 		}
 		
 		
@@ -50,11 +50,11 @@ public class TV8D9PacketPlayTeleport extends JavaPacketTranslator<V8D9PacketPlay
 		{
 			final V8D9PacketPlayClientPositionLook out = new V8D9PacketPlayClientPositionLook();
 			
-			out.x = player.serverX;
-			out.y = player.serverY;
-			out.z = player.serverZ;
-			out.yaw = player.serverYaw;
-			out.pitch = player.serverPitch;
+			out.x = player.getX();
+			out.y = player.getY();
+			out.z = player.getZ();
+			out.yaw = player.getYaw();
+			out.pitch = player.getPitch();
 			out.isOnGround = false;
 			
 			player.sendPacket(out);
@@ -95,11 +95,11 @@ public class TV8D9PacketPlayTeleport extends JavaPacketTranslator<V8D9PacketPlay
 			final PacketPlayerMove out = new PacketPlayerMove();
 			
 			out.entityRuntimeID = player.getEntityId();
-			out.posX = (float) player.serverX;
-			out.posY = (float) player.serverY;
-			out.posZ = (float) player.serverZ;
-			out.yaw = out.headYaw = player.serverYaw;
-			out.pitch = player.serverPitch;
+			out.posX = player.getX();
+			out.posY = player.getY();
+			out.posZ = player.getZ();
+			out.yaw = out.headYaw = player.getYaw();
+			out.pitch = player.getPitch();
 			out.mode = PlayerMoveType.TELEPORT;
 			out.onGround = false;
 			

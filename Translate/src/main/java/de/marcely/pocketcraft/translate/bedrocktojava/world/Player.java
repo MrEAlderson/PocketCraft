@@ -6,6 +6,7 @@ import de.marcely.pocketcraft.java.client.JavaClient;
 import de.marcely.pocketcraft.java.network.packet.Packet;
 import de.marcely.pocketcraft.translate.BedrockToJavaTranslator;
 import lombok.Getter;
+import lombok.Setter;
 
 public class Player {
 	
@@ -15,8 +16,7 @@ public class Player {
 	
 	@Getter private final World world = new World();
 	
-	public double serverX, serverY, serverZ;
-	public float serverYaw, serverPitch;
+	@Getter @Setter private float x, y, z, yaw, pitch;
 	
 	public Player(BedrockToJavaTranslator translator, BedrockClient bedrock, JavaClient java){
 		this.translator = translator;
