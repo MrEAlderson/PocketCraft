@@ -99,12 +99,10 @@ public class EByteBuf {
 	}
 	
 	public void writeString(String value, int maxLength){
-		final byte[] data = value.getBytes(StandardCharsets.UTF_8);
-		
-		if(data.length > maxLength)
+		if(value.length() > maxLength)
 			throw new IllegalStateException("String is larger than expected");
 		
-		writeByteArray(data);
+		writeByteArray(value.getBytes(StandardCharsets.UTF_8));
 	}
 	
 	public void writeIdentifier(String value){
@@ -236,7 +234,12 @@ public class EByteBuf {
 	}
 	
 	public String readString(int maxLength){
-		return new String(readByteArray(maxLength), StandardCharsets.UTF_8);
+		final String str = new String(readByteArray(maxLength*4), StandardCharsets.UTF_8);
+		
+		if(str.length() > maxLength)
+			throw new IllegalStateException("String is larger than expected");
+		
+		return str;
 	}
 	
 	public String readIdentifier(){

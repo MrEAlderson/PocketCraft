@@ -109,8 +109,8 @@ public class EntityMetadata {
 		setString(EntityDataType.NAMETAG, "");
 		setLong(EntityDataType.FLAGS, (long) 0);
 		setLong(EntityDataType.LEAD_HOLDER_ID, (long) -1);
-		setFloat(EntityDataType.BOUNDING_BOX_WIDTH, 1F);
-		setFloat(EntityDataType.BOUNDING_BOX_HEIGHT, 1F);
+		//setFloat(EntityDataType.BOUNDING_BOX_WIDTH, 1F);
+		//setFloat(EntityDataType.BOUNDING_BOX_HEIGHT, 1F);
 		setInt(EntityDataType.HEALTH, 10);
 		
 		entity.setDataFlag(EntityDataType.FLAG_HAS_COLLISION, true);

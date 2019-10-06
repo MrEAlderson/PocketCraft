@@ -9,9 +9,8 @@ public class TV8D9PacketPlayMapChunk extends JavaPacketTranslator<V8D9PacketPlay
 
 	@Override
 	public void handle(V8D9PacketPlayMapChunk packet, Player player){
-		System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 		// looks for existing old (if packet has sent a full chunk)
-		/*final V8Chunk oldChunk =
+		final V8Chunk oldChunk =
 				!packet.isFullChunk ?
 				player.getWorld().getChunk(packet.x, packet.z, V8Chunk.class) :
 				null;
@@ -28,6 +27,6 @@ public class TV8D9PacketPlayMapChunk extends JavaPacketTranslator<V8D9PacketPlay
 		}
 		
 		// finally send it
-		player.sendPacket(newChunk.buildPacket(packet.x, packet.z));*/
+		player.sendPacket(newChunk.buildPacket(packet.x, packet.z));
 	}
 }

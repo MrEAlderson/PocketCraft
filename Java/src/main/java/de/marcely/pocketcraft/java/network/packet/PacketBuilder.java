@@ -135,6 +135,7 @@ public class PacketBuilder {
 				final int uncompressedDataLength = stream.readVarInt();
 				
 				if(uncompressedDataLength != 0){
+					
 					if(uncompressedDataLength < this.compressionThreshold)
 						throw new IOException("Malformed packet: Uncompressed packet is below threshold " + this.compressionThreshold);
 					
@@ -142,9 +143,6 @@ public class PacketBuilder {
 						throw new IOException("Malformed packet: Uncompressed packet is larger than limitation");
 					
 					final byte[] data = ZLib.inflate(stream.read(stream.readableBytes()));
-					
-					if(stream.readableBytes() < data.length)
-						return;
 					
 					stream.release();
 					stream = new EByteBuf(data);
@@ -155,9 +153,6 @@ public class PacketBuilder {
 				return;
 			
 			final int packetId = stream.readVarInt();
-			
-			System.out.println("ID:     ======= " + packetId);
-			
 			final Packet packet = protocol.getPacketById(packetId, seq, isByClient ? Protocol.CLIENT : Protocol.SERVER);
 			
 			if(packet == null)

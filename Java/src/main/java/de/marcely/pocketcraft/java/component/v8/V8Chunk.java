@@ -31,7 +31,7 @@ public class V8Chunk {
 			// read sections
 			{
 				for(int si=0; si<16; si++){
-					if((primaryBitMask & (0x1 << si)) != 1)
+					if((primaryBitMask & (0x1 << si)) == 0)
 						continue;
 					
 					chunk.sections[si] = new V8ChunkSection(buf.read(16*16*16*2));

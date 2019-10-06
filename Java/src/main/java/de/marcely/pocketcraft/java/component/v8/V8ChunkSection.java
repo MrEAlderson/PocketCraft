@@ -21,7 +21,7 @@ public class V8ChunkSection {
 	}
 	
 	public short getId(int x, int y, int z){
-		final int index = (x << 9) | (y << 5) | (z << 1);
+		final int index = (y << 9) | (z << 5) | (x << 1);
 		
 		return (short) ((((short) this.blocks[index+1]) << 4) | ((((short) this.blocks[index]) >> 4)));
 	}

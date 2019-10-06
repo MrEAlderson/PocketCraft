@@ -26,7 +26,7 @@ public class V8D9PacketPlayMapChunkBulk extends PlayPacket {
 		}
 		
 		for(int i=0; i<this.x.length; i++)
-			stream.writeByteArray(this.data[i]);
+			stream.write(this.data[i]);
 	}
 
 	@Override
@@ -45,14 +45,24 @@ public class V8D9PacketPlayMapChunkBulk extends PlayPacket {
 			this.x[i] = stream.readInt();
 			this.z[i] = stream.readInt();
 			this.primaryBitMask[i] = (short)(stream.readShort() & 0xFFFF);
+			this.data[i] = new byte[getChunkDataSize(Integer.bitCount(this.primaryBitMask[i]), this.isFullChunk, true)];
 		}
 		
 		for(int i=0; i<this.x.length; i++)
-			this.data[i] = stream.readByteArray();
+			stream.read(this.data[i]);
 	}
 
 	@Override
 	public PacketProperties getProperties(){
 		return PROPERTIES;
+	}
+	
+	private int getChunkDataSize(int i, boolean flag, boolean flag1){
+		int j = i * 2 * 16 * 16 * 16;
+	    int k = i * 16 * 16 * 16 / 2;
+	    int l = flag ? i * 16 * 16 * 16 / 2 : 0;
+	    int i1 = flag1 ? 256 : 0;
+	    
+	    return j + k + l + i1;
 	}
 }

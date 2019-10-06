@@ -69,7 +69,7 @@ public class V8D9PacketPlayScoreboardTeam extends PlayPacket {
 		this.name = stream.readString(16);
 		this.mode = stream.readByte();
 		
-		if(mode == MODE_CREATE || mode == MODE_INFO_UPDATE){
+		if(this.mode == MODE_CREATE || mode == MODE_INFO_UPDATE){
 			this.teamDisplayName = stream.readString(32);
 			this.teamPrefix = stream.readString(16);
 			this.teamSuffix = stream.readString(16);
