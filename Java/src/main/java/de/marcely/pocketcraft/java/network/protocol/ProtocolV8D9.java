@@ -83,7 +83,7 @@ public class ProtocolV8D9 extends Protocol {
 				V8D9PacketPlaySpawnPosition.class,
 				null, // update health
 				V8D9PacketPlayRespawn.class,
-				null, // position
+				V8D9PacketPlayTeleport.class,
 				V8D9PacketPlaySetHeldItemSlot.class,
 				null, // bed
 				null, // animation

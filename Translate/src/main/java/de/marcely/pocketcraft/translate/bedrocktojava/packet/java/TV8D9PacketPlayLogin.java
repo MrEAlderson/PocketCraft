@@ -35,7 +35,7 @@ public class TV8D9PacketPlayLogin extends JavaPacketTranslator<V8D9PacketPlayLog
 			
 			out.command = V8D9PacketPlayClientCommand.COMMAND_PERFORM_RESPAWN;
 			
-			player.sendPacket(out);
+			// player.sendPacket(out);
 		}
 		
 		// test
@@ -44,7 +44,7 @@ public class TV8D9PacketPlayLogin extends JavaPacketTranslator<V8D9PacketPlayLog
 			
 			out.isOnGround = true;
 			
-			player.sendPacket(out);
+			// player.sendPacket(out);
 		}
 	}
 }
