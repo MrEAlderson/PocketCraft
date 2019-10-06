@@ -6,6 +6,7 @@ import lombok.Getter;
 
 public enum ChatColor {
 	
+	// do not change order
 	BLACK("black"),
 	DARK_BLUE("dark_blue"),
 	DARK_GREEN("dark_green"),
@@ -35,6 +36,17 @@ public enum ChatColor {
 	
 	private ChatColor(String name){
 		this.name = name;
+	}
+	
+	public byte getId(){
+		return (byte) this.ordinal();
+	}
+	
+	public static @Nullable ChatColor getById(int id){
+		if(id < 0 || id >= values().length)
+			return null;
+		
+		return values()[id];
 	}
 	
 	public static @Nullable ChatColor getByName(String name){

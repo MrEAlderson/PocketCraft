@@ -45,8 +45,8 @@ public class PacketBatch extends PCPacket {
 				final PCPacket packet = type.newInstance();
 				packet.decode(reader2);
 				list.add(packet);
-			}else
-				System.out.println("Received unkown packet '" + BinaryUtil.bytesToDisplayedHex((byte) id) + "'");
+			}//else
+				//System.out.println("Received unkown packet '" + BinaryUtil.bytesToDisplayedHex((byte) id) + "'");
 			
 			reader2.close();
 		}

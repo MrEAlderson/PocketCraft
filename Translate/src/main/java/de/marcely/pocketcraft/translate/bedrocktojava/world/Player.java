@@ -15,6 +15,9 @@ public class Player {
 	
 	@Getter private final World world = new World();
 	
+	public double serverX, serverY, serverZ;
+	public float serverYaw, serverPitch;
+	
 	public Player(BedrockToJavaTranslator translator, BedrockClient bedrock, JavaClient java){
 		this.translator = translator;
 		this.bedrock = bedrock;
@@ -27,5 +30,9 @@ public class Player {
 	
 	public void sendPacket(PCPacket packet){
 		this.bedrock.sendPacket(packet);
+	}
+	
+	public int getEntityId(){
+		return (int) this.bedrock.getEntity().getId();
 	}
 }

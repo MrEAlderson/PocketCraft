@@ -1,50 +1,199 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.packet.java;
 
-import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayClientCommand;
+import de.marcely.pocketcraft.bedrock.component.GameRules;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketChunkRadiusChange;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityAttributes;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityPermissions;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketGame;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketLoginStatus;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketNetworkChunkPublisherUpdate;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketType;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityPermissions.CommandPermissionLevel;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityPermissions.PermissionLevel;
+import de.marcely.pocketcraft.bedrock.world.Chunk;
+import de.marcely.pocketcraft.bedrock.world.entity.EntityAttribute;
+import de.marcely.pocketcraft.bedrock.world.entity.EntityAttributeType;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayClientSettings;
-import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayClientStanding;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayLogin;
 import de.marcely.pocketcraft.translate.bedrocktojava.packet.JavaPacketTranslator;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
+import de.marcely.pocketcraft.translate.component.DifficultyTranslator;
+import de.marcely.pocketcraft.translate.component.DimensionTranslator;
+import de.marcely.pocketcraft.translate.component.GameModeTranslator;
 
 public class TV8D9PacketPlayLogin extends JavaPacketTranslator<V8D9PacketPlayLogin> {
 
 	@Override
 	public void handle(V8D9PacketPlayLogin packet, Player player){
+		// bedrock login
 		{
-			final V8D9PacketPlayClientSettings out = new V8D9PacketPlayClientSettings();
+			player.getBedrock().initEntity(packet.entityId);
 			
-			out.locale = "en/EN";
-			out.viewDistance = 16;
-			out.chatMode = V8D9PacketPlayClientSettings.CHAT_ENABLED;
-			out.chatColorsEnabled = true;
-			out.capeEnabled = true;
-			out.jacketEnabled = true;
-			out.leftSleeveEnabled = true;
-			out.rightSleeveEnabled = true;
-			out.leftPantsEnabled = true;
-			out.rightPantsEnabled = true;
-			out.hatEnabled = true;
+			sendGamePacket(packet, player);
 			
-			player.sendPacket(out);
+			// test
+			{
+				final PacketEntityAttributes out = (PacketEntityAttributes) PacketType.EntityAttributes.newInstance();
+				
+				out.entityRuntimeID = player.getEntityId();
+				out.attributes = new EntityAttribute[]{
+						new EntityAttribute(EntityAttributeType.HEALTH, EntityAttributeType.HEALTH.defaultValue),
+						new EntityAttribute(EntityAttributeType.FOOD, EntityAttributeType.FOOD.defaultValue),
+						new EntityAttribute(EntityAttributeType.MOVEMENT_SPEED, EntityAttributeType.MOVEMENT_SPEED.defaultValue),
+						new EntityAttribute(EntityAttributeType.EXPERIENCE_LEVEL, EntityAttributeType.EXPERIENCE_LEVEL.defaultValue),
+						new EntityAttribute(EntityAttributeType.EXPERIENCE, EntityAttributeType.EXPERIENCE.defaultValue),
+						new EntityAttribute(EntityAttributeType.ABSORPTION, EntityAttributeType.ABSORPTION.defaultValue),
+						new EntityAttribute(EntityAttributeType.ATTACK_DAMAGE, EntityAttributeType.ATTACK_DAMAGE.defaultValue),
+						new EntityAttribute(EntityAttributeType.EXHAUSTION, EntityAttributeType.EXHAUSTION.defaultValue),
+						new EntityAttribute(EntityAttributeType.FOLLOW_RANGE, EntityAttributeType.FOLLOW_RANGE.defaultValue),
+						new EntityAttribute(EntityAttributeType.KNOCKBACK_RESISTANCE, EntityAttributeType.KNOCKBACK_RESISTANCE.defaultValue),
+						new EntityAttribute(EntityAttributeType.SATURATION, EntityAttributeType.SATURATION.defaultValue)
+					};
+				
+				player.sendPacket(out);
+			}
+			
+			// test
+			{
+				final PacketEntityPermissions out = (PacketEntityPermissions) PacketType.EntityPermissions.newInstance();
+				
+				out.entityUID = player.getEntityId();
+				out.permLevel = PermissionLevel.MEMBER;
+				out.cmdPermLevel = CommandPermissionLevel.NORMAL;
+				
+				//if(this.gamemode == PGameMode.SPECTATOR){
+				//	packet.out |= PacketEntityPermissions.FLAG1_WORLD_IMMUTABLE;
+				//	packet.out |= PacketEntityPermissions.FLAG1_NO_PVP;
+				//	packet.out |= PacketEntityPermissions.FLAG1_NO_CLIP;		
+				//}
+				
+				player.sendPacket(out);
+			}
+			
+			// done
+			{
+				final PacketLoginStatus out = (PacketLoginStatus) PacketType.LoginStatus.newInstance();
+				
+				out.result = PacketLoginStatus.PLAYER_SPAWN;
+				
+				player.sendPacket(out);
+			}
+			
+			// test
+			{
+				final PacketChunkRadiusChange out = (PacketChunkRadiusChange) PacketType.ChunkRadiusChange.newInstance();
+				
+				out.radius = packet.viewDistance;
+				
+				player.sendPacket(out);
+			}
+			
+			// send chunks
+			{
+				final Chunk chunk = new Chunk();
+				
+				for(int ix=0; ix<16; ix++){
+					for(int iy=0; iy<96; iy++){
+						for(int iz=0; iz<16; iz++){
+							chunk.setBlockId(ix, iy, iz, (short) 1);
+						}
+					}
+				}
+				
+				for(int ix=-6; ix<=6; ix++){
+					for(int iz=-6; iz<=6; iz++){
+						player.sendPacket(chunk.buildPacket(ix, iz));
+					}
+				}
+			}
+			
+			player.getBedrock().getEntity().sendAllMetadata(player.getBedrock());
+			
+			// tells the client that the chunks are ready to be displayed
+			{
+				final PacketNetworkChunkPublisherUpdate out = (PacketNetworkChunkPublisherUpdate) PacketType.NetworkChunkPublisherUpdate.newInstance();
+				
+				out.x = 0;
+				out.y = 100;
+				out.z = 0;
+				out.radius = 6;
+				
+			    player.sendPacket(out);
+			}
 		}
 		
-		// tells the server that we successfully logged in
+		// java login
 		{
-			final V8D9PacketPlayClientCommand out = new V8D9PacketPlayClientCommand();
-			
-			out.command = V8D9PacketPlayClientCommand.COMMAND_PERFORM_RESPAWN;
-			
-			// player.sendPacket(out);
+			{
+				final V8D9PacketPlayClientSettings out = new V8D9PacketPlayClientSettings();
+				
+				out.locale = "en/EN";
+				out.viewDistance = (byte) Math.min(packet.viewDistance, 16);
+				out.chatMode = V8D9PacketPlayClientSettings.CHAT_ENABLED;
+				out.chatColorsEnabled = true;
+				out.capeEnabled = true;
+				out.jacketEnabled = true;
+				out.leftSleeveEnabled = true;
+				out.rightSleeveEnabled = true;
+				out.leftPantsEnabled = true;
+				out.rightPantsEnabled = true;
+				out.hatEnabled = true;
+				
+				player.sendPacket(out);
+			}
 		}
+	}
+	
+	private void sendGamePacket(V8D9PacketPlayLogin packet, Player player){
+		final PacketGame out = (PacketGame) PacketType.Game.newInstance();
 		
-		// test
-		{
-			final V8D9PacketPlayClientStanding out = new V8D9PacketPlayClientStanding();
-			
-			out.isOnGround = true;
-			
-			// player.sendPacket(out);
-		}
+		out.entityUniqueId = player.getEntityId();
+		out.entityRuntimeId = player.getEntityId();
+		out.gamemode = out.worldGamemode = GameModeTranslator.toBedrock(packet.gamemode);
+		out.x = 0;
+		out.y = 100;
+		out.z = 0;
+		out.yaw = 0F;
+		out.pitch = 0F;
+		out.seed = -1;
+		out.dimension = (byte) (DimensionTranslator.toBedrock(packet.dimension).getId());
+		out.generator = 1;
+		out.difficulty = DifficultyTranslator.toBedrock(packet.difficulty);
+		out.spawnX = 0;
+		out.spawnY = 100;
+		out.spawnZ = 0;
+		out.hasAchievementsDisabled = true;
+		out.time = -1; //-1 = not stopped, any positive value = stopped at that time
+		out.eduMode = false;
+		out.hasEduFeaturesEnabled = false;
+		out.rainLevel = 0F;
+		out.lightningLevel = 0F;
+		out.hasConfirmedPlatformLockedContent = false;
+		out.multiplayerGame = true;
+		out.broadcastToLAN = true;
+		out.xboxLiveBroadcastMode = 0;
+		out.platformBroadcastMode = 0;
+		out.commandsEnabled = true;
+		out.isTexturePacksRequired = true;
+		out.bonusChest = false;
+		out.defaultPermissionLevel = PacketGame.PERMISSION_LEVEL_MEMBER;
+		out.levelId = ""; // folder name in base64
+		out.worldName = "";
+		out.premiumWorldTemplateID = "";
+		out.isTrial = false;
+		out.currentTick = 0L;
+		out.startWithMap = false;
+		out.serverChunkTickRange = packet.viewDistance;
+		out.hasLockedBehaviorPack = false;
+		out.hasLockedResourcePack = false;
+		out.isFromLockedWorldTemplate = false;
+		out.useMsaGamertagsOnly = false;
+		out.isFromWorldTemplate = false;
+		out.isWorldTemplateOptionLocked = false;
+		out.enchantmentSeed = 0;
+		out.gameRules = GameRules.newDefaultInstance();
+		out.multiplayerCorrelationID = "";
+		
+		player.sendPacket(out);
 	}
 }

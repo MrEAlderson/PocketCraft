@@ -116,7 +116,7 @@ public class TCPClientConnection extends Connection {
 						out);
 			}catch(IOException e){
 				if(e.getMessage() != null && e.getMessage().startsWith("Unkown packet with id ")){
-					System.out.println(e.getMessage());
+					// System.out.println(e.getMessage());
 				}else
 					e.printStackTrace();
 			}

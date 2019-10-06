@@ -74,9 +74,6 @@ public class JavaClient implements ClientSequenceHolder, ConnectionInterface {
 
 	@Override
 	public void sendPacket(Packet packet){
-		if(!(packet instanceof V8D9PacketPlayKeepAlive))
-			System.out.println("send: " + packet.getClass().getSimpleName());
-		
 		for(PacketListener listener:this.packetListeners){
 			try{
 				if(!listener.onSend(packet))

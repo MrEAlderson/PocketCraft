@@ -10,7 +10,6 @@ import java.util.Map;
 import org.jetbrains.annotations.Nullable;
 
 import com.whirvis.jraknet.RakNetException;
-import com.whirvis.jraknet.identifier.MinecraftIdentifier;
 import com.whirvis.jraknet.peer.RakNetClientPeer;
 import com.whirvis.jraknet.server.RakNetServer;
 
@@ -33,10 +32,6 @@ public class BedrockServer {
 		this.rakNet = new RakNetServer(address, port, slots);
 		
 		this.rakNet.addListener(new BaseRakNetServerListener(this));
-		
-		System.out.println("test");
-		this.rakNet.setIdentifier(new MinecraftIdentifier("JRakNet Example Server", 361, "1.12.1", 0, 10,
-				this.rakNet.getGloballyUniqueId(), "New World", "Survival"));
 	}
 	
 	public int getPort(){

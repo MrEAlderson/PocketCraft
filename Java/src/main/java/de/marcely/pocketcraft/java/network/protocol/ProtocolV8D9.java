@@ -65,7 +65,7 @@ public class ProtocolV8D9 extends Protocol {
 				null, // set creative slot
 				null, // enchant item
 				null, // update sign
-				null, // abilities
+				V8D9PacketPlayAbilities.class,
 				null, // tab complete
 				V8D9PacketPlayClientSettings.class,
 				V8D9PacketPlayClientCommand.class,
@@ -134,10 +134,10 @@ public class ProtocolV8D9 extends Protocol {
 				null, // player info
 				V8D9PacketPlayAbilities.class,
 				null, // tab complete
-				null, // scoreboard objective
-				null, // scoreboard score
-				null, // scoreboard display objective
-				null, // scoreboard team
+				V8D9PacketPlayScoreboardObjective.class,
+				V8D9PacketPlayScoreboardScore.class,
+				V8D9PacketPlayScoreboardDisplay.class,
+				V8D9PacketPlayScoreboardTeam.class,
 				V8D9PacketPlayCustomPayload.class,
 				null, // kick
 				V8D9PacketPlayGameDifficulty.class,

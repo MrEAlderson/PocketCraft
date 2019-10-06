@@ -156,6 +156,8 @@ public class PacketBuilder {
 			
 			final int packetId = stream.readVarInt();
 			
+			System.out.println("ID:     ======= " + packetId);
+			
 			final Packet packet = protocol.getPacketById(packetId, seq, isByClient ? Protocol.CLIENT : Protocol.SERVER);
 			
 			if(packet == null)
