@@ -11,12 +11,12 @@ public class V8D9PacketPlayMapChunkBulk extends PlayPacket {
 	public int[] x;
 	public int[] z;
 	public byte[][] data;
-	public boolean isFullChunk;
+	public boolean containsSkyLightData;
 	public int[] primaryBitMask;
 
 	@Override
 	public void write(EByteBuf stream) throws Exception {
-		stream.writeBoolean(this.isFullChunk);
+		stream.writeBoolean(this.containsSkyLightData);
 		stream.writeVarInt(this.x.length);
 		
 		for(int i=0; i<this.x.length; i++){
@@ -31,7 +31,7 @@ public class V8D9PacketPlayMapChunkBulk extends PlayPacket {
 
 	@Override
 	public void read(EByteBuf stream) throws Exception {
-		this.isFullChunk = stream.readBoolean();
+		this.containsSkyLightData = stream.readBoolean();
 		{
 			final int size = stream.readVarInt();
 			
@@ -45,7 +45,7 @@ public class V8D9PacketPlayMapChunkBulk extends PlayPacket {
 			this.x[i] = stream.readInt();
 			this.z[i] = stream.readInt();
 			this.primaryBitMask[i] = (short)(stream.readShort() & 0xFFFF);
-			this.data[i] = new byte[getChunkDataSize(Integer.bitCount(this.primaryBitMask[i]), this.isFullChunk, true)];
+			this.data[i] = new byte[getChunkDataSize(Integer.bitCount(this.primaryBitMask[i]), this.containsSkyLightData, true)];
 		}
 		
 		for(int i=0; i<this.x.length; i++)
@@ -57,12 +57,12 @@ public class V8D9PacketPlayMapChunkBulk extends PlayPacket {
 		return PROPERTIES;
 	}
 	
-	private int getChunkDataSize(int i, boolean flag, boolean flag1){
-		int j = i * 2 * 16 * 16 * 16;
-	    int k = i * 16 * 16 * 16 / 2;
-	    int l = flag ? i * 16 * 16 * 16 / 2 : 0;
-	    int i1 = flag1 ? 256 : 0;
+	private static int getChunkDataSize(int sections, boolean containsSkyLightData, boolean entireChunk){
+		final int blocks = sections * 2 * 16 * 16 * 16;
+		final int blockLight = sections * 16 * 16 * 16 / 2;
+	    final int skyLight = containsSkyLightData ? sections * 16 * 16 * 16 / 2 : 0;
+	    final int biomes = entireChunk ? 16 * 16 : 0;
 	    
-	    return j + k + l + i1;
+	    return blocks + blockLight + skyLight + biomes;
 	}
 }

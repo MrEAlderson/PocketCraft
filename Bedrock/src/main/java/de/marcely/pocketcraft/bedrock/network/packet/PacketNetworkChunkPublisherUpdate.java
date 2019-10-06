@@ -15,7 +15,7 @@ public class PacketNetworkChunkPublisherUpdate extends PCPacket {
 	@Override
 	public void encode(EByteArrayWriter writer) throws Exception {
 		writer.writeBlockPosition(this.x, this.y, this.z);
-		writer.writeUnsignedVarInt(this.radius << 4);
+		writer.writeUnsignedVarInt(this.radius);
 	}
 
 	@Override

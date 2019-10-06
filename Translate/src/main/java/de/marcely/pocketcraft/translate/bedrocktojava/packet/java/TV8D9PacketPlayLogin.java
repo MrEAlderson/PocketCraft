@@ -84,7 +84,7 @@ public class TV8D9PacketPlayLogin extends JavaPacketTranslator<V8D9PacketPlayLog
 			{
 				final PacketChunkRadiusChange out = (PacketChunkRadiusChange) PacketType.ChunkRadiusChange.newInstance();
 				
-				out.radius = packet.viewDistance;
+				out.radius = packet.viewDistance << 4;
 				
 				player.sendPacket(out);
 			}

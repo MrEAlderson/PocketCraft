@@ -27,6 +27,7 @@ import de.marcely.pocketcraft.translate.bedrocktojava.packet.bedrock.*;
 import de.marcely.pocketcraft.translate.bedrocktojava.packet.java.*;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
 import de.marcely.pocketcraft.utils.callback.R1Callback;
+import de.marcely.pocketcraft.utils.scheduler.Scheduler;
 import lombok.Getter;
 
 public class BedrockToJavaTranslator extends Translator {
@@ -53,6 +54,12 @@ public class BedrockToJavaTranslator extends Translator {
 		this.bedrockServer.registerListener(new BedrockServerInterface(this));
 		
 		definePacketTranslators();
+		
+		Scheduler.runAsyncRepeated(() -> {
+			for(Player player:getPlayers()){
+				player.tick();
+			}
+		}, 0, 1000/20);
 		
 		return true;
 	}

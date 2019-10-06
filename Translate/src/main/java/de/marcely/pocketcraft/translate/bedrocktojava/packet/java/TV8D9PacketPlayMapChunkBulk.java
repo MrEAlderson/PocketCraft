@@ -1,7 +1,5 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.packet.java;
 
-import de.marcely.pocketcraft.bedrock.network.packet.PacketNetworkChunkPublisherUpdate;
-import de.marcely.pocketcraft.bedrock.network.packet.PacketType;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayMapChunkBulk;
 import de.marcely.pocketcraft.translate.bedrocktojava.packet.JavaPacketTranslator;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
@@ -18,10 +16,11 @@ public class TV8D9PacketPlayMapChunkBulk extends JavaPacketTranslator<V8D9Packet
 			final int primaryBitMask = packet.primaryBitMask[i];
 			
 			// looks for existing old (if packet has sent a full chunk)
-			final V8Chunk oldChunk =
-					!packet.isFullChunk ?
+			/*final V8Chunk oldChunk =
+					!packet.containsSkyLightData ?
 					player.getWorld().getChunk(x, z, V8Chunk.class) :
-					null;
+					null;*/
+			final V8Chunk oldChunk = null;
 			// read chunk from byte data
 			final V8Chunk newChunk =
 					new V8Chunk(de.marcely.pocketcraft.java.component.v8.V8Chunk.read(
@@ -35,18 +34,7 @@ public class TV8D9PacketPlayMapChunkBulk extends JavaPacketTranslator<V8D9Packet
 			}
 			
 			// finally send it
-			player.sendPacket(newChunk.buildPacket(x, z));
-		}
-		
-		{
-			final PacketNetworkChunkPublisherUpdate out = (PacketNetworkChunkPublisherUpdate) PacketType.NetworkChunkPublisherUpdate.newInstance();
-			
-			out.x = (int) player.getX();
-			out.y = (int) player.getY();
-			out.z = (int) player.getZ();
-			out.radius = 16;
-			
-		    player.sendPacket(out);
+			player.queuedChunks.add(newChunk.buildPacket(x, z));
 		}
 	}
 }

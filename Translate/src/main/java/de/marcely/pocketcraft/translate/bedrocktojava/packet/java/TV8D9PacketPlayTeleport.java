@@ -90,6 +90,7 @@ public class TV8D9PacketPlayTeleport extends JavaPacketTranslator<V8D9PacketPlay
 			
 			first = true;
 		}
+		
 		// and tell it the client
 		{
 			final PacketPlayerMove out = new PacketPlayerMove();
