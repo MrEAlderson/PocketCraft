@@ -28,6 +28,7 @@ public class TV8D9PacketPlayLogin extends JavaPacketTranslator<V8D9PacketPlayLog
 		// bedrock login
 		{
 			player.getBedrock().initEntity(packet.entityId);
+			player.setViewDistance((byte) packet.viewDistance);
 			
 			sendGamePacket(packet, player);
 			

@@ -118,7 +118,7 @@ public class ProtocolV8D9 extends Protocol {
 				null, // world event
 				null, // named sound effect
 				null, // world particles
-				null, // game state change
+				V8D9PacketPlayChangeGameState.class,
 				null, // spawn entity weather
 				null, // open window
 				null, // close window

@@ -17,6 +17,7 @@ public class Player {
 	@Getter private final World world = new World();
 	
 	@Getter @Setter private float x, y, z, yaw, pitch;
+	@Getter @Setter private byte viewDistance;
 	
 	public Player(BedrockToJavaTranslator translator, BedrockClient bedrock, JavaClient java){
 		this.translator = translator;

@@ -1,5 +1,7 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.packet.java;
 
+import de.marcely.pocketcraft.bedrock.network.packet.PacketNetworkChunkPublisherUpdate;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketType;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayMapChunk;
 import de.marcely.pocketcraft.translate.bedrocktojava.packet.JavaPacketTranslator;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
@@ -28,5 +30,17 @@ public class TV8D9PacketPlayMapChunk extends JavaPacketTranslator<V8D9PacketPlay
 		
 		// finally send it
 		player.sendPacket(newChunk.buildPacket(packet.x, packet.z));
+		
+
+		{
+			final PacketNetworkChunkPublisherUpdate out = (PacketNetworkChunkPublisherUpdate) PacketType.NetworkChunkPublisherUpdate.newInstance();
+			
+			out.x = (int) player.getX();
+			out.y = (int) player.getY();
+			out.z = (int) player.getZ();
+			out.radius = player.getViewDistance() << 4;
+			
+		    player.sendPacket(out);
+		}
 	}
 }

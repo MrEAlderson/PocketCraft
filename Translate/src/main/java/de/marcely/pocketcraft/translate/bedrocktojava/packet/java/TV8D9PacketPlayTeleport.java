@@ -27,7 +27,7 @@ public class TV8D9PacketPlayTeleport extends JavaPacketTranslator<V8D9PacketPlay
 			if((packet.flags & V8D9PacketPlayTeleport.FLAG_REL_Y) > 0)
 				player.setY(player.getY() + ((float) packet.y));
 			else
-				player.setY((float) packet.x);
+				player.setY((float) packet.y);
 			
 			if((packet.flags & V8D9PacketPlayTeleport.FLAG_REL_Z) > 0)
 				player.setZ(player.getZ() + ((float) packet.z));
@@ -96,7 +96,7 @@ public class TV8D9PacketPlayTeleport extends JavaPacketTranslator<V8D9PacketPlay
 			
 			out.entityRuntimeID = player.getEntityId();
 			out.posX = player.getX();
-			out.posY = player.getY();
+			out.posY = player.getY()+1.62F /* eye height */;
 			out.posZ = player.getZ();
 			out.yaw = out.headYaw = player.getYaw();
 			out.pitch = player.getPitch();

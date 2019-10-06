@@ -11,7 +11,7 @@ public class TV8D9PacketPlayKick extends JavaPacketTranslator<V8D9PacketPlayKick
 	public void handle(V8D9PacketPlayKick packet, Player player){
 		final PacketDisconnect out = new PacketDisconnect();
 		
-		out.hideScreen = true;
+		out.hideScreen = false;
 		out.reason = packet.message.asPlainText();
 		
 		player.sendPacket(out);
