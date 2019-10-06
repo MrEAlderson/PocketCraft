@@ -10,6 +10,7 @@ import org.jetbrains.annotations.Nullable;
 
 import com.whirvis.jraknet.RakNetException;
 
+import de.marcely.pocketcraft.bedrock.network.packet.*;
 import de.marcely.pocketcraft.bedrock.server.BedrockServer;
 import de.marcely.pocketcraft.java.client.ClientAdapter;
 import de.marcely.pocketcraft.java.client.JavaClient;
@@ -19,8 +20,10 @@ import de.marcely.pocketcraft.java.network.packet.Packet;
 import de.marcely.pocketcraft.java.network.packet.PacketProperties;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.*;
 import de.marcely.pocketcraft.java.network.protocol.Protocol;
+import de.marcely.pocketcraft.translate.bedrocktojava.packet.BedrockPacketTranslator;
 import de.marcely.pocketcraft.translate.bedrocktojava.packet.BedrockServerInterface;
 import de.marcely.pocketcraft.translate.bedrocktojava.packet.JavaPacketTranslator;
+import de.marcely.pocketcraft.translate.bedrocktojava.packet.bedrock.*;
 import de.marcely.pocketcraft.translate.bedrocktojava.packet.java.*;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
 import de.marcely.pocketcraft.utils.callback.R1Callback;
@@ -76,23 +79,30 @@ public class BedrockToJavaTranslator extends Translator {
 	
 	@SuppressWarnings("unchecked")
 	public <T extends Packet>JavaPacketTranslator<T> getTranslator(T packet){
-		return (JavaPacketTranslator<T>) packet.getProperties().getMetadata(getTranslatorMetaName());
+		return (JavaPacketTranslator<T>) packet.getProperties().getMetadata(getJavaTranslatorMetaName());
+	}
+	
+	@SuppressWarnings("unchecked")
+	public <T extends PCPacket>BedrockPacketTranslator<T> getTranslator(T packet){
+		return (BedrockPacketTranslator<T>) packet.getProperties().getMetadata(getBedrockTranslatorMetaName());
 	}
 	
 	private void definePacketTranslators(){
-		define(V8D9PacketPlayMapChunk.class, TV8D9PacketPlayMapChunk.class);
-		define(V8D9PacketPlayMapChunkBulk.class, TV8D9PacketPlayMapChunkBulk.class);
-		define(V8D9PacketPlayLogin.class, TV8D9PacketPlayLogin.class);
-		define(V8D9PacketPlayKeepAlive.class, TV8D9PacketPlayKeepAlive.class);
-		define(V8D9PacketPlayWorldTime.class, TV8D9PacketPlayWorldTime.class);
-		define(V8D9PacketPlayTeleport.class, TV8D9PacketPlayTeleport.class);
+		defineJava(V8D9PacketPlayMapChunk.class, TV8D9PacketPlayMapChunk.class);
+		defineJava(V8D9PacketPlayMapChunkBulk.class, TV8D9PacketPlayMapChunkBulk.class);
+		defineJava(V8D9PacketPlayLogin.class, TV8D9PacketPlayLogin.class);
+		defineJava(V8D9PacketPlayKeepAlive.class, TV8D9PacketPlayKeepAlive.class);
+		defineJava(V8D9PacketPlayWorldTime.class, TV8D9PacketPlayWorldTime.class);
+		defineJava(V8D9PacketPlayTeleport.class, TV8D9PacketPlayTeleport.class);
+		
+		defineBedrock(PacketPlayerMove.class, TPacketPlayerMove.class);
 	}
 	
-	protected void define(Class<? extends Packet> packet, Class<? extends JavaPacketTranslator<?>> translatorClazz){
+	protected void defineJava(Class<? extends Packet> packet, Class<? extends JavaPacketTranslator<?>> translatorClazz){
 		try{
 			final PacketProperties properties = (PacketProperties) packet.getField("PROPERTIES").get(null);
 			
-			properties.setMetadata(getTranslatorMetaName(), translatorClazz.newInstance());
+			properties.setMetadata(getJavaTranslatorMetaName(), translatorClazz.newInstance());
 		}catch(IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e){
 			e.printStackTrace();
 			throw new IllegalStateException("Missing or invalid PROPERTIES field for " + packet.getName());
@@ -102,8 +112,20 @@ public class BedrockToJavaTranslator extends Translator {
 		}
 	}
 	
-	private String getTranslatorMetaName(){
+	protected void defineBedrock(Class<? extends PCPacket> packet, Class<? extends BedrockPacketTranslator<?>> translatorClazz){
+		try{
+			packet.newInstance().getProperties().setMetadata(getBedrockTranslatorMetaName(), translatorClazz.newInstance());
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	private String getJavaTranslatorMetaName(){
 		return this.javaProtocol.getProtocolVersion() + "_translator";
+	}
+	
+	private String getBedrockTranslatorMetaName(){
+		return "translator";
 	}
 	
 	public Collection<Player> getPlayers(){

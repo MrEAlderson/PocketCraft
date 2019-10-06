@@ -73,6 +73,8 @@ public enum PacketType {
 	@Getter private Channel channel;
 	private final Class<? extends PCPacket> clazz;
 	
+	private PacketProperties properties = new PacketProperties();
+	
 	static {
 		for(PacketType type:values())
 			TYPES.put(type.id, type);
@@ -91,5 +93,14 @@ public enum PacketType {
 			e.printStackTrace();
 			throw new RuntimeException("Failed to create new instance of packet");
 		}
+	}
+	
+	/**
+	 * 
+	 * @deprecated Do NOT use this method since it'll be removed in the future! Use Packet#getProperties instead
+	 */
+	@Deprecated
+	public PacketProperties getProperties(){
+		return this.properties;
 	}
 }

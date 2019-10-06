@@ -18,4 +18,9 @@ public abstract class PCPacket {
 	public abstract void encode(EByteArrayWriter writer) throws Exception;
 	
 	public abstract void decode(EByteArrayReader reader) throws Exception;
+	
+	@SuppressWarnings("deprecation")
+	public PacketProperties getProperties(){
+		return this.type.getProperties();
+	}
 }

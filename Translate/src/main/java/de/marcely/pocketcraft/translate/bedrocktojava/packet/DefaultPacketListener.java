@@ -14,6 +14,15 @@ public class DefaultPacketListener implements de.marcely.pocketcraft.bedrock.ser
 	
 	@Override
 	public boolean onReceive(PCPacket packet){
+		final BedrockPacketTranslator<?> translator = this.player.getTranslator().getTranslator(packet);
+		
+		if(translator != null){
+			try{
+				translator.handle0(packet, this.player);
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
 		
 		return true;
 	}
@@ -23,8 +32,6 @@ public class DefaultPacketListener implements de.marcely.pocketcraft.bedrock.ser
 		final JavaPacketTranslator<?> translator = this.player.getTranslator().getTranslator(packet);
 		
 		if(translator != null){
-			System.out.println("translate: " + packet.getClass().getName());
-			
 			try{
 				translator.handle0(packet, this.player);
 			}catch(Exception e){
