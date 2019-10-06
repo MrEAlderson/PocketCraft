@@ -1,0 +1,59 @@
+package de.marcely.pocketcraft.translate.bedrocktojava.packet.java;
+
+import de.marcely.pocketcraft.bedrock.network.packet.PacketGameMode;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketWorldEvent;
+import de.marcely.pocketcraft.java.component.GameMode;
+import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayChangeGameState;
+import de.marcely.pocketcraft.translate.bedrocktojava.packet.JavaPacketTranslator;
+import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
+import de.marcely.pocketcraft.translate.component.GameModeTranslator;
+
+public class TV8D9PacketPlayChangeGameState extends JavaPacketTranslator<V8D9PacketPlayChangeGameState> {
+
+	@Override
+	public void handle(V8D9PacketPlayChangeGameState packet, Player player){
+		switch(packet.key){
+		case V8D9PacketPlayChangeGameState.KEY_END_RAINING:
+		{
+			final PacketWorldEvent out = new PacketWorldEvent();
+			
+			out.type = PacketWorldEvent.TYPE_WEATHER_RAIN_STOP;
+			
+			player.sendPacket(out);
+		}
+		break;
+		
+		case V8D9PacketPlayChangeGameState.KEY_BEGIN_RAINING:
+		{
+			final PacketWorldEvent out = new PacketWorldEvent();
+			
+			out.type = PacketWorldEvent.TYPE_WEATHER_RAIN_START;
+			
+			player.sendPacket(out);
+		}
+		break;
+		
+		case V8D9PacketPlayChangeGameState.KEY_CHANGE_GAMEMODE:
+		{
+			final PacketGameMode out = new PacketGameMode();
+			final GameMode mode = GameMode.ofId(packet.key);
+			
+			if(mode == null)
+				return;
+			
+			out.mode = GameModeTranslator.toBedrock(mode);
+		}
+		break;
+		
+		case V8D9PacketPlayChangeGameState.KEY_ELDER_GUARDIAN_APPEARANCE:
+		{
+			final PacketWorldEvent out = new PacketWorldEvent();
+			
+			out.type = PacketWorldEvent.TYPE_GUARDIAN_CURSE;
+			
+			player.sendPacket(out);
+		}
+		break;
+		}
+	}
+}
