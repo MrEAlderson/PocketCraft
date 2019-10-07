@@ -13,28 +13,30 @@ public class TV8D9PacketPlayMultiBlockChange extends JavaPacketTranslator<V8D9Pa
 
 	@Override
 	public void handle(V8D9PacketPlayMultiBlockChange packet, Player player){
-		final V8Chunk chunk = player.getWorld().getChunk(packet.chunkX, packet.chunkZ, V8Chunk.class);
-		
-		if(chunk == null)
-			return;
-		
 		for(int i=0; i<packet.data.length; i++){
 			final int x = packet.chunkX*16+packet.relX[i];
-			final int y = packet.y[i];
 			final int z = packet.chunkZ*16+packet.relZ[i];
+			final V8Chunk chunk = player.getWorld().getChunk(x >> 4, z >> 4, V8Chunk.class);
+			
+			if(chunk == null)
+				continue;
+			
+			final int y = packet.y[i];
 			final short id = packet.id[i];
 			final byte data = packet.data[i];
 			
 			// change it in the chunk
 			{
 				final de.marcely.pocketcraft.java.component.v8.V8Chunk ref = chunk.getReference();
+				final int relX = Math.abs(x % 16);
+				final int relZ = Math.abs(z % 16);
 				
-				ref.setBlockId(packet.relX[i], y, packet.relZ[i], id);
-				ref.setBlockData(packet.relX[i], y, packet.relZ[i], data);
+				ref.setBlockId(relX, y, relZ, id);
+				ref.setBlockData(relZ, y, relZ, data);
 			}
 			
 			// send it to the player
-			{
+			if(chunk.isSent()){
 				final Pair<Short, Byte> pair = V8BlockTranslator.toBedrock(id, data);
 				final PacketBlockChange out = new PacketBlockChange();
 				

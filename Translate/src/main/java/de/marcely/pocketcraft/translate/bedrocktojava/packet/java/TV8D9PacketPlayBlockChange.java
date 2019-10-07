@@ -21,13 +21,15 @@ public class TV8D9PacketPlayBlockChange extends JavaPacketTranslator<V8D9PacketP
 		// change it in the chunk
 		{
 			final de.marcely.pocketcraft.java.component.v8.V8Chunk ref = chunk.getReference();
+			final int relX = Math.abs(packet.x % 16);
+			final int relZ = Math.abs(packet.z % 16);
 			
-			ref.setBlockId(packet.x % 16, packet.y, packet.z % 16, packet.id);
-			ref.setBlockData(packet.x % 16, packet.y, packet.z % 16, packet.data);
+			ref.setBlockId(relX, packet.y, relZ, packet.id);
+			ref.setBlockData(relX, packet.y, relZ, packet.data);
 		}
 		
 		// send it to the player
-		{
+		if(chunk.isSent()){
 			final Pair<Short, Byte> pair = V8BlockTranslator.toBedrock(packet.id, packet.data);
 			final PacketBlockChange out = new PacketBlockChange();
 			
