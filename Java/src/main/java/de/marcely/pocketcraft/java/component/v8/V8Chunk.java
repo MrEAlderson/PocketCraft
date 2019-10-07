@@ -31,6 +31,38 @@ public class V8Chunk {
 		this.biomes[(x << 4) | z] = id;
 	}
 	
+	public void setBlockId(int x, int y, int z, short id){
+		V8ChunkSection section = this.sections[y >> 4];
+		
+		if(section == null){
+			this.sections[y >> 4] = section = new V8ChunkSection();
+		}
+		
+		section.setId(x, y % 16, z, id);
+	}
+	
+	public short getBlockId(int x, int y, int z){
+		final V8ChunkSection section = this.sections[y >> 4];
+		
+		return section != null ? section.getId(x, y % 16, z) : 0;
+	}
+	
+	public void setBlockData(int x, int y, int z, byte data){
+		V8ChunkSection section = this.sections[y >> 4];
+		
+		if(section == null){
+			this.sections[y >> 4] = section = new V8ChunkSection();
+		}
+		
+		section.setData(x, y % 16, z, data);
+	}
+	
+	public byte getBlockData(int x, int y, int z){
+		final V8ChunkSection section = this.sections[y >> 4];
+		
+		return section != null ? section.getData(x, y % 16, z) : 0;
+	}
+	
 	/**
 	 * 
 	 * @param chunk Should be null if PacketPlayMapChunk#fullChunk is true. Otherwise it should take (if available) the cached one

@@ -2,7 +2,6 @@ package de.marcely.pocketcraft.translate.bedrocktojava.packet.java;
 
 import de.marcely.pocketcraft.bedrock.component.GameRule;
 import de.marcely.pocketcraft.bedrock.component.GameRules;
-import de.marcely.pocketcraft.bedrock.network.packet.PacketChunkRadiusChange;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityAttributes;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityPermissions;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketGame;
@@ -89,6 +88,7 @@ public class TV8D9PacketPlayLogin extends JavaPacketTranslator<V8D9PacketPlayLog
 				
 				{
 					rules.setValue(GameRule.DO_DAYLIGHT_CYCLE, false);
+					rules.setValue(GameRule.DO_WEATHER_CYCLE, false);
 				}
 				
 				out.gameRules = rules;

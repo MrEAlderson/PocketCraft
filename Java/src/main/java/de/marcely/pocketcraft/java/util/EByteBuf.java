@@ -114,8 +114,11 @@ public class EByteBuf {
 		writeLong(id.getLeastSignificantBits());
 	}
 	
+	/* 26 bits: x
+	 * 16 bits: y
+	 * 26 bits: z */
 	public void writeBlockPosition(int x, int y, int z){
-		writeLong(((x & 0x3FFFFFF) << 38) | ((z & 0x3FFFFFF) << 12) | (y & 0xFFF));
+		writeLong(((x & 0x3FFFFFF) << 38) | (y & 0xFFF << 26) | (z & 0x3FFFFFF));
 	}
 	
 	public void writeBlockPosition(Vector3 vec){
@@ -250,10 +253,13 @@ public class EByteBuf {
 		return new UUID(readLong(), readLong());
 	}
 	
+	/* 26 bits: x
+	 * 16 bits: y
+	 * 26 bits: z */
 	public Vector3 readBlockPosition(){
 		final long val = readLong();
 		
-		return new Vector3(val >> 38, val & 0xFFF, (val << 26 >> 38));
+		return new Vector3(val >> 38, val << 26 >> 52, (val << 38 >> 38));
 	}
 	
 	public ChatBaseComponent readChat(){

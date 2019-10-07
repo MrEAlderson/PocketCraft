@@ -117,8 +117,8 @@ public class PacketGame extends PCPacket {
         
         writer.writeSignedVarInt(this.enchantmentSeed);
         
-        writer.writeUnsignedVarInt(BlockMapping.INSTANCE.cachedTableSize);
-        writer.write(BlockMapping.INSTANCE.cachedTable);
+        writer.writeUnsignedVarInt(BlockMapping.INSTANCE.getCachedTableSize());
+        writer.write(BlockMapping.INSTANCE.getCachedTable());
         
         writer.writeUnsignedVarInt(ItemMapping.INSTANCE.cachedTableSize);
         writer.write(ItemMapping.INSTANCE.cachedTable);

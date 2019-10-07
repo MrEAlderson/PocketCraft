@@ -109,8 +109,8 @@ public class ProtocolV8D9 extends Protocol {
 				null, // experience
 				null, // update attributes
 				V8D9PacketPlayMapChunk.class,
-				null, // multi block change
-				null, // block change
+				V8D9PacketPlayMultiBlockChange.class,
+				V8D9PacketPlayBlockChange.class,
 				null, // block action
 				null, // block break animation
 				V8D9PacketPlayMapChunkBulk.class,

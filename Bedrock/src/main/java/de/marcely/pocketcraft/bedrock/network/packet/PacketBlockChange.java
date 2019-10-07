@@ -11,7 +11,15 @@ public class PacketBlockChange extends PCPacket {
     public static final int FLAG_NOGRAPHIC = 0b0100;
     public static final int FLAG_PRIORITY = 0b1000;
 	
-	public int x, y, z, data, flag;
+    public static final int FLAG_ALL = (FLAG_NEIGHBORS | FLAG_NETWORK);
+    public static final int FLAG_ALL_PRIORITY = (FLAG_ALL | FLAG_PRIORITY);
+    
+	public int x;
+	public int y;
+	public int z;
+	public int blockRuntimeId;
+	public int flag;
+	public int dataLayer = 0;
 	
 	public PacketBlockChange(){
 		super(PacketType.BlockChange);
@@ -19,11 +27,12 @@ public class PacketBlockChange extends PCPacket {
 
 	@Override
 	public void encode(EByteArrayWriter writer) throws Exception {
-		writer.writeSignedVarInt(x);
-		writer.writeUnsignedVarInt(y);
-		writer.writeSignedVarInt(z);
-		writer.writeUnsignedVarInt(data);
-		writer.writeUnsignedVarInt(flag);
+		writer.writeSignedVarInt(this.x);
+		writer.writeUnsignedVarInt(this.y);
+		writer.writeSignedVarInt(this.z);
+		writer.writeUnsignedVarInt(this.blockRuntimeId);
+		writer.writeUnsignedVarInt(this.flag);
+		writer.writeUnsignedVarInt(this.dataLayer);
 	}
 
 	@Override

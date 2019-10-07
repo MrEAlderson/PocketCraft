@@ -4,6 +4,8 @@ import de.marcely.pocketcraft.bedrock.network.packet.PacketFullChunk;
 import de.marcely.pocketcraft.java.component.v8.V8Biome;
 import de.marcely.pocketcraft.java.component.v8.V8ChunkSection;
 import de.marcely.pocketcraft.translate.world.V8BiomeTranslator;
+import de.marcely.pocketcraft.translate.world.V8BlockTranslator;
+import de.marcely.pocketcraft.utils.Pair;
 import lombok.Getter;
 
 public class V8Chunk extends Chunk {
@@ -28,8 +30,10 @@ public class V8Chunk extends Chunk {
 			for(int ix=0; ix<16; ix++){
 				for(int iy=0; iy<16; iy++){
 					for(int iz=0; iz<16; iz++){
-						bedrock.setBlockId(ix, iy+si*16, iz, section.getId(ix, iy, iz));
-						bedrock.setBlockData(ix, iy+si*16, iz, section.getData(ix, iy, iz));
+						final Pair<Short, Byte> pair = V8BlockTranslator.toBedrock(section.getId(ix, iy, iz), section.getData(ix, iy, iz));
+						
+						bedrock.setBlockId(ix, iy+si*16, iz, pair.getEntry1());
+						bedrock.setBlockData(ix, iy+si*16, iz, pair.getEntry2());
 					}
 				}
 			}

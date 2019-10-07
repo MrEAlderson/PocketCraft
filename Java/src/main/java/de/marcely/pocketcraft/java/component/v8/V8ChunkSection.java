@@ -20,15 +20,28 @@ public class V8ChunkSection {
 		this.blocks = blocks;
 	}
 	
+	public void setId(int x, int y, int z, short id){
+		final int index = (y << 9) | (z << 5) | (x << 1);
+		
+		this.blocks[index] = (byte) ((id & 0x0FF0) >> 4);
+		this.blocks[index+1] = (byte) ((id & 0x0F) << 4);
+	}
+	
 	public short getId(int x, int y, int z){
 		final int index = (y << 9) | (z << 5) | (x << 1);
 		
-		return (short) ((((short) this.blocks[index+1]) << 4) | ((((short) this.blocks[index]) >> 4)));
+		return (short) ((((short) this.blocks[index+1]) << 4) | ((((short) this.blocks[index] & 0xF0) >> 4)));
+	}
+	
+	public void setData(int x, int y, int z, byte data){
+		final int index = (y << 9) | (z << 5) | (x << 1);
+		
+		this.blocks[index] |= (data & 0x0F);
 	}
 	
 	public byte getData(int x, int y, int z){
-		// final int index = (x << 9) | (y << 5) | (z << 1);
+		final int index = (y << 9) | (z << 5) | (x << 1);
 		
-		return 0;
+		return (byte) (this.blocks[index] & 0x0F);
 	}
 }
