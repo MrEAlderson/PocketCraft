@@ -76,13 +76,15 @@ public class Player {
 						final Chunk chunk = e.getValue();
 						final int x = (int) (long) e.getKey();
 						final int z = (int) (e.getKey() >> 32L);
+						final boolean inDistance = isChunkInDistance(x, z, newChunkX, newChunkZ, this.viewDistance-1);
 						
-						if(!chunk.isSent() &&
-						   isChunkInDistance(x, z, newChunkX, newChunkZ, this.viewDistance-1)){
-							
+						if(!chunk.isSent() && inDistance){	
 							sendPacket(chunk.buildPacket(x, z));
 							chunk.setSent(true);
 							sentChunks++;
+						
+						}else if(chunk.isSent() && !inDistance){
+							chunk.setSent(false);
 						}
 					}
 				}

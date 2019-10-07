@@ -18,6 +18,7 @@ public class TV8D9PacketPlayChangeGameState extends JavaPacketTranslator<V8D9Pac
 			final PacketWorldEvent out = new PacketWorldEvent();
 			
 			out.type = PacketWorldEvent.TYPE_WEATHER_RAIN_STOP;
+			out.data = 999999;
 			
 			player.sendPacket(out);
 		}
@@ -28,6 +29,7 @@ public class TV8D9PacketPlayChangeGameState extends JavaPacketTranslator<V8D9Pac
 			final PacketWorldEvent out = new PacketWorldEvent();
 			
 			out.type = PacketWorldEvent.TYPE_WEATHER_RAIN_START;
+			out.data = 999999;
 			
 			player.sendPacket(out);
 		}
@@ -36,12 +38,14 @@ public class TV8D9PacketPlayChangeGameState extends JavaPacketTranslator<V8D9Pac
 		case V8D9PacketPlayChangeGameState.KEY_CHANGE_GAMEMODE:
 		{
 			final PacketGameMode out = new PacketGameMode();
-			final GameMode mode = GameMode.ofId(packet.key);
+			final GameMode mode = GameMode.ofId((int) packet.value);
 			
 			if(mode == null)
 				return;
 			
 			out.mode = GameModeTranslator.toBedrock(mode);
+			
+			player.sendPacket(out);
 		}
 		break;
 		

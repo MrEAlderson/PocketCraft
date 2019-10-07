@@ -10,7 +10,6 @@ import de.marcely.pocketcraft.java.network.LoginGoal;
 import de.marcely.pocketcraft.java.network.ServerInfo;
 import de.marcely.pocketcraft.java.network.packet.Packet;
 import de.marcely.pocketcraft.java.network.packet.PacketListener;
-import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayKeepAlive;
 import de.marcely.pocketcraft.java.network.protocol.Protocol;
 import de.marcely.pocketcraft.java.network.sequence.ClientLoginInfo;
 import de.marcely.pocketcraft.java.network.sequence.ClientLoginResult;
@@ -89,9 +88,6 @@ public class JavaClient implements ClientSequenceHolder, ConnectionInterface {
 	}
 	
 	public void handlePacket(Packet packet){
-		if(!(packet instanceof V8D9PacketPlayKeepAlive))
-			System.out.println("handle: " + packet.getClass().getSimpleName());
-		
 		for(int i=this.packetListeners.size()-1; i>=0; i--){
 			try{
 				if(!this.packetListeners.get(i).onReceive(packet))

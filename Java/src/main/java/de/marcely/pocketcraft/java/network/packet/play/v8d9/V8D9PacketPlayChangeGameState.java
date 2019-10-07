@@ -38,14 +38,14 @@ public class V8D9PacketPlayChangeGameState extends PlayPacket {
 	
 	@Override
 	public void write(EByteBuf stream) throws Exception {
-		this.key = stream.readByte();
-		this.value = stream.readFloat();
+		stream.writeByte(this.key);
+		stream.writeFloat(this.value);
 	}
 
 	@Override
 	public void read(EByteBuf stream) throws Exception {
-		stream.writeByte(this.key);
-		stream.writeFloat(this.value);
+		this.key = stream.readByte();
+		this.value = stream.readFloat();
 	}
 
 	@Override

@@ -54,7 +54,10 @@ public class PacketWorldEvent extends PCPacket {
     public static final int TYPE_GUARDIAN_CURSE = 2006;
 
     public static final int TYPE_PARTICLE_BLOCK_FORCE_FIELD = 2008;
-
+    public static final int EVENT_PARTICLE_PROJECTILE_HIT = 2009;
+    public static final int EVENT_PARTICLE_DRAGON_EGG_TELEPORT = 2010;
+    
+    public static final int EVENT_PARTICLE_ENDERMAN_TELEPORT = 2013;
     public static final int TYPE_PARTICLE_PUNCH_BLOCK = 2014;
     
     public static final int TYPE_WEATHER_RAIN_START = 3001;
@@ -69,7 +72,6 @@ public class PacketWorldEvent extends PCPacket {
     public static final int TYPE_CAULDRON_FILL_POTION = 3504;
     public static final int TYPE_CAULDRON_TAKE_POTION = 3505;
     public static final int TYPE_SOUND_SPLASH = 3506;
-    
     public static final int TYPE_CAULDRON_TAKE_WATER = 3507;
     public static final int TYPE_CAULDRON_ADD_DYE = 3508;
     public static final int TYPE_CAULDRON_CLEAN_BANNER = 3509;
@@ -85,7 +87,7 @@ public class PacketWorldEvent extends PCPacket {
     
     
 	public int type, data = 0;
-	public float posX = 0, posY = 0, posZ = 0;
+	public float x = 0, y = 0, z = 0;
 	
 	public PacketWorldEvent(){
 		super(PacketType.WorldEvent);
@@ -94,7 +96,7 @@ public class PacketWorldEvent extends PCPacket {
 	@Override
 	public void encode(EByteArrayWriter writer) throws Exception {
 		writer.writeSignedVarInt(this.type);
-		writer.writeVector(this.posX, this.posY, this.posZ);
+		writer.writeVector(this.x, this.y, this.z);
 		writer.writeSignedVarInt(this.data);
 	}
 

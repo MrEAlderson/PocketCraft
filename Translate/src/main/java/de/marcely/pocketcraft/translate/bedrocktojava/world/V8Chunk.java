@@ -29,6 +29,7 @@ public class V8Chunk extends Chunk {
 				for(int iy=0; iy<16; iy++){
 					for(int iz=0; iz<16; iz++){
 						bedrock.setBlockId(ix, iy+si*16, iz, section.getId(ix, iy, iz));
+						bedrock.setBlockData(ix, iy+si*16, iz, section.getData(ix, iy, iz));
 					}
 				}
 			}
