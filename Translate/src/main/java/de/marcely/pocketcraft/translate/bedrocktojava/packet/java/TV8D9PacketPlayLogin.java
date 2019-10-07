@@ -1,10 +1,12 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.packet.java;
 
+import de.marcely.pocketcraft.bedrock.component.GameRule;
 import de.marcely.pocketcraft.bedrock.component.GameRules;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketChunkRadiusChange;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityAttributes;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityPermissions;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketGame;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketGameRules;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketLoginStatus;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketNetworkChunkPublisherUpdate;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketType;
@@ -80,11 +82,16 @@ public class TV8D9PacketPlayLogin extends JavaPacketTranslator<V8D9PacketPlayLog
 				player.sendPacket(out);
 			}
 			
-			// test
+			// game rules
 			{
-				final PacketChunkRadiusChange out = (PacketChunkRadiusChange) PacketType.ChunkRadiusChange.newInstance();
+				final PacketGameRules out = new PacketGameRules();
+				final GameRules rules = new GameRules();
 				
-				out.radius = packet.viewDistance << 4;
+				{
+					rules.setValue(GameRule.DO_DAYLIGHT_CYCLE, false);
+				}
+				
+				out.gameRules = rules;
 				
 				player.sendPacket(out);
 			}
