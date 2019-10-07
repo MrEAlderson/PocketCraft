@@ -39,6 +39,9 @@ public class V8Chunk {
 		}
 		
 		section.setId(x, y % 16, z, id);
+		
+		if(id == 0)
+			section.setData(x, y % 16, z, (byte) 0);
 	}
 	
 	public short getBlockId(int x, int y, int z){

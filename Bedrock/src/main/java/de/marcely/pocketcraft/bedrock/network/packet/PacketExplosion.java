@@ -1,16 +1,15 @@
 package de.marcely.pocketcraft.bedrock.network.packet;
 
-import java.util.List;
-
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
-import de.marcely.pocketcraft.utils.math.Vector3;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
 public class PacketExplosion extends PCPacket {
 
 	public float posX, posY, posZ;
 	public float radius;
-	public List<Vector3> blocks;
+	public int[] affectedBlocksX;
+	public int[] affectedBlocksY;
+	public int[] affectedBlocksZ;
 	
 	public PacketExplosion(){
 		super(PacketType.Explosion);
@@ -22,12 +21,12 @@ public class PacketExplosion extends PCPacket {
 		writer.writeLFloat(this.posY);
 		writer.writeLFloat(this.posZ);
 		writer.writeSignedVarInt((int) (this.radius*32));
-		writer.writeUnsignedVarInt(this.blocks.size());
+		writer.writeUnsignedVarInt(this.affectedBlocksX.length);
 		
-		for(Vector3 block:this.blocks){
-			writer.writeSignedVarInt(block.getFloorX());
-			writer.writeUnsignedVarInt(block.getFloorY());
-			writer.writeSignedVarInt(block.getFloorZ());
+		for(int i=0; i<this.affectedBlocksX.length; i++){
+			writer.writeSignedVarInt(this.affectedBlocksX[i]);
+			writer.writeUnsignedVarInt(this.affectedBlocksY[i]);
+			writer.writeSignedVarInt(this.affectedBlocksZ[i]);
 		}
 	}
 

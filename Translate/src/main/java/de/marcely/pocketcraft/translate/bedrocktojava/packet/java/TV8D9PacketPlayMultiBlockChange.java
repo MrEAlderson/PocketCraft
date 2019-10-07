@@ -13,10 +13,24 @@ public class TV8D9PacketPlayMultiBlockChange extends JavaPacketTranslator<V8D9Pa
 
 	@Override
 	public void handle(V8D9PacketPlayMultiBlockChange packet, Player player){
+		V8Chunk chunk = null;
+		Integer beforeChunkX = null, beforeChunkZ = null;
+		
 		for(int i=0; i<packet.data.length; i++){
 			final int x = packet.chunkX*16+packet.relX[i];
 			final int z = packet.chunkZ*16+packet.relZ[i];
-			final V8Chunk chunk = player.getWorld().getChunk(x >> 4, z >> 4, V8Chunk.class);
+			
+			// look for chunk
+			{
+				final int chunkX = x >> 4;
+				final int chunkZ = z >> 4;
+				
+				if(beforeChunkX == null || (chunkX != beforeChunkX || chunkZ != beforeChunkZ)){
+					beforeChunkX = chunkX;
+					beforeChunkZ = chunkZ;
+					chunk = player.getWorld().getChunk(x >> 4, z >> 4, V8Chunk.class);
+				}
+			}
 			
 			if(chunk == null)
 				continue;

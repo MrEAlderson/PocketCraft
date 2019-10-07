@@ -114,7 +114,7 @@ public class ProtocolV8D9 extends Protocol {
 				null, // block action
 				null, // block break animation
 				V8D9PacketPlayMapChunkBulk.class,
-				null, // explosion
+				V8D9PacketPlayExplosion.class,
 				null, // world event
 				null, // named sound effect
 				null, // world particles
