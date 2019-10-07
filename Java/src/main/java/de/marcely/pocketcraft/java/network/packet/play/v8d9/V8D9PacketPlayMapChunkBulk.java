@@ -11,12 +11,12 @@ public class V8D9PacketPlayMapChunkBulk extends PlayPacket {
 	public int[] x;
 	public int[] z;
 	public byte[][] data;
-	public boolean containsSkyLightData;
+	public boolean isFullChunk;
 	public int[] primaryBitMask;
 
 	@Override
 	public void write(EByteBuf stream) throws Exception {
-		stream.writeBoolean(this.containsSkyLightData);
+		stream.writeBoolean(this.isFullChunk);
 		stream.writeVarInt(this.x.length);
 		
 		for(int i=0; i<this.x.length; i++){
@@ -31,7 +31,7 @@ public class V8D9PacketPlayMapChunkBulk extends PlayPacket {
 
 	@Override
 	public void read(EByteBuf stream) throws Exception {
-		this.containsSkyLightData = stream.readBoolean();
+		this.isFullChunk = stream.readBoolean();
 		{
 			final int size = stream.readVarInt();
 			
@@ -45,7 +45,7 @@ public class V8D9PacketPlayMapChunkBulk extends PlayPacket {
 			this.x[i] = stream.readInt();
 			this.z[i] = stream.readInt();
 			this.primaryBitMask[i] = (short)(stream.readShort() & 0xFFFF);
-			this.data[i] = new byte[getChunkDataSize(Integer.bitCount(this.primaryBitMask[i]), this.containsSkyLightData, true)];
+			this.data[i] = new byte[getChunkDataSize(Integer.bitCount(this.primaryBitMask[i]), this.isFullChunk, true)];
 		}
 		
 		for(int i=0; i<this.x.length; i++)

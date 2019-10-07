@@ -28,7 +28,7 @@ public class TV8D9PacketPlayLogin extends JavaPacketTranslator<V8D9PacketPlayLog
 		// bedrock login
 		{
 			player.getBedrock().initEntity(packet.entityId);
-			player.setViewDistance((byte) packet.viewDistance);
+			player.setServerViewDistance((byte) packet.viewDistance);
 			
 			sendGamePacket(packet, player);
 			
@@ -158,6 +158,9 @@ public class TV8D9PacketPlayLogin extends JavaPacketTranslator<V8D9PacketPlayLog
 		out.pitch = 0F;
 		out.seed = -1;
 		out.dimension = (byte) (DimensionTranslator.toBedrock(packet.dimension).getId());
+		/* 0 = old
+		 * 1 = infinite
+		 * 2 = flat */
 		out.generator = 1;
 		out.difficulty = DifficultyTranslator.toBedrock(packet.difficulty);
 		out.spawnX = 0;

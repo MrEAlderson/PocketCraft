@@ -1,8 +1,8 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.world;
 
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.Collection;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -10,18 +10,18 @@ import lombok.Getter;
 
 public class World {
 	
-	@Getter private Map<Long, Chunk> chunks = new HashMap<>();
+	@Getter private Map<Long, Chunk> chunksMap = new ConcurrentHashMap<>();
 	
 	public void unloadAllChunks(){
-		this.chunks.clear();
+		this.chunksMap.clear();
 	}
 	
 	public void addChunk(int x, int z, Chunk chunk){
-		this.chunks.put(getChunkIndex(x, z), chunk);
+		this.chunksMap.put(getChunkIndex(x, z), chunk);
 	}
 	
 	public @Nullable Chunk getChunk(int x, int z){
-		return this.chunks.get(getChunkIndex(x, z));
+		return this.chunksMap.get(getChunkIndex(x, z));
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -33,16 +33,11 @@ public class World {
 		return (((long) x) | ((long) z << 32L));
 	}
 	
-	public void unloadFarChunks(int x, int z, int distance){
-		final Iterator<Long> it = chunks.keySet().iterator();
-		
-		while(it.hasNext()){
-			final long combined = it.next();
-			final int cX = (int) combined;
-			final int cZ = (int) (combined >> 32L);
-			
-			if(Math.abs(x - cX) + Math.abs(z - cZ) > distance)
-				it.remove();
-		}
+	public boolean unloadChunk(int x, int z){
+		return this.chunksMap.remove(getChunkIndex(x, z)) != null;
+	}
+	
+	public Collection<Chunk> getChunks(){
+		return this.chunksMap.values();
 	}
 }

@@ -2,7 +2,8 @@ package de.marcely.pocketcraft.bedrock.world;
 
 import java.io.IOException;
 
-import de.marcely.pocketcraft.bedrock.network.packet.PCPacket;
+import org.jetbrains.annotations.Nullable;
+
 import de.marcely.pocketcraft.bedrock.network.packet.PacketFullChunk;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketType;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
@@ -11,12 +12,17 @@ import lombok.Getter;
 public class Chunk {
 	
 	@Getter private final ChunkSection[] sections;
+	@Getter private final byte[] biomes;
 	
 	public Chunk(){
-		this.sections = new ChunkSection[16];
+		{
+			this.sections = new ChunkSection[16];
+			
+			for(int i=0; i<this.sections.length; i++)
+				this.sections[i] = new ChunkSection();
+		}
 		
-		for(int i=0; i<this.sections.length; i++)
-			this.sections[i] = new ChunkSection();
+		this.biomes = new byte[16*16];
 	}
 	
 	public short getBlockId(int x, int y, int z){
@@ -35,6 +41,22 @@ public class Chunk {
 		this.sections[y >> 4].setBlockData(x, y%16, z, data);
 	}
 	
+	public @Nullable Biome getBiome(int x, int z){
+		return Biome.getById(getBiomeId(x, z));
+	}
+	
+	public byte getBiomeId(int x, int z){
+		return this.biomes[(x << 4) | z];
+	}
+	
+	public void setBiome(int x, int z, Biome biome){
+		setBiome(x, z, biome.getId());
+	}
+	
+	public void setBiome(int x, int z, byte id){
+		this.biomes[(x << 4) | z] = id;
+	}
+	
 	private byte[] getData() throws IOException {
 		final EByteArrayWriter stream = new EByteArrayWriter();
 		
@@ -48,7 +70,7 @@ public class Chunk {
 			}
 		}
 		
-		stream.write(new byte[16*16]); // biomes
+		stream.write(this.biomes); // biomes
 		stream.writeSignedByte((byte) 0); // unkown
 		stream.writeSignedVarInt(0); // extra data
 		
@@ -62,7 +84,7 @@ public class Chunk {
 		return stream.toByteArray();
 	}
 	
-	public PCPacket buildPacket(int x, int z){
+	public PacketFullChunk buildPacket(int x, int z){
 		final PacketFullChunk packet = (PacketFullChunk) PacketType.FullChunk.newInstance();
 		
 		packet.posX = x;

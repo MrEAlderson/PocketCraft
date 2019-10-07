@@ -1,4 +1,4 @@
-{
+	{
     "minecraft:air": 0,
     "minecraft:stone": 1,
     "minecraft:grass": 2,
@@ -124,7 +124,11 @@
     "minecraft:dragon_egg": 122,
     "minecraft:redstone_lamp": 123,
     "minecraft:lit_redstone_lamp": 124,
-    "minecraft:dropper": 125,
+    
+
+
+
+	"minecraft:dropper": 125,
     "minecraft:activator_rail": 126,
     "minecraft:cocoa": 127,
     "minecraft:sandstone_stairs": 128,

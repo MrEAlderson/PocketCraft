@@ -1,7 +1,6 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.world;
 
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.Map.Entry;
 
 import de.marcely.pocketcraft.bedrock.network.packet.PCPacket;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketNetworkChunkPublisherUpdate;
@@ -30,9 +29,10 @@ public class Player {
 	@Getter @Setter private float x, y, z, yaw, pitch;
 	@Getter @Setter private boolean isOnGround;
 	
-	@Getter @Setter private byte viewDistance;
+	@Getter @Setter private byte viewDistance = 8, serverViewDistance;
 	
-	public Queue<PCPacket> queuedChunks = new ConcurrentLinkedQueue<>();
+	private Integer chunkX = null, chunkZ = null;
+	private int chunkUpdateTick = 0;
 	
 	public Player(BedrockToJavaTranslator translator, BedrockClient bedrock, JavaClient java){
 		this.translator = translator;
@@ -52,30 +52,54 @@ public class Player {
 		return (int) this.bedrock.getEntity().getId();
 	}
 	
-	int i = 0;
+	private boolean isChunkInDistance(int chunkX, int chunkZ, int viewerX, int viewerZ, int distance){
+		return (chunkX >= viewerX - distance) && (chunkX <= viewerX + distance) && (chunkZ >= viewerZ - distance) && (chunkZ <= viewerZ + distance);
+	}
 	
 	public void tick(){
-		if((i++)%40 == 0){
-			if(this.queuedChunks.size() >= 10){
+		// send chunks
+		{
+			final int newChunkX = ((int) this.x) >> 4;
+			final int newChunkZ = ((int) this.z) >> 4;
+			
+			this.chunkUpdateTick++;
+			
+			if(this.chunkUpdateTick >= 60 && (this.chunkX == null || (this.chunkX != newChunkX || this.chunkZ != newChunkZ))){	
+				this.chunkUpdateTick = 0;
+				this.chunkX = newChunkX;
+				this.chunkZ = newChunkZ;
+				
+				int sentChunks = 0;
+				
 				{
+					for(Entry<Long, Chunk> e:this.world.getChunksMap().entrySet()){
+						final Chunk chunk = e.getValue();
+						final int x = (int) (long) e.getKey();
+						final int z = (int) (e.getKey() >> 32L);
+						
+						if(!chunk.isSent() &&
+						   isChunkInDistance(x, z, newChunkX, newChunkZ, this.viewDistance-1)){
+							
+							sendPacket(chunk.buildPacket(x, z));
+							chunk.setSent(true);
+							sentChunks++;
+						}
+					}
+				}
+				
+				if(sentChunks >= 1){
 					final PacketNetworkChunkPublisherUpdate out = new PacketNetworkChunkPublisherUpdate();
 					
 					out.x = (int) this.x;
 					out.y = (int) this.y;
 					out.z = (int) this.z;
-					out.radius = 32 << 4;
+					out.radius = this.viewDistance << 4;
 					
 				    sendPacket(out);
 				}
-				
-				{
-					PCPacket packet = null;
-					
-					while((packet = this.queuedChunks.poll()) != null)
-						sendPacket(packet);
-				}
 			}
 		}
+		
 		// drag him down if he's on void. bedrock players walk on it for whatever reason
 		if(this.y <= -39){
 			this.y -= 0.4F;

@@ -12,7 +12,9 @@ public class PacketChunkRadiusChangeRequest extends PCPacket {
 	}
 
 	@Override
-	public void encode(EByteArrayWriter writer) throws Exception { }
+	public void encode(EByteArrayWriter writer) throws Exception {
+		writer.writeSignedVarInt(this.radius);
+	}
 
 	@Override
 	public void decode(EByteArrayReader reader) throws Exception {

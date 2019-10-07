@@ -15,6 +15,12 @@ public class TV8D9PacketPlayMapChunkBulk extends JavaPacketTranslator<V8D9Packet
 			final byte[] data = packet.data[i];
 			final int primaryBitMask = packet.primaryBitMask[i];
 			
+			// unload chunk
+			if(packet.isFullChunk && primaryBitMask == 0){
+				player.getWorld().unloadChunk(x, z);
+				continue;
+			}
+			
 			// looks for existing old (if packet has sent a full chunk)
 			/*final V8Chunk oldChunk =
 					!packet.containsSkyLightData ?
@@ -32,9 +38,6 @@ public class TV8D9PacketPlayMapChunkBulk extends JavaPacketTranslator<V8D9Packet
 			if(oldChunk == null){
 				player.getWorld().addChunk(x, z, newChunk);
 			}
-			
-			// finally send it
-			player.queuedChunks.add(newChunk.buildPacket(x, z));
 		}
 	}
 }

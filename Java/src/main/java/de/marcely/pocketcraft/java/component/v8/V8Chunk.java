@@ -8,11 +8,27 @@ import lombok.Getter;
 public class V8Chunk {
 	
 	@Getter private final V8ChunkSection[] sections;
-	@Getter private byte[] biomeIds;
+	@Getter private byte[] biomes;
 	
 	public V8Chunk(){
 		this.sections = new V8ChunkSection[16];
-		this.biomeIds = new byte[16*16];
+		this.biomes = new byte[16*16];
+	}
+	
+	public @Nullable V8Biome getBiome(int x, int z){
+		return V8Biome.getById(getBiomeId(x, z));
+	}
+	
+	public byte getBiomeId(int x, int z){
+		return this.biomes[(x << 4) | z];
+	}
+	
+	public void setBiome(int x, int z, V8Biome biome){
+		setBiome(x, z, biome.getId());
+	}
+	
+	public void setBiome(int x, int z, byte id){
+		this.biomes[(x << 4) | z] = id;
 	}
 	
 	/**
@@ -44,7 +60,7 @@ public class V8Chunk {
 					buf.skipBytes(2048);
 				
 				// biome ids
-				chunk.biomeIds = buf.read(16*16);
+				chunk.biomes = buf.read(16*16);
 			}
 		}finally{
 			buf.release();
