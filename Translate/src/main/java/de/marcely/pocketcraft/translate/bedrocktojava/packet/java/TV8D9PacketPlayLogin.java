@@ -30,6 +30,8 @@ public class TV8D9PacketPlayLogin extends JavaPacketTranslator<V8D9PacketPlayLog
 			player.setSpawning(true);
 			player.getWorld().setDimension(DimensionTranslator.toBedrock(packet.dimension));
 			
+			System.out.println("SERVER: " + packet.viewDistance);
+			
 			sendGamePacket(packet, player);
 			
 			// test

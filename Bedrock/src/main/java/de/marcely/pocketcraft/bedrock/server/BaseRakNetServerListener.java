@@ -6,6 +6,8 @@ import com.whirvis.jraknet.RakNet;
 import com.whirvis.jraknet.RakNetPacket;
 import com.whirvis.jraknet.identifier.MinecraftIdentifier;
 import com.whirvis.jraknet.peer.RakNetClientPeer;
+import com.whirvis.jraknet.protocol.message.EncapsulatedPacket;
+import com.whirvis.jraknet.protocol.message.acknowledge.Record;
 import com.whirvis.jraknet.protocol.status.UnconnectedPong;
 import com.whirvis.jraknet.server.RakNetServer;
 import com.whirvis.jraknet.server.RakNetServerListener;
@@ -100,5 +102,14 @@ public class BaseRakNetServerListener implements RakNetServerListener {
 		};
 		
 		this.server.getListeners().forEach(listener -> listener.onServerInfoRequest(request));
+	}
+	
+	@Override
+	public void onAcknowledge(RakNetServer server, RakNetClientPeer client, Record record, EncapsulatedPacket packet){
+		final BedrockClient player = this.server.getPlayer(client);
+		
+		if(player.isGettingKicked()){
+			player.getClient().disconnect();
+		}
 	}
 }

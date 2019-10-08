@@ -35,7 +35,7 @@ public class Player {
 	@Getter private boolean spawning = false;
 	
 	private Integer chunkX = null, chunkZ = null;
-	private int chunkUpdateTick = 0;
+	private int currentTick = 0;
 	
 	public Player(BedrockToJavaTranslator translator, BedrockClient bedrock, JavaClient java){
 		this.translator = translator;
@@ -60,15 +60,14 @@ public class Player {
 	}
 	
 	public void tick(){
+		this.currentTick++;
+		
 		// send chunks
 		{
 			final int newChunkX = ((int) this.x) >> 4;
 			final int newChunkZ = ((int) this.z) >> 4;
 			
-			this.chunkUpdateTick++;
-			
-			if(this.chunkUpdateTick >= 40 && this.world.getChunksMap().size() >= 1 && (this.chunkX == null || (this.chunkX != newChunkX || this.chunkZ != newChunkZ))){	
-				this.chunkUpdateTick = 0;
+			if(this.currentTick % 40 == 0 && (this.chunkX == null || (this.chunkX != newChunkX || this.chunkZ != newChunkZ))){
 				this.chunkX = newChunkX;
 				this.chunkZ = newChunkZ;
 				
@@ -176,7 +175,7 @@ public class Player {
 				sendPacket(out);
 			
 			
-			}else{
+			}else if(this.currentTick % 20 == 0){ // only every second
 				final V8D9PacketPlayClientStanding out = new V8D9PacketPlayClientStanding();
 				
 				out.isOnGround = this.isOnGround;
@@ -191,6 +190,13 @@ public class Player {
 		
 		if(spawning){
 			// resend chunks
+			this.chunkX = null;
+			this.chunkZ = null;
+		}
+	}
+	
+	public void receivedChunk(int x, int z){
+		if(isChunkInDistance(x, z, (int) this.x >> 4, (int) this.z >> 4, this.viewDistance)){
 			this.chunkX = null;
 			this.chunkZ = null;
 		}

@@ -33,6 +33,7 @@ public class TV8D9PacketPlayMapChunk extends JavaPacketTranslator<V8D9PacketPlay
 		// add it to system
 		if(oldChunk == null){
 			player.getWorld().addChunk(packet.x, packet.z, newChunk);
+			player.receivedChunk(packet.x, packet.z);
 		}
 	}
 }

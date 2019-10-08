@@ -5,11 +5,9 @@ import de.marcely.pocketcraft.bedrock.network.packet.PacketPlayerMove.PlayerMove
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayAbilities;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayClientCommand;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayClientPositionLook;
-import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayClientStanding;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayTeleport;
 import de.marcely.pocketcraft.translate.bedrocktojava.packet.JavaPacketTranslator;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
-import de.marcely.pocketcraft.utils.scheduler.Scheduler;
 
 public class TV8D9PacketPlayTeleport extends JavaPacketTranslator<V8D9PacketPlayTeleport> {
 
@@ -61,15 +59,6 @@ public class TV8D9PacketPlayTeleport extends JavaPacketTranslator<V8D9PacketPlay
 		}
 		
 		if(!first){
-			Scheduler.runRepeated(() -> {
-				final V8D9PacketPlayClientStanding out = new V8D9PacketPlayClientStanding();
-				
-				out.isOnGround = false;
-				
-				player.sendPacket(out);
-			}, 1000, 1000);
-			
-
 			{
 				final V8D9PacketPlayClientCommand out = new V8D9PacketPlayClientCommand();
 				
@@ -106,8 +95,5 @@ public class TV8D9PacketPlayTeleport extends JavaPacketTranslator<V8D9PacketPlay
 			
 			player.sendPacket(out);
 		}
-		
-		
-		System.out.println("========== HOOORAY");
 	}
 }

@@ -72,8 +72,8 @@ public class BedrockServerInterface implements ServerListener {
 				}
 				
 				public void onDisconnect(){
-					System.out.println("Server close");
-					bedrockClient.getClient().disconnect();
+					if(!bedrockClient.isGettingKicked())
+						bedrockClient.getClient().disconnect();
 					
 					final Player player = translator.getPlayer(bedrockClient.getClient().getAddress());
 					

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.jetbrains.annotations.Nullable;
+
 import com.whirvis.jraknet.RakNetPacket;
 import com.whirvis.jraknet.peer.RakNetClientPeer;
 import com.whirvis.jraknet.protocol.Reliability;
@@ -12,6 +14,7 @@ import com.whirvis.jraknet.protocol.Reliability;
 import de.marcely.pocketcraft.bedrock.component.GameRules;
 import de.marcely.pocketcraft.bedrock.network.packet.PCPacket;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketBatch;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketDisconnect;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketGameRules;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketType;
 import de.marcely.pocketcraft.bedrock.server.BedrockServer;
@@ -29,6 +32,8 @@ public class BedrockClient {
 	@Getter private final List<PacketListener> packetListeners = new ArrayList<>(4);
 	
 	@Getter private Entity entity;
+	
+	@Getter private boolean isGettingKicked = false;
 	
 	public BedrockClient(BedrockServer server, RakNetClientPeer client){
 		this.server = server;
@@ -54,10 +59,10 @@ public class BedrockClient {
 	}
 	
 	public void sendPacket(PCPacket packet){
-		sendPacket(packet, true);
+		sendPacket(packet, Reliability.RELIABLE_ORDERED);
 	}
 	
-	private void sendPacket(PCPacket packet, boolean reliable){
+	private void sendPacket(PCPacket packet, Reliability rel){
 		if(packet.getType() != PacketType.Batch){
 			final PacketBatch batch = new PacketBatch();
 			
@@ -91,7 +96,7 @@ public class BedrockClient {
 				e.printStackTrace();
 			}
 			
-			this.client.sendMessage(reliable ? Reliability.RELIABLE_ORDERED : Reliability.UNRELIABLE, 2, rnPacket);
+			this.client.sendMessage(rel, packet.getType().getChannel().id, rnPacket);
 		}
 	}
 	
@@ -133,5 +138,24 @@ public class BedrockClient {
 		packet.gameRules = gr;
 		
 		this.sendPacket(packet);
+	}
+	
+	public void kick(@Nullable String message){
+		// seems to have no reason, so there's also no need to send the kick packet to the player
+		if(message == null || message.isEmpty()){
+			this.client.disconnect();
+			return;
+		}
+		
+		// disconnect when player has received info packet
+		{
+			final PacketDisconnect out = new PacketDisconnect();
+			
+			out.reason = message;
+			out.hideScreen = false;
+			
+			this.isGettingKicked = true;
+			sendPacket(out, Reliability.RELIABLE_WITH_ACK_RECEIPT);
+		}
 	}
 }

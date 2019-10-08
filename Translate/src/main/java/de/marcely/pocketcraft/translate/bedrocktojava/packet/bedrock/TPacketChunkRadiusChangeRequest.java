@@ -11,7 +11,7 @@ public class TPacketChunkRadiusChangeRequest extends BedrockPacketTranslator<Pac
 	public void handle(PacketChunkRadiusChangeRequest packet, Player player){
 		final PacketChunkRadiusChange out = new PacketChunkRadiusChange();
 		
-		player.setViewDistance((byte) (out.radius = (int) (Math.max(8, Math.min(player.getServerViewDistance(), packet.radius)))));
+		player.setViewDistance((byte) (out.radius = (int) (Math.max(4, Math.min(64, packet.radius)))));
 		
 		System.out.println("NEW VIEWDISTANCE: " + out.radius + " " + packet.radius + " " + player.getServerViewDistance());
 		
