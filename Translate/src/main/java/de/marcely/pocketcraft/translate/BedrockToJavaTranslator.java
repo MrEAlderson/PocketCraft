@@ -109,6 +109,7 @@ public class BedrockToJavaTranslator extends Translator {
 		
 		defineBedrock(PacketPlayerMove.class, TPacketPlayerMove.class);
 		defineBedrock(PacketChunkRadiusChangeRequest.class, TPacketChunkRadiusChangeRequest.class);
+		defineBedrock(PacketText.class, TPacketText.class);
 	}
 	
 	protected void defineJava(Class<? extends Packet> packet, Class<? extends JavaPacketTranslator<?>> translatorClazz){

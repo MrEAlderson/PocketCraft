@@ -1,20 +1,27 @@
 package de.marcely.pocketcraft.bedrock.network.packet;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
 public class PacketText extends PCPacket {
 	
-	public TextType type;
+	public static final byte TYPE_RAW = 0;
+    public static final byte TYPE_CHAT = 1;
+    public static final byte TYPE_TRANSLATION = 2;
+    public static final byte TYPE_POPUP = 3;
+    public static final byte TYPE_JUKEBOX_POPUP = 4;
+    public static final byte TYPE_TIP = 5;
+    public static final byte TYPE_SYSTEM = 6;
+    public static final byte TYPE_WHISPER = 7;
+    public static final byte TYPE_ANNOUNCEMENT = 8;
+    public static final byte TYPE_JSON = 9;
+	
+	public byte type;
 	public String source = "", message = "";
     public String[] parameters = new String[0];
     public boolean isLocalized = false;
+    public String xboxUserId = "";
     public String platformChatID = "";
-    public String thirdPartyName = "";
-    public int platformID;
 	
 	public PacketText(){
 		super(PacketType.Text);
@@ -22,26 +29,27 @@ public class PacketText extends PCPacket {
 
 	@Override
 	public void encode(EByteArrayWriter writer) throws Exception {
-		writer.writeSignedByte(type.id);
+		writer.writeSignedByte(this.type);
 		writer.writeBoolean(this.isLocalized);
 		
 		switch(type){
-        case POPUP:
-        case CHAT:
-        case WHISPER:
-        case ANNOUNCEMENT:
-        	writer.writeString(source);
-        	writer.writeString(thirdPartyName);
-        	writer.writeUnsignedVarInt(this.platformID);
-        case RAW:
-        case TIP:
-        case SYSTEM:
-        	writer.writeString(message);
+        case TYPE_CHAT:
+        case TYPE_WHISPER:
+        case TYPE_ANNOUNCEMENT:
+        	writer.writeString(this.source);
+       
+        case TYPE_RAW:
+        case TYPE_TIP:
+        case TYPE_SYSTEM:
+        case TYPE_JSON:
+        	writer.writeString(this.message);
         	break;
         
-        case TRANSLATION:
-        	writer.writeString(message);
-            writer.writeUnsignedVarInt(parameters.length);
+        case TYPE_TRANSLATION:
+        case TYPE_POPUP:
+        case TYPE_JUKEBOX_POPUP:
+        	writer.writeString(this.message);
+            writer.writeUnsignedVarInt(this.parameters.length);
             
             for(String parameter:this.parameters)
             	writer.writeString(parameter);
@@ -49,29 +57,31 @@ public class PacketText extends PCPacket {
             break;
 		}
 		
+		writer.writeString(this.xboxUserId);
 		writer.writeString(this.platformChatID);
 	}
 
 	@Override
 	public void decode(EByteArrayReader reader) throws Exception {
-		this.type = TextType.VALUES.get(reader.readSignedByte());
-		this.isLocalized = reader.readBoolean() || this.type == TextType.TRANSLATION;
+		this.type = reader.readSignedByte();
+		this.isLocalized = reader.readBoolean() || this.type == TYPE_TRANSLATION;
 		
 		switch(type){
-        case POPUP:
-        case CHAT:
-        case WHISPER:
-        case ANNOUNCEMENT:
+        case TYPE_CHAT:
+        case TYPE_WHISPER:
+        case TYPE_ANNOUNCEMENT:
         	this.source = reader.readString();
-        	this.thirdPartyName = reader.readString();
-        	this.platformID = reader.readSignedVarInt();
-        case RAW:
-        case TIP:
-        case SYSTEM:
+       
+        case TYPE_RAW:
+        case TYPE_TIP:
+        case TYPE_SYSTEM:
+        case TYPE_JSON:
         	this.message = reader.readString();
         	break;
         
-        case TRANSLATION:
+        case TYPE_TRANSLATION:
+        case TYPE_POPUP:
+        case TYPE_JUKEBOX_POPUP:
         	this.message = reader.readString();
             this.parameters = new String[(int) reader.readUnsignedVarInt()];
         	
@@ -81,32 +91,7 @@ public class PacketText extends PCPacket {
             break;
 		}
 		
+		this.xboxUserId = reader.readString();
 		this.platformChatID = reader.readString();
-	}
-	
-	
-	
-	public static enum TextType {
-		RAW((byte) 0x0),
-		CHAT((byte) 0x1),
-		TRANSLATION((byte) 0x2),
-		POPUP((byte) 0x3),
-		TIP((byte) 0x4),
-		SYSTEM((byte) 0x5),
-		WHISPER((byte) 0x6),
-		ANNOUNCEMENT((byte) 0x7);
-		
-		public static Map<Byte, TextType> VALUES = new HashMap<>();
-		
-		public byte id;
-		
-		static {
-			for(TextType type:values())
-				VALUES.put(type.id, type);
-		}
-		
-		private TextType(byte id){
-			this.id = id;
-		}
 	}
 }
