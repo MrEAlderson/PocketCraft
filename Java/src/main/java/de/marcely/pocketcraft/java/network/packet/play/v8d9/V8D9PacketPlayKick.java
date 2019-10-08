@@ -13,12 +13,12 @@ public class V8D9PacketPlayKick extends PlayPacket {
 	
 	@Override
 	public void write(EByteBuf stream) throws Exception {
-		stream.writeChat(this.message);
+		stream.writeChatPlain(this.message);
 	}
 
 	@Override
 	public void read(EByteBuf stream) throws Exception {
-		this.message = stream.readChat();
+		this.message = stream.readChatPlain();
 	}
 
 	@Override

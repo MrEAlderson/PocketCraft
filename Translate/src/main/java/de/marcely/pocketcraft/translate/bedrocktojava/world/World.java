@@ -34,7 +34,7 @@ public class World {
 	}
 	
 	private long getChunkIndex(int x, int z){
-		return (((long) x) | ((long) z << 32L));
+		return ((x & 0xFFFFFFFFL) | ((long) z << 32L));
 	}
 	
 	public boolean unloadChunk(int x, int z){

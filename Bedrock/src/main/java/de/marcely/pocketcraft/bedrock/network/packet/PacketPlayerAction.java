@@ -1,16 +1,55 @@
 package de.marcely.pocketcraft.bedrock.network.packet;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
 public class PacketPlayerAction extends PCPacket {
 	
+	public static final int TYPE_START_BREAK = 0;
+    public static final int TYPE_ABORT_BREAK = 1;
+    public static final int TYPE_STOP_BREAK = 2;
+    public static final int TYPE_GET_UPDATED_BLOCK = 3;
+    
+    public static final int TYPE_DROP_ITEM = 4;
+    
+    public static final int TYPE_START_SLEEPING = 5;
+    public static final int TYPE_STOP_SLEEPING = 6;
+    
+    public static final int TYPE_RESPAWN = 7;
+    
+    public static final int TYPE_JUMP = 8;
+    
+    public static final int TYPE_START_SPRINT = 9;
+    public static final int TYPE_STOP_SPRINT = 10;
+    
+    public static final int TYPE_START_SNEAK = 11;
+    public static final int TYPE_STOP_SNEAK = 12;
+    
+    // sent when dying in different dimension
+    public static final int TYPE_DIMENSION_CHANGE_REQUEST = 13;
+    // sent when spawning in a different dimension to tell the server we spawned
+    public static final int TYPE_DIMENSION_CHANGE_ACK = 14;
+   
+    public static final int TYPE_START_GLIDE = 15;
+    public static final int TYPE_STOP_GLIDE = 16;
+    
+    public static final int TYPE_BUILD_DENIED = 17;
+    public static final int TYPE_CONTINUE_BREAK = 18;
+    
+    public static final int TYPE_SET_ENCHANTMENT_SEED = 20;
+    
+    public static final int TYPE_START_SWIMMING = 21;
+    public static final int TYPE_STOP_SWIMMING = 22;
+    
+    public static final int TYPE_START_SPIN_ATTACK = 23;
+    public static final int TYPE_STOP_SPIN_ATTACK = 24;
+	
 	public long entityID;
-	public PlayerActionType type;
-	public int x, y, z, face;
+	public byte type;
+	public int x;
+	public int y;
+	public int z;
+	public int face;
 	
 	public PacketPlayerAction(){
 		super(PacketType.PlayerAction);
@@ -18,80 +57,21 @@ public class PacketPlayerAction extends PCPacket {
 
 	@Override
 	public void encode(EByteArrayWriter writer) throws Exception {
-		writer.writeUnsignedVarLong(entityID);
-		writer.writeSignedVarInt(type.id);
-		writer.writeSignedVarInt(x);
-		writer.writeUnsignedVarInt(y);
-		writer.writeSignedVarInt(z);
-		writer.writeSignedVarInt(face);
+		writer.writeUnsignedVarLong(this.entityID);
+		writer.writeSignedVarInt(this.type);
+		writer.writeSignedVarInt(this.x);
+		writer.writeUnsignedVarInt(this.y);
+		writer.writeSignedVarInt(this.z);
+		writer.writeSignedVarInt(this.face);
 	}
 
 	@Override
 	public void decode(EByteArrayReader reader) throws Exception {
 		this.entityID = reader.readUnsignedVarLong();
-		this.type = PlayerActionType.VALUES.get(reader.readSignedVarInt());
+		this.type = (byte) reader.readSignedVarInt();
 		this.x = reader.readSignedVarInt();
 		this.y = (int) reader.readUnsignedVarInt();
 		this.z = reader.readSignedVarInt();
 		this.face = reader.readSignedVarInt();
-	}
-	
-	
-	
-	public static enum PlayerActionType {
-	    
-		// blocks
-		BREAK_START(0),
-		BREAK_ABORT(1),
-		BREAK_STOP(2),
-		BREAKING(18),
-		
-		GET_UPDATED_BLOCK(3),
-		BUILD_DENIED(17),
-		
-		// movement
-		JUMP(8),
-		SPRINT_START(9),
-		SPRINT_STOP(10),
-		SNEAK_START(11),
-		SNEAK_STOP(12),
-		
-		// sleeping
-		SLEEPING_START(5),
-		SLEEPING_STOP(6),
-		
-		// eltrya
-		ELYTRA_GLIDING_START(15),
-		ELYTRA_GLIDING_STOP(16),
-		
-		// dimension stuff
-		DIMENSION_CHANGE_REQUEST(13),
-		DIMENSION_CHANGE_ACK(14),
-		
-		// swimming
-		SWIMMING_START(21),
-		SWIMMING_STOP(22),
-		
-		// spin attack
-		SPIN_ATTACK_START(23),
-		SPIN_ATTACK_STOP(24),
-		
-		// others
-		DROP_ITEM(4),
-		RESPAWN(7),
-		ENCHANTMENT_SET_SEET(20);
-	    
-		public static final Map<Integer, PlayerActionType> VALUES = new HashMap<>();
-		
-	    public final int id;
-	    
-		static {
-			for(PlayerActionType type:values())
-				VALUES.put(type.id, type);
-		}
-	    
-	    private PlayerActionType(int id){
-	    	this.id = id;
-	    }
 	}
 }

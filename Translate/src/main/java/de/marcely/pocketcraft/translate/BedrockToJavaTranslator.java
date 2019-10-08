@@ -106,10 +106,12 @@ public class BedrockToJavaTranslator extends Translator {
 		defineJava(V8D9PacketPlayBlockChange.class, TV8D9PacketPlayBlockChange.class);
 		defineJava(V8D9PacketPlayMultiBlockChange.class, TV8D9PacketPlayMultiBlockChange.class);
 		defineJava(V8D9PacketPlayRespawn.class, TV8D9PacketPlayRespawn.class);
+		defineJava(V8D9PacketPlayServerChatMessage.class, TV8D9PacketPlayServerChatMessage.class);
 		
 		defineBedrock(PacketPlayerMove.class, TPacketPlayerMove.class);
 		defineBedrock(PacketChunkRadiusChangeRequest.class, TPacketChunkRadiusChangeRequest.class);
 		defineBedrock(PacketText.class, TPacketText.class);
+		defineBedrock(PacketPlayerAction.class, TPacketPlayerAction.class);
 	}
 	
 	protected void defineJava(Class<? extends Packet> packet, Class<? extends JavaPacketTranslator<?>> translatorClazz){

@@ -18,13 +18,13 @@ public class V8D9PacketPlayServerChatMessage extends PlayPacket {
 	
 	@Override
 	public void write(EByteBuf stream) throws Exception {
-		stream.writeChat(this.message);
+		stream.writeChatJson(this.message);
 		stream.writeByte(this.position);
 	}
 
 	@Override
 	public void read(EByteBuf stream) throws Exception {
-		this.message = stream.readChat();
+		this.message = stream.readChatJson();
 		this.position = stream.readByte();
 	}
 

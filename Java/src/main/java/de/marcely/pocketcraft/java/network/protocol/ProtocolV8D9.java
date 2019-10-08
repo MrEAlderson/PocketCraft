@@ -57,7 +57,7 @@ public class ProtocolV8D9 extends Protocol {
 				null, // block place
 				null, // held item slot
 				null, // arm animation
-				null, // entity action
+				V8D9PacketPlayClientEntityAction.class,
 				null, // steer vehicle
 				null, // close window
 				null, // window click

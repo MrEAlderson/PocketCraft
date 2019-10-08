@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonIOException;
@@ -36,11 +35,15 @@ public abstract class ChatBaseComponent implements Iterable<ChatBaseComponent> {
 		return builder.toString();
 	}
 	
-	public String writeAsString(){
-		return new Gson().toJson(write());
+	public String writeAsPlainString(){
+		return asPlainText();
 	}
 	
-	public JsonElement write(){
+	public String writeAsJsonString(){
+		return new Gson().toJson(writeJson());
+	}
+	
+	public JsonElement writeJson(){
 		final JsonObject obj = new JsonObject();
 		
 		// modifier
@@ -52,7 +55,7 @@ public abstract class ChatBaseComponent implements Iterable<ChatBaseComponent> {
 			final JsonArray array = new JsonArray();
 			
 			for(ChatBaseComponent sibling:this.siblings)
-				array.add(sibling.write());
+				array.add(sibling.writeJson());
 			
 			obj.add("extra", array);
 		}
@@ -71,7 +74,7 @@ public abstract class ChatBaseComponent implements Iterable<ChatBaseComponent> {
 				final JsonArray extra = new JsonArray(comp.getArgs().length);
 				
 				for(ChatBaseComponent e:comp.getArgs())
-					extra.add(e.write());
+					extra.add(e.writeJson());
 				
 				obj.add("with", extra);
 			}
@@ -103,27 +106,30 @@ public abstract class ChatBaseComponent implements Iterable<ChatBaseComponent> {
 		return obj;
 	}
 	
-	// TODO look for a better solution (remove try/catch)
-	public static ChatBaseComponent parse(String data){
+	public static ChatBaseComponent parsePlain(String data){
+		return new ChatTextComponent(data);
+	}
+	
+	public static ChatBaseComponent parseJson(String data){
 		try{
-			return parse(new GsonBuilder().setLenient().create().fromJson(data, JsonElement.class));
+			return parseJson(new Gson().fromJson(data, JsonElement.class));
 		}catch(JsonIOException e){
 			return new ChatTextComponent(data);
 		}
 	}
 	
-	public static ChatBaseComponent parse(JsonElement el){
+	public static ChatBaseComponent parseJson(JsonElement el){
 		if(el.isJsonPrimitive())
 			return new ChatTextComponent(el.getAsString());
 		else if(el.isJsonObject())
-			return parse(el.getAsJsonObject());
+			return parseJson(el.getAsJsonObject());
 		else if(el.isJsonArray())
-			return parse(el.getAsJsonArray());
+			return parseJson(el.getAsJsonArray());
 		else
 			throw new JsonParseException("Don't know how to turn " + el + " into a Component");
 	}
 	
-	private static ChatBaseComponent parse(JsonObject obj){
+	private static ChatBaseComponent parseJson(JsonObject obj){
 		ChatBaseComponent component = null;
 		
 		// == text
@@ -135,11 +141,11 @@ public abstract class ChatBaseComponent implements Iterable<ChatBaseComponent> {
 			final String key = obj.get("translate").getAsString();
 			
 			if(obj.has("with")){
-				final JsonArray with = obj.getAsJsonArray("width");
+				final JsonArray with = obj.getAsJsonArray("with");
 				final ChatBaseComponent[] args = new ChatBaseComponent[with.size()];
 				
 				for(int i=0; i<with.size(); i++)
-					args[i] = parse(with.get(i));
+					args[i] = parseJson(with.get(i));
 				
 				component = new ChatTranslationComponent(key, args);
 			}else
@@ -179,18 +185,25 @@ public abstract class ChatBaseComponent implements Iterable<ChatBaseComponent> {
 				throw new JsonParseException("Unexpected empty array of components");
 			
 			for(int i=0; i<extra.size(); i++){
-				component.addSibling(parse(extra.get(i).getAsJsonObject()));
+				final JsonElement el = extra.get(i);
+				
+				if(el instanceof JsonObject)
+					component.addSibling(parseJson(el.getAsJsonObject()));
+				else if(el.isJsonPrimitive())
+					component.addSibling(parsePlain(el.getAsString()));
+				else
+					throw new JsonParseException("Don't know how to turn " + el + " into a Component");
 			}
 		}
 		
 		return component;
 	}
 	
-	private static ChatBaseComponent parse(JsonArray array){
+	private static ChatBaseComponent parseJson(JsonArray array){
 		ChatBaseComponent component = null;
 		
 		for(JsonElement el:array){
-			final ChatBaseComponent sibling = parse(el);
+			final ChatBaseComponent sibling = parseJson(el);
 			
 			if(component == null)
 				component = sibling;
@@ -214,7 +227,7 @@ public abstract class ChatBaseComponent implements Iterable<ChatBaseComponent> {
 
 			@Override
 			public ChatBaseComponent next(){
-				return (index++) == -1 ? ChatBaseComponent.this : siblings.get(index);
+				return (index++) == -1 ? ChatBaseComponent.this : siblings.get(index-1);
 			}
 		};
 	}

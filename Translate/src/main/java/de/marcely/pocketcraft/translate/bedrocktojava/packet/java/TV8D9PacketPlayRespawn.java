@@ -3,6 +3,8 @@ package de.marcely.pocketcraft.translate.bedrocktojava.packet.java;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketChangeDimension;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketGameDifficulty;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketGameMode;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketLoginStatus;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketType;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayRespawn;
 import de.marcely.pocketcraft.translate.bedrocktojava.packet.JavaPacketTranslator;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
@@ -14,6 +16,18 @@ public class TV8D9PacketPlayRespawn extends JavaPacketTranslator<V8D9PacketPlayR
 
 	@Override
 	public void handle(V8D9PacketPlayRespawn packet, Player player){
+		if(player.isSpawning()){
+			// the player will otherwise start glitching
+			{
+				final PacketLoginStatus out = (PacketLoginStatus) PacketType.LoginStatus.newInstance();
+				
+				out.result = PacketLoginStatus.PLAYER_SPAWN;
+				
+				player.sendPacket(out);
+		    }
+			return;
+		}
+		
 		// dimension
 		{
 			final PacketChangeDimension out = new PacketChangeDimension();

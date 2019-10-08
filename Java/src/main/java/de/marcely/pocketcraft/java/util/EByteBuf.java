@@ -125,8 +125,12 @@ public class EByteBuf {
 		writeBlockPosition(vec.getFloorX(), vec.getFloorY(), vec.getFloorZ());
 	}
 	
-	public void writeChat(ChatBaseComponent chat){
-		writeString(chat.writeAsString());
+	public void writeChatJson(ChatBaseComponent chat){
+		writeString(chat.writeAsJsonString());
+	}
+	
+	public void writeChatPlain(ChatBaseComponent chat){
+		writeString(chat.writeAsPlainString());
 	}
 	
 	public void read(byte[] dst){
@@ -262,8 +266,12 @@ public class EByteBuf {
 		return new Vector3(val >> 38, val << 26 >> 52, (val << 38 >> 38));
 	}
 	
-	public ChatBaseComponent readChat(){
-		return ChatBaseComponent.parse(readString());
+	public ChatBaseComponent readChatJson(){
+		return ChatBaseComponent.parseJson(readString());
+	}
+	
+	public ChatBaseComponent readChatPlain(){
+		return ChatBaseComponent.parsePlain(readString());
 	}
 	
 	public EByteBuf readAsBuf(int length){
