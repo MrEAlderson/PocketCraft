@@ -13,7 +13,7 @@ public class V8D9PacketPlayAbilities extends PlayPacket {
 	public boolean canFly;
 	public boolean canInstantlyBuild;
 	public float flySpeed;
-	public float fovModifier;
+	public float walkSpeed;
 
 	@Override
 	public void write(EByteBuf stream) throws Exception {
@@ -37,7 +37,7 @@ public class V8D9PacketPlayAbilities extends PlayPacket {
 		}
 		
 		stream.writeFloat(this.flySpeed);
-		stream.writeFloat(this.fovModifier);
+		stream.writeFloat(this.walkSpeed);
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class V8D9PacketPlayAbilities extends PlayPacket {
 		}
 		
 		this.flySpeed = stream.readFloat();
-		this.fovModifier = stream.readFloat();
+		this.walkSpeed = stream.readFloat();
 	}
 
 	@Override

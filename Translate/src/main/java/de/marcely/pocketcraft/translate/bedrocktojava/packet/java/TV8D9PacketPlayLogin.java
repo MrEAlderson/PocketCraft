@@ -3,12 +3,9 @@ package de.marcely.pocketcraft.translate.bedrocktojava.packet.java;
 import de.marcely.pocketcraft.bedrock.component.GameRule;
 import de.marcely.pocketcraft.bedrock.component.GameRules;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityAttributes;
-import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityPermissions;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketGame;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketGameRules;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketType;
-import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityPermissions.CommandPermissionLevel;
-import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityPermissions.PermissionLevel;
 import de.marcely.pocketcraft.bedrock.world.entity.EntityAttribute;
 import de.marcely.pocketcraft.bedrock.world.entity.EntityAttributeType;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayClientSettings;
@@ -26,11 +23,8 @@ public class TV8D9PacketPlayLogin extends JavaPacketTranslator<V8D9PacketPlayLog
 		// bedrock login
 		{
 			player.getBedrock().initEntity(packet.entityId);
-			player.setServerViewDistance((byte) packet.viewDistance);
 			player.setSpawning(true);
 			player.getWorld().setDimension(DimensionTranslator.toBedrock(packet.dimension));
-			
-			System.out.println("SERVER: " + packet.viewDistance);
 			
 			sendGamePacket(packet, player);
 			
@@ -52,23 +46,6 @@ public class TV8D9PacketPlayLogin extends JavaPacketTranslator<V8D9PacketPlayLog
 						new EntityAttribute(EntityAttributeType.KNOCKBACK_RESISTANCE, EntityAttributeType.KNOCKBACK_RESISTANCE.defaultValue),
 						new EntityAttribute(EntityAttributeType.SATURATION, EntityAttributeType.SATURATION.defaultValue)
 					};
-				
-				player.sendPacket(out);
-			}
-			
-			// test
-			{
-				final PacketEntityPermissions out = (PacketEntityPermissions) PacketType.EntityPermissions.newInstance();
-				
-				out.entityUID = player.getEntityId();
-				out.permLevel = PermissionLevel.MEMBER;
-				out.cmdPermLevel = CommandPermissionLevel.NORMAL;
-				
-				//if(this.gamemode == PGameMode.SPECTATOR){
-				//	packet.out |= PacketEntityPermissions.FLAG1_WORLD_IMMUTABLE;
-				//	packet.out |= PacketEntityPermissions.FLAG1_NO_PVP;
-				//	packet.out |= PacketEntityPermissions.FLAG1_NO_CLIP;		
-				//}
 				
 				player.sendPacket(out);
 			}
@@ -97,7 +74,7 @@ public class TV8D9PacketPlayLogin extends JavaPacketTranslator<V8D9PacketPlayLog
 				final V8D9PacketPlayClientSettings out = new V8D9PacketPlayClientSettings();
 				
 				out.locale = "en/EN";
-				out.viewDistance = (byte) Math.min(packet.viewDistance, 16);
+				out.viewDistance = 0 /* server doesnt care */;
 				out.chatMode = V8D9PacketPlayClientSettings.CHAT_ENABLED;
 				out.chatColorsEnabled = true;
 				out.capeEnabled = true;
@@ -155,7 +132,7 @@ public class TV8D9PacketPlayLogin extends JavaPacketTranslator<V8D9PacketPlayLog
 		out.isTrial = false;
 		out.currentTick = 0L;
 		out.startWithMap = false;
-		out.serverChunkTickRange = packet.viewDistance;
+		out.serverChunkTickRange = 8;
 		out.hasLockedBehaviorPack = false;
 		out.hasLockedResourcePack = false;
 		out.isFromLockedWorldTemplate = false;

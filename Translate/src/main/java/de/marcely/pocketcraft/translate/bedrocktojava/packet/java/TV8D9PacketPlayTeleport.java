@@ -2,7 +2,6 @@ package de.marcely.pocketcraft.translate.bedrocktojava.packet.java;
 
 import de.marcely.pocketcraft.bedrock.network.packet.PacketPlayerMove;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketPlayerMove.PlayerMoveType;
-import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayAbilities;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayClientCommand;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayClientPositionLook;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayTeleport;
@@ -63,16 +62,6 @@ public class TV8D9PacketPlayTeleport extends JavaPacketTranslator<V8D9PacketPlay
 				final V8D9PacketPlayClientCommand out = new V8D9PacketPlayClientCommand();
 				
 				out.command = V8D9PacketPlayClientCommand.COMMAND_PERFORM_RESPAWN;
-				
-				player.sendPacket(out);
-			}
-			
-			{
-				final V8D9PacketPlayAbilities out = new V8D9PacketPlayAbilities();
-				
-				out.flySpeed = 0.7F;
-				out.fovModifier = 1F;
-				out.isFlying = true;
 				
 				player.sendPacket(out);
 			}

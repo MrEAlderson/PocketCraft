@@ -124,14 +124,29 @@ public class ByteArrayReader extends ByteArrayInputStream {
     }
     
     private static int readLIntFromBytes(byte[] bytes){
-        return ((bytes[3] & 0xff) << 24) +
-                ((bytes[2] & 0xff) << 16) +
-                ((bytes[1] & 0xff) << 8) +
-                (bytes[0] & 0xff);
+        return ((bytes[3] & 0xFF) << 24) +
+               ((bytes[2] & 0xFF) << 16) +
+               ((bytes[1] & 0xFF) << 8) +
+               (bytes[0] & 0xFF);
+    }
+    
+    private static int readLLongFromBytes(byte[] bytes){
+        return ((bytes[7] & 0xFF) << 64) +
+        	   ((bytes[6] & 0xFF) << 48) +
+        	   ((bytes[5] & 0xFF) << 40) +
+        	   ((bytes[4] & 0xFF) << 32) +
+        	   ((bytes[3] & 0xFF) << 24) +
+               ((bytes[2] & 0xFF) << 16) +
+               ((bytes[1] & 0xFF) << 8) +
+               (bytes[0] & 0xFF);
     }
     
     public int readLInt() throws IOException {
     	return readLIntFromBytes(read(4));
+    }
+    
+    public int readLLong() throws IOException {
+    	return readLLongFromBytes(read(8));
     }
     
     public int getMark(){

@@ -46,7 +46,7 @@ public enum PacketType {
 	InventoryContent(0x31, Channel.INVENTORY, PacketInventoryContent.class), 
 	InventorySetItem(0x32, Channel.INVENTORY, PacketInventorySetItem.class),
 	CraftingData(0x34, Channel.NONE, PacketCraftingData.class),
-	EntityPermissions(0x37, Channel.NONE, PacketEntityPermissions.class),
+	PlayerPermissions(0x37, Channel.NONE, PacketPlayerPermissions.class),
 	BlockEntityData(0x38, Channel.BLOCKS, PacketBlockEntityData.class),
 	FullChunk(0x3A, Channel.WORLD_CHUNKS, PacketFullChunk.class),
 	GameDifficulty(0x3C, Channel.NONE, PacketGameDifficulty.class),

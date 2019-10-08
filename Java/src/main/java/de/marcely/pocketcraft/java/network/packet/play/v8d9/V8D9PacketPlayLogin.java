@@ -18,7 +18,6 @@ public class V8D9PacketPlayLogin extends PlayPacket {
 	public Difficulty difficulty;
 	public int maxPlayers;
 	public String levelType;
-	public int viewDistance;
 	public boolean reducedDebugInfo;
 	
 	@Override

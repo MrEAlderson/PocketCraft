@@ -2,13 +2,18 @@ package de.marcely.pocketcraft.translate.bedrocktojava.world;
 
 import java.util.Map.Entry;
 
+import de.marcely.pocketcraft.bedrock.component.permission.PlayerPermissions;
 import de.marcely.pocketcraft.bedrock.network.packet.PCPacket;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityAttributes;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketPlayerPermissions;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketLoginStatus;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketNetworkChunkPublisherUpdate;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketPlayerMove;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketType;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketPlayerMove.PlayerMoveType;
 import de.marcely.pocketcraft.bedrock.server.player.BedrockClient;
+import de.marcely.pocketcraft.bedrock.world.entity.EntityAttribute;
+import de.marcely.pocketcraft.bedrock.world.entity.EntityAttributeType;
 import de.marcely.pocketcraft.java.client.JavaClient;
 import de.marcely.pocketcraft.java.network.packet.Packet;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayClientLook;
@@ -26,13 +31,15 @@ public class Player {
 	@Getter private final JavaClient java;
 	
 	@Getter private final World world = new World();
+	@Getter private final PlayerPermissions permissions = PlayerPermissions.newDefaultInstance();
 	
 	private float oldX, oldY, oldZ, oldYaw, oldPitch;
 	@Getter @Setter private float x, y, z, yaw, pitch;
 	@Getter @Setter private boolean isOnGround;
 	
-	@Getter @Setter private byte viewDistance = 8, serverViewDistance;
+	@Getter @Setter private byte viewDistance = 8;
 	@Getter private boolean spawning = false;
+	@Getter @Setter private float walkSpeed, flySpeed;
 	
 	private Integer chunkX = null, chunkZ = null;
 	private int currentTick = 0;
@@ -199,6 +206,35 @@ public class Player {
 		if(isChunkInDistance(x, z, (int) this.x >> 4, (int) this.z >> 4, this.viewDistance)){
 			this.chunkX = null;
 			this.chunkZ = null;
+		}
+	}
+	
+	public void updatePermissions(){
+		final PacketPlayerPermissions out = new PacketPlayerPermissions();
+		
+		out.entityUID = this.getEntityId();
+		out.permissions = this.permissions;
+		
+		sendPacket(out);
+	}
+	
+	public void updateSpeed(){
+		float speed = -1;
+		
+		if(this.permissions.isFlying())
+			speed = this.flySpeed;
+		else
+			speed = this.walkSpeed;
+		
+		{
+			final PacketEntityAttributes out = new PacketEntityAttributes();
+			
+			out.entityRuntimeID = getEntityId();
+			out.attributes = new EntityAttribute[]{
+				new EntityAttribute(EntityAttributeType.MOVEMENT_SPEED, speed)	
+			};
+			
+			sendPacket(out);
 		}
 	}
 }
