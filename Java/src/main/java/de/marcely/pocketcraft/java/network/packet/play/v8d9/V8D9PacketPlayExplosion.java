@@ -43,6 +43,7 @@ public class V8D9PacketPlayExplosion extends PlayPacket {
 		this.x = stream.readFloat();
 		this.y = stream.readFloat();
 		this.z = stream.readFloat();
+		this.radius = stream.readFloat();
 		
 		{
 			final int amount = stream.readInt();

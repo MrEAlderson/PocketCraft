@@ -11,14 +11,14 @@ public class V8D9PacketPlayMapChunk extends PlayPacket {
 	public int x;
 	public int z;
 	public byte[] data;
-	public boolean isFullChunk;
+	public boolean groundUpContinous;
 	public int primaryBitMask;
 
 	@Override
 	public void write(EByteBuf stream) throws Exception {
 		stream.writeInt(this.x);
 		stream.writeInt(this.z);
-		stream.writeBoolean(this.isFullChunk);
+		stream.writeBoolean(this.groundUpContinous);
 		stream.writeShort((short)(this.primaryBitMask & 0xFFFF));
 		stream.writeByteArray(this.data);
 	}
@@ -27,7 +27,7 @@ public class V8D9PacketPlayMapChunk extends PlayPacket {
 	public void read(EByteBuf stream) throws Exception {
 		this.x = stream.readInt();
 		this.z = stream.readInt();
-		this.isFullChunk = stream.readBoolean();
+		this.groundUpContinous = stream.readBoolean();
 		this.primaryBitMask = stream.readShort();
 		this.data = stream.readByteArray();
 	}

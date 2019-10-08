@@ -10,13 +10,19 @@ public class V8D9PacketPlayMapChunkBulk extends PlayPacket {
 	
 	public int[] x;
 	public int[] z;
-	public byte[][] data;
-	public boolean isFullChunk;
+	/*
+	 * This is the byte data of ALL chunks compared
+	 * The decoder must keep care of reading the correct amount of bytes
+	 * This design has been chosen since the server isn't sending light levels when being in the nether
+	 *  and by that we'd need a preprocessor
+	 */
+	public byte[] data;
+	public boolean groundUpContinous;
 	public int[] primaryBitMask;
 
 	@Override
 	public void write(EByteBuf stream) throws Exception {
-		stream.writeBoolean(this.isFullChunk);
+		stream.writeBoolean(this.groundUpContinous);
 		stream.writeVarInt(this.x.length);
 		
 		for(int i=0; i<this.x.length; i++){
@@ -25,19 +31,20 @@ public class V8D9PacketPlayMapChunkBulk extends PlayPacket {
 			stream.writeShort((short)(this.primaryBitMask[i] & 0xFFFF));
 		}
 		
-		for(int i=0; i<this.x.length; i++)
-			stream.write(this.data[i]);
+		stream.write(this.data);
+		// for(int i=0; i<this.x.length; i++)
+		//	 stream.write(this.data[i]);
 	}
 
 	@Override
 	public void read(EByteBuf stream) throws Exception {
-		this.isFullChunk = stream.readBoolean();
+		this.groundUpContinous = stream.readBoolean();
 		{
 			final int size = stream.readVarInt();
 			
 			this.x = new int[size];
 			this.z = new int[size];
-			this.data = new byte[size][];
+			// this.data = new byte[size][];
 			this.primaryBitMask = new int[size];
 		}
 		
@@ -45,11 +52,12 @@ public class V8D9PacketPlayMapChunkBulk extends PlayPacket {
 			this.x[i] = stream.readInt();
 			this.z[i] = stream.readInt();
 			this.primaryBitMask[i] = (short)(stream.readShort() & 0xFFFF);
-			this.data[i] = new byte[getChunkDataSize(Integer.bitCount(this.primaryBitMask[i]), this.isFullChunk, true)];
+			// this.data[i] = new byte[getChunkDataSize(Integer.bitCount(this.primaryBitMask[i]), this.isFullChunk, true)];
 		}
 		
-		for(int i=0; i<this.x.length; i++)
-			stream.read(this.data[i]);
+		this.data = stream.read(stream.readableBytes());
+		// for(int i=0; i<this.x.length; i++)
+		// 	stream.read(this.data[i]);
 	}
 
 	@Override
@@ -57,12 +65,12 @@ public class V8D9PacketPlayMapChunkBulk extends PlayPacket {
 		return PROPERTIES;
 	}
 	
-	private static int getChunkDataSize(int sections, boolean containsSkyLightData, boolean entireChunk){
+	/*private static int getChunkDataSize(int sections, boolean containsSkyLightData, boolean entireChunk){
 		final int blocks = sections * 2 * 16 * 16 * 16;
 		final int blockLight = sections * 16 * 16 * 16 / 2;
 	    final int skyLight = containsSkyLightData ? sections * 16 * 16 * 16 / 2 : 0;
 	    final int biomes = entireChunk ? 16 * 16 : 0;
 	    
 	    return blocks + blockLight + skyLight + biomes;
-	}
+	}*/
 }

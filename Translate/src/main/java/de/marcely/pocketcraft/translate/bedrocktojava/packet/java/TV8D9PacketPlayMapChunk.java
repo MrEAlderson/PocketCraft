@@ -1,5 +1,6 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.packet.java;
 
+import de.marcely.pocketcraft.bedrock.component.Dimension;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayMapChunk;
 import de.marcely.pocketcraft.translate.bedrocktojava.packet.JavaPacketTranslator;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
@@ -10,14 +11,14 @@ public class TV8D9PacketPlayMapChunk extends JavaPacketTranslator<V8D9PacketPlay
 	@Override
 	public void handle(V8D9PacketPlayMapChunk packet, Player player){
 		// unload chunk
-		if(packet.isFullChunk && packet.primaryBitMask == 0){
+		if(packet.groundUpContinous && packet.primaryBitMask == 0){
 			player.getWorld().unloadChunk(packet.x, packet.z);
 			return;
 		}
 		
 		// looks for existing old (if packet has sent a full chunk)
 		final V8Chunk oldChunk =
-				!packet.isFullChunk ?
+				!packet.groundUpContinous ?
 				player.getWorld().getChunk(packet.x, packet.z, V8Chunk.class) :
 				null;
 		// read chunk from byte data
@@ -25,7 +26,9 @@ public class TV8D9PacketPlayMapChunk extends JavaPacketTranslator<V8D9PacketPlay
 				new V8Chunk(de.marcely.pocketcraft.java.component.v8.V8Chunk.read(
 				packet.data,
 				packet.primaryBitMask,
-				null));
+				player.getWorld().getDimension() == Dimension.OVERWORLD,
+				false,
+				(oldChunk != null ? oldChunk.getReference() : null)));
 		
 		// add it to system
 		if(oldChunk == null){

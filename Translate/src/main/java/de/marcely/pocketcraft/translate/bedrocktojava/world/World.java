@@ -6,11 +6,15 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.jetbrains.annotations.Nullable;
 
+import de.marcely.pocketcraft.bedrock.component.Dimension;
 import lombok.Getter;
+import lombok.Setter;
 
 public class World {
 	
 	@Getter private Map<Long, Chunk> chunksMap = new ConcurrentHashMap<>();
+	
+	@Getter @Setter private Dimension dimension;
 	
 	public void unloadAllChunks(){
 		this.chunksMap.clear();

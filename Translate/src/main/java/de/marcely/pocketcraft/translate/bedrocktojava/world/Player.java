@@ -3,8 +3,10 @@ package de.marcely.pocketcraft.translate.bedrocktojava.world;
 import java.util.Map.Entry;
 
 import de.marcely.pocketcraft.bedrock.network.packet.PCPacket;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketLoginStatus;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketNetworkChunkPublisherUpdate;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketPlayerMove;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketType;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketPlayerMove.PlayerMoveType;
 import de.marcely.pocketcraft.bedrock.server.player.BedrockClient;
 import de.marcely.pocketcraft.java.client.JavaClient;
@@ -30,6 +32,7 @@ public class Player {
 	@Getter @Setter private boolean isOnGround;
 	
 	@Getter @Setter private byte viewDistance = 8, serverViewDistance;
+	@Getter private boolean spawning = false;
 	
 	private Integer chunkX = null, chunkZ = null;
 	private int chunkUpdateTick = 0;
@@ -64,7 +67,7 @@ public class Player {
 			
 			this.chunkUpdateTick++;
 			
-			if(this.chunkUpdateTick >= 60 && (this.chunkX == null || (this.chunkX != newChunkX || this.chunkZ != newChunkZ))){	
+			if(this.chunkUpdateTick >= 40 && this.world.getChunksMap().size() >= 1 && (this.chunkX == null || (this.chunkX != newChunkX || this.chunkZ != newChunkZ))){	
 				this.chunkUpdateTick = 0;
 				this.chunkX = newChunkX;
 				this.chunkZ = newChunkZ;
@@ -90,14 +93,27 @@ public class Player {
 				}
 				
 				if(sentChunks >= 1){
-					final PacketNetworkChunkPublisherUpdate out = new PacketNetworkChunkPublisherUpdate();
-					
-					out.x = (int) this.x;
-					out.y = (int) this.y;
-					out.z = (int) this.z;
-					out.radius = this.viewDistance << 4;
-					
-				    sendPacket(out);
+					// tell the client to add the new chunks to the scene
+					{
+						final PacketNetworkChunkPublisherUpdate out = new PacketNetworkChunkPublisherUpdate();
+						
+						out.x = (int) this.x;
+						out.y = (int) this.y;
+						out.z = (int) this.z;
+						out.radius = this.viewDistance << 4;
+						
+					    sendPacket(out);
+					}
+				    
+				    // spawn him to the world
+				    if(this.isSpawning()){
+						final PacketLoginStatus out = (PacketLoginStatus) PacketType.LoginStatus.newInstance();
+						
+						out.result = PacketLoginStatus.PLAYER_SPAWN;
+						
+						sendPacket(out);
+						setSpawning(false);
+				    }
 				}
 			}
 		}
@@ -167,6 +183,16 @@ public class Player {
 				
 				sendPacket(out);
 			}
+		}
+	}
+	
+	public void setSpawning(boolean spawning){
+		this.spawning = spawning;
+		
+		if(spawning){
+			// resend chunks
+			this.chunkX = null;
+			this.chunkZ = null;
 		}
 	}
 }

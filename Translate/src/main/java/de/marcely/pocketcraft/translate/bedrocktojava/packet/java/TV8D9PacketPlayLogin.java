@@ -6,12 +6,9 @@ import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityAttributes;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityPermissions;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketGame;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketGameRules;
-import de.marcely.pocketcraft.bedrock.network.packet.PacketLoginStatus;
-import de.marcely.pocketcraft.bedrock.network.packet.PacketNetworkChunkPublisherUpdate;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketType;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityPermissions.CommandPermissionLevel;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityPermissions.PermissionLevel;
-import de.marcely.pocketcraft.bedrock.world.Chunk;
 import de.marcely.pocketcraft.bedrock.world.entity.EntityAttribute;
 import de.marcely.pocketcraft.bedrock.world.entity.EntityAttributeType;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayClientSettings;
@@ -30,6 +27,8 @@ public class TV8D9PacketPlayLogin extends JavaPacketTranslator<V8D9PacketPlayLog
 		{
 			player.getBedrock().initEntity(packet.entityId);
 			player.setServerViewDistance((byte) packet.viewDistance);
+			player.setSpawning(true);
+			player.getWorld().setDimension(DimensionTranslator.toBedrock(packet.dimension));
 			
 			sendGamePacket(packet, player);
 			
@@ -72,15 +71,6 @@ public class TV8D9PacketPlayLogin extends JavaPacketTranslator<V8D9PacketPlayLog
 				player.sendPacket(out);
 			}
 			
-			// done
-			{
-				final PacketLoginStatus out = (PacketLoginStatus) PacketType.LoginStatus.newInstance();
-				
-				out.result = PacketLoginStatus.PLAYER_SPAWN;
-				
-				player.sendPacket(out);
-			}
-			
 			// game rules
 			{
 				final PacketGameRules out = new PacketGameRules();
@@ -96,38 +86,7 @@ public class TV8D9PacketPlayLogin extends JavaPacketTranslator<V8D9PacketPlayLog
 				player.sendPacket(out);
 			}
 			
-			// send chunks
-			{
-				final Chunk chunk = new Chunk();
-				
-				for(int ix=0; ix<16; ix++){
-					for(int iy=0; iy<96; iy++){
-						for(int iz=0; iz<16; iz++){
-							chunk.setBlockId(ix, iy, iz, (short) 1);
-						}
-					}
-				}
-				
-				for(int ix=-6; ix<=6; ix++){
-					for(int iz=-6; iz<=6; iz++){
-						player.sendPacket(chunk.buildPacket(ix, iz));
-					}
-				}
-			}
-			
 			player.getBedrock().getEntity().sendAllMetadata(player.getBedrock());
-			
-			// tells the client that the chunks are ready to be displayed
-			{
-				final PacketNetworkChunkPublisherUpdate out = (PacketNetworkChunkPublisherUpdate) PacketType.NetworkChunkPublisherUpdate.newInstance();
-				
-				out.x = 0;
-				out.y = 100;
-				out.z = 0;
-				out.radius = 6;
-				
-			    player.sendPacket(out);
-			}
 		}
 		
 		// java login
