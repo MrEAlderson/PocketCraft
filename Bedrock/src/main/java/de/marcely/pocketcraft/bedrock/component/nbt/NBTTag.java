@@ -32,6 +32,11 @@ public class NBTTag {
 			((NBTNumericValue<?>) value).write(stream, order);
 	}
 	
+	@SuppressWarnings("unchecked")
+	public <T>T getValue(Class<T> clazz){
+		return (T) this.value;
+	}
+	
 	public static NBTTag read(ByteArrayReader stream, ByteOrder order) throws Exception {
 		final byte type = stream.readSignedByte();
 		if(type == NBTValue.TYPE_END) return new NBTTag(null, NBTValue.newInstance(NBTValue.TYPE_END));

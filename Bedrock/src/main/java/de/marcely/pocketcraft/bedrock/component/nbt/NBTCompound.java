@@ -52,6 +52,10 @@ public class NBTCompound {
 		this.tags.remove(name);
 	}
 	
+	public boolean contains(String name){
+		return this.tags.containsKey(name);
+	}
+	
 	public @Nullable NBTTag get(String name){
 		return this.tags.get(name);
 	}
