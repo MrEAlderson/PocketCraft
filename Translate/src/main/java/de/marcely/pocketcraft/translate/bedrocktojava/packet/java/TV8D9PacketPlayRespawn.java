@@ -60,6 +60,7 @@ public class TV8D9PacketPlayRespawn extends JavaPacketTranslator<V8D9PacketPlayR
 		}
 		
 		player.setSpawning(true);
+		player.setDead(false);
 		player.getWorld().getChunksMap().clear();
 	}
 }

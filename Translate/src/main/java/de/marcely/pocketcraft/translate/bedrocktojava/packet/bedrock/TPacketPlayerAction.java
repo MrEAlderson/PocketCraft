@@ -1,6 +1,7 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.packet.bedrock;
 
 import de.marcely.pocketcraft.bedrock.network.packet.PacketPlayerAction;
+import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayClientCommand;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayClientEntityAction;
 import de.marcely.pocketcraft.translate.bedrocktojava.packet.BedrockPacketTranslator;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
@@ -25,10 +26,14 @@ public class TPacketPlayerAction extends BedrockPacketTranslator<PacketPlayerAct
 				
 			case PacketPlayerAction.TYPE_START_SPRINT:
 				out.type = V8D9PacketPlayClientEntityAction.TYPE_SPRINT_START;
+				player.setSprinting(true);
+				player.updateSpeed();
 				break;
 				
 			case PacketPlayerAction.TYPE_STOP_SPRINT:
 				out.type = V8D9PacketPlayClientEntityAction.TYPE_SPRINT_STOP;
+				player.setSprinting(false);
+				player.updateSpeed();
 				break;
 				
 			case PacketPlayerAction.TYPE_START_SNEAK:
@@ -41,6 +46,16 @@ public class TPacketPlayerAction extends BedrockPacketTranslator<PacketPlayerAct
 			}
 			
 			out.entityId = player.getEntityId();
+			
+			player.sendPacket(out);
+		}
+		break;
+		
+		case PacketPlayerAction.TYPE_RESPAWN:
+		{
+			final V8D9PacketPlayClientCommand out = new V8D9PacketPlayClientCommand();
+			
+			out.command = V8D9PacketPlayClientCommand.COMMAND_PERFORM_RESPAWN;
 			
 			player.sendPacket(out);
 		}

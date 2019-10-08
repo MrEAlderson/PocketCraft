@@ -40,6 +40,8 @@ public class Player {
 	@Getter @Setter private byte viewDistance = 8;
 	@Getter private boolean spawning = false;
 	@Getter @Setter private float walkSpeed, flySpeed;
+	@Getter @Setter private boolean isSprinting;
+	@Getter @Setter private boolean isDead = false;
 	
 	private Integer chunkX = null, chunkZ = null;
 	private int currentTick = 0;
@@ -124,70 +126,72 @@ public class Player {
 			}
 		}
 		
-		// drag him down if he's on void. bedrock players walk on it for whatever reason
-		if(this.y <= -39){
-			this.y -= 0.4F;
-			
-			// and tell it the client
-			{
-				final PacketPlayerMove out = new PacketPlayerMove();
+		if(!isDead){
+			// drag him down if he's on void. bedrock players walk on it for whatever reason
+			if(this.y <= -39){
+				this.y -= 0.4F;
 				
-				out.entityRuntimeID = getEntityId();
-				out.posX = this.x;
-				out.posY = this.y+1.62F /* eye height */;
-				out.posZ = this.z;
-				out.yaw = out.headYaw = this.yaw;
-				out.pitch = this.pitch;
-				out.mode = PlayerMoveType.NORMAL;
-				out.onGround = false;
-				
-				sendPacket(out);
+				// and tell it the client
+				{
+					final PacketPlayerMove out = new PacketPlayerMove();
+					
+					out.entityRuntimeID = getEntityId();
+					out.posX = this.x;
+					out.posY = this.y+1.62F /* eye height */;
+					out.posZ = this.z;
+					out.yaw = out.headYaw = this.yaw;
+					out.pitch = this.pitch;
+					out.mode = PlayerMoveType.NORMAL;
+					out.onGround = false;
+					
+					sendPacket(out);
+				}
 			}
-		}
-		
-		// send move packets
-		{
-			boolean isMoving = this.x != this.oldX || this.y != this.oldY || this.z != this.oldZ;
-			boolean isLooking = this.yaw != this.oldYaw || this.pitch != this.oldPitch;
 			
-			if(isMoving && isLooking){
-				final V8D9PacketPlayClientPositionLook out = new V8D9PacketPlayClientPositionLook();
+			// send move packets
+			{
+				boolean isMoving = this.x != this.oldX || this.y != this.oldY || this.z != this.oldZ;
+				boolean isLooking = this.yaw != this.oldYaw || this.pitch != this.oldPitch;
 				
-				out.x = this.oldX = this.x;
-				out.y = this.oldY = this.y;
-				out.z = this.oldZ = this.z;
-				out.yaw = this.oldYaw = this.yaw;
-				out.pitch = this.oldPitch = this.pitch;
-				out.isOnGround = this.isOnGround;
+				if(isMoving && isLooking){
+					final V8D9PacketPlayClientPositionLook out = new V8D9PacketPlayClientPositionLook();
+					
+					out.x = this.oldX = this.x;
+					out.y = this.oldY = this.y;
+					out.z = this.oldZ = this.z;
+					out.yaw = this.oldYaw = this.yaw;
+					out.pitch = this.oldPitch = this.pitch;
+					out.isOnGround = this.isOnGround;
+					
+					sendPacket(out);
 				
-				sendPacket(out);
-			
-			}else if(isMoving && !isLooking){
-				final V8D9PacketPlayClientPosition out = new V8D9PacketPlayClientPosition();
+				}else if(isMoving && !isLooking){
+					final V8D9PacketPlayClientPosition out = new V8D9PacketPlayClientPosition();
+					
+					out.x = this.oldX = this.x;
+					out.y = this.oldY = this.y;
+					out.z = this.oldZ = this.z;
+					out.isOnGround = this.isOnGround;
+					
+					sendPacket(out);
 				
-				out.x = this.oldX = this.x;
-				out.y = this.oldY = this.y;
-				out.z = this.oldZ = this.z;
-				out.isOnGround = this.isOnGround;
+				}else if(!isMoving && isLooking){
+					final V8D9PacketPlayClientLook out = new V8D9PacketPlayClientLook();
+					
+					out.yaw = this.oldYaw = this.yaw;
+					out.pitch = this.oldPitch = this.pitch;
+					out.isOnGround = this.isOnGround;
+					
+					sendPacket(out);
 				
-				sendPacket(out);
-			
-			}else if(!isMoving && isLooking){
-				final V8D9PacketPlayClientLook out = new V8D9PacketPlayClientLook();
 				
-				out.yaw = this.oldYaw = this.yaw;
-				out.pitch = this.oldPitch = this.pitch;
-				out.isOnGround = this.isOnGround;
-				
-				sendPacket(out);
-			
-			
-			}else if(this.currentTick % 20 == 0){ // only every second
-				final V8D9PacketPlayClientStanding out = new V8D9PacketPlayClientStanding();
-				
-				out.isOnGround = this.isOnGround;
-				
-				sendPacket(out);
+				}else if(this.currentTick % 20 == 0){ // only every second
+					final V8D9PacketPlayClientStanding out = new V8D9PacketPlayClientStanding();
+					
+					out.isOnGround = this.isOnGround;
+					
+					sendPacket(out);
+				}
 			}
 		}
 	}
@@ -231,7 +235,7 @@ public class Player {
 			
 			out.entityRuntimeID = getEntityId();
 			out.attributes = new EntityAttribute[]{
-				new EntityAttribute(EntityAttributeType.MOVEMENT_SPEED, speed)	
+				new EntityAttribute(EntityAttributeType.MOVEMENT_SPEED, speed * (this.isSprinting ? 1.3F : 1))	
 			};
 			
 			sendPacket(out);

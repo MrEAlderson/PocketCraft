@@ -21,5 +21,10 @@ public class TV8D9PacketPlayUpdateHealth extends JavaPacketTranslator<V8D9Packet
 		};
 		
 		player.sendPacket(out);
+		
+		if(packet.health <= 0)
+			player.setDead(true);
+		else
+			player.setDead(false);
 	}
 }

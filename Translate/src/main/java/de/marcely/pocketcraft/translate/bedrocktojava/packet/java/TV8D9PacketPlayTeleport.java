@@ -2,15 +2,12 @@ package de.marcely.pocketcraft.translate.bedrocktojava.packet.java;
 
 import de.marcely.pocketcraft.bedrock.network.packet.PacketPlayerMove;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketPlayerMove.PlayerMoveType;
-import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayClientCommand;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayClientPositionLook;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayTeleport;
 import de.marcely.pocketcraft.translate.bedrocktojava.packet.JavaPacketTranslator;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
 
 public class TV8D9PacketPlayTeleport extends JavaPacketTranslator<V8D9PacketPlayTeleport> {
-
-	boolean first = false;
 	
 	@Override
 	public void handle(V8D9PacketPlayTeleport packet, Player player){
@@ -55,18 +52,6 @@ public class TV8D9PacketPlayTeleport extends JavaPacketTranslator<V8D9PacketPlay
 			out.isOnGround = false;
 			
 			player.sendPacket(out);
-		}
-		
-		if(!first){
-			{
-				final V8D9PacketPlayClientCommand out = new V8D9PacketPlayClientCommand();
-				
-				out.command = V8D9PacketPlayClientCommand.COMMAND_PERFORM_RESPAWN;
-				
-				player.sendPacket(out);
-			}
-			
-			first = true;
 		}
 		
 		// and tell it the client
