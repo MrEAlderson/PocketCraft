@@ -43,7 +43,9 @@ public class TV8D9PacketPlayMapChunkBulk extends JavaPacketTranslator<V8D9Packet
 				if(oldChunk == null){
 					player.getWorld().addChunk(x, z, newChunk);
 					player.receivedChunk(x, z);
-				}
+				
+				}else
+					oldChunk.setSent(false);
 			}
 		}finally{
 			buf.release();

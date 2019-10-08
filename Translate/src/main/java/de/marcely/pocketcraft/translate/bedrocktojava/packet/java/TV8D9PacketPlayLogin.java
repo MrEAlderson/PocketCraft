@@ -1,5 +1,6 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.packet.java;
 
+import de.marcely.pocketcraft.bedrock.component.Dimension;
 import de.marcely.pocketcraft.bedrock.component.GameRule;
 import de.marcely.pocketcraft.bedrock.component.GameRules;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityAttributes;
@@ -22,9 +23,14 @@ public class TV8D9PacketPlayLogin extends JavaPacketTranslator<V8D9PacketPlayLog
 	public void handle(V8D9PacketPlayLogin packet, Player player){
 		// bedrock login
 		{
-			player.getBedrock().initEntity(packet.entityId);
-			player.setSpawning(true);
-			player.getWorld().setDimension(DimensionTranslator.toBedrock(packet.dimension));
+			// init player
+			{
+				final Dimension dimension = DimensionTranslator.toBedrock(packet.dimension);
+				
+				player.getBedrock().initEntity(packet.entityId);
+				player.getWorld().setDimension(dimension);
+				player.setCurrentDimension(dimension);
+			}
 			
 			sendGamePacket(packet, player);
 			

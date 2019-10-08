@@ -2,14 +2,16 @@ package de.marcely.pocketcraft.translate.bedrocktojava.world;
 
 import java.util.Map.Entry;
 
+import de.marcely.pocketcraft.bedrock.component.Dimension;
 import de.marcely.pocketcraft.bedrock.component.permission.PlayerPermissions;
 import de.marcely.pocketcraft.bedrock.network.packet.PCPacket;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketChangeDimension;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityAttributes;
-import de.marcely.pocketcraft.bedrock.network.packet.PacketPlayerPermissions;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketLoginStatus;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketPlayerPermissions;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketRespawn;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketNetworkChunkPublisherUpdate;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketPlayerMove;
-import de.marcely.pocketcraft.bedrock.network.packet.PacketType;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketPlayerMove.PlayerMoveType;
 import de.marcely.pocketcraft.bedrock.server.player.BedrockClient;
 import de.marcely.pocketcraft.bedrock.world.entity.EntityAttribute;
@@ -38,12 +40,14 @@ public class Player {
 	@Getter @Setter private boolean isOnGround;
 	
 	@Getter @Setter private byte viewDistance = 8;
-	@Getter private boolean spawning = false;
 	@Getter @Setter private float walkSpeed, flySpeed;
 	@Getter @Setter private boolean isSprinting;
-	@Getter @Setter private boolean isDead = false;
+	@Getter private boolean isDead = false;
+	@Getter @Setter private boolean isSpawning = false;
+	@Getter @Setter private boolean isLoggedIn = false;
+	@Getter @Setter private Dimension currentDimension;
 	
-	private Integer chunkX = null, chunkZ = null;
+	public Integer chunkX = null, chunkZ = null;
 	private int currentTick = 0;
 	
 	public Player(BedrockToJavaTranslator translator, BedrockClient bedrock, JavaClient java){
@@ -76,7 +80,7 @@ public class Player {
 			final int newChunkX = ((int) this.x) >> 4;
 			final int newChunkZ = ((int) this.z) >> 4;
 			
-			if(this.currentTick % 40 == 0 && (this.chunkX == null || (this.chunkX != newChunkX || this.chunkZ != newChunkZ))){
+			if(this.currentTick % 10 == 0 && (this.isSpawning || (this.chunkX == null || (this.chunkX != newChunkX || this.chunkZ != newChunkZ)))){
 				this.chunkX = newChunkX;
 				this.chunkZ = newChunkZ;
 				
@@ -93,7 +97,18 @@ public class Player {
 							sendPacket(chunk.buildPacket(x, z));
 							chunk.setSent(true);
 							sentChunks++;
-						
+							
+							// spawn him
+							if(this.isSpawning && newChunkX == x && newChunkZ == z){
+								final PacketLoginStatus out = new PacketLoginStatus();
+								
+								out.result = PacketLoginStatus.PLAYER_SPAWN;
+								
+								sendPacket(out);
+								
+								this.isSpawning = false;
+							}
+							
 						}else if(chunk.isSent() && !inDistance){
 							chunk.setSent(false);
 						}
@@ -112,17 +127,30 @@ public class Player {
 						
 					    sendPacket(out);
 					}
-				    
-				    // spawn him to the world
-				    if(this.isSpawning()){
-						final PacketLoginStatus out = (PacketLoginStatus) PacketType.LoginStatus.newInstance();
-						
-						out.result = PacketLoginStatus.PLAYER_SPAWN;
-						
-						sendPacket(out);
-						setSpawning(false);
-				    }
 				}
+			}
+			
+			if(!this.isSpawning && getCurrentDimension() != getWorld().getDimension()){
+				System.out.println("RESPAWN!!!!!!");
+				
+				{
+					final PacketChangeDimension out = new PacketChangeDimension();
+					
+					out.dimension = getWorld().getDimension();
+					out.posX = getX();
+					out.posY = getY();
+					out.posZ = getZ();
+					
+					sendPacket(out);
+				}
+				
+				setSpawning(true);
+				setCurrentDimension(getWorld().getDimension());
+				
+				for(Chunk chunk:getWorld().getChunks())
+					chunk.setSent(false);
+				
+				chunkX = null;
 			}
 		}
 		
@@ -196,16 +224,6 @@ public class Player {
 		}
 	}
 	
-	public void setSpawning(boolean spawning){
-		this.spawning = spawning;
-		
-		if(spawning){
-			// resend chunks
-			this.chunkX = null;
-			this.chunkZ = null;
-		}
-	}
-	
 	public void receivedChunk(int x, int z){
 		if(isChunkInDistance(x, z, (int) this.x >> 4, (int) this.z >> 4, this.viewDistance)){
 			this.chunkX = null;
@@ -237,6 +255,23 @@ public class Player {
 			out.attributes = new EntityAttribute[]{
 				new EntityAttribute(EntityAttributeType.MOVEMENT_SPEED, speed * (this.isSprinting ? 1.3F : 1))	
 			};
+			
+			sendPacket(out);
+		}
+	}
+	
+	public void setDead(boolean dead){
+		if(this.isDead == dead)
+			return;
+		
+		this.isDead = dead;
+		
+		if(dead){
+			final PacketRespawn out = new PacketRespawn();
+			
+			out.posX = this.x;
+			out.posY = this.y;
+			out.posZ = this.z;
 			
 			sendPacket(out);
 		}

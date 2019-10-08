@@ -16,6 +16,8 @@ public class World {
 	
 	@Getter @Setter private Dimension dimension;
 	
+	@Getter @Setter private int spawnX, spawnY, spawnZ;
+	
 	public void unloadAllChunks(){
 		this.chunksMap.clear();
 	}

@@ -1,7 +1,10 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.packet.java;
 
+import de.marcely.pocketcraft.bedrock.network.packet.PacketLoginStatus;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketPlayerMove;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketType;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketPlayerMove.PlayerMoveType;
+import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayClientCommand;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayClientPositionLook;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayTeleport;
 import de.marcely.pocketcraft.translate.bedrocktojava.packet.JavaPacketTranslator;
@@ -39,6 +42,27 @@ public class TV8D9PacketPlayTeleport extends JavaPacketTranslator<V8D9PacketPlay
 				player.setPitch(packet.pitch);
 		}
 		
+		// log in
+		if(!player.isLoggedIn()){
+			// tells the server that we are ready to join
+			{
+				final V8D9PacketPlayClientCommand out = new V8D9PacketPlayClientCommand();
+				
+				out.command = V8D9PacketPlayClientCommand.COMMAND_PERFORM_RESPAWN;
+				
+				player.sendPacket(out);
+			}
+			
+			{
+				final PacketLoginStatus out = (PacketLoginStatus) PacketType.LoginStatus.newInstance();
+				
+				out.result = PacketLoginStatus.PLAYER_SPAWN;
+				
+				player.sendPacket(out);
+			}
+			
+			player.setLoggedIn(true);
+		}
 		
 		// confirm it to server
 		{
