@@ -35,10 +35,14 @@ public class TPacketPlayerAction extends BedrockPacketTranslator<PacketPlayerAct
 				out.type = V8D9PacketPlayClientEntityAction.TYPE_SNEAK_START;
 				break;
 				
-			case V8D9PacketPlayClientEntityAction.TYPE_SNEAK_STOP:
+			case PacketPlayerAction.TYPE_STOP_SNEAK:
 				out.type = V8D9PacketPlayClientEntityAction.TYPE_SNEAK_STOP;
 				break;
 			}
+			
+			out.entityId = player.getEntityId();
+			
+			player.sendPacket(out);
 		}
 		break;
 		}

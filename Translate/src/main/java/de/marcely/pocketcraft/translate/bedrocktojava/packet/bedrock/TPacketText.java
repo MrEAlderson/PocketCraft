@@ -9,8 +9,6 @@ public class TPacketText extends BedrockPacketTranslator<PacketText> {
 
 	@Override
 	public void handle(PacketText packet, Player player){
-		System.out.println(packet.type + " " + packet.message);
-		
 		if(packet.type != PacketText.TYPE_CHAT)
 			return;
 		
@@ -20,8 +18,7 @@ public class TPacketText extends BedrockPacketTranslator<PacketText> {
 			
 			out.message = packet.message;
 			
-			player.sendPacket(packet);
-			System.out.println("NICE " + packet.message);
+			player.sendPacket(out);
 		}
 	}
 }

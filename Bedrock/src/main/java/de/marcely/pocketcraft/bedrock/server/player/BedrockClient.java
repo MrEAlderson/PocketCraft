@@ -54,7 +54,6 @@ public class BedrockClient {
 	}
 	
 	public void sendPacket(PCPacket packet){
-		System.out.println("send: " + packet.getClass().getName());
 		sendPacket(packet, true);
 	}
 	

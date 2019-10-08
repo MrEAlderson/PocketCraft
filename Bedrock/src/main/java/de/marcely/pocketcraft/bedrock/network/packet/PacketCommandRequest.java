@@ -7,23 +7,23 @@ import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
 public class PacketCommandRequest extends PCPacket {
 
-    public static final byte TYPE_PLAYER = 0;
-    public static final byte TYPE_COMMAND_BLOCK = 1;
-    public static final byte TYPE_MINECART_COMMAND_BLOCK = 2;
-    public static final byte TYPE_DEV_CONSOLE = 3;
-    public static final byte TYPE_TEST = 4;
-    public static final byte TYPE_AUTOMATION_PLAYER = 5;
-    public static final byte TYPE_CLIENT_AUTOMATION = 6;
-    public static final byte TYPE_DEDICATED_SERVER = 7;
-    public static final byte TYPE_ENTITY = 8;
-    public static final byte TYPE_VIRTUAL = 9;
-    public static final byte TYPE_GAME_ARGUMENT = 10;
-    public static final byte TYPE_INTERNAL = 11;
+    public static final byte ORIGIN_PLAYER = 0;
+    public static final byte ORIGIN_COMMAND_BLOCK = 1;
+    public static final byte ORIGIN_MINECART_COMMAND_BLOCK = 2;
+    public static final byte ORIGIN_DEV_CONSOLE = 3;
+    public static final byte ORIGIN_TEST = 4;
+    public static final byte ORIGIN_AUTOMATION_PLAYER = 5;
+    public static final byte ORIGIN_CLIENT_AUTOMATION = 6;
+    public static final byte ORIGIN_DEDICATED_SERVER = 7;
+    public static final byte ORIGIN_ENTITY = 8;
+    public static final byte ORIGIN_VIRTUAL = 9;
+    public static final byte ORIGIN_GAME_ARGUMENT = 10;
+    public static final byte ORIGIN_INTERNAL = 11;
 	
     public String command;
-    public int type;
+    public int origin;
     public UUID uuid;
-    public String requestID;
+    public String requestId;
     public long optional;
     
     
@@ -37,11 +37,11 @@ public class PacketCommandRequest extends PCPacket {
 	@Override
 	public void decode(EByteArrayReader reader) throws Exception {
 		this.command = reader.readString();
-		this.type = reader.readSignedVarInt();
+		this.origin = reader.readSignedVarInt();
 		this.uuid = reader.readUUID();
-		this.requestID = reader.readString();
+		this.requestId = reader.readString();
 		
-		if(this.type == TYPE_DEV_CONSOLE || this.type == TYPE_TEST)
+		if(this.origin == ORIGIN_DEV_CONSOLE || this.origin == ORIGIN_TEST)
 			this.optional = reader.readSignedVarLong();
 	}
 }
