@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.jetbrains.annotations.Nullable;
 
 import de.marcely.pocketcraft.bedrock.component.Dimension;
+import de.marcely.pocketcraft.bedrock.component.world.blockentity.BlockEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -45,5 +46,14 @@ public class World {
 	
 	public Collection<Chunk> getChunks(){
 		return this.chunksMap.values();
+	}
+	
+	public @Nullable BlockEntity getBlockEntity(int x, int y, int z){
+		final Chunk chunk = getChunk(x >> 4, z >> 4);
+		
+		if(chunk == null)
+			return null;
+		
+		return chunk.getBlockEntity(x % 16, y, z % 16);
 	}
 }

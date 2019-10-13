@@ -6,7 +6,7 @@ import lombok.Setter;
 
 public class BlockEntityCauldron extends BlockEntity {
 	
-	@Getter @Setter private short potionId;
+	@Getter @Setter private short potionId = (short) 0xFFFF;
 	@Getter @Setter private byte splashPotion;
 	
 	@Override

@@ -14,6 +14,29 @@ public class V8Chunk extends Chunk {
 	
 	public V8Chunk(de.marcely.pocketcraft.java.component.v8.V8Chunk ref){
 		this.reference = ref;
+		
+		fetchBlockEntities();
+	}
+	
+	private void fetchBlockEntities(){
+		this.blockEntities.clear();
+		
+		for(int si=0; si<16; si++){
+			final V8ChunkSection section = reference.getSections()[si];
+			
+			if(section == null)
+				continue;
+			
+			for(int ix=0; ix<16; ix++){
+				for(int iy=0; iy<16; iy++){
+					for(int iz=0; iz<16; iz++){
+						final int y = iy+si*16;
+						
+						V8BlockEntityTranslator.handleSpawn(null, this, ix, y, iz, section.getId(ix, iy, iz), section.getData(ix, iy, iz), null);
+					}
+				}
+			}
+		}
 	}
 
 	@Override
@@ -30,14 +53,12 @@ public class V8Chunk extends Chunk {
 			for(int ix=0; ix<16; ix++){
 				for(int iy=0; iy<16; iy++){
 					for(int iz=0; iz<16; iz++){
-						final int y = iy+si*16;
+						final int y = iy+si*16; 
 						
 						final Pair<Short, Byte> pair = V8BlockTranslator.toBedrock(section.getId(ix, iy, iz), section.getData(ix, iy, iz));
 						
 						bedrock.setBlockId(ix, y, iz, pair.getEntry1());
 						bedrock.setBlockData(ix, y, iz, pair.getEntry2());
-						
-						V8BlockEntityTranslator.handleSpawn(null, this, ix, y, iz, pair.getEntry1(), pair.getEntry2(), null);;
 					}
 				}
 			}

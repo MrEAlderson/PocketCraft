@@ -96,8 +96,6 @@ public class Chunk {
 						entity.setX((chunkX << 4) + (raw & 0x000F));
 						entity.setY((raw & 0x0FF0) >> 4);
 						entity.setZ((chunkZ << 4) + ((raw & 0xF000) >> 12));
-						
-						System.out.println(entity.getX() + " " + entity.getY() + " " + entity.getZ());
 					}
 					
 					// write

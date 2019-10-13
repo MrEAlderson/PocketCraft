@@ -34,6 +34,8 @@ public class V8D9PacketPlayUpdateSignText extends PlayPacket {
 		}
 		
 		{
+			this.lines = new ChatBaseComponent[4];
+			
 			for(int i=0; i<4; i++)
 				this.lines[i] = stream.readChatJson();
 		}

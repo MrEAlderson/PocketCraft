@@ -1,12 +1,16 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.world;
 
+import java.nio.ByteOrder;
 import java.util.Map.Entry;
 
 import de.marcely.pocketcraft.bedrock.component.Dimension;
+import de.marcely.pocketcraft.bedrock.component.nbt.NBTCompound;
 import de.marcely.pocketcraft.bedrock.component.permission.PlayerPermissions;
+import de.marcely.pocketcraft.bedrock.component.world.blockentity.BlockEntity;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityAttribute;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityAttributeType;
 import de.marcely.pocketcraft.bedrock.network.packet.PCPacket;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketBlockEntityData;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketChangeDimension;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityAttributes;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketLoginStatus;
@@ -306,5 +310,23 @@ public class Player {
 	
 	public boolean isLoggedIn(){
 		return this.loginTime != null;
+	}
+	
+	public void updateBlockEntity(BlockEntity entity){
+		final PacketBlockEntityData out = new PacketBlockEntityData();
+		
+		out.x = entity.getX();
+		out.y = entity.getY();
+		out.z = entity.getZ();
+		
+		{
+			final NBTCompound nbt = new NBTCompound(ByteOrder.LITTLE_ENDIAN);
+			
+			entity.write(nbt);
+			
+			out.data = nbt;
+		}
+		
+		sendPacket(out);
 	}
 }

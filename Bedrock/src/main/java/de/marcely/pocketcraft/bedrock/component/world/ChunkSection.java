@@ -14,13 +14,17 @@ public class ChunkSection {
 		this.data = new byte[SIZE+SIZE/2];
 	}
 	
+	// x y z - 
+	// y z x -
+	// z x y -
+	// y x z -
+	// x z y
+	
 	private static int getIndex(int x, int y, int z, int section){
-		final int base = ((x << 8) + (z << 4) + y);
-		
 		if(section == 0)
-			return base;
+			return ((x << 8) + (z << 4) + y);
 		else if(section == 1)
-			return base/2 + section*SIZE;
+			return SIZE + ((x << 8) + (z << 4) + y)/2;
 		else
 			return -1;
 	}
@@ -36,7 +40,7 @@ public class ChunkSection {
 		if((index & 1) == 0)
 			return (byte) (val & 0x0F);
 		else
-			return (byte) ((val & 0xF0) >>> 4);
+			return (byte) ((val & 0xF0) >> 4);
 	}
 	
 	public void setBlockId(int x, int y, int z, short id){
@@ -59,9 +63,9 @@ public class ChunkSection {
 		
 		data &= 0xF;
 		
-		if((index & 1) == 0)
-			this.data[index] = (byte) (old & 0xF0 | data);
+		if((y & 1) == 0)
+			this.data[index] = (byte) ((old & 0xF0) | data);
 		else
-			this.data[index] = (byte) (old & 0x0F | data << 4);
+			this.data[index] = (byte) ((old & 0x0F) | (data << 4));
 	}
 }

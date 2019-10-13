@@ -2,10 +2,11 @@ package de.marcely.pocketcraft.bedrock.component.world.blockentity;
 
 import de.marcely.pocketcraft.bedrock.component.nbt.NBTCompound;
 import lombok.Getter;
+import lombok.Setter;
 
 public class BlockEntitySign extends BlockEntity {
 	
-	@Getter private String[] lines = new String[0];
+	@Getter @Setter private String[] lines = new String[0];
 	
 	@Override
 	public BlockEntityType getType(){

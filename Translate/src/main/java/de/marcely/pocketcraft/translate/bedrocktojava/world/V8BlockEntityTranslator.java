@@ -30,13 +30,18 @@ public class V8BlockEntityTranslator {
 	
 	private static void applyData(BlockEntity rawEntity, short data){
 		switch(rawEntity.getType()){
-		case CHEST:
+		case BED:
 		{
 			final BlockEntityBed entity = (BlockEntityBed) rawEntity;
 			
 			entity.setColor((byte) 14);
-		}
+		} 
 		break;
+		
+		case CHEST:
+		{
+			
+		}
 		
 		default: break;
 		}

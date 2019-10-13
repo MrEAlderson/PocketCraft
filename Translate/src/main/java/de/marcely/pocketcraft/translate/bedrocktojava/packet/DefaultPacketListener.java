@@ -19,6 +19,8 @@ public class DefaultPacketListener implements de.marcely.pocketcraft.bedrock.ser
 		if(translator != null){
 			try{
 				translator.handle0(packet, this.player);
+			}catch(Error e){
+				e.printStackTrace();
 			}catch(Exception e){
 				e.printStackTrace();
 			}
@@ -34,6 +36,8 @@ public class DefaultPacketListener implements de.marcely.pocketcraft.bedrock.ser
 		if(translator != null){
 			try{
 				translator.handle0(packet, this.player);
+			}catch(Error e){
+				e.printStackTrace();
 			}catch(Exception e){
 				e.printStackTrace();
 			}

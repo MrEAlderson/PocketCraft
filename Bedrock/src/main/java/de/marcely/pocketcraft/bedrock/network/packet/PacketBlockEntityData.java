@@ -7,7 +7,7 @@ import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 public class PacketBlockEntityData extends PCPacket {
 
 	public int x, y, z;
-	public NBTCompound nbt;
+	public NBTCompound data;
 	
 	public PacketBlockEntityData(){
 		super(PacketType.BlockEntityData);
@@ -15,10 +15,10 @@ public class PacketBlockEntityData extends PCPacket {
 
 	@Override
 	public void encode(EByteArrayWriter writer) throws Exception {
-		writer.writeSignedVarInt(x);
-		writer.writeUnsignedVarInt(y);
-		writer.writeSignedVarInt(z);
-		nbt.write(writer);
+		writer.writeSignedVarInt(this.x);
+		writer.writeUnsignedVarInt(this.y);
+		writer.writeSignedVarInt(this.z);
+		this.data.write(writer);
 	}
 
 	@Override

@@ -12,7 +12,7 @@ import lombok.Setter;
 
 public abstract class Chunk {
 	
-	@Getter private Map<Short, BlockEntity> blockEntities = new HashMap<>();
+	@Getter protected Map<Short, BlockEntity> blockEntities = new HashMap<>();
 	
 	@Getter @Setter private boolean sent = false;
 	
