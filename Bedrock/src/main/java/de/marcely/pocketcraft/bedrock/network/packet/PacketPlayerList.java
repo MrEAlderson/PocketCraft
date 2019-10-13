@@ -20,27 +20,24 @@ public class PacketPlayerList extends PCPacket {
 
 	@Override
 	public void encode(EByteArrayWriter writer) throws Exception {
-		writer.writeSignedByte(type);
-		writer.writeUnsignedVarInt(entries.length);
+		writer.writeSignedByte(this.type);
+		writer.writeUnsignedVarInt(this.entries.length);
 		
 		if(type == TYPE_ADD){
-			for(PlayerListEntry entry:entries){
+			for(PlayerListEntry entry:this.entries){
 				writer.writeUUID(entry.uuid);
-				writer.writeSignedVarLong(entry.entityID);
+				writer.writeSignedVarLong(entry.entityId);
 				writer.writeString(entry.name);
-				writer.writeString(entry.thirdPartyName);
-				writer.writeSignedVarInt(entry.platform);
 				
-				// TODO writer.writeSkin(entry.skin);
+				// TODO skin
 				writer.writeString("");
-				writer.writeLInt(1);
-				writer.writeString("");
-				writer.writeLInt(0);
+				writer.writeByteArray(new byte[0]);
+				writer.writeByteArray(new byte[0]);
 				writer.writeString("");
 				writer.writeString("");
 				
-				writer.writeString(entry.xboxID);
-				writer.writeString(entry.platformChatID);
+				writer.writeString(entry.xboxId);
+				writer.writeString(entry.platformChatId);
 			}
 		
 		}else if(type == TYPE_REMOVE){
@@ -56,27 +53,26 @@ public class PacketPlayerList extends PCPacket {
 	
 	public static class PlayerListEntry {
 		
-		public final UUID uuid;
-		public final long entityID;
-		public final String name, thirdPartyName = "", platformChatID = "";
-		public final int platform = 0;
-		public final SkinData skin;
-		public final String xboxID;
+		public UUID uuid;
+		public long entityId;
+		public String name,  platformChatId = "";
+		public SkinData skin;
+		public String xboxId;
 		
 		public PlayerListEntry(UUID uuid){ // only for remove
-			this(uuid, 0, null, null, null);
+			this(uuid, 0, null, null, "");
 		}
 		
-		public PlayerListEntry(UUID uuid, long entityID, String name, SkinData skin){
-			this(uuid, entityID, name, skin, "Hidden");
+		public PlayerListEntry(UUID uuid, long entityId, String name, SkinData skin){
+			this(uuid, entityId, name, skin, "");
 		}
 		
-		public PlayerListEntry(UUID uuid, long entityID, String name, SkinData skin, String xboxID){
+		public PlayerListEntry(UUID uuid, long entityId, String name, SkinData skin, String xboxId){
 			this.uuid = uuid;
-			this.entityID = entityID;
+			this.entityId = entityId;
 			this.name = name;
 			this.skin = skin;
-			this.xboxID = xboxID;
+			this.xboxId = xboxId;
 		}
 	}
 }

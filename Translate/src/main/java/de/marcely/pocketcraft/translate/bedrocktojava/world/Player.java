@@ -2,6 +2,7 @@ package de.marcely.pocketcraft.translate.bedrocktojava.world;
 
 import java.nio.ByteOrder;
 import java.util.Map.Entry;
+import java.util.UUID;
 
 import de.marcely.pocketcraft.bedrock.component.Dimension;
 import de.marcely.pocketcraft.bedrock.component.nbt.NBTCompound;
@@ -77,6 +78,10 @@ public class Player {
 	
 	public int getEntityId(){
 		return (int) this.bedrock.getEntity().getId();
+	}
+	
+	public UUID getUUID(){
+		return this.java.getSession().getId();
 	}
 	
 	private boolean isChunkInDistance(int chunkX, int chunkZ, int viewerX, int viewerZ, int distance){
