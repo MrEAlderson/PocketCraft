@@ -128,7 +128,7 @@ public class ProtocolV8D9 extends Protocol {
 				null, // transaction
 				V8D9PacketPlayUpdateSignText.class,
 				null, // map
-				null, // tile entity data
+				V8D9PacketPlayUpdateBlockEntity.class,
 				null, // open sign editor
 				V8D9PacketPlayStatistics.class,
 				null, // player info

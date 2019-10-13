@@ -1,11 +1,19 @@
 package de.marcely.pocketcraft.java.util;
 
+import java.io.DataInput;
+import java.io.DataInputStream;
+import java.io.DataOutput;
+import java.io.DataOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 import de.marcely.pocketcraft.java.component.chat.ChatBaseComponent;
+import de.marcely.pocketcraft.java.component.nbt.NBTBase;
+import de.marcely.pocketcraft.java.component.nbt.NBTTagCompound;
 import de.marcely.pocketcraft.utils.math.Vector3;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufInputStream;
+import io.netty.buffer.ByteBufOutputStream;
 import io.netty.buffer.Unpooled;
 
 public class EByteBuf {
@@ -131,6 +139,23 @@ public class EByteBuf {
 	
 	public void writeChatPlain(ChatBaseComponent chat){
 		writeString(chat.writeAsPlainString());
+	}
+	
+	public void writeNBT(NBTTagCompound nbt){
+		if(nbt == null){
+			writeByte(NBTTagCompound.END);
+			return;
+		}
+		
+		try{
+			final DataOutput stream = new DataOutputStream(new ByteBufOutputStream(this.buffer));
+			
+			stream.writeByte(nbt.getType());
+			stream.writeUTF("");
+			nbt.write(stream);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 	public void read(byte[] dst){
@@ -272,6 +297,26 @@ public class EByteBuf {
 	
 	public ChatBaseComponent readChatPlain(){
 		return ChatBaseComponent.parsePlain(readString());
+	}
+	
+	public NBTTagCompound readNBT(){
+		final NBTBase<?> tag = NBTBase.newInstance(this.readByte());
+		
+		if(tag == null || tag.getType() != NBTBase.COMPOUND)
+			return null;
+		
+		try{
+			final DataInput stream = new DataInputStream(new ByteBufInputStream(this.buffer));
+			
+			stream.readUTF();
+			tag.read(stream);
+			
+			return (NBTTagCompound) tag;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 	
 	public EByteBuf readAsBuf(int length){

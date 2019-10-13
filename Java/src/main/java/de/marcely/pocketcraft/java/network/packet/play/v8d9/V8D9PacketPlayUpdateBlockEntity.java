@@ -1,5 +1,6 @@
 package de.marcely.pocketcraft.java.network.packet.play.v8d9;
 
+import de.marcely.pocketcraft.java.component.nbt.NBTTagCompound;
 import de.marcely.pocketcraft.java.network.packet.PacketProperties;
 import de.marcely.pocketcraft.java.network.packet.PlayPacket;
 import de.marcely.pocketcraft.java.util.EByteBuf;
@@ -20,10 +21,13 @@ public class V8D9PacketPlayUpdateBlockEntity extends PlayPacket {
 	public int y;
 	public int z;
 	public byte action;
+	public NBTTagCompound data;
 
 	@Override
 	public void write(EByteBuf stream) throws Exception {
 		stream.writeBlockPosition(this.x, this.y, this.z);
+		stream.writeByte(this.action);
+		stream.writeNBT(this.data);
 	}
 
 	@Override
@@ -35,6 +39,9 @@ public class V8D9PacketPlayUpdateBlockEntity extends PlayPacket {
 			this.y = pos.getFloorY();
 			this.z = pos.getFloorZ();
 		}
+		
+		this.action = stream.readByte();
+		this.data = stream.readNBT();
 	}
 
 	@Override
