@@ -1,8 +1,8 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.packet.java;
 
+import de.marcely.pocketcraft.bedrock.component.world.entity.EntityAttribute;
+import de.marcely.pocketcraft.bedrock.component.world.entity.EntityAttributeType;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityAttributes;
-import de.marcely.pocketcraft.bedrock.world.entity.EntityAttribute;
-import de.marcely.pocketcraft.bedrock.world.entity.EntityAttributeType;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayUpdateHealth;
 import de.marcely.pocketcraft.translate.bedrocktojava.packet.JavaPacketTranslator;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;

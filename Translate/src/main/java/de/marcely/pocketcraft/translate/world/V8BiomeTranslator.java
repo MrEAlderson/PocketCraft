@@ -1,6 +1,6 @@
 package de.marcely.pocketcraft.translate.world;
 
-import de.marcely.pocketcraft.bedrock.world.Biome;
+import de.marcely.pocketcraft.bedrock.component.world.Biome;
 import de.marcely.pocketcraft.java.component.v8.V8Biome;
 
 public class V8BiomeTranslator {

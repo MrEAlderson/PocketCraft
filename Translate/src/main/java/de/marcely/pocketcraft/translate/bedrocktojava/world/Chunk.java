@@ -5,8 +5,8 @@ import java.util.Map;
 
 import org.jetbrains.annotations.Nullable;
 
+import de.marcely.pocketcraft.bedrock.component.world.blockentity.BlockEntity;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketFullChunk;
-import de.marcely.pocketcraft.bedrock.world.blockentity.BlockEntity;
 import lombok.Getter;
 import lombok.Setter;
 

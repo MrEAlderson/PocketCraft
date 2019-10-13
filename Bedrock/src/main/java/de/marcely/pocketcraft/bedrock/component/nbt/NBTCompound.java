@@ -7,22 +7,22 @@ import java.util.Map;
 
 import org.jetbrains.annotations.Nullable;
 
+import de.marcely.pocketcraft.bedrock.component.nbt.NBTCompound;
+import de.marcely.pocketcraft.bedrock.component.nbt.NBTTag;
+import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTValue;
+import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTValueByte;
+import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTValueByteArray;
+import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTValueCompound;
+import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTValueDouble;
+import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTValueFloat;
+import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTValueInt;
+import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTValueIntArray;
+import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTValueList;
+import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTValueLong;
+import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTValueShort;
+import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTValueString;
 import de.marcely.pocketcraft.utils.io.ByteArrayReader;
 import de.marcely.pocketcraft.utils.io.ByteArrayWriter;
-import de.marcely.pocketcraft.utils.nbt.NBTCompound;
-import de.marcely.pocketcraft.utils.nbt.NBTTag;
-import de.marcely.pocketcraft.utils.nbt.value.NBTValue;
-import de.marcely.pocketcraft.utils.nbt.value.NBTValueByte;
-import de.marcely.pocketcraft.utils.nbt.value.NBTValueByteArray;
-import de.marcely.pocketcraft.utils.nbt.value.NBTValueCompound;
-import de.marcely.pocketcraft.utils.nbt.value.NBTValueDouble;
-import de.marcely.pocketcraft.utils.nbt.value.NBTValueFloat;
-import de.marcely.pocketcraft.utils.nbt.value.NBTValueInt;
-import de.marcely.pocketcraft.utils.nbt.value.NBTValueIntArray;
-import de.marcely.pocketcraft.utils.nbt.value.NBTValueList;
-import de.marcely.pocketcraft.utils.nbt.value.NBTValueLong;
-import de.marcely.pocketcraft.utils.nbt.value.NBTValueShort;
-import de.marcely.pocketcraft.utils.nbt.value.NBTValueString;
 import lombok.Getter;
 import lombok.Setter;
 

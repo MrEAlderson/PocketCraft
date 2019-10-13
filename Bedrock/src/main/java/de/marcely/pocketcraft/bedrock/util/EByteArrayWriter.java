@@ -10,9 +10,9 @@ import java.nio.ByteOrder;
 import java.util.Map.Entry;
 import java.util.UUID;
 
-import de.marcely.pocketcraft.bedrock.world.entity.EntityAttribute;
-import de.marcely.pocketcraft.bedrock.world.entity.EntityDataType;
-import de.marcely.pocketcraft.bedrock.world.entity.EntityMetadata;
+import de.marcely.pocketcraft.bedrock.component.world.entity.EntityAttribute;
+import de.marcely.pocketcraft.bedrock.component.world.entity.EntityDataType;
+import de.marcely.pocketcraft.bedrock.component.world.entity.EntityMetadata;
 import de.marcely.pocketcraft.utils.io.ByteArrayWriter;
 
 public class EByteArrayWriter extends ByteArrayWriter {

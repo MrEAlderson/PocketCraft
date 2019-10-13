@@ -3,9 +3,9 @@ package de.marcely.pocketcraft.bedrock.component.nbt.value;
 import java.nio.ByteOrder;
 import java.security.InvalidParameterException;
 
+import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTValue;
 import de.marcely.pocketcraft.utils.io.ByteArrayReader;
 import de.marcely.pocketcraft.utils.io.ByteArrayWriter;
-import de.marcely.pocketcraft.utils.nbt.value.NBTValue;
 
 /*
  * 

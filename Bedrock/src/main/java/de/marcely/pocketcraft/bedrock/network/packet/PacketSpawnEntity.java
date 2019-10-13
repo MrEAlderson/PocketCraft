@@ -1,9 +1,9 @@
 package de.marcely.pocketcraft.bedrock.network.packet;
 
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
-import de.marcely.pocketcraft.bedrock.world.entity.EntityAttribute;
-import de.marcely.pocketcraft.bedrock.world.entity.EntityMetadata;
-import de.marcely.pocketcraft.bedrock.world.entity.EntityType;
+import de.marcely.pocketcraft.bedrock.component.world.entity.EntityAttribute;
+import de.marcely.pocketcraft.bedrock.component.world.entity.EntityMetadata;
+import de.marcely.pocketcraft.bedrock.component.world.entity.EntityType;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
 public class PacketSpawnEntity extends PCPacket {

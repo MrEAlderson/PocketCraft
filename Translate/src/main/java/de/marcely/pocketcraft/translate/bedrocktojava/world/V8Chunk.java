@@ -18,7 +18,7 @@ public class V8Chunk extends Chunk {
 
 	@Override
 	public PacketFullChunk buildPacket(int x, int z){
-		final de.marcely.pocketcraft.bedrock.world.Chunk bedrock = new de.marcely.pocketcraft.bedrock.world.Chunk();
+		final de.marcely.pocketcraft.bedrock.component.world.Chunk bedrock = new de.marcely.pocketcraft.bedrock.component.world.Chunk();
 		
 		// sections
 		for(int si=0; si<16; si++){

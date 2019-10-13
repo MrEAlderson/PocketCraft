@@ -12,6 +12,8 @@ import com.whirvis.jraknet.peer.RakNetClientPeer;
 import com.whirvis.jraknet.protocol.Reliability;
 
 import de.marcely.pocketcraft.bedrock.component.GameRules;
+import de.marcely.pocketcraft.bedrock.component.world.entity.Entity;
+import de.marcely.pocketcraft.bedrock.component.world.entity.EntityType;
 import de.marcely.pocketcraft.bedrock.network.packet.PCPacket;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketBatch;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketDisconnect;
@@ -20,8 +22,6 @@ import de.marcely.pocketcraft.bedrock.network.packet.PacketType;
 import de.marcely.pocketcraft.bedrock.server.BedrockServer;
 import de.marcely.pocketcraft.bedrock.server.player.sequence.Sequence;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
-import de.marcely.pocketcraft.bedrock.world.entity.Entity;
-import de.marcely.pocketcraft.bedrock.world.entity.EntityType;
 import lombok.Getter;
 
 public class BedrockClient {

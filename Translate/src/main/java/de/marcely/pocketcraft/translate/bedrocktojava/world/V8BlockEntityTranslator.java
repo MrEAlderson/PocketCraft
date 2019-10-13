@@ -2,7 +2,7 @@ package de.marcely.pocketcraft.translate.bedrocktojava.world;
 
 import org.jetbrains.annotations.Nullable;
 
-import de.marcely.pocketcraft.bedrock.world.blockentity.*;
+import de.marcely.pocketcraft.bedrock.component.world.blockentity.*;
 
 public class V8BlockEntityTranslator {
 	

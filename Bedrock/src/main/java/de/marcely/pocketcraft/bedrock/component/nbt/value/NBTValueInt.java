@@ -2,9 +2,9 @@ package de.marcely.pocketcraft.bedrock.component.nbt.value;
 
 import java.nio.ByteOrder;
 
+import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTNumericValue;
 import de.marcely.pocketcraft.utils.io.ByteArrayReader;
 import de.marcely.pocketcraft.utils.io.ByteArrayWriter;
-import de.marcely.pocketcraft.utils.nbt.value.NBTNumericValue;
 
 public class NBTValueInt extends NBTNumericValue<Integer> {
 
