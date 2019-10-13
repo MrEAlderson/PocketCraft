@@ -1,18 +1,24 @@
 package de.marcely.pocketcraft.bedrock.world;
 
 import java.io.IOException;
+import java.nio.ByteOrder;
+import java.util.Map;
 
 import org.jetbrains.annotations.Nullable;
 
+import de.marcely.pocketcraft.bedrock.component.nbt.NBTCompound;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketFullChunk;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketType;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
+import de.marcely.pocketcraft.bedrock.world.blockentity.BlockEntity;
 import lombok.Getter;
+import lombok.Setter;
 
 public class Chunk {
 	
 	@Getter private final ChunkSection[] sections;
 	@Getter private final byte[] biomes;
+	@Getter @Setter private Map<Short, BlockEntity> blockEntities;
 	
 	public Chunk(){
 		{
@@ -75,8 +81,18 @@ public class Chunk {
 		stream.writeSignedVarInt(0); // extra data
 		
 		// block entities
-		{
-			
+		try{
+			if(this.blockEntities != null && this.blockEntities.size() >= 1){
+				final NBTCompound nbt = new NBTCompound(ByteOrder.LITTLE_ENDIAN);
+				
+				for(BlockEntity entity:this.blockEntities.values()){
+					entity.write(nbt);
+					nbt.write(stream);
+					nbt.clear();
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
 		}
 		
 		stream.close();

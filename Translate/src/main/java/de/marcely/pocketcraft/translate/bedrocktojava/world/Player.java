@@ -10,6 +10,7 @@ import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityAttributes;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketLoginStatus;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketPlayerPermissions;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketRespawn;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketShowCredits;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketNetworkChunkPublisherUpdate;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketPlayerMove;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketPlayerMove.PlayerMoveType;
@@ -28,6 +29,10 @@ import lombok.Setter;
 
 public class Player {
 	
+	public static final byte SPAWN_STATE_SENDING_CHUNKS = 0;
+	public static final byte SPAWN_STATE_WAITING_ACK = 1;
+	public static final byte SPAWN_STATE_DONE = 2;
+	
 	@Getter private final BedrockToJavaTranslator translator;
 	@Getter private final BedrockClient bedrock;
 	@Getter private final JavaClient java;
@@ -42,10 +47,12 @@ public class Player {
 	@Getter @Setter private byte viewDistance = 8;
 	@Getter @Setter private float walkSpeed, flySpeed;
 	@Getter @Setter private boolean isSprinting;
+	
 	@Getter private boolean isDead = false;
-	@Getter @Setter private boolean isSpawning = false;
-	@Getter @Setter private boolean isLoggedIn = false;
+	@Getter @Setter private byte spawnState = SPAWN_STATE_SENDING_CHUNKS;
+	@Setter private Long loginTime = null;
 	@Getter @Setter private Dimension currentDimension;
+	private boolean queuedShowCreditsTask = false;
 	
 	public Integer chunkX = null, chunkZ = null;
 	private int currentTick = 0;
@@ -80,7 +87,8 @@ public class Player {
 			final int newChunkX = ((int) this.x) >> 4;
 			final int newChunkZ = ((int) this.z) >> 4;
 			
-			if(this.currentTick % 10 == 0 && (this.isSpawning || (this.chunkX == null || (this.chunkX != newChunkX || this.chunkZ != newChunkZ)))){
+			if(this.currentTick % 10 == 0 &&
+			   (this.spawnState != SPAWN_STATE_DONE || (this.chunkX == null || (this.chunkX != newChunkX || this.chunkZ != newChunkZ)))){
 				this.chunkX = newChunkX;
 				this.chunkZ = newChunkZ;
 				
@@ -99,14 +107,14 @@ public class Player {
 							sentChunks++;
 							
 							// spawn him
-							if(this.isSpawning && newChunkX == x && newChunkZ == z){
+							if(this.spawnState == SPAWN_STATE_SENDING_CHUNKS && newChunkX == x && newChunkZ == z){
 								final PacketLoginStatus out = new PacketLoginStatus();
 								
 								out.result = PacketLoginStatus.PLAYER_SPAWN;
 								
 								sendPacket(out);
 								
-								this.isSpawning = false;
+								this.spawnState = SPAWN_STATE_WAITING_ACK;
 							}
 							
 						}else if(chunk.isSent() && !inDistance){
@@ -130,27 +138,42 @@ public class Player {
 				}
 			}
 			
-			if(!this.isSpawning && getCurrentDimension() != getWorld().getDimension()){
-				System.out.println("RESPAWN!!!!!!");
+			if(this.spawnState == SPAWN_STATE_DONE){
+				// changing dimension screen
+				if(getCurrentDimension() != getWorld().getDimension()){
+					System.out.println("CHANGE DIMENSION");
+					
+					{
+						final PacketChangeDimension out = new PacketChangeDimension();
+						
+						out.dimension = getWorld().getDimension();
+						out.posX = getX();
+						out.posY = getY();
+						out.posZ = getZ();
+						
+						sendPacket(out);
+					}
+					
+					this.spawnState = SPAWN_STATE_SENDING_CHUNKS;
+					setCurrentDimension(getWorld().getDimension());
+					this.queuedShowCreditsTask = false;
+					
+					for(Chunk chunk:getWorld().getChunks())
+						chunk.setSent(false);
 				
-				{
-					final PacketChangeDimension out = new PacketChangeDimension();
+				// show credits
+				}else if(this.queuedShowCreditsTask && (System.currentTimeMillis() - this.loginTime) >= 5000 /* wait a bit or client crashes */){
+					{
+						final PacketShowCredits out = new PacketShowCredits();
+						
+						out.entityId = getEntityId();
+						out.status = PacketShowCredits.STATUS_START_CREDITS;
+						
+						sendPacket(out);
+					}
 					
-					out.dimension = getWorld().getDimension();
-					out.posX = getX();
-					out.posY = getY();
-					out.posZ = getZ();
-					
-					sendPacket(out);
+					this.queuedShowCreditsTask = false;
 				}
-				
-				setSpawning(true);
-				setCurrentDimension(getWorld().getDimension());
-				
-				for(Chunk chunk:getWorld().getChunks())
-					chunk.setSent(false);
-				
-				chunkX = null;
 			}
 		}
 		
@@ -275,5 +298,13 @@ public class Player {
 			
 			sendPacket(out);
 		}
+	}
+	
+	public void showCredits(){
+		this.queuedShowCreditsTask = true;
+	}
+	
+	public boolean isLoggedIn(){
+		return this.loginTime != null;
 	}
 }

@@ -34,6 +34,8 @@ public class V8Chunk extends Chunk {
 						
 						bedrock.setBlockId(ix, iy+si*16, iz, pair.getEntry1());
 						bedrock.setBlockData(ix, iy+si*16, iz, pair.getEntry2());
+						
+						V8BlockEntityTranslator.handleSpawn(null, this, ix, iy, iz, pair.getEntry1(), pair.getEntry2(), null);;
 					}
 				}
 			}

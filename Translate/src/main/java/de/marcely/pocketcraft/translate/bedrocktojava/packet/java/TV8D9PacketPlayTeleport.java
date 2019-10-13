@@ -61,7 +61,10 @@ public class TV8D9PacketPlayTeleport extends JavaPacketTranslator<V8D9PacketPlay
 				player.sendPacket(out);
 			}
 			
-			player.setLoggedIn(true);
+			player.setLoginTime(System.currentTimeMillis());
+			
+			// PacketPlayerAction.TYPE_DIMENSION_CHANGE_ACK isn't getting called on spawn therfore we'll have to directly change it to done
+			player.setSpawnState(Player.SPAWN_STATE_DONE);
 		}
 		
 		// confirm it to server

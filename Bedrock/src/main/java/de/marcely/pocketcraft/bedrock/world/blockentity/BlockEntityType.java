@@ -6,33 +6,48 @@ import lombok.Getter;
 
 public enum BlockEntityType {
 
-	CHEST("Chest"),
-    ENDER_CHEST("EnderChest"),
-    FURNACE("Furnace"),
-    SIGN("Sign"),
-    @Deprecated MOB_SPAWNER("MobSpawner"),
-    ENCHANT_TABLE("EnchantTable"),
-    SKULL("Skull"),
-    FLOWER_POT("FlowerPot"),
-    BREWING_STAND("BrewingStand"),
-    @Deprecated DAYLIGHT_DETECTOR("DaylightDetector"),
-    @Deprecated MUSIC("Music"),
-    ITEM_FRAME("ItemFrame"),
-    CAULDRON("Cauldron"),
-    BEACON("Beacon"),
-    @Deprecated PISTON_ARM("PistonArm"),
-    MOVING_BLOCK("MovingBlock"),
-    @Deprecated COMPARATOR("Comparator"),
-    HOPPER("Hopper"),
-    BED("Bed"),
-    JUKEBOX("Jukebox"),
-    SHULKER_BOX("ShulkerBox"),
-    BANNER("Banner");
+	CHEST("Chest", BlockEntityChest.class),
+    ENDER_CHEST("EnderChest", BlockEntityEnderChest.class),
+    FURNACE("Furnace", BlockEntityFurnace.class),
+    SIGN("Sign", BlockEntitySign.class),
+    @Deprecated MOB_SPAWNER("MobSpawner", null),
+    ENCHANT_TABLE("EnchantTable", BlockEntityEnchantTable.class),
+    SKULL("Skull", BlockEntitySkull.class),
+    FLOWER_POT("FlowerPot", BlockEntityFlowerPot.class),
+    BREWING_STAND("BrewingStand", BlockEntityBrewingStand.class),
+    @Deprecated DAYLIGHT_DETECTOR("DaylightDetector", null),
+    @Deprecated MUSIC("Music", null),
+    ITEM_FRAME("ItemFrame", BlockEntityItemFrame.class),
+    CAULDRON("Cauldron", BlockEntityCauldron.class),
+    BEACON("Beacon", BlockEntityBeacon.class),
+    @Deprecated PISTON_ARM("PistonArm", null),
+    MOVING_BLOCK("MovingBlock", BlockEntityMovingBlock.class),
+    @Deprecated COMPARATOR("Comparator", null),
+    HOPPER("Hopper", BlockEntityHopper.class),
+    BED("Bed", BlockEntityBed.class),
+    JUKEBOX("Jukebox", BlockEntityJukebox.class),
+    SHULKER_BOX("ShulkerBox", BlockEntityShulkerBox.class),
+    BANNER("Banner", BlockEntityBanner.class);
 	
 	@Getter private final String id;
+	private final Class<? extends BlockEntity> clazz;
 	
-	private BlockEntityType(String id){
+	private BlockEntityType(String id, Class<? extends BlockEntity> clazz){
 		this.id = id;
+		this.clazz = clazz;
+	}
+	
+	public @Nullable BlockEntity newInstance(){
+		if(this.clazz == null)
+			return null;
+		
+		try{
+			this.clazz.newInstance();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 	
 	public static @Nullable BlockEntityType getById(String id){

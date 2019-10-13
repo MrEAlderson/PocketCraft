@@ -8,12 +8,14 @@ import de.marcely.pocketcraft.translate.bedrocktojava.packet.JavaPacketTranslato
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
 import de.marcely.pocketcraft.translate.component.GameModeTranslator;
 
+import static de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayChangeGameState.*;
+
 public class TV8D9PacketPlayChangeGameState extends JavaPacketTranslator<V8D9PacketPlayChangeGameState> {
 
 	@Override
 	public void handle(V8D9PacketPlayChangeGameState packet, Player player){
 		switch(packet.key){
-		case V8D9PacketPlayChangeGameState.KEY_END_RAINING:
+		case KEY_END_RAINING:
 		{
 			final PacketWorldEvent out = new PacketWorldEvent();
 			
@@ -24,7 +26,7 @@ public class TV8D9PacketPlayChangeGameState extends JavaPacketTranslator<V8D9Pac
 		}
 		break;
 		
-		case V8D9PacketPlayChangeGameState.KEY_BEGIN_RAINING:
+		case KEY_BEGIN_RAINING:
 		{
 			final PacketWorldEvent out = new PacketWorldEvent();
 			
@@ -35,7 +37,7 @@ public class TV8D9PacketPlayChangeGameState extends JavaPacketTranslator<V8D9Pac
 		}
 		break;
 		
-		case V8D9PacketPlayChangeGameState.KEY_CHANGE_GAMEMODE:
+		case KEY_CHANGE_GAMEMODE:
 		{
 			final PacketGameMode out = new PacketGameMode();
 			final GameMode mode = GameMode.ofId((int) packet.value);
@@ -49,13 +51,28 @@ public class TV8D9PacketPlayChangeGameState extends JavaPacketTranslator<V8D9Pac
 		}
 		break;
 		
-		case V8D9PacketPlayChangeGameState.KEY_ELDER_GUARDIAN_APPEARANCE:
+		case KEY_EXIT_END:
+		{
+			
+			player.showCredits();
+			
+			System.out.println("TEKLLL SHOW CREDITS");
+		}
+		break;
+		
+		case KEY_ELDER_GUARDIAN_APPEARANCE:
 		{
 			final PacketWorldEvent out = new PacketWorldEvent();
 			
 			out.type = PacketWorldEvent.TYPE_GUARDIAN_CURSE;
 			
 			player.sendPacket(out);
+		}
+		break;
+		
+		case KEY_FADE_VALUE:
+		{
+			System.out.println("fade: " + packet.value);
 		}
 		break;
 		}

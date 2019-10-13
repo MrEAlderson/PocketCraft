@@ -104,6 +104,10 @@ public class NBTCompound {
 		add(new NBTTag(name, new NBTValueIntArray(value)));
 	}
 	
+	public void clear(){
+		this.tags.clear();
+	}
+	
 	public void write(ByteArrayWriter stream) throws Exception {
 		stream.writeSignedByte(NBTValue.TYPE_COMPOUND);
 		NBTValueString.writeString(stream, order, this.name);

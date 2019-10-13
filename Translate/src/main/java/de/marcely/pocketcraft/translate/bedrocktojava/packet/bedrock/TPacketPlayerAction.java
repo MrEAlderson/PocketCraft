@@ -55,13 +55,20 @@ public class TPacketPlayerAction extends BedrockPacketTranslator<PacketPlayerAct
 		
 		case PacketPlayerAction.TYPE_RESPAWN:
 		{
-			final V8D9PacketPlayClientCommand out = new V8D9PacketPlayClientCommand();
-			
-			out.command = V8D9PacketPlayClientCommand.COMMAND_PERFORM_RESPAWN;
-			
-			player.sendPacket(out);
-			
-			System.out.println("RESPAWN");
+			// tell server that we clicked on respawn
+			{
+				final V8D9PacketPlayClientCommand out = new V8D9PacketPlayClientCommand();
+				
+				out.command = V8D9PacketPlayClientCommand.COMMAND_PERFORM_RESPAWN;
+				
+				player.sendPacket(out);
+			}
+		}
+		break;
+		
+		case PacketPlayerAction.TYPE_DIMENSION_CHANGE_ACK:
+		{
+			player.setSpawnState(Player.SPAWN_STATE_DONE);
 		}
 		break;
 		}

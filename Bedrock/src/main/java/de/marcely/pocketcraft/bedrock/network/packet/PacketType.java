@@ -57,6 +57,7 @@ public enum PacketType {
 	ChunkRadiusChangeRequest(0x45, Channel.WORLD_CHUNKS, PacketChunkRadiusChangeRequest.class),
 	ChunkRadiusChange(0x46, Channel.WORLD_CHUNKS, PacketChunkRadiusChange.class),
 	GameRules(0x48, Channel.NONE, PacketGameRules.class),
+	ShowCredits(0x4B, Channel.NONE, PacketShowCredits.class),
 	AvailableCommands(0x4C, Channel.CHAT, PacketAvailableCommands.class),
 	CommandRequest(0x4D, Channel.CHAT, PacketCommandRequest.class),
 	ChangeServer(0x55, Channel.PRIORITY, PacketChangeServer.class),

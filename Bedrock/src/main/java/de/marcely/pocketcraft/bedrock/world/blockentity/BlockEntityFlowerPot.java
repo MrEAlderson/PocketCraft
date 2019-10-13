@@ -4,7 +4,7 @@ import de.marcely.pocketcraft.bedrock.component.nbt.NBTCompound;
 import lombok.Getter;
 import lombok.Setter;
 
-public class BlockFlowerPot extends BlockEntity {
+public class BlockEntityFlowerPot extends BlockEntity {
 	
 	@Getter @Setter private short item;
 	@Getter @Setter private int data;
