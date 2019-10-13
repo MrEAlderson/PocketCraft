@@ -4,6 +4,7 @@ import java.nio.ByteOrder;
 
 import de.marcely.pocketcraft.utils.io.ByteArrayReader;
 import de.marcely.pocketcraft.utils.io.ByteArrayWriter;
+import de.marcely.pocketcraft.utils.nbt.value.NBTNumericValue;
 
 public class NBTValueFloat extends NBTNumericValue<Float> {
 
@@ -12,7 +13,7 @@ public class NBTValueFloat extends NBTNumericValue<Float> {
 	}
 
 	@Override
-	public byte getID(){ return 0; }
+	public byte getID(){ return TYPE_FLOAT; }
 
 	@Override
 	public void write(ByteArrayWriter stream, ByteOrder order) throws Exception {

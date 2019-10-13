@@ -2,7 +2,7 @@ package de.marcely.pocketcraft.translate.bedrocktojava.world;
 
 import org.jetbrains.annotations.Nullable;
 
-import de.marcely.pocketcraft.bedrock.world.blockentity.BlockEntityType;
+import de.marcely.pocketcraft.bedrock.world.blockentity.*;
 
 public class V8BlockEntityTranslator {
 	
@@ -16,9 +16,30 @@ public class V8BlockEntityTranslator {
 			return;
 		}
 		
-		System.out.println("type ! :) " + type);
+		final BlockEntity entity = type.newInstance();
 		
-		chunk.addBlockEntity(x, y, z, type.newInstance());
+		if(entity == null){
+			System.out.println("Failed to create instance of block entity: " + type);
+			return;
+		}
+		
+		applyData(entity, data);
+		
+		chunk.addBlockEntity(x, y, z, entity);
+	}
+	
+	private static void applyData(BlockEntity rawEntity, short data){
+		switch(rawEntity.getType()){
+		case CHEST:
+		{
+			final BlockEntityBed entity = (BlockEntityBed) rawEntity;
+			
+			entity.setColor((byte) 14);
+		}
+		break;
+		
+		default: break;
+		}
 	}
 	
 	private static @Nullable BlockEntityType getType(short id){

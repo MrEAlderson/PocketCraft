@@ -2,6 +2,7 @@ package de.marcely.pocketcraft.bedrock.component.nbt.value;
 
 import de.marcely.pocketcraft.utils.io.ByteArrayReader;
 import de.marcely.pocketcraft.utils.io.ByteArrayWriter;
+import de.marcely.pocketcraft.utils.nbt.value.NBTValue;
 
 public class NBTValueEnd extends NBTValue<Void> {
 

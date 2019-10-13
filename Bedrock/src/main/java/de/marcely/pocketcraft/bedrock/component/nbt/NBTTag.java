@@ -2,11 +2,12 @@ package de.marcely.pocketcraft.bedrock.component.nbt;
 
 import java.nio.ByteOrder;
 
-import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTNumericValue;
-import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTValue;
-import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTValueString;
 import de.marcely.pocketcraft.utils.io.ByteArrayReader;
 import de.marcely.pocketcraft.utils.io.ByteArrayWriter;
+import de.marcely.pocketcraft.utils.nbt.NBTTag;
+import de.marcely.pocketcraft.utils.nbt.value.NBTNumericValue;
+import de.marcely.pocketcraft.utils.nbt.value.NBTValue;
+import de.marcely.pocketcraft.utils.nbt.value.NBTValueString;
 import lombok.Getter;
 
 public class NBTTag {

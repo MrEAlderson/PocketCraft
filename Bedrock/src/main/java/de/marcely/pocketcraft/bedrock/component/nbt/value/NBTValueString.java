@@ -5,6 +5,7 @@ import java.nio.charset.StandardCharsets;
 
 import de.marcely.pocketcraft.utils.io.ByteArrayReader;
 import de.marcely.pocketcraft.utils.io.ByteArrayWriter;
+import de.marcely.pocketcraft.utils.nbt.value.NBTNumericValue;
 
 public class NBTValueString extends NBTNumericValue<String>  /* Numeric because we need to send a number*/ {
 

@@ -4,6 +4,19 @@ import org.jetbrains.annotations.Nullable;
 
 import de.marcely.pocketcraft.utils.io.ByteArrayReader;
 import de.marcely.pocketcraft.utils.io.ByteArrayWriter;
+import de.marcely.pocketcraft.utils.nbt.value.NBTValue;
+import de.marcely.pocketcraft.utils.nbt.value.NBTValueByte;
+import de.marcely.pocketcraft.utils.nbt.value.NBTValueByteArray;
+import de.marcely.pocketcraft.utils.nbt.value.NBTValueCompound;
+import de.marcely.pocketcraft.utils.nbt.value.NBTValueDouble;
+import de.marcely.pocketcraft.utils.nbt.value.NBTValueEnd;
+import de.marcely.pocketcraft.utils.nbt.value.NBTValueFloat;
+import de.marcely.pocketcraft.utils.nbt.value.NBTValueInt;
+import de.marcely.pocketcraft.utils.nbt.value.NBTValueIntArray;
+import de.marcely.pocketcraft.utils.nbt.value.NBTValueList;
+import de.marcely.pocketcraft.utils.nbt.value.NBTValueLong;
+import de.marcely.pocketcraft.utils.nbt.value.NBTValueShort;
+import de.marcely.pocketcraft.utils.nbt.value.NBTValueString;
 import lombok.Getter;
 import lombok.Setter;
 

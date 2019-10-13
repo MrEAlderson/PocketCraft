@@ -1,6 +1,6 @@
 package de.marcely.pocketcraft.bedrock.world.blockentity;
 
-import de.marcely.pocketcraft.bedrock.component.nbt.NBTCompound;
+import de.marcely.pocketcraft.utils.nbt.NBTCompound;
 import lombok.Getter;
 import lombok.Setter;
 

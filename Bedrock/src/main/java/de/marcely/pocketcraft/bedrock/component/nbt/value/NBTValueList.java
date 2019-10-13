@@ -6,6 +6,8 @@ import java.util.List;
 
 import de.marcely.pocketcraft.utils.io.ByteArrayReader;
 import de.marcely.pocketcraft.utils.io.ByteArrayWriter;
+import de.marcely.pocketcraft.utils.nbt.value.NBTNumericValue;
+import de.marcely.pocketcraft.utils.nbt.value.NBTValue;
 
 public class NBTValueList extends NBTNumericValue<List<NBTValue<?>>>  /* Numeric because we need to send a number*/ {
 

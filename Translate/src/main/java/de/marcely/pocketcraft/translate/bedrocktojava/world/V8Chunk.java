@@ -30,12 +30,14 @@ public class V8Chunk extends Chunk {
 			for(int ix=0; ix<16; ix++){
 				for(int iy=0; iy<16; iy++){
 					for(int iz=0; iz<16; iz++){
+						final int y = iy+si*16;
+						
 						final Pair<Short, Byte> pair = V8BlockTranslator.toBedrock(section.getId(ix, iy, iz), section.getData(ix, iy, iz));
 						
-						bedrock.setBlockId(ix, iy+si*16, iz, pair.getEntry1());
-						bedrock.setBlockData(ix, iy+si*16, iz, pair.getEntry2());
+						bedrock.setBlockId(ix, y, iz, pair.getEntry1());
+						bedrock.setBlockData(ix, y, iz, pair.getEntry2());
 						
-						V8BlockEntityTranslator.handleSpawn(null, this, ix, iy, iz, pair.getEntry1(), pair.getEntry2(), null);;
+						V8BlockEntityTranslator.handleSpawn(null, this, ix, y, iz, pair.getEntry1(), pair.getEntry2(), null);;
 					}
 				}
 			}
@@ -52,6 +54,9 @@ public class V8Chunk extends Chunk {
 				bedrock.setBiome(ix, iz, V8BiomeTranslator.toBedrock(biome));
 			}
 		}
+		
+		// others
+		bedrock.setBlockEntities(this.getBlockEntities());
 		
 		return bedrock.buildPacket(x, z);
 	}

@@ -42,7 +42,7 @@ public enum BlockEntityType {
 			return null;
 		
 		try{
-			this.clazz.newInstance();
+			return this.clazz.newInstance();
 		}catch(Exception e){
 			e.printStackTrace();
 		}

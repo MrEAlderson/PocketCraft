@@ -3,14 +3,15 @@ package de.marcely.pocketcraft.bedrock.world;
 import java.io.IOException;
 import java.nio.ByteOrder;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.jetbrains.annotations.Nullable;
 
-import de.marcely.pocketcraft.bedrock.component.nbt.NBTCompound;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketFullChunk;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketType;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
 import de.marcely.pocketcraft.bedrock.world.blockentity.BlockEntity;
+import de.marcely.pocketcraft.utils.nbt.NBTCompound;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -63,7 +64,7 @@ public class Chunk {
 		this.biomes[(x << 4) | z] = id;
 	}
 	
-	private byte[] getData() throws IOException {
+	private byte[] getData(int chunkX, int chunkZ) throws IOException {
 		final EByteArrayWriter stream = new EByteArrayWriter();
 		
 		// sections
@@ -85,10 +86,26 @@ public class Chunk {
 			if(this.blockEntities != null && this.blockEntities.size() >= 1){
 				final NBTCompound nbt = new NBTCompound(ByteOrder.LITTLE_ENDIAN);
 				
-				for(BlockEntity entity:this.blockEntities.values()){
-					entity.write(nbt);
-					nbt.write(stream);
-					nbt.clear();
+				for(Entry<Short, BlockEntity> e:this.blockEntities.entrySet()){
+					final BlockEntity entity = e.getValue();
+					
+					// set pos
+					{
+						final short raw = e.getKey();
+						
+						entity.setX((chunkX << 4) + (raw & 0x000F));
+						entity.setY((raw & 0x0FF0) >> 4);
+						entity.setZ((chunkZ << 4) + ((raw & 0xF000) >> 12));
+						
+						System.out.println(entity.getX() + " " + entity.getY() + " " + entity.getZ());
+					}
+					
+					// write
+					{
+						entity.write(nbt);
+						nbt.write(stream);
+						nbt.clear();
+					}
 				}
 			}
 		}catch(Exception e){
@@ -109,7 +126,7 @@ public class Chunk {
 		packet.isCachingEnabled = false;
 		
 		try{
-			packet.data = getData();
+			packet.data = getData(x, z);
 		}catch(IOException e){
 			e.printStackTrace();
 			return null;

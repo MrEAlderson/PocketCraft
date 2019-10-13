@@ -64,7 +64,7 @@ public class ProtocolV8D9 extends Protocol {
 				null, // transaction
 				null, // set creative slot
 				null, // enchant item
-				null, // update sign
+				V8D9PacketPlayUpdateSignText.class,
 				V8D9PacketPlayAbilities.class,
 				null, // tab complete
 				V8D9PacketPlayClientSettings.class,
@@ -85,7 +85,7 @@ public class ProtocolV8D9 extends Protocol {
 				V8D9PacketPlayRespawn.class,
 				V8D9PacketPlayTeleport.class,
 				V8D9PacketPlaySetHeldItemSlot.class,
-				null, // bed
+				V8D9PacketPlayPlayerEnterBed.class,
 				null, // animation
 				null, // named entity spawn
 				null, // collect
@@ -111,8 +111,8 @@ public class ProtocolV8D9 extends Protocol {
 				V8D9PacketPlayMapChunk.class,
 				V8D9PacketPlayMultiBlockChange.class,
 				V8D9PacketPlayBlockChange.class,
-				null, // block action
-				null, // block break animation
+				V8D9PacketPlayBlockAction.class,
+				V8D9PacketPlayBlockBreakAnimation.class,
 				V8D9PacketPlayMapChunkBulk.class,
 				V8D9PacketPlayExplosion.class,
 				null, // world event
@@ -126,7 +126,7 @@ public class ProtocolV8D9 extends Protocol {
 				null, // window items
 				null, // window data
 				null, // transaction
-				null, // update sign
+				V8D9PacketPlayUpdateSignText.class,
 				null, // map
 				null, // tile entity data
 				null, // open sign editor

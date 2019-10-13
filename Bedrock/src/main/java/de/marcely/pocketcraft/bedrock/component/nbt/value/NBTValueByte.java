@@ -4,6 +4,7 @@ import java.nio.ByteOrder;
 
 import de.marcely.pocketcraft.utils.io.ByteArrayReader;
 import de.marcely.pocketcraft.utils.io.ByteArrayWriter;
+import de.marcely.pocketcraft.utils.nbt.value.NBTNumericValue;
 
 public class NBTValueByte extends NBTNumericValue<Byte> {
 	

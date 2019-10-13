@@ -55,8 +55,6 @@ public class TV8D9PacketPlayChangeGameState extends JavaPacketTranslator<V8D9Pac
 		{
 			
 			player.showCredits();
-			
-			System.out.println("TEKLLL SHOW CREDITS");
 		}
 		break;
 		
@@ -67,12 +65,6 @@ public class TV8D9PacketPlayChangeGameState extends JavaPacketTranslator<V8D9Pac
 			out.type = PacketWorldEvent.TYPE_GUARDIAN_CURSE;
 			
 			player.sendPacket(out);
-		}
-		break;
-		
-		case KEY_FADE_VALUE:
-		{
-			System.out.println("fade: " + packet.value);
 		}
 		break;
 		}
