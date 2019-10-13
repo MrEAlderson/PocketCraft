@@ -51,6 +51,11 @@ public abstract class NBTBase<T> {
 		return this.data;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public <T1>T1 get(Class<? extends T1> clazz){
+		return (T1) this.data;
+	}
+	
 	
 	
 	

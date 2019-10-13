@@ -4,6 +4,7 @@ import de.marcely.pocketcraft.bedrock.component.world.blockentity.BlockEntitySig
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayUpdateSignText;
 import de.marcely.pocketcraft.translate.bedrocktojava.packet.JavaPacketTranslator;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
+import de.marcely.pocketcraft.translate.component.FormattedTextTranslator;
 
 public class TV8D9PacketPlayUpdateSignText extends JavaPacketTranslator<V8D9PacketPlayUpdateSignText> {
 
@@ -15,7 +16,7 @@ public class TV8D9PacketPlayUpdateSignText extends JavaPacketTranslator<V8D9Pack
 			final String[] lines = new String[4];
 			
 			for(int i=0; i<4; i++)
-				lines[i] = packet.lines[i].asPlainText();
+				lines[i] = FormattedTextTranslator.chatToBedrock(packet.lines[i]);
 			
 			entity.setLines(lines);
 		}

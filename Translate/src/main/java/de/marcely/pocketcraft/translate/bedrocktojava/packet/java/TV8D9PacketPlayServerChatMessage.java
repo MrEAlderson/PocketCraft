@@ -4,6 +4,7 @@ import de.marcely.pocketcraft.bedrock.network.packet.PacketText;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayServerChatMessage;
 import de.marcely.pocketcraft.translate.bedrocktojava.packet.JavaPacketTranslator;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
+import de.marcely.pocketcraft.translate.component.FormattedTextTranslator;
 
 public class TV8D9PacketPlayServerChatMessage extends JavaPacketTranslator<V8D9PacketPlayServerChatMessage> {
 
@@ -28,7 +29,7 @@ public class TV8D9PacketPlayServerChatMessage extends JavaPacketTranslator<V8D9P
 			return;
 		}
 		
-		out.message = packet.message.asPlainText();
+		out.message = FormattedTextTranslator.chatToBedrock(packet.message);
 		
 		player.sendPacket(out);
 	} 

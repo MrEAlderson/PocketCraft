@@ -28,7 +28,7 @@ public class V8BlockEntityTranslator {
 		chunk.addBlockEntity(x, y, z, entity);
 	}
 	
-	private static void applyData(BlockEntity rawEntity, short data){
+	private static void applyData(BlockEntity rawEntity, byte data){
 		switch(rawEntity.getType()){
 		case BED:
 		{
@@ -38,10 +38,13 @@ public class V8BlockEntityTranslator {
 		} 
 		break;
 		
-		case CHEST:
+		case SKULL:
 		{
+			final BlockEntitySkull entity = (BlockEntitySkull) rawEntity;
 			
+			entity.setSkullType(data);
 		}
+		break;
 		
 		default: break;
 		}
