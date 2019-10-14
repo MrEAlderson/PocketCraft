@@ -5,21 +5,21 @@ import de.marcely.pocketcraft.bedrock.network.packet.PacketType;
 import de.marcely.pocketcraft.bedrock.server.player.BedrockClient;
 import lombok.Getter;
 
-public class Entity {
+public abstract class Entity {
 	
-	@Getter private final EntityType type;
 	@Getter private final long id;
 	
 	@Getter private final EntityMetadata metadata;
 	
-	public Entity(EntityType type, long id){
-		this.type = type;
+	public Entity(long id){
 		this.id = id;
 		
 		this.metadata = new EntityMetadata();
 		
 		this.metadata.applyDefault(this);
 	}
+	
+	public abstract EntityType getType();
 	
 	public void setDataFlag(int key, boolean value){
 		if(getDataFlag(key) == value)
@@ -33,7 +33,7 @@ public class Entity {
 	}
 	
 	public void setDataPlayerFlag(int key, boolean value){
-		if(this.type != EntityType.PLAYER)
+		if(getType() != EntityType.PLAYER)
 			throw new IllegalStateException("Entity isn't a player");
 		
 		if(getDataPlayerFlag(key) == value)
@@ -51,7 +51,7 @@ public class Entity {
 	}
 	
 	public boolean getDataPlayerFlag(int key){
-		if(this.type != EntityType.PLAYER)
+		if(getType() != EntityType.PLAYER)
 			throw new IllegalStateException("Entity isn't a player");
 		
 		return ((this.metadata.getByte(EntityDataType.PLAYER_FLAGS) & 0xFF) & (1 << key)) > 0;

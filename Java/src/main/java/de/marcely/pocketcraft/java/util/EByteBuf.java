@@ -7,6 +7,9 @@ import java.io.DataOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
+import org.jetbrains.annotations.Nullable;
+
+import de.marcely.pocketcraft.java.component.Item;
 import de.marcely.pocketcraft.java.component.chat.ChatBaseComponent;
 import de.marcely.pocketcraft.java.component.nbt.NBTBase;
 import de.marcely.pocketcraft.java.component.nbt.NBTTagCompound;
@@ -155,6 +158,21 @@ public class EByteBuf {
 			nbt.write(stream);
 		}catch(Exception e){
 			e.printStackTrace();
+		}
+	}
+	
+	public void writeItem(Item item){
+		if(item == null || item.getType() == 0){
+			writeShort(-1);
+			return;
+		}
+		
+		writeShort(item.getType());
+		writeByte(item.getAmount());
+		writeShort(item.getData());
+		
+		if(item.getNBT() != null){
+			writeNBT(item.getNBT());
 		}
 	}
 	
@@ -317,6 +335,21 @@ public class EByteBuf {
 		}
 		
 		return null;
+	}
+	
+	public @Nullable Item readItem(){
+		final short type = readShort();
+		
+		if(type < 0)
+			return null;
+		
+		{
+			final byte amount = readByte();
+			final short data = readShort();
+			final NBTTagCompound nbt = readNBT();
+			
+			return new Item(type, amount, data, nbt);
+		}
 	}
 	
 	public EByteBuf readAsBuf(int length){
