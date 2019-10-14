@@ -22,19 +22,19 @@ public class PacketSpawnEntity extends PCPacket {
 
 	@Override
 	public void encode(EByteArrayWriter writer) throws Exception {
-		writer.writeSignedVarLong(entityUID);
-		writer.writeUnsignedVarLong(entityRuntimeID);
-		writer.writeString(type.getId());
-		writer.writeVector(x, y, z);
-		writer.writeVector(veloX, veloY, veloZ);
-		writer.writeLFloat(yaw);
-		writer.writeLFloat(pitch);
-		writer.writeLFloat(headYaw);
-		writer.writeAttributes(attributes);
-		writer.writeMetadata(metadata);
+		writer.writeSignedVarLong(this.entityUID);
+		writer.writeUnsignedVarLong(this.entityRuntimeID);
+		writer.writeString(this.type.getId());
+		writer.writeVector(this.x, this.y, this.z);
+		writer.writeVector(this.veloX, this.veloY, this.veloZ);
+		writer.writeLFloat(this.pitch);
+		writer.writeLFloat(this.yaw);
+		writer.writeLFloat(this.headYaw);
+		writer.writeAttributes(this.attributes);
+		writer.writeMetadata(this.metadata);
 		
-		writer.writeUnsignedVarInt(links.length);
-        for(Object[] link:links){
+		writer.writeUnsignedVarInt(this.links.length);
+        for(Object[] link:this.links){
         	writer.writeSignedVarLong((long) link[0]);
         	writer.writeSignedVarLong((long) link[1]);
             writer.writeSignedByte((byte) link[2]);

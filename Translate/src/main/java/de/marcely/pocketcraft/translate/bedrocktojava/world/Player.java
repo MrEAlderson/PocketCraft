@@ -77,7 +77,7 @@ public class Player {
 	}
 	
 	public int getEntityId(){
-		return (int) this.bedrock.getEntity().getId();
+		return (int) this.bedrock.getEntity().getLongId();
 	}
 	
 	public UUID getUUID(){

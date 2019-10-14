@@ -1,6 +1,7 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.world;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -14,10 +15,11 @@ import lombok.Setter;
 public class World {
 	
 	@Getter private Map<Long, Chunk> chunksMap = new ConcurrentHashMap<>();
+	@Getter private Map<Integer, Entity> entitiesMap = new HashMap<>();
 	
 	@Getter @Setter private Dimension dimension;
-	
 	@Getter @Setter private int spawnX, spawnY, spawnZ;
+	
 	
 	public void unloadAllChunks(){
 		this.chunksMap.clear();
@@ -55,5 +57,17 @@ public class World {
 			return null;
 		
 		return chunk.getBlockEntity(x % 16, y, z % 16);
+	}
+	
+	public void addEntity(Entity entity){
+		this.entitiesMap.put(entity.getId(), entity);
+	}
+	
+	public @Nullable Entity getEntity(int id){
+		return this.entitiesMap.get(id);
+	}
+	
+	public Collection<Entity> getEntities(){
+		return this.entitiesMap.values();
 	}
 }

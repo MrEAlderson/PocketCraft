@@ -22,8 +22,8 @@ public class V8D9PacketPlayEntityRelMoveLook extends PlayPacket {
 		stream.writeByte((byte) (this.relX * 32F));
 		stream.writeByte((byte) (this.relY * 32F));
 		stream.writeByte((byte) (this.relZ * 32F));
-		stream.writeByte(((byte)(int)(this.yaw * 256.0F / 360.0F)));
-		stream.writeByte(((byte)(int)(this.pitch * 256.0F / 360.0F)));
+		stream.writeByte(((byte) (this.yaw * 256.0F / 360.0F)));
+		stream.writeByte(((byte) (this.pitch * 256.0F / 360.0F)));
 		stream.writeBoolean(this.isOnGround);
 	}
 

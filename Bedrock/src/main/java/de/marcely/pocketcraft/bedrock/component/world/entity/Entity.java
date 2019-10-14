@@ -7,12 +7,12 @@ import lombok.Getter;
 
 public abstract class Entity {
 	
-	@Getter private final long id;
+	@Getter protected final long longId;
 	
 	@Getter protected final EntityMetadata metadata;
 	
 	public Entity(long id){
-		this.id = id;
+		this.longId = id;
 		
 		this.metadata = new EntityMetadata();
 		
@@ -60,7 +60,7 @@ public abstract class Entity {
 	public void sendAllMetadata(BedrockClient to){
 		final PacketEntityData packet = (PacketEntityData) PacketType.EntityData.newInstance();
 		
-		packet.entityRuntimeID = this.id;
+		packet.entityRuntimeID = this.longId;
 		packet.metadata = this.metadata;
 		
 		to.sendPacket(packet);

@@ -5,9 +5,9 @@ import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
 public class PacketEntityMove extends PCPacket {
 	
-	public long entityRuntimeID;
+	public long entityRuntimeId;
 	public float x, y, z, yaw, pitch, headYaw;
-	public boolean onGround, isTeleport;
+	public boolean isOnGround, isTeleport;
 	
 	public PacketEntityMove(){
 		super(PacketType.EntityMove);
@@ -15,13 +15,24 @@ public class PacketEntityMove extends PCPacket {
 
 	@Override
 	public void encode(EByteArrayWriter writer) throws Exception {
-		writer.writeUnsignedVarLong(entityRuntimeID);
-		writer.writeVector(x, y, z);
+		writer.writeUnsignedVarLong(this.entityRuntimeId);
+		
+		{
+			byte flags = 0;
+			
+			if(this.isTeleport)
+				flags |= 0x01;
+			
+			if(this.isOnGround)
+				flags |= 0x02;
+			
+			writer.writeSignedByte(flags);
+		}
+		
+		writer.writeVector(this.x, this.y, this.z);
 		writer.writeSignedByte((byte) ((double) this.pitch/(360D/256D)));
 		writer.writeSignedByte((byte) ((double) this.headYaw/(360D/256D)));
 		writer.writeSignedByte((byte) ((double) this.yaw/(360D/256D)));
-		writer.writeBoolean(onGround);
-		writer.writeBoolean(isTeleport);
 	}
 
 	@Override

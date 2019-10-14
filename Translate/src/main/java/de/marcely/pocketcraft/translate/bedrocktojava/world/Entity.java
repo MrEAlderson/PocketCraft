@@ -5,4 +5,8 @@ public abstract class Entity extends de.marcely.pocketcraft.bedrock.component.wo
 	public Entity(int id){
 		super(id);
 	}
+	
+	public int getId(){
+		return (int) this.getLongId();
+	}
 }

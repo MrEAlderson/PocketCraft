@@ -65,6 +65,7 @@ public enum PacketType {
 	ScoreboardObjectiveRemove(0x6A, Channel.NONE, PacketScoreboardObjectiveRemove.class),
 	ScoreboardDisplay(0x6B, Channel.NONE, PacketScoreboardDisplay.class),
 	ScoreboardSetScore(0x6C, Channel.NONE, PacketScoreboardSetScore.class),
+	EntityRelMove(0x6F, Channel.ENTITY, PacketEntityRelMove.class),
 	SetLocalPlayerInitialized(0x71, Channel.NONE, PacketSetLocalPlayerInitialized.class),
 	AvailableEntityIdentifiers(0x77, Channel.NONE, PacketAvailableEntityIdentifiers.class),
 	NetworkChunkPublisherUpdate(0x79, Channel.WORLD_CHUNKS, PacketNetworkChunkPublisherUpdate.class),

@@ -25,7 +25,10 @@ import de.marcely.pocketcraft.translate.bedrocktojava.packet.BedrockServerInterf
 import de.marcely.pocketcraft.translate.bedrocktojava.packet.JavaPacketTranslator;
 import de.marcely.pocketcraft.translate.bedrocktojava.packet.bedrock.*;
 import de.marcely.pocketcraft.translate.bedrocktojava.packet.java.*;
+import de.marcely.pocketcraft.translate.bedrocktojava.world.Entity;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
+import de.marcely.pocketcraft.translate.bedrocktojava.world.entity.v8.V8Entity;
+import de.marcely.pocketcraft.translate.bedrocktojava.world.entity.v8.V8EntityPig;
 import de.marcely.pocketcraft.utils.callback.R1Callback;
 import de.marcely.pocketcraft.utils.scheduler.Scheduler;
 import lombok.Getter;
@@ -37,6 +40,7 @@ public class BedrockToJavaTranslator extends Translator {
 	@Getter private final Protocol javaProtocol;
 	
 	private final Map<InetSocketAddress, Player> players = new HashMap<>();
+	private Map<Object, Class<? extends Entity>> registredEntities = new HashMap<>();
 	
 	public BedrockToJavaTranslator(BedrockServer bedrockServer, Connection javaConnection, Protocol javaProtocol){
 		this.bedrockServer = bedrockServer;
@@ -53,7 +57,7 @@ public class BedrockToJavaTranslator extends Translator {
 		
 		this.bedrockServer.registerListener(new BedrockServerInterface(this));
 		
-		definePacketTranslators();
+		defineRegistry();
 		
 		Scheduler.runAsyncRepeated(() -> {
 			for(Player player:getPlayers()){
@@ -94,36 +98,56 @@ public class BedrockToJavaTranslator extends Translator {
 		return (BedrockPacketTranslator<T>) packet.getProperties().getMetadata(getBedrockTranslatorMetaName());
 	}
 	
-	private void definePacketTranslators(){
-		defineJava(V8D9PacketPlayMapChunk.class, TV8D9PacketPlayMapChunk.class);
-		defineJava(V8D9PacketPlayMapChunkBulk.class, TV8D9PacketPlayMapChunkBulk.class);
-		defineJava(V8D9PacketPlayLogin.class, TV8D9PacketPlayLogin.class);
-		defineJava(V8D9PacketPlayKeepAlive.class, TV8D9PacketPlayKeepAlive.class);
-		defineJava(V8D9PacketPlayWorldTime.class, TV8D9PacketPlayWorldTime.class);
-		defineJava(V8D9PacketPlayTeleport.class, TV8D9PacketPlayTeleport.class);
-		defineJava(V8D9PacketPlayKick.class, TV8D9PacketPlayKick.class);
-		defineJava(V8D9PacketPlayChangeGameState.class, TV8D9PacketPlayChangeGameState.class);
-		defineJava(V8D9PacketPlayBlockChange.class, TV8D9PacketPlayBlockChange.class);
-		defineJava(V8D9PacketPlayMultiBlockChange.class, TV8D9PacketPlayMultiBlockChange.class);
-		defineJava(V8D9PacketPlayRespawn.class, TV8D9PacketPlayRespawn.class);
-		defineJava(V8D9PacketPlayServerChatMessage.class, TV8D9PacketPlayServerChatMessage.class);
-		defineJava(V8D9PacketPlayUpdateHealth.class, TV8D9PacketPlayUpdateHealth.class);
-		defineJava(V8D9PacketPlayAbilities.class, TV8D9PacketPlayAbilities.class);
-		defineJava(V8D9PacketPlaySpawnPosition.class, TV8D9PacketPlaySpawnPosition.class);
-		defineJava(V8D9PacketPlayUpdateSignText.class, TV8D9PacketPlayUpdateSignText.class);
-		defineJava(V8D9PacketPlayUpdateBlockEntity.class, TV8D9PacketPlayUpdateBlockEntity.class);
-		defineJava(V8D9PacketPlayPlayerList.class, TV8D9PacketPlayPlayerList.class);
+	public @Nullable Entity newEntityInstance(Object type, int id){
+		final Class<? extends Entity> clazz = this.registredEntities.get(type);
 		
-		defineBedrock(PacketPlayerMove.class, TPacketPlayerMove.class);
-		defineBedrock(PacketChunkRadiusChangeRequest.class, TPacketChunkRadiusChangeRequest.class);
-		defineBedrock(PacketText.class, TPacketText.class);
-		defineBedrock(PacketPlayerAction.class, TPacketPlayerAction.class);
-		defineBedrock(PacketCommandRequest.class, TPacketCommandRequest.class);
-		defineBedrock(PacketPlayerPermissions.class, TPacketPlayerPermissions.class);
-		defineBedrock(PacketShowCredits.class, TPacketShowCredits.class);
+		if(clazz == null)
+			return null;
+		
+		try{
+			return clazz.getConstructor(int.class).newInstance(id);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
-	protected void defineJava(Class<? extends Packet> packet, Class<? extends JavaPacketTranslator<?>> translatorClazz){
+	private void defineRegistry(){
+		registerJavaPacket(V8D9PacketPlayMapChunk.class, TV8D9PacketPlayMapChunk.class);
+		registerJavaPacket(V8D9PacketPlayMapChunkBulk.class, TV8D9PacketPlayMapChunkBulk.class);
+		registerJavaPacket(V8D9PacketPlayLogin.class, TV8D9PacketPlayLogin.class);
+		registerJavaPacket(V8D9PacketPlayKeepAlive.class, TV8D9PacketPlayKeepAlive.class);
+		registerJavaPacket(V8D9PacketPlayWorldTime.class, TV8D9PacketPlayWorldTime.class);
+		registerJavaPacket(V8D9PacketPlayTeleport.class, TV8D9PacketPlayTeleport.class);
+		registerJavaPacket(V8D9PacketPlayKick.class, TV8D9PacketPlayKick.class);
+		registerJavaPacket(V8D9PacketPlayChangeGameState.class, TV8D9PacketPlayChangeGameState.class);
+		registerJavaPacket(V8D9PacketPlayBlockChange.class, TV8D9PacketPlayBlockChange.class);
+		registerJavaPacket(V8D9PacketPlayMultiBlockChange.class, TV8D9PacketPlayMultiBlockChange.class);
+		registerJavaPacket(V8D9PacketPlayRespawn.class, TV8D9PacketPlayRespawn.class);
+		registerJavaPacket(V8D9PacketPlayServerChatMessage.class, TV8D9PacketPlayServerChatMessage.class);
+		registerJavaPacket(V8D9PacketPlayUpdateHealth.class, TV8D9PacketPlayUpdateHealth.class);
+		registerJavaPacket(V8D9PacketPlayAbilities.class, TV8D9PacketPlayAbilities.class);
+		registerJavaPacket(V8D9PacketPlaySpawnPosition.class, TV8D9PacketPlaySpawnPosition.class);
+		registerJavaPacket(V8D9PacketPlayUpdateSignText.class, TV8D9PacketPlayUpdateSignText.class);
+		registerJavaPacket(V8D9PacketPlayUpdateBlockEntity.class, TV8D9PacketPlayUpdateBlockEntity.class);
+		registerJavaPacket(V8D9PacketPlayPlayerList.class, TV8D9PacketPlayPlayerList.class);
+		registerJavaPacket(V8D9PacketPlaySpawnMob.class, TV8D9PacketPlaySpawnMob.class);
+		registerJavaPacket(V8D9PacketPlayEntityRelMove.class, TV8D9PacketPlayEntityRelMove.class);
+		registerJavaPacket(V8D9PacketPlayEntityLook.class, TV8D9PacketPlayEntityLook.class);
+		registerJavaPacket(V8D9PacketPlayEntityRelMoveLook.class, TV8D9PacketPlayEntityRelMoveLook.class);
+		
+		registerBedrockPacket(PacketPlayerMove.class, TPacketPlayerMove.class);
+		registerBedrockPacket(PacketChunkRadiusChangeRequest.class, TPacketChunkRadiusChangeRequest.class);
+		registerBedrockPacket(PacketText.class, TPacketText.class);
+		registerBedrockPacket(PacketPlayerAction.class, TPacketPlayerAction.class);
+		registerBedrockPacket(PacketCommandRequest.class, TPacketCommandRequest.class);
+		registerBedrockPacket(PacketPlayerPermissions.class, TPacketPlayerPermissions.class);
+		registerBedrockPacket(PacketShowCredits.class, TPacketShowCredits.class);
+		
+		registerEntity(V8EntityPig.class);
+	}
+	
+	protected void registerJavaPacket(Class<? extends Packet> packet, Class<? extends JavaPacketTranslator<?>> translatorClazz){
 		try{
 			final PacketProperties properties = (PacketProperties) packet.getField("PROPERTIES").get(null);
 			
@@ -137,9 +161,19 @@ public class BedrockToJavaTranslator extends Translator {
 		}
 	}
 	
-	protected void defineBedrock(Class<? extends PCPacket> packet, Class<? extends BedrockPacketTranslator<?>> translatorClazz){
+	protected void registerBedrockPacket(Class<? extends PCPacket> packet, Class<? extends BedrockPacketTranslator<?>> translatorClazz){
 		try{
 			packet.newInstance().getProperties().setMetadata(getBedrockTranslatorMetaName(), translatorClazz.newInstance());
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	protected void registerEntity(Class<? extends Entity> clazz){
+		try{
+			if(V8Entity.class.isAssignableFrom(clazz)){
+				this.registredEntities.put((short) ((V8Entity) clazz.getConstructor(int.class).newInstance(0)).getTypeId(), clazz);
+			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}

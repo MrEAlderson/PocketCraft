@@ -51,7 +51,7 @@ public class V8EntityMetadata {
 	}
 	
 	public byte readByte(int key){
-		return (byte) this.entries.get(key).getData();
+		return (byte) (Byte) this.entries.get(key).getData();
 	}
 	
 	public boolean readBoolean(int key){
@@ -59,15 +59,15 @@ public class V8EntityMetadata {
 	}
 	
 	public short readShort(int key){
-		return (short) this.entries.get(key).getData();
+		return (short) (Short) this.entries.get(key).getData();
 	}
 	
 	public int readInt(int key){
-		return (int) this.entries.get(key).getData();
+		return (int) (Integer) this.entries.get(key).getData();
 	}
 	
 	public float readFloat(int key){
-		return (float) this.entries.get(key).getData();
+		return (float) (Float) this.entries.get(key).getData();
 	}
 	
 	public String readString(int key){
@@ -91,7 +91,7 @@ public class V8EntityMetadata {
 			final byte key = (byte) (int) e.getKey();
 			final MetaEntryV8<?> entry = e.getValue();
 			
-			buf.writeByte((entry.getV8Id() << 5) | (key & 0x1F));
+			buf.writeUnsignedByte((entry.getV8Id() << 5) | (key & 0x1F));
 			entry.write(buf);
 		}
 		
@@ -104,11 +104,11 @@ public class V8EntityMetadata {
 		while(true){
 			final byte item = buf.readByte();
 			
-			if(item == 0x7F)
+			if(item == Byte.MAX_VALUE)
 				return meta;
 			
 			final int key = item & 0x1F;
-			final byte type = (byte) (item >> 5);
+			final byte type = (byte) ((item & 0xE0) >> 5);
 			final MetaEntryV8<?> entry = MetaEntryV8.newInstanceById(type);
 			
 			entry.read(buf);
