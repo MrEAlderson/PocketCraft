@@ -11,6 +11,7 @@ public class TV8D9PacketPlayEntityLook extends JavaPacketTranslator<V8D9PacketPl
 	public void handle(V8D9PacketPlayEntityLook packet, Player player){
 		final PacketEntityRelMove out = new PacketEntityRelMove();
 		
+		out.entityRuntimeId = packet.entityId;
 		out.flags = PacketEntityRelMove.FLAG_HAS_YAW |  PacketEntityRelMove.FLAG_HAS_PITCH;
 		out.yaw = packet.yaw;
 		out.pitch = packet.pitch;

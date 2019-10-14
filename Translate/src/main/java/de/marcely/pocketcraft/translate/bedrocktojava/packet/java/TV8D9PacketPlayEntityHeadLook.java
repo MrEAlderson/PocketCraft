@@ -1,21 +1,19 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.packet.java;
 
 import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityRelMove;
-import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayEntityRelMove;
+import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayEntityHeadLook;
 import de.marcely.pocketcraft.translate.bedrocktojava.packet.JavaPacketTranslator;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
 
-public class TV8D9PacketPlayEntityRelMove extends JavaPacketTranslator<V8D9PacketPlayEntityRelMove> {
+public class TV8D9PacketPlayEntityHeadLook extends JavaPacketTranslator<V8D9PacketPlayEntityHeadLook> {
 
 	@Override
-	public void handle(V8D9PacketPlayEntityRelMove packet, Player player){
+	public void handle(V8D9PacketPlayEntityHeadLook packet, Player player){
 		final PacketEntityRelMove out = new PacketEntityRelMove();
 		
 		out.entityRuntimeId = packet.entityId;
-		out.flags = PacketEntityRelMove.FLAG_HAS_X | PacketEntityRelMove.FLAG_HAS_Y | PacketEntityRelMove.FLAG_HAS_Z;
-		out.relX = packet.relX;
-		out.relY = packet.relY;
-		out.relZ = packet.relZ;
+		out.flags = PacketEntityRelMove.FLAG_HAS_HEAD_YAW;
+		out.headYaw = packet.headYaw;
 		
 		player.sendPacket(out);
 	}
