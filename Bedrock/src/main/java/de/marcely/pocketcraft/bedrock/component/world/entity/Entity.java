@@ -9,7 +9,7 @@ public abstract class Entity {
 	
 	@Getter private final long id;
 	
-	@Getter private final EntityMetadata metadata;
+	@Getter protected final EntityMetadata metadata;
 	
 	public Entity(long id){
 		this.id = id;

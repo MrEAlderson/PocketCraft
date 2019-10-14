@@ -18,6 +18,10 @@ public class V8EntityMeta {
 		this.entries.put(key, new MetaEntryByte((byte) value));
 	}
 	
+	public void writeBoolean(int key, boolean value){
+		writeByte(key, value ? 1 : 0);
+	}
+	
 	public void writeShort(int key, int value){
 		this.entries.put(key, new MetaEntryShort((short) value));
 	}
@@ -26,7 +30,7 @@ public class V8EntityMeta {
 		this.entries.put(key, new MetaEntryInt(value));
 	}
 	
-	public void writeFloat(int key, byte value){
+	public void writeFloat(int key, float value){
 		this.entries.put(key, new MetaEntryFloat(value));
 	}
 	
@@ -48,6 +52,10 @@ public class V8EntityMeta {
 	
 	public byte readByte(int key){
 		return (byte) this.entries.get(key).getData();
+	}
+	
+	public boolean readBoolean(int key){
+		return readByte(key) == 1;
 	}
 	
 	public short readShort(int key){

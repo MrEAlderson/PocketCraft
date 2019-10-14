@@ -129,7 +129,11 @@ public class BedrockClient {
 	}
 	
 	public void initEntity(long id){
-		this.entity = new Entity(EntityType.PLAYER, id);
+		this.entity = new Entity(id){
+			public EntityType getType(){
+				return EntityType.PLAYER;
+			}
+		};
 	}
 	
 	public void sendGameRules(GameRules gr){
