@@ -10,7 +10,7 @@ import de.marcely.pocketcraft.java.component.Item;
 import de.marcely.pocketcraft.java.util.EByteBuf;
 import de.marcely.pocketcraft.utils.math.Vector3;
 
-public class V8EntityMeta {
+public class V8EntityMetadata {
 	
 	private Map<Integer, MetaEntryV8<?>> entries = new HashMap<>();
 	
@@ -98,8 +98,8 @@ public class V8EntityMeta {
 		buf.writeByte(0x7F);
 	}
 	
-	public static V8EntityMeta read(EByteBuf buf){
-		final V8EntityMeta meta = new V8EntityMeta();
+	public static V8EntityMetadata read(EByteBuf buf){
+		final V8EntityMetadata meta = new V8EntityMetadata();
 		
 		while(true){
 			final byte item = buf.readByte();

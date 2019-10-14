@@ -11,6 +11,7 @@ import org.jetbrains.annotations.Nullable;
 
 import de.marcely.pocketcraft.java.component.Item;
 import de.marcely.pocketcraft.java.component.chat.ChatBaseComponent;
+import de.marcely.pocketcraft.java.component.entity.meta.V8EntityMetadata;
 import de.marcely.pocketcraft.java.component.nbt.NBTBase;
 import de.marcely.pocketcraft.java.component.nbt.NBTTagCompound;
 import de.marcely.pocketcraft.utils.math.Vector3;
@@ -174,6 +175,10 @@ public class EByteBuf {
 		if(item.getNBT() != null){
 			writeNBT(item.getNBT());
 		}
+	}
+	
+	public void writeV8EntityMetadata(V8EntityMetadata meta){
+		meta.write(this);
 	}
 	
 	public void read(byte[] dst){
@@ -350,6 +355,10 @@ public class EByteBuf {
 			
 			return new Item(type, amount, data, nbt);
 		}
+	}
+	
+	public V8EntityMetadata readV8EntityMetadata(){
+		return V8EntityMetadata.read(this);
 	}
 	
 	public EByteBuf readAsBuf(int length){

@@ -87,23 +87,23 @@ public class ProtocolV8D9 extends Protocol {
 				V8D9PacketPlaySetHeldItemSlot.class,
 				V8D9PacketPlayPlayerEnterBed.class,
 				null, // animation
-				null, // named entity spawn
-				null, // collect
-				null, // spawn entity
-				null, // spawn entity living
-				null, // spawn painting
-				null, // spawn exp orb
-				null, // entity velocity
-				null, // entity destroy
-				null, // entity
-				null, // entity.relmove
-				null, // entity.look
-				null, // entity.relmovelook
-				null, // entity teleport
-				null, // entity head rotation
+				V8D9PacketPlaySpawnPlayer.class,
+				V8D9PacketPlayCollectItem.class,
+				V8D9PacketPlaySpawnObject.class,
+				V8D9PacketPlaySpawnMob.class,
+				V8D9PacketPlaySpawnPainting.class,
+				V8D9PacketPlaySpawnExperienceOrb.class,
+				V8D9PacketPlayEntityVelocity.class,
+				V8D9PacketPlayDestroyEntities.class,
+				V8D9PacketPlayEntityStanding.class,
+				V8D9PacketPlayEntityRelMove.class,
+				V8D9PacketPlayEntityLook.class,
+				V8D9PacketPlayEntityRelMoveLook.class,
+				V8D9PacketPlayEntityTeleport.class,
+				V8D9PacketPlayEntityHeadLook.class,
 				null, // entity status
 				null, // attach entity
-				null, // entity metadata
+				V8D9PacketPlayEntityMetadata.class,
 				null, // entity effect
 				null, // remove entity effect
 				null, // experience

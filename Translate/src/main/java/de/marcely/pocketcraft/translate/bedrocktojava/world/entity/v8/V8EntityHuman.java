@@ -1,7 +1,7 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.world.entity.v8;
 
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityType;
-import de.marcely.pocketcraft.java.component.entity.meta.V8EntityMeta;
+import de.marcely.pocketcraft.java.component.entity.meta.V8EntityMetadata;
 
 public class V8EntityHuman extends V8EntityLiving {
 
@@ -20,7 +20,7 @@ public class V8EntityHuman extends V8EntityLiving {
 	}
 	
 	@Override
-	public void write(V8EntityMeta meta){
+	public void write(V8EntityMetadata meta){
 		super.write(meta);
 		
 		meta.writeByte(10, 0); // skin flags
@@ -30,7 +30,7 @@ public class V8EntityHuman extends V8EntityLiving {
 	}
 	
 	@Override
-	public void read(V8EntityMeta meta){
+	public void read(V8EntityMetadata meta){
 		super.read(meta);
 	}
 }

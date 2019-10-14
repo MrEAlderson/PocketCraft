@@ -1,7 +1,7 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.world.entity.v8;
 
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityDataType;
-import de.marcely.pocketcraft.java.component.entity.meta.V8EntityMeta;
+import de.marcely.pocketcraft.java.component.entity.meta.V8EntityMetadata;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Entity;
 
 public abstract class V8Entity extends Entity {
@@ -12,7 +12,7 @@ public abstract class V8Entity extends Entity {
 	
 	public abstract int getTypeId();
 	
-	public void write(V8EntityMeta meta){
+	public void write(V8EntityMetadata meta){
 		{
 			byte map = 0;
 			
@@ -38,7 +38,7 @@ public abstract class V8Entity extends Entity {
 		meta.writeBoolean(4, this.getDataFlag(EntityDataType.FLAG_SILENT));
 	}
 	
-	public void read(V8EntityMeta meta){
+	public void read(V8EntityMetadata meta){
 		{
 			final byte map = meta.readByte(0);
 			
