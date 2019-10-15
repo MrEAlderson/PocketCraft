@@ -13,8 +13,8 @@ public class PacketSpawnEntityPlayer extends PCPacket {
 	public UUID uuid;
 	public String name, thirdPartyName = "";
 	public int platform = 0;
-	public long entityUID, entityRuntimeID;
-	public String platformChatID = "";
+	public long entityUId, entityRuntimeId;
+	public String platformChatId = "";
 	public float x, y, z, yaw, headYaw, pitch;
 	public float veloX, veloY, veloZ;
 	public Item itemOnHand;
@@ -24,9 +24,9 @@ public class PacketSpawnEntityPlayer extends PCPacket {
 	
 	public long long1;
 	
-	public EntityLink[] links;
+	public EntityLink[] links = new EntityLink[0];
 	
-	public String devideID;
+	public String deviceId = "";
 	
 	public PacketSpawnEntityPlayer(){
 		super(PacketType.SpawnEntityPlayer);
@@ -34,20 +34,20 @@ public class PacketSpawnEntityPlayer extends PCPacket {
 
 	@Override
 	public void encode(EByteArrayWriter writer) throws Exception {
-		writer.writeUUID(uuid);
-		writer.writeString(name);
-		writer.writeString(thirdPartyName);
-		writer.writeSignedVarInt(platform);
-		writer.writeSignedVarLong(entityUID);
-		writer.writeUnsignedVarLong(entityRuntimeID);
-		writer.writeString(platformChatID);
-		writer.writeVector(x, y, z);
-		writer.writeVector(veloX, veloY, veloZ);
-		writer.writeLFloat(pitch);
-		writer.writeLFloat(headYaw);
-		writer.writeLFloat(yaw);
-		itemOnHand.write(writer);
-		writer.writeMetadata(metadata);
+		writer.writeUUID(this.uuid);
+		writer.writeString(this.name);
+		writer.writeString(this.thirdPartyName);
+		writer.writeSignedVarInt(this.platform);
+		writer.writeSignedVarLong(this.entityUId);
+		writer.writeUnsignedVarLong(this.entityRuntimeId);
+		writer.writeString(this.platformChatId);
+		writer.writeVector(this.x, this.y, this.z);
+		writer.writeVector(this.veloX, this.veloY, this.veloZ);
+		writer.writeLFloat(this.pitch);
+		writer.writeLFloat(this.headYaw);
+		writer.writeLFloat(this.yaw);
+		this.itemOnHand.write(writer);
+		writer.writeMetadata(this.metadata);
 		
 		for(long l:this.uvarint)
 			writer.writeUnsignedVarInt(l);
@@ -61,7 +61,7 @@ public class PacketSpawnEntityPlayer extends PCPacket {
 				link.write(writer);
 		}
 		
-		writer.writeString(this.devideID);
+		writer.writeString(this.deviceId);
 	}
 
 	@Override
