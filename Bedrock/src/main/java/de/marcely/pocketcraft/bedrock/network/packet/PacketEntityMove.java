@@ -21,10 +21,10 @@ public class PacketEntityMove extends PCPacket {
 			byte flags = 0;
 			
 			if(this.isTeleport)
-				flags |= 0x01;
+				flags |= 0x02;
 			
 			if(this.isOnGround)
-				flags |= 0x02;
+				flags |= 0x01;
 			
 			writer.writeSignedByte(flags);
 		}

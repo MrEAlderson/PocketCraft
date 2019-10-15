@@ -27,8 +27,7 @@ import de.marcely.pocketcraft.translate.bedrocktojava.packet.bedrock.*;
 import de.marcely.pocketcraft.translate.bedrocktojava.packet.java.*;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Entity;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
-import de.marcely.pocketcraft.translate.bedrocktojava.world.entity.v8.V8Entity;
-import de.marcely.pocketcraft.translate.bedrocktojava.world.entity.v8.V8EntityPig;
+import de.marcely.pocketcraft.translate.bedrocktojava.world.entity.v8.*;
 import de.marcely.pocketcraft.utils.callback.R1Callback;
 import de.marcely.pocketcraft.utils.scheduler.Scheduler;
 import lombok.Getter;
@@ -139,6 +138,7 @@ public class BedrockToJavaTranslator extends Translator {
 		registerJavaPacket(V8D9PacketPlayDestroyEntities.class, TV8D9PacketPlayDestroyEntities.class);
 		registerJavaPacket(V8D9PacketPlayEntityVelocity.class, TV8D9PacketPlayEntityVelocity.class);
 		registerJavaPacket(V8D9PacketPlayEntityHeadLook.class, TV8D9PacketPlayEntityHeadLook.class);
+		registerJavaPacket(V8D9PacketPlayEntityMetadata.class, TV8D9PacketPlayEntityMetadata.class);
 		
 		registerBedrockPacket(PacketPlayerMove.class, TPacketPlayerMove.class);
 		registerBedrockPacket(PacketChunkRadiusChangeRequest.class, TPacketChunkRadiusChangeRequest.class);
@@ -149,6 +149,18 @@ public class BedrockToJavaTranslator extends Translator {
 		registerBedrockPacket(PacketShowCredits.class, TPacketShowCredits.class);
 		
 		registerEntity(V8EntityPig.class);
+		registerEntity(V8EntityCaveSpider.class);
+		registerEntity(V8EntityChicken.class);
+		registerEntity(V8EntityCow.class);
+		registerEntity(V8EntityHuman.class);
+		registerEntity(V8EntityMooshroom.class);
+		registerEntity(V8EntityPig.class);
+		registerEntity(V8EntityRabbit.class);
+		registerEntity(V8EntitySheep.class);
+		registerEntity(V8EntitySnowman.class);
+		registerEntity(V8EntitySpider.class);
+		registerEntity(V8EntitySquid.class);
+		registerEntity(V8EntityVillager.class);
 	}
 	
 	protected void registerJavaPacket(Class<? extends Packet> packet, Class<? extends JavaPacketTranslator<?>> translatorClazz){
@@ -176,7 +188,12 @@ public class BedrockToJavaTranslator extends Translator {
 	protected void registerEntity(Class<? extends Entity> clazz){
 		try{
 			if(V8Entity.class.isAssignableFrom(clazz)){
-				this.registredEntities.put((short) ((V8Entity) clazz.getConstructor(int.class).newInstance(0)).getTypeId(), clazz);
+				final int type = ((V8Entity) clazz.getConstructor(int.class).newInstance(0)).getTypeId();
+				
+				if(type < 0)
+					return;
+				
+				this.registredEntities.put((short) type, clazz);
 			}
 		}catch(Exception e){
 			e.printStackTrace();

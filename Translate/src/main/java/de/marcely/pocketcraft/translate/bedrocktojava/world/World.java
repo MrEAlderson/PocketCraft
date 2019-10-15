@@ -63,6 +63,10 @@ public class World {
 		this.entitiesMap.put(entity.getId(), entity);
 	}
 	
+	public @Nullable Entity removeEntity(int id){
+		return this.entitiesMap.remove(id);
+	}
+	
 	public @Nullable Entity getEntity(int id){
 		return this.entitiesMap.get(id);
 	}

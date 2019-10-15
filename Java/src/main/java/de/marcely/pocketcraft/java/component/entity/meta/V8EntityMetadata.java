@@ -9,10 +9,11 @@ import org.jetbrains.annotations.Nullable;
 import de.marcely.pocketcraft.java.component.Item;
 import de.marcely.pocketcraft.java.util.EByteBuf;
 import de.marcely.pocketcraft.utils.math.Vector3;
+import lombok.Getter;
 
 public class V8EntityMetadata {
 	
-	private Map<Integer, MetaEntryV8<?>> entries = new HashMap<>();
+	@Getter private Map<Integer, MetaEntryV8<?>> entries = new HashMap<>();
 	
 	public void writeByte(int key, int value){
 		this.entries.put(key, new MetaEntryByte((byte) value));

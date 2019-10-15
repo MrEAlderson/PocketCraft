@@ -6,6 +6,7 @@ import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlaySpawnM
 import de.marcely.pocketcraft.translate.bedrocktojava.packet.JavaPacketTranslator;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Entity;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
+import de.marcely.pocketcraft.translate.bedrocktojava.world.entity.v8.V8Entity;
 
 public class TV8D9PacketPlaySpawnMob extends JavaPacketTranslator<V8D9PacketPlaySpawnMob> {
 
@@ -15,6 +16,16 @@ public class TV8D9PacketPlaySpawnMob extends JavaPacketTranslator<V8D9PacketPlay
 		
 		if(entity == null)
 			return;
+		
+		{
+			((V8Entity) entity).readAll(packet.metadata);
+			entity.setX(packet.x);
+			entity.setY(packet.y);
+			entity.setZ(packet.z);
+			entity.setYaw(packet.yaw);
+			entity.setHeadYaw(packet.headPitch);
+			entity.setPitch(packet.pitch);
+		}
 		
 		player.getWorld().addEntity(entity);
 		

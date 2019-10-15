@@ -1,47 +1,37 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.world.entity.v8;
 
+import de.marcely.pocketcraft.bedrock.component.world.entity.EntityDataType;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityType;
 import de.marcely.pocketcraft.java.component.entity.meta.V8EntityMetadata;
 
-public class V8EntityHuman extends V8EntityLiving {
+public class V8EntityRabbit extends V8EntityAgeable {
 
-	public V8EntityHuman(int id){
+	public V8EntityRabbit(int id){
 		super(id);
 	}
-	
+
 	@Override
 	public int getTypeId(){
-		return -1;
+		return 101;
 	}
 
 	@Override
 	public EntityType getType(){
-		return EntityType.PLAYER;
+		return EntityType.RABBIT;
 	}
-	
+
 	@Override
 	public void write(V8EntityMetadata meta){
 		super.write(meta);
 		
-		meta.writeByte(10, 0); // skin flags
-		meta.writeByte(16, 0); // meta, 0x02 = hide cape
-		meta.writeFloat(17, 0); // absorption hearts
-		meta.writeInt(18, 0); // score
+		meta.writeByte(18, this.metadata.getInt(EntityDataType.VARIANT));
 	}
 	
 	@Override
 	public void read(V8EntityMetadata meta, int key){
-		switch(key){
-		// unused
-		case 10:
-		case 16:
-		case 17:
-		case 18:
-			break;
-			
-		default:
+		if(key == 18)
+			this.metadata.setInt(EntityDataType.VARIANT, meta.readByte(key));
+		else
 			super.read(meta, key);
-			break;
-		}
 	}
 }

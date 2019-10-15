@@ -38,9 +38,11 @@ public abstract class V8Entity extends Entity {
 		meta.writeBoolean(4, this.getDataFlag(EntityDataType.FLAG_SILENT));
 	}
 	
-	public void read(V8EntityMetadata meta){
+	public void read(V8EntityMetadata meta, int key){
+		switch(key){
+		case 0:
 		{
-			final byte map = meta.readByte(0);
+			final byte map = meta.readByte(key);
 			
 			this.setDataFlag(EntityDataType.FLAG_ONFIRE, (map & 0x01) > 0);
 			this.setDataFlag(EntityDataType.FLAG_SNEAKING, (map & 0x02) > 0);
@@ -48,8 +50,20 @@ public abstract class V8Entity extends Entity {
 			this.setDataFlag(EntityDataType.FLAG_EATING, (map & 0x10) > 0);
 			this.setDataFlag(EntityDataType.FLAG_INVISIBLE, (map & 0x20) > 0);
 		}
+		break;
 		
-		this.metadata.setShort(EntityDataType.AIR, meta.readShort(1));
-		this.setDataFlag(EntityDataType.FLAG_SILENT, meta.readBoolean(4));
+		case 1:
+			this.metadata.setShort(EntityDataType.AIR, meta.readShort(1));
+			break;
+			
+		case 4:
+			this.setDataFlag(EntityDataType.FLAG_SILENT, meta.readBoolean(4));
+			break;
+		}
+	}
+	
+	public void readAll(V8EntityMetadata meta){
+		for(int key:meta.getEntries().keySet())
+			read(meta, key);
 	}
 }

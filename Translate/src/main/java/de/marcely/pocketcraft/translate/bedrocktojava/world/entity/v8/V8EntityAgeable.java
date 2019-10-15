@@ -17,9 +17,10 @@ public abstract class V8EntityAgeable extends V8EntityLiving {
 	}
 	
 	@Override
-	public void read(V8EntityMetadata meta){
-		super.read(meta);
-		
-		this.metadata.setShort(EntityDataType.ENTITY_AGE, meta.readShort(12));
+	public void read(V8EntityMetadata meta, int key){
+		if(key == 12)
+			this.metadata.setShort(EntityDataType.ENTITY_AGE, meta.readByte(key));
+		else
+			super.read(meta, key);
 	}
 }

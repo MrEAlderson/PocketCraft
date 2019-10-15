@@ -23,15 +23,40 @@ public abstract class V8EntityLiving extends V8Entity {
 	}
 	
 	@Override
-	public void read(V8EntityMetadata meta){
-		super.read(meta);
-		
-		this.metadata.setString(EntityDataType.NAMETAG, meta.readString(2));
-		this.setDataFlag(EntityDataType.FLAG_ALWAYS_SHOW_NAMETAG, meta.readBoolean(3));
-		this.metadata.setInt(EntityDataType.HEALTH, (int) meta.readFloat(6));
-		this.metadata.setInt(EntityDataType.POTION_COLOR, meta.readInt(7));
-		this.metadata.setBoolean(EntityDataType.POTION_AMBIENT, meta.readBoolean(8));
-		// 9 = number of arrows in entity
-		this.setDataFlag(EntityDataType.FLAG_NO_AI, meta.readBoolean(15));
+	public void read(V8EntityMetadata meta, int key){
+		switch(key){
+		case 2:
+			this.metadata.setString(EntityDataType.NAMETAG, meta.readString(key));
+			this.setDataFlag(EntityDataType.FLAG_CAN_SHOW_NAMETAG, true);
+			break;
+			
+		case 3:
+			this.setDataFlag(EntityDataType.FLAG_ALWAYS_SHOW_NAMETAG, meta.readBoolean(key));
+			break;
+			
+		case 6:
+			this.metadata.setInt(EntityDataType.HEALTH, (int) meta.readFloat(key));
+			break;
+			
+		case 7:
+			this.metadata.setInt(EntityDataType.POTION_COLOR, meta.readInt(key));
+			break;
+			
+		case 8:
+			this.metadata.setBoolean(EntityDataType.POTION_AMBIENT, meta.readBoolean(key));
+			break;
+			
+		case 9:
+			// 9 = number of arrows in entity
+			break;
+			
+		case 15:
+			this.setDataFlag(EntityDataType.FLAG_NO_AI, meta.readBoolean(key));
+			break;
+			
+		default:
+			super.read(meta, key);
+			break;
+		}
 	}
 }

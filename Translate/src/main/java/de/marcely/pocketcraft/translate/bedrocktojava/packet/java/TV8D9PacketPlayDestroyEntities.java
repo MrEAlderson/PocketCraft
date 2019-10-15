@@ -10,6 +10,9 @@ public class TV8D9PacketPlayDestroyEntities extends JavaPacketTranslator<V8D9Pac
 	@Override
 	public void handle(V8D9PacketPlayDestroyEntities packet, Player player){
 		for(int id:packet.entityIds){
+			if(player.getWorld().removeEntity(id) == null)
+				continue;
+			
 			final PacketDestroyEntity out = new PacketDestroyEntity();
 			
 			out.entityUID = id;
