@@ -122,6 +122,8 @@ public class EntityMetadata {
 			entity.setDataFlag(EntityDataType.FLAG_CAN_CLIMB, true);
 			entity.setDataPlayerFlag(EntityDataType.PLAYER_FLAG_SLEEP, false);
 			
+		}else if(entity.getType() == EntityType.SQUID){
+			entity.setDataFlag(EntityDataType.FLAG_GLIDING, true);
 		}
 	}
 }

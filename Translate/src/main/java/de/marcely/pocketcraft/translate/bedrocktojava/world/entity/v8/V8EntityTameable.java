@@ -44,6 +44,10 @@ public abstract class V8EntityTameable extends V8EntityAgeable {
 		case 17:
 			this.metadata.setLong(EntityDataType.OWNER_ID, 0 /* TODO: we get owner name, but bedrock requires owner id */);
 			break;
+			
+		default:
+			super.read(meta, key);
+			break;
 		}
 	}
 }

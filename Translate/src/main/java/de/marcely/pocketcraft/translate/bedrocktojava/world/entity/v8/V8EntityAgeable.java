@@ -11,17 +11,20 @@ public abstract class V8EntityAgeable extends V8EntityLiving {
 	}
 	
 	@Override
-	public void write(V8EntityMetadata meta){
-		super.write(meta);
-		
-		meta.writeByte(12, this.metadata.getShort(EntityDataType.ENTITY_AGE));
-	}
-	
-	@Override
 	public void read(V8EntityMetadata meta, int key){
-		if(key == 12)
-			this.metadata.setShort(EntityDataType.ENTITY_AGE, meta.readByte(key));
-		else
+		if(key == 12){
+			final byte age = meta.readByte(key);
+			
+			this.metadata.setShort(EntityDataType.ENTITY_AGE, age);
+			
+			if(age < 0){
+				this.setDataFlag(EntityDataType.FLAG_BABY, true);
+				this.metadata.setFloat(EntityDataType.SCALE, 0.5F);
+			}else{
+				this.setDataFlag(EntityDataType.FLAG_BABY, false);
+				this.metadata.setFloat(EntityDataType.SCALE, 1F);
+			}
+		}else
 			super.read(meta, key);
 	}
 }

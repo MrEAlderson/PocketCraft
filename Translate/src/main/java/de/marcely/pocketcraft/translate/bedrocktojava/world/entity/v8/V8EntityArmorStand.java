@@ -13,7 +13,7 @@ public class V8EntityArmorStand extends V8EntityLiving {
 
 	@Override
 	public int getTypeId(){
-		return 78;
+		return 30;
 	}
 
 	@Override
@@ -51,14 +51,14 @@ public class V8EntityArmorStand extends V8EntityLiving {
 		{
 			final byte map = meta.readByte(key);
 			
-			this.setDataFlag(EntityDataType.FLAG_BABY, (map & 0x01) > 0);
-			this.setDataFlag(EntityDataType.FLAG_AFFECTED_BY_GRAVITY, (map & 0x02) > 0);
+			//this.setDataFlag(EntityDataType.FLAG_BABY, (map & 0x01) > 0);
+			//this.setDataFlag(EntityDataType.FLAG_AFFECTED_BY_GRAVITY, (map & 0x02) > 0);
 			// 0x04 = has arms
-			this.setDataFlag(EntityDataType.FLAG_SHOWBASE, (map & 0x08) == 0);
+			//this.setDataFlag(EntityDataType.FLAG_SHOWBASE, (map & 0x08) == 0);
 			
 			if((map & 0x16) > 0){ // marker
-				this.metadata.setFloat(EntityDataType.BOUNDING_BOX_WIDTH, 0F);
-				this.metadata.setFloat(EntityDataType.BOUNDING_BOX_HEIGHT, 0F);
+			//	this.metadata.setFloat(EntityDataType.BOUNDING_BOX_WIDTH, 0F);
+			//	this.metadata.setFloat(EntityDataType.BOUNDING_BOX_HEIGHT, 0F);
 			}else{
 				this.metadata.setFloat(EntityDataType.BOUNDING_BOX_WIDTH, getType().getWidth());
 				this.metadata.setFloat(EntityDataType.BOUNDING_BOX_HEIGHT, getType().getHeight());

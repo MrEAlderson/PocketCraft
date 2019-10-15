@@ -31,10 +31,10 @@ public abstract class Entity extends de.marcely.pocketcraft.bedrock.component.wo
 		final PacketEntityEvent out = new PacketEntityEvent();
 		
 		out.entityId = this.longId;
-		out.type = event;
+		// out.type = event;
 		out.data = data;
 		
-		this.world.getPlayer().sendPacket(out);
+		// this.world.getPlayer().sendPacket(out);
 	}
 	
 	public float getBedrockPacketYAppend(){

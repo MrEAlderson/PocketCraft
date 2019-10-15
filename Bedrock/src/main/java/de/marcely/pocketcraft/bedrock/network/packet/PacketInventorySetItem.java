@@ -6,7 +6,7 @@ import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
 public class PacketInventorySetItem extends PCPacket {
 	
-	public long inventoryID, slot;
+	public long inventoryId, slot;
 	public Item item;
 	
 	public PacketInventorySetItem(){
@@ -15,9 +15,9 @@ public class PacketInventorySetItem extends PCPacket {
 
 	@Override
 	public void encode(EByteArrayWriter writer) throws Exception {
-		writer.writeUnsignedVarInt(inventoryID);
-		writer.writeUnsignedVarInt(slot);
-		item.write(writer);
+		writer.writeUnsignedVarInt(this.inventoryId);
+		writer.writeUnsignedVarInt(this.slot);
+		this.item.write(writer);
 	}
 
 	@Override

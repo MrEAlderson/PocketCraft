@@ -9,7 +9,7 @@ import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 public class PacketEntityAnimate extends PCPacket {
 	
 	public long entityID;
-	public EntityAnimateType type;
+	public int type;
 	public float unkown;
 	
 	public PacketEntityAnimate(){
@@ -18,17 +18,17 @@ public class PacketEntityAnimate extends PCPacket {
 
 	@Override
 	public void encode(EByteArrayWriter writer) throws Exception {
-		writer.writeSignedVarInt(type.id);
+		writer.writeSignedVarInt(type);
 		writer.writeUnsignedVarLong(entityID);
-		if((type.id & 0x80) != 0)
+		if((type & 0x80) != 0)
 			writer.writeLFloat(unkown);
 	}
 
 	@Override
 	public void decode(EByteArrayReader reader) throws Exception {
-		this.type = EntityAnimateType.VALUES.get(reader.readSignedVarInt());
+		this.type = reader.readSignedVarInt();
 		this.entityID = reader.readUnsignedVarLong();
-		if((type.id & 0x80) != 0)
+		if((type & 0x80) != 0)
 			this.unkown = reader.readLFloat();
 	}
 	

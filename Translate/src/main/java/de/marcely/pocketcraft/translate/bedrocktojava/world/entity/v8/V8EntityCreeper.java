@@ -5,45 +5,35 @@ import de.marcely.pocketcraft.bedrock.component.world.entity.EntityType;
 import de.marcely.pocketcraft.java.component.entity.meta.V8EntityMetadata;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.World;
 
-public class V8EntityWolf extends V8EntityTameable {
+public class V8EntityCreeper extends V8EntityLiving {
 
-	public V8EntityWolf(World world, int id){
+	public V8EntityCreeper(World world, int id){
 		super(world, id);
 	}
 
 	@Override
 	public int getTypeId(){
-		return 95;
+		return 50;
 	}
 
 	@Override
 	public EntityType getType(){
-		return EntityType.WOLF;
+		return EntityType.CREEPER;
 	}
 	
 	@Override
 	public void read(V8EntityMetadata meta, int key){
 		switch(key){
 		case 16:
-		{
-			final byte map = meta.readByte(16);
+			this.setDataFlag(EntityDataType.FLAG_CHARGED, meta.readBoolean(key));
+			break;
 			
-			this.setDataFlag(EntityDataType.FLAG_ANGRY, (map & 0x02) > 0);
+		case 17:
+			this.setDataFlag(EntityDataType.FLAG_POWERED, meta.readBoolean(key));
+			break;
 			
-			super.read(meta, key); // that should be here
-		}
-		break;
-		
 		case 18:
-			this.metadata.setInt(EntityDataType.HEALTH, (int) meta.readFloat(key));
-			break;
-			
-		case 19: // begging: TODO check if it's correct
-			this.setDataFlag(EntityDataType.FLAG_INTERESTED, meta.readBoolean(key));
-			break;
-			
-		case 20:
-			this.metadata.setByte(EntityDataType.COLOR, meta.readByte(key));
+			this.setDataFlag(EntityDataType.FLAG_IGNITED, meta.readBoolean(key));
 			break;
 			
 		default:

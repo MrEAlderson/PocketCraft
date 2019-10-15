@@ -12,6 +12,31 @@ public class TV8D9PacketPlaySpawnMob extends JavaPacketTranslator<V8D9PacketPlay
 
 	@Override
 	public void handle(V8D9PacketPlaySpawnMob packet, Player player){
+		// some entities are combined for java but not for bedrock
+		{
+			if(packet.type >= 1000) // magic values
+				return;
+			
+			{
+				switch(packet.type){
+				// wither skeleton
+				case 51:
+					if(packet.metadata.has(13) && packet.metadata.readByte(13) == 1)
+						packet.type = 1000;
+					
+					break;
+					
+				// zombie villager
+				case 54:
+					if(packet.metadata.has(13) && packet.metadata.readBoolean(13))
+						packet.type = 1001;
+					
+					break;
+				}
+			}
+		}
+		
+		// spawn it
 		final Entity entity = player.getTranslator().newEntityInstance(packet.type, packet.entityId, player.getWorld());
 		
 		if(entity == null)
