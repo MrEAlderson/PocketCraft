@@ -1,12 +1,14 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.world.entity.v8;
 
+import de.marcely.pocketcraft.bedrock.component.world.entity.EntityDataType;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityType;
 import de.marcely.pocketcraft.java.component.entity.meta.V8EntityMetadata;
+import de.marcely.pocketcraft.translate.bedrocktojava.world.World;
 
 public class V8EntityHuman extends V8EntityLiving {
 
-	public V8EntityHuman(int id){
-		super(id);
+	public V8EntityHuman(World world, int id){
+		super(world, id);
 	}
 	
 	@Override
@@ -31,6 +33,8 @@ public class V8EntityHuman extends V8EntityLiving {
 	
 	@Override
 	public void read(V8EntityMetadata meta, int key){
+		setDataFlag(EntityDataType.FLAG_ALWAYS_SHOW_NAMETAG, true);
+		
 		switch(key){
 		// unused
 		case 10:

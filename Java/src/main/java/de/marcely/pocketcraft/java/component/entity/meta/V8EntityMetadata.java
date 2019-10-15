@@ -15,6 +15,10 @@ public class V8EntityMetadata {
 	
 	@Getter private Map<Integer, MetaEntryV8<?>> entries = new HashMap<>();
 	
+	public boolean has(int key){
+		return this.entries.containsKey(key);
+	}
+	
 	public void writeByte(int key, int value){
 		this.entries.put(key, new MetaEntryByte((byte) value));
 	}

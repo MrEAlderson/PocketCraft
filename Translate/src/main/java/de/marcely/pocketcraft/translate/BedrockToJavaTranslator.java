@@ -27,6 +27,7 @@ import de.marcely.pocketcraft.translate.bedrocktojava.bedrock.*;
 import de.marcely.pocketcraft.translate.bedrocktojava.java.*;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Entity;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
+import de.marcely.pocketcraft.translate.bedrocktojava.world.World;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.entity.v8.*;
 import de.marcely.pocketcraft.utils.callback.R1Callback;
 import de.marcely.pocketcraft.utils.scheduler.Scheduler;
@@ -101,14 +102,14 @@ public class BedrockToJavaTranslator extends Translator {
 		return (BedrockPacketTranslator<T>) packet.getProperties().getMetadata(getBedrockTranslatorMetaName());
 	}
 	
-	public @Nullable Entity newEntityInstance(Object type, int id){
+	public @Nullable Entity newEntityInstance(Object type, int id, World world){
 		final Class<? extends Entity> clazz = this.registredEntities.get(type);
 		
 		if(clazz == null)
 			return null;
 		
 		try{
-			return clazz.getConstructor(int.class).newInstance(id);
+			return clazz.getConstructor(World.class, int.class).newInstance(world, id);
 		}catch(Exception e){
 			e.printStackTrace();
 			return null;
@@ -146,6 +147,7 @@ public class BedrockToJavaTranslator extends Translator {
 		registerJavaPacket(V8D9PacketPlaySpawnPlayer.class, TV8D9PacketPlaySpawnPlayer.class);
 		registerJavaPacket(V8D9PacketPlaySpawnPainting.class, TV8D9PacketPlaySpawnPainting.class);
 		registerJavaPacket(V8D9PacketPlayExplosion.class, TV8D9PacketPlayExplosion.class);
+		registerJavaPacket(V8D9PacketPlayEntityEvent.class, TV8D9PacketPlayEntityEvent.class);
 		
 		registerBedrockPacket(PacketPlayerMove.class, TPacketPlayerMove.class);
 		registerBedrockPacket(PacketChunkRadiusChangeRequest.class, TPacketChunkRadiusChangeRequest.class);
@@ -195,7 +197,7 @@ public class BedrockToJavaTranslator extends Translator {
 	protected void registerEntity(Class<? extends Entity> clazz){
 		try{
 			if(V8Entity.class.isAssignableFrom(clazz)){
-				final int type = ((V8Entity) clazz.getConstructor(int.class).newInstance(0)).getTypeId();
+				final int type = ((V8Entity) clazz.getConstructor(World.class, int.class).newInstance(null, 0)).getTypeId();
 				
 				if(type < 0)
 					return;

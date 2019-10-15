@@ -12,7 +12,7 @@ public class TV8D9PacketPlaySpawnMob extends JavaPacketTranslator<V8D9PacketPlay
 
 	@Override
 	public void handle(V8D9PacketPlaySpawnMob packet, Player player){
-		final Entity entity = player.getTranslator().newEntityInstance(packet.type, packet.entityId);
+		final Entity entity = player.getTranslator().newEntityInstance(packet.type, packet.entityId, player.getWorld());
 		
 		if(entity == null)
 			return;

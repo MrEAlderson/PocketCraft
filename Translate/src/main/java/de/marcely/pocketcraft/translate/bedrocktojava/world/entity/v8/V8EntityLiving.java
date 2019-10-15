@@ -1,12 +1,26 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.world.entity.v8;
 
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityDataType;
+import de.marcely.pocketcraft.bedrock.component.world.entity.EntityEvent;
 import de.marcely.pocketcraft.java.component.entity.meta.V8EntityMetadata;
+import de.marcely.pocketcraft.translate.bedrocktojava.world.World;
+
+import static de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayEntityEvent.*;
 
 public abstract class V8EntityLiving extends V8Entity {
 
-	public V8EntityLiving(int id){
-		super(id);
+	public V8EntityLiving(World world, int id){
+		super(world, id);
+	}
+	
+	@Override
+	public void playEvent(byte type){
+		if(type == TYPE_HURT)
+			playEvent(EntityEvent.HURT);
+		else if(type == TYPE_DEATH)
+			playEvent(EntityEvent.DEATH);
+		else
+			super.playEvent(type);
 	}
 	
 	@Override

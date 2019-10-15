@@ -1,11 +1,12 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.world.entity.v8;
 
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityType;
+import de.marcely.pocketcraft.translate.bedrocktojava.world.World;
 
-public class V8EntityCow extends V8EntityLiving {
+public class V8EntityCow extends V8EntityAnimal {
 
-	public V8EntityCow(int id){
-		super(id);
+	public V8EntityCow(World world, int id){
+		super(world, id);
 	}
 
 	@Override

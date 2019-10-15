@@ -40,6 +40,13 @@ public class SkinData {
         writer.writeByteArray(this.geometryData);
     }
 	
+	public boolean isValid(){
+		return this.skinData.length == SINGLE_SKIN_SIZE ||
+			   this.skinData.length == DOUBLE_SKIN_SIZE ||
+			   this.skinData.length == SKIN_128_64_SIZE ||
+			   this.skinData.length == SKIN_128_128_SIZE;
+	}
+	
 	public static SkinData getDefaultSkin(){
 		return new SkinData(
 				"Steve",

@@ -10,7 +10,6 @@ import static de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPla
 import java.util.ArrayList;
 import java.util.List;
 
-import de.marcely.pocketcraft.bedrock.component.SkinData;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketPlayerList;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketPlayerList.PlayerListEntry;
 

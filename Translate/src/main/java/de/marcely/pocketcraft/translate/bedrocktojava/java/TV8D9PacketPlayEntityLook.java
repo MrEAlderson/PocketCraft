@@ -26,7 +26,7 @@ public class TV8D9PacketPlayEntityLook extends JavaPacketTranslator<V8D9PacketPl
 			
 			out.entityRuntimeId = packet.entityId;
 			out.x = entity.getX();
-			out.y = entity.getY()+0.1F;
+			out.y = entity.getY()+entity.getBedrockPacketYAppend();
 			out.z = entity.getZ();
 			out.yaw = packet.yaw;
 			out.headYaw = entity.getHeadYaw();

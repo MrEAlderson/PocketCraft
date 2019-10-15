@@ -42,7 +42,7 @@ public class Player {
 	@Getter private final BedrockClient bedrock;
 	@Getter private final JavaClient java;
 	
-	@Getter private final World world = new World();
+	@Getter private final World world = new World(this);
 	@Getter private final PlayerPermissions permissions = PlayerPermissions.newDefaultInstance();
 	
 	private float oldX, oldY, oldZ, oldYaw, oldPitch;

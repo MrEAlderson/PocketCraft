@@ -1,13 +1,17 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.world.entity.v8;
 
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityDataType;
+import de.marcely.pocketcraft.bedrock.component.world.entity.EntityEvent;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityType;
 import de.marcely.pocketcraft.java.component.entity.meta.V8EntityMetadata;
+import de.marcely.pocketcraft.translate.bedrocktojava.world.World;
 
-public class V8EntitySheep extends V8EntityAgeable {
+import static de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayEntityEvent.*;
 
-	public V8EntitySheep(int id){
-		super(id);
+public class V8EntitySheep extends V8EntityAnimal {
+
+	public V8EntitySheep(World world, int id){
+		super(world, id);
 	}
 
 	@Override
@@ -18,6 +22,14 @@ public class V8EntitySheep extends V8EntityAgeable {
 	@Override
 	public EntityType getType(){
 		return EntityType.SHEEP;
+	}
+	
+	@Override
+	public void playEvent(byte type){
+		if(type == TYPE_SHEEP_EAT_GRASS)
+			playEvent(EntityEvent.EAT_GRASS);
+		else
+			super.playEvent(type);
 	}
 	
 	@Override

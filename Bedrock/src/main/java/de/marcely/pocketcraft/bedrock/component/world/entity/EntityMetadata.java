@@ -107,20 +107,21 @@ public class EntityMetadata {
 		setString(EntityDataType.NAMETAG, "");
 		setLong(EntityDataType.FLAGS, (long) 0);
 		setLong(EntityDataType.LEAD_HOLDER_ID, (long) -1);
-		//setFloat(EntityDataType.BOUNDING_BOX_WIDTH, entity.getType().getWidth());
-		//setFloat(EntityDataType.BOUNDING_BOX_HEIGHT, entity.getType().getHeight());
-		setInt(EntityDataType.HEALTH, 10);
+		setFloat(EntityDataType.BOUNDING_BOX_WIDTH, entity.getType().getWidth());
+		setFloat(EntityDataType.BOUNDING_BOX_HEIGHT, entity.getType().getHeight());
+		setInt(EntityDataType.HEALTH, 20);
 		
 		entity.setDataFlag(EntityDataType.FLAG_HAS_COLLISION, true);
 		
 		if(entity.getType() == EntityType.PLAYER){
 			setByte(EntityDataType.PLAYER_FLAGS, (byte) 0);
-			setVector3(EntityDataType.PLAYER_BED_POSITION, new Vector3());
-			setString(EntityDataType.NAMETAG, "Notch");
+		//	setVector3(EntityDataType.PLAYER_BED_POSITION, new Vector3());
 			
 			entity.setDataFlag(EntityDataType.FLAG_BREATHING, true); // false = is inside water
 			entity.setDataFlag(EntityDataType.FLAG_AFFECTED_BY_GRAVITY, true);
 			entity.setDataFlag(EntityDataType.FLAG_CAN_CLIMB, true);
+			entity.setDataPlayerFlag(EntityDataType.PLAYER_FLAG_SLEEP, false);
+			
 		}
 	}
 }

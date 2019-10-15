@@ -3,14 +3,17 @@ package de.marcely.pocketcraft.translate.bedrocktojava.world.entity.v8;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityDataType;
 import de.marcely.pocketcraft.java.component.entity.meta.V8EntityMetadata;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Entity;
+import de.marcely.pocketcraft.translate.bedrocktojava.world.World;
 
 public abstract class V8Entity extends Entity {
 
-	public V8Entity(int id){
-		super(id);
+	public V8Entity(World world, int id){
+		super(world, id);
 	}
 	
 	public abstract int getTypeId();
+	
+	public void playEvent(byte type){ }
 	
 	public void write(V8EntityMetadata meta){
 		{
@@ -34,7 +37,13 @@ public abstract class V8Entity extends Entity {
 			meta.writeByte(0, map);
 		}
 		
-		meta.writeShort(1, this.metadata.getShort(EntityDataType.AIR));
+		{
+			final short air = this.metadata.getShort(EntityDataType.AIR);
+			
+			meta.writeShort(1, air);
+			this.setDataFlag(EntityDataType.FLAG_BREATHING, air >= 400);
+		}
+		
 		meta.writeBoolean(4, this.getDataFlag(EntityDataType.FLAG_SILENT));
 	}
 	

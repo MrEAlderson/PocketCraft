@@ -14,6 +14,8 @@ import lombok.Setter;
 
 public class World {
 	
+	@Getter private final Player player;
+	
 	@Getter private Map<Long, Chunk> chunksMap = new ConcurrentHashMap<>();
 	@Getter private Map<Integer, Entity> entitiesMap = new HashMap<>();
 	
@@ -21,6 +23,10 @@ public class World {
 	@Getter @Setter private int spawnX, spawnY, spawnZ;
 	
 	@Getter private PlayerList playerList = new PlayerList();
+	
+	public World(Player player){
+		this.player = player;
+	}
 	
 	public void unloadAllChunks(){
 		this.chunksMap.clear();

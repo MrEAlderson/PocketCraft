@@ -101,7 +101,7 @@ public class ProtocolV8D9 extends Protocol {
 				V8D9PacketPlayEntityRelMoveLook.class,
 				V8D9PacketPlayEntityTeleport.class,
 				V8D9PacketPlayEntityHeadLook.class,
-				null, // entity status
+				V8D9PacketPlayEntityEvent.class,
 				null, // attach entity
 				V8D9PacketPlayEntityMetadata.class,
 				null, // entity effect
