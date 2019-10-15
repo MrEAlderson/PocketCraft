@@ -83,7 +83,7 @@ public class BedrockServerInterface implements ServerListener {
 					translator.removePlayer(player);
 				}
 			});
-		}, LoginGoal.PLAY);
+		}, LoginGoal.PLAY, bedrockClient.getUsername());
 	}
 
 	@Override

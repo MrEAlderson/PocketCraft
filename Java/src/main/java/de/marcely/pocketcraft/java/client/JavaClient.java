@@ -3,6 +3,7 @@ package de.marcely.pocketcraft.java.client;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import de.marcely.pocketcraft.java.network.Connection;
 import de.marcely.pocketcraft.java.network.ConnectionInterface;
@@ -18,6 +19,7 @@ import de.marcely.pocketcraft.java.network.sequence.Sequence;
 import de.marcely.pocketcraft.java.network.sequence.SequenceType;
 import de.marcely.pocketcraft.java.network.sequence.type.DeadSequence;
 import lombok.Getter;
+import lombok.Setter;
 
 public class JavaClient implements ClientSequenceHolder, ConnectionInterface {
 	
@@ -25,19 +27,19 @@ public class JavaClient implements ClientSequenceHolder, ConnectionInterface {
 	@Getter private final Protocol protocol;
 	@Getter private final LoginGoal goal;
 	
-	@Getter private final GameSession session;
+	@Getter @Setter private String username;
+	@Getter @Setter private UUID id;
 	
 	@Getter private final List<ClientListener> listeners = new ArrayList<>(4);
 	@Getter private final List<PacketListener> packetListeners = new ArrayList<>(4);
 	
 	@Getter private Sequence<ClientSequenceHolder> sequence;
 	
-	public JavaClient(Connection conn, Protocol protocol, LoginGoal goal){
+	public JavaClient(Connection conn, Protocol protocol, LoginGoal goal, String username){
 		this.connection = conn;
 		this.protocol = protocol;
 		this.goal = goal;
-		
-		this.session = new GameSession(this);
+		this.username = username;
 		
 		this.packetListeners.add(this.sequence = new DeadSequence<ClientSequenceHolder>(this));
 		
@@ -108,7 +110,7 @@ public class JavaClient implements ClientSequenceHolder, ConnectionInterface {
 		info.serverAddress = "127.0.0.1";
 		info.serverPort = 25565;
 		info.nextState = this.goal;
-		info.username = this.session.getUsername();
+		info.username = this.username;
 		
 		return info;
 	}
@@ -117,8 +119,8 @@ public class JavaClient implements ClientSequenceHolder, ConnectionInterface {
 	public void completeLogin(ClientLoginResult rawResult){
 		final ClientLoginResult result = (ClientLoginResult) rawResult;
 		
-		this.session.setUsername(result.username);
-		this.session.setId(result.id);
+		this.username = result.username;
+		this.id = result.id;
 		
 		for(ClientListener listener:this.listeners){
 			try{

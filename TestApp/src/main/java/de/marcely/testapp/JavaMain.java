@@ -18,7 +18,7 @@ public class JavaMain {
 		final JavaClient client = new JavaClient(
 				new TCPClientConnection(InetAddress.getByName(args[0]), Integer.parseInt(args[1])),
 				new ProtocolV8D9(),
-				LoginGoal.PLAY);
+				LoginGoal.PLAY, "Nameless Tea");
 		
 		System.out.println(client.connect());
 	}

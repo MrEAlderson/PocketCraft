@@ -42,9 +42,8 @@ public class LoginSequence extends Sequence {
 		
 		final PacketLogin packet = (PacketLogin) rawPacket;
 		
-		System.out.println("locale: " + packet.locale);
-		System.out.println("id: " + packet.id);
-		System.out.println("username: " + packet.username);
+		player.setInfo(packet.info);
+		player.setUsername(packet.username);
 		
 		{
 			final PacketLoginStatus out = (PacketLoginStatus) PacketType.LoginStatus.newInstance();

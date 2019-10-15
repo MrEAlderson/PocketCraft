@@ -68,7 +68,11 @@ public class BedrockToJavaTranslator extends Translator {
 	}
 	
 	public void openConnection(R1Callback<JavaClient> callback, LoginGoal goal){
-		final JavaClient client = new JavaClient(this.javaConnection.clone(), this.javaProtocol, goal);
+		openConnection(callback, goal, "Steve");
+	}
+	
+	public void openConnection(R1Callback<JavaClient> callback, LoginGoal goal, String username){
+		final JavaClient client = new JavaClient(this.javaConnection.clone(), this.javaProtocol, goal, username);
 		
 		client.registerListener(new ClientAdapter(){
 			public void onReady(){

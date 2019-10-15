@@ -81,7 +81,7 @@ public class Player {
 	}
 	
 	public UUID getUUID(){
-		return this.java.getSession().getId();
+		return this.java.getId();
 	}
 	
 	private boolean isChunkInDistance(int chunkX, int chunkZ, int viewerX, int viewerZ, int distance){
