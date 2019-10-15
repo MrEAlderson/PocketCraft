@@ -97,7 +97,7 @@ public class TCPClientConnection extends Connection {
 	
 	@Override
 	public TCPClientConnection clone(){
-		return (TCPClientConnection) super.clone();
+		return new TCPClientConnection(this.address, this.port);
 	}
 	
 	

@@ -32,7 +32,7 @@ public class UserInfo {
 			final String skinId = obj.get("SkinId").getAsString();
 			final byte[] skinData = obj.get("SkinData").getAsString().getBytes();
 			final byte[] geometryData = obj.get("SkinGeometry").getAsString().getBytes();
-			final String geometryName = obj.get("GeometryName").getAsString();
+			final String geometryName = obj.get("SkinGeometryName").getAsString();
 			final byte[] capeData = obj.get("CapeData").getAsString().getBytes();
 			
 			info.skin = new SkinData(skinId, skinData, capeData, geometryName, geometryData);

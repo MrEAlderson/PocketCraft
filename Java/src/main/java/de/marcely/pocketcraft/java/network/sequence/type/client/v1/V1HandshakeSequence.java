@@ -17,7 +17,7 @@ public class V1HandshakeSequence extends Sequence<ClientSequenceHolder> {
 	public SequenceType getType(){
 		return SequenceType.HANDSHAKE;
 	}
-
+	
 	@Override
 	public void run(Sequence<ClientSequenceHolder> oldSequence){
 		final ClientLoginInfo info = (ClientLoginInfo) this.holder.getLoginInfo();
