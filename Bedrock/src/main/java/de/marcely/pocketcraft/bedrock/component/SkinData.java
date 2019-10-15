@@ -6,36 +6,48 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
+import lombok.Getter;
 
 public class SkinData {
 	
-	public static final String DEFAULT_MODEL_STEVE = "Standard_Steve";
-	public static final String DEFAULT_MODEL_ALEX = "Standard_Alex";
-    public static final int SINGLE_SKIN_SIZE = 64*32*4;
-    public static final int DOUBLE_SKIN_SIZE = 64*64*4;
+	private static final int PIXEL_SIZE = 4;
 	
-	public final byte[] data;
+	public static final String GEOMETRY_CUSTOM = "geometry.humanoid.custom";
+    public static final String GEOMETRY_CUSTOM_SLIM = "geometry.humanoid.customSlim";
+    
+    public static final int SINGLE_SKIN_SIZE = 64 * 32 * PIXEL_SIZE;
+    public static final int DOUBLE_SKIN_SIZE = 64 * 64 * PIXEL_SIZE;
+    public static final int SKIN_128_64_SIZE = 128 * 64 * PIXEL_SIZE;
+    public static final int SKIN_128_128_SIZE = 128 * 128 * PIXEL_SIZE;
 	
-	public byte[] geometry, capeData;
-	public String model, geometryName;
-	public long id;
+	@Getter private final String skinId;
+	@Getter private final byte[] skinData, capeData, geometryData;
+	@Getter private final String geometryName;
 	
-	public SkinData(byte[] data, String model, long id, byte[] geometry, String geometryName, byte[] capeData){
-		this.data = data;
-		this.model = model;
-		this.id = id;
-		this.geometry = geometry;
-		this.geometryName = geometryName;
+	public SkinData(String skinId, byte[] skinData, byte[] capeData, String geometryName, byte[] geometryData){
+		this.skinId = skinId;
+		this.skinData = skinData;
 		this.capeData = capeData;
+		this.geometryName = geometryName;
+		this.geometryData = geometryData;
 	}
 	
 	public void write(EByteArrayWriter writer) throws IOException {
-		writer.writeString(this.model);
-		writer.writeByteArray(this.data);
-		writer.writeByteArray(this.capeData);
-		writer.writeString(this.geometryName);
-		writer.writeByteArray(this.geometry);
+		writer.writeString(this.skinId);
+        writer.writeByteArray(this.skinData);
+        writer.writeByteArray(this.capeData);
+        writer.writeString(this.geometryName);
+        writer.writeByteArray(this.geometryData);
     }
+	
+	public static SkinData getDefaultSkin(){
+		return new SkinData(
+				"Steve",
+				new byte[SINGLE_SKIN_SIZE],
+				new byte[SINGLE_SKIN_SIZE],
+				GEOMETRY_CUSTOM,
+				new byte[0]);
+	}
 	
 	public static byte[] imageToData(BufferedImage image) throws IOException {
 		if(image == null) return new byte[0];

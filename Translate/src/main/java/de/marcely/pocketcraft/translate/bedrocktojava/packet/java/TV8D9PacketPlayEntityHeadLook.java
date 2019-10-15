@@ -23,7 +23,8 @@ public class TV8D9PacketPlayEntityHeadLook extends JavaPacketTranslator<V8D9Pack
 			final PacketEntityRelMove out = new PacketEntityRelMove();
 			
 			out.entityRuntimeId = packet.entityId;
-			out.flags = PacketEntityRelMove.FLAG_HAS_HEAD_YAW;
+			out.flags = PacketEntityRelMove.FLAG_HAS_HEAD_YAW | PacketEntityRelMove.FLAG_HAS_YAW;
+			out.yaw = packet.headYaw-10;
 			out.headYaw = packet.headYaw;
 			
 			player.sendPacket(out);

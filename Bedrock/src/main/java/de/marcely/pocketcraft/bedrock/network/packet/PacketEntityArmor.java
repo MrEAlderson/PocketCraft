@@ -11,8 +11,8 @@ public class PacketEntityArmor extends PCPacket {
 	public static final byte SLOT_LEGGINGS = 2;
 	public static final byte SLOT_BOOTS = 3;
 	
-	public long entityID;
-	public Item[] items;
+	public long entityId;
+	public Item[] items = new Item[4];
 	
 	public PacketEntityArmor(){
 		super(PacketType.EntityArmor);
@@ -20,10 +20,10 @@ public class PacketEntityArmor extends PCPacket {
 
 	@Override
 	public void encode(EByteArrayWriter writer) throws Exception {
-		writer.writeUnsignedVarLong(this.entityID);
+		writer.writeUnsignedVarLong(this.entityId);
 		
-		for(int i=0; i<items.length; i++)
-			items[i].write(writer);
+		for(int i=0; i<this.items.length; i++)
+			this.items[i].write(writer);
 	}
 
 	@Override

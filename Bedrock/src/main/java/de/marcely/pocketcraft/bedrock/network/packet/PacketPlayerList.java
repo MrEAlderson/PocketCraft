@@ -28,14 +28,7 @@ public class PacketPlayerList extends PCPacket {
 				writer.writeUUID(entry.uuid);
 				writer.writeSignedVarLong(entry.entityId);
 				writer.writeString(entry.name);
-				
-				// TODO skin
-				writer.writeString("");
-				writer.writeByteArray(new byte[0]);
-				writer.writeByteArray(new byte[0]);
-				writer.writeString("");
-				writer.writeString("");
-				
+				entry.skin.write(writer);
 				writer.writeString(entry.xboxId);
 				writer.writeString(entry.platformChatId);
 			}

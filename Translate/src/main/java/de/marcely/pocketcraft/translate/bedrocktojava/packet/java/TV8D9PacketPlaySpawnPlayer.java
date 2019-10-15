@@ -1,7 +1,10 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.packet.java;
 
+import java.util.Random;
+
 import de.marcely.pocketcraft.bedrock.component.inventory.Item;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityLink;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityArmor;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketSpawnEntityPlayer;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlaySpawnPlayer;
 import de.marcely.pocketcraft.translate.bedrocktojava.packet.JavaPacketTranslator;
@@ -22,7 +25,7 @@ public class TV8D9PacketPlaySpawnPlayer extends JavaPacketTranslator<V8D9PacketP
 		final V8Entity entity = new V8EntityHuman(packet.entityId);
 		
 		{
-			entity.readAll(packet.metadata);
+			// entity.readAll(packet.metadata);
 			entity.setX(packet.x);
 			entity.setY(packet.y);
 			entity.setZ(packet.z);
@@ -37,7 +40,7 @@ public class TV8D9PacketPlaySpawnPlayer extends JavaPacketTranslator<V8D9PacketP
 			final PacketSpawnEntityPlayer out = new PacketSpawnEntityPlayer();
 			
 			out.uuid = packet.uuid;
-			out.name = "Marcely1199";
+			out.name = "Marcely1199" + new Random().nextInt(255);
 			out.entityUniqueId = out.entityRuntimeId = packet.entityId;
 			out.x = packet.x;
 			out.y = packet.y;
@@ -49,6 +52,17 @@ public class TV8D9PacketPlaySpawnPlayer extends JavaPacketTranslator<V8D9PacketP
 			out.links = new EntityLink[0];
 			
 			System.out.println("SPAWN! " + out.name + " " + packet.x + " " + packet.y + " " + packet.z);
+			
+			player.sendPacket(out);
+		}
+		
+		{
+			final PacketEntityArmor out = new PacketEntityArmor();
+			
+			out.entityId = packet.entityId;
+			
+			for(int i=0; i<out.items.length; i++)
+				out.items[i] = new Item(0);
 			
 			player.sendPacket(out);
 		}

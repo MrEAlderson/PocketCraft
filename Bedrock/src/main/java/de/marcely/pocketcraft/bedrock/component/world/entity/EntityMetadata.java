@@ -107,8 +107,8 @@ public class EntityMetadata {
 		setString(EntityDataType.NAMETAG, "");
 		setLong(EntityDataType.FLAGS, (long) 0);
 		setLong(EntityDataType.LEAD_HOLDER_ID, (long) -1);
-		setFloat(EntityDataType.BOUNDING_BOX_WIDTH, entity.getType().getWidth());
-		setFloat(EntityDataType.BOUNDING_BOX_HEIGHT, entity.getType().getHeight());
+		//setFloat(EntityDataType.BOUNDING_BOX_WIDTH, entity.getType().getWidth());
+		//setFloat(EntityDataType.BOUNDING_BOX_HEIGHT, entity.getType().getHeight());
 		setInt(EntityDataType.HEALTH, 10);
 		
 		entity.setDataFlag(EntityDataType.FLAG_HAS_COLLISION, true);
@@ -120,11 +120,7 @@ public class EntityMetadata {
 			
 			entity.setDataFlag(EntityDataType.FLAG_BREATHING, true); // false = is inside water
 			entity.setDataFlag(EntityDataType.FLAG_AFFECTED_BY_GRAVITY, true);
-			// entity.setDataFlag(EntityDataType.FLAG_IMMOBILE, true);
-			// entity.setDataFlag(EntityDataType.FLAG_CAN_CLIMB, true);
-			
-			System.out.println(getLong(EntityDataType.FLAGS));
-			System.out.println(getShort(EntityDataType.AIR));
+			entity.setDataFlag(EntityDataType.FLAG_CAN_CLIMB, true);
 		}
 	}
 }

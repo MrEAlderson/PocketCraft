@@ -58,9 +58,9 @@ public class TV8D9PacketPlayExplosion extends JavaPacketTranslator<V8D9PacketPla
 			out.affectedBlocksZ = new int[packet.affectedBlocksRelZ.length];
 			
 			for(int i=0; i<packet.affectedBlocksRelX.length; i++){
-				out.affectedBlocksX[i] = (int) (packet.affectedBlocksRelX[i]);
-				out.affectedBlocksY[i] = (int) (packet.affectedBlocksRelY[i]);
-				out.affectedBlocksZ[i] = (int) (packet.affectedBlocksRelZ[i]);
+				out.affectedBlocksX[i] = (int) (packet.x + packet.affectedBlocksRelX[i]);
+				out.affectedBlocksY[i] = (int) (packet.y + packet.affectedBlocksRelY[i]);
+				out.affectedBlocksZ[i] = (int) (packet.z + packet.affectedBlocksRelZ[i]);
 			}
 			
 			player.sendPacket(out);

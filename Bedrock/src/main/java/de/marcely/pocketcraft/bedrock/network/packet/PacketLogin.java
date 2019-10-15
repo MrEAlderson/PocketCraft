@@ -16,18 +16,27 @@ import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
 public class PacketLogin extends PCPacket {
 	
-	public String username;
 	public int protocolVersion;
-	public UUID uuid;
+	
+	public UUID identity;
+	
+	public String username;
 	public String xuid;
-	public long id;
-	public SkinData data;
-	public String locale;
 	public String publicIdentityKey;
 	
-	public byte[] chainData;
-	public byte[] clientDataJwt;
-	public byte[] clientData;
+	public SkinData skin;
+	public long randomClientId;
+	public int currentInputMode;
+	public int defaultInputMode;
+	public UUID deviceId;
+	public String deviceModel;
+	public int deviceOS;
+	public String gameVersion;
+	public int guiScale;
+	public String locale;
+	public boolean hasPremiumSkin;
+	public String thirdPartyName;
+	public int uiProfile;
 	
 	public PacketLogin(){
 		super(PacketType.Login);
@@ -51,16 +60,13 @@ public class PacketLogin extends PCPacket {
 					new TypeToken<Map<String, List<String>>>(){ }.getType());
 			
 			for(String rawChain:gsonData.get("chain")){
-				// TODO: $webtoken = Utils::decodeJWT($chain);
-				
-				final String[] strs = rawChain.split("\\.");
-				final JsonObject obj = gson.fromJson(new String(Base64.getDecoder().decode(strs[1]), StandardCharsets.UTF_8), JsonObject.class);
+				final JsonObject obj = decodeToken(rawChain);
 				
 				if(obj.has("extraData")){
 					final JsonObject objExtra = obj.get("extraData").getAsJsonObject();
 					
 					if(objExtra.has("displayName")) this.username = objExtra.get("displayName").getAsString();
-					if(objExtra.has("identity")) this.uuid = UUID.fromString(objExtra.get("identity").getAsString());
+					if(objExtra.has("identity")) this.identity = UUID.fromString(objExtra.get("identity").getAsString());
 					if(objExtra.has("XUID")) this.xuid = objExtra.get("XUID").getAsString();
 				}
 				
@@ -68,18 +74,44 @@ public class PacketLogin extends PCPacket {
 			}
 		}
 		
-		// more data
+		// read more data
 		{
-			this.clientDataJwt = reader2.read(reader2.readLInt());
-			// TODO:
-			/*
-			 * $this->clientData = Utils::decodeJWT($this->clientDataJwt);
-		$this->clientId = $this->clientData["ClientRandomId"] ?? null;
-		$this->serverAddress = $this->clientData["ServerAddress"] ?? null;
-		$this->locale = $this->clientData["LanguageCode"] ?? null;
-			 */
+			final JsonObject obj = decodeToken(new String(reader2.read(reader2.readLInt()), StandardCharsets.UTF_8));
+			
+			// skin
+			{
+				final String skinId = obj.get("SkinId").getAsString();
+				final byte[] skinData = obj.get("SkinData").getAsString().getBytes();
+				final byte[] geometryData = obj.get("SkinGeometry").getAsString().getBytes();
+				final String geometryName = obj.get("GeometryName").getAsString();
+				final byte[] capeData = obj.get("CapeData").getAsString().getBytes();
+				
+				this.skin = new SkinData(skinId, skinData, capeData, geometryName, geometryData);
+			}
+			
+			// more info
+			{
+				this.randomClientId = obj.get("ClientRandomId").getAsLong();
+				this.currentInputMode = obj.get("CurrentInputMode").getAsInt();
+				this.defaultInputMode = obj.get("DefaultInputMode").getAsInt();
+				this.deviceId = UUID.fromString(obj.get("DeviceId").getAsString());
+				this.deviceModel = obj.get("DeviceModel").getAsString();
+				this.deviceOS = obj.get("DeviceOS").getAsInt();
+				this.gameVersion = obj.get("GameVersion").getAsString();
+				this.guiScale = obj.get("GuiScale").getAsInt();
+				this.locale = obj.get("LanguageCode").getAsString(); // e.g.: de_DE
+				this.hasPremiumSkin = obj.get("PremiumSkin").getAsBoolean();
+				this.thirdPartyName = obj.get("ThirdPartyName").getAsString();
+				this.uiProfile = obj.get("UIProfile").getAsInt();
+			}
 		}
 		
 		reader2.close();
+	}
+	
+	private JsonObject decodeToken(String token){
+		final String[] strs = token.split("\\.");
+		
+		return new Gson().fromJson(new String(Base64.getDecoder().decode(strs[1]), StandardCharsets.UTF_8), JsonObject.class);
 	}
 }
