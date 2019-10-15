@@ -19,25 +19,7 @@ public class TV8D9PacketPlayEntityHeadLook extends JavaPacketTranslator<V8D9Pack
 			entity.setHeadYaw(packet.headYaw);
 		}
 		
-		/*{
-			final PacketEntityMove out = new PacketEntityMove();
-			
-			out.entityRuntimeId = packet.entityId;
-			out.x = entity.getX();
-			out.y = entity.getY();
-			out.z = entity.getZ();
-			out.yaw = entity.getYaw();
-			out.headYaw = entity.getHeadYaw();
-			out.pitch = entity.getPitch();
-			out.isOnGround = entity.isOnGround();
-			out.isTeleport = false;
-			
-			player.sendPacket(out);
-		}*/
-		
 		{
-			System.out.println(packet.headYaw);
-			
 			final PacketEntityRelMove out = new PacketEntityRelMove();
 			
 			out.entityRuntimeId = packet.entityId;

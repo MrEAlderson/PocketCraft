@@ -40,7 +40,7 @@ public class V8EntitySheep extends V8EntityAgeable {
 			final byte map = meta.readByte(key);
 			
 			this.metadata.setByte(EntityDataType.COLOR, (byte) (map & 0x0F));
-			this.setDataFlag(EntityDataType.FLAG_SHEARED, (map | 0x10) > 0);
+			this.setDataFlag(EntityDataType.FLAG_SHEARED, (map & 0x10) > 0);
 		}else
 			super.read(meta, key);
 	}

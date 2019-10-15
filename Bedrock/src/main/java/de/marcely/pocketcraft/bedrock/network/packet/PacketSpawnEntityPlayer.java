@@ -11,21 +11,16 @@ import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 public class PacketSpawnEntityPlayer extends PCPacket {
 
 	public UUID uuid;
-	public String name, thirdPartyName = "";
-	public int platform = 0;
-	public long entityUId, entityRuntimeId;
+	public String name;
+	public long entityUniqueId, entityRuntimeId;
 	public String platformChatId = "";
 	public float x, y, z, yaw, headYaw, pitch;
 	public float veloX, veloY, veloZ;
 	public Item itemOnHand;
 	public EntityMetadata metadata;
 	
-	public long[] uvarint = new long[5];
-	
-	public long long1;
-	
-	public EntityLink[] links = new EntityLink[0];
-	
+	public long[] adventureSettings = new long[5];
+	public EntityLink[] links;
 	public String deviceId = "";
 	
 	public PacketSpawnEntityPlayer(){
@@ -36,9 +31,7 @@ public class PacketSpawnEntityPlayer extends PCPacket {
 	public void encode(EByteArrayWriter writer) throws Exception {
 		writer.writeUUID(this.uuid);
 		writer.writeString(this.name);
-		writer.writeString(this.thirdPartyName);
-		writer.writeSignedVarInt(this.platform);
-		writer.writeSignedVarLong(this.entityUId);
+		writer.writeSignedVarLong(this.entityUniqueId);
 		writer.writeUnsignedVarLong(this.entityRuntimeId);
 		writer.writeString(this.platformChatId);
 		writer.writeVector(this.x, this.y, this.z);
@@ -49,10 +42,10 @@ public class PacketSpawnEntityPlayer extends PCPacket {
 		this.itemOnHand.write(writer);
 		writer.writeMetadata(this.metadata);
 		
-		for(long l:this.uvarint)
+		for(long l:this.adventureSettings)
 			writer.writeUnsignedVarInt(l);
 		
-		writer.writeLLong(this.long1);
+		writer.writeLLong(this.entityUniqueId);
 		
 		{
 			writer.writeUnsignedVarInt(this.links.length);

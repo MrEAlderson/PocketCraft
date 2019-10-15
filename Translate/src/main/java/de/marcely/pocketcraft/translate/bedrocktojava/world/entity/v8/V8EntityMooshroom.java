@@ -10,7 +10,7 @@ public class V8EntityMooshroom extends V8EntityCow {
 
 	@Override
 	public int getTypeId(){
-		return 92;
+		return 96;
 	}
 
 	@Override

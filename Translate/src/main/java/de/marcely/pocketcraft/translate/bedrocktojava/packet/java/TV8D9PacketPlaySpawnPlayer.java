@@ -1,6 +1,7 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.packet.java;
 
 import de.marcely.pocketcraft.bedrock.component.inventory.Item;
+import de.marcely.pocketcraft.bedrock.component.world.entity.EntityLink;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketSpawnEntityPlayer;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlaySpawnPlayer;
 import de.marcely.pocketcraft.translate.bedrocktojava.packet.JavaPacketTranslator;
@@ -36,15 +37,18 @@ public class TV8D9PacketPlaySpawnPlayer extends JavaPacketTranslator<V8D9PacketP
 			final PacketSpawnEntityPlayer out = new PacketSpawnEntityPlayer();
 			
 			out.uuid = packet.uuid;
-			out.name = listEntry.getName();
-			out.entityUId = out.entityRuntimeId = packet.entityId;
+			out.name = "Marcely1199";
+			out.entityUniqueId = out.entityRuntimeId = packet.entityId;
 			out.x = packet.x;
 			out.y = packet.y;
 			out.z = packet.z;
 			out.yaw = out.headYaw = packet.yaw;
 			out.pitch = packet.pitch;
-			out.itemOnHand = new Item(packet.holdingItem);
+			out.itemOnHand = new Item(0);
 			out.metadata = entity.getMetadata();
+			out.links = new EntityLink[0];
+			
+			System.out.println("SPAWN! " + out.name + " " + packet.x + " " + packet.y + " " + packet.z);
 			
 			player.sendPacket(out);
 		}
