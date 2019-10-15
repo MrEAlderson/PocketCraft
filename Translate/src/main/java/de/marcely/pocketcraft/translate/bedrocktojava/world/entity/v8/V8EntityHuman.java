@@ -9,6 +9,8 @@ public class V8EntityHuman extends V8EntityLiving {
 
 	public V8EntityHuman(World world, int id){
 		super(world, id);
+		
+		setDataFlag(EntityDataType.FLAG_ALWAYS_SHOW_NAMETAG, true);
 	}
 	
 	@Override
@@ -33,8 +35,6 @@ public class V8EntityHuman extends V8EntityLiving {
 	
 	@Override
 	public void read(V8EntityMetadata meta, int key){
-		setDataFlag(EntityDataType.FLAG_ALWAYS_SHOW_NAMETAG, true);
-		
 		switch(key){
 		// unused
 		case 10:
