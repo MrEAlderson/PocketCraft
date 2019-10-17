@@ -8,6 +8,8 @@ import de.marcely.pocketcraft.translate.bedrocktojava.world.Entity;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.entity.v8.V8Entity;
 
+import static de.marcely.pocketcraft.translate.bedrocktojava.world.entity.v8.V8Entity.*;
+
 public class TV8D9PacketPlaySpawnMob extends JavaPacketTranslator<V8D9PacketPlaySpawnMob> {
 
 	@Override
@@ -22,16 +24,41 @@ public class TV8D9PacketPlaySpawnMob extends JavaPacketTranslator<V8D9PacketPlay
 				// wither skeleton
 				case 51:
 					if(packet.metadata.has(13) && packet.metadata.readByte(13) == 1)
-						packet.type = 1000;
+						packet.type = MAGIC_TYPE_WITHER_SKELETON;
 					
 					break;
 					
 				// zombie villager
 				case 54:
 					if(packet.metadata.has(13) && packet.metadata.readBoolean(13))
-						packet.type = 1001;
+						packet.type = MAGIC_TYPE_ZOMBIE_VILLAGER;
 					
 					break;
+					
+				// horse
+				case 100:
+				{
+					if(packet.metadata.has(19)){
+						switch(packet.metadata.readByte(19)){
+						case 1:
+							packet.type = MAGIC_TYPE_DONKEY;
+							break;
+							
+						case 2:
+							packet.type = MAGIC_TYPE_MULE;
+							break;
+							
+						case 3:
+							packet.type = MAGIC_TYPE_ZOMBIE_HORSE;
+							break;
+							
+						case 4:
+							packet.type = MAGIC_TYPE_SKELETON_HORSE;
+							break;
+						}
+					}
+				}
+				break;
 				}
 			}
 		}

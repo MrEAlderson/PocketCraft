@@ -9,7 +9,17 @@ import de.marcely.pocketcraft.translate.bedrocktojava.world.World;
 import static de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayEntityEvent.*;
 
 public abstract class V8Entity extends Entity {
-
+	
+	public static final int MAGIC_TYPE_WITHER_SKELETON = 1000;
+	public static final int MAGIC_TYPE_ZOMBIE_VILLAGER = 1001;
+	public static final int MAGIC_TYPE_DONKEY = 1002;
+	public static final int MAGIC_TYPE_MULE = 1003;
+	public static final int MAGIC_TYPE_ZOMBIE_HORSE = 1004;
+	public static final int MAGIC_TYPE_SKELETON_HORSE = 1005;
+	public static final int MAGIC_TYPE_HUMAN = 1006;
+	public static final int MAGIC_TYPE_PAINTING = 1007;
+	
+	
 	public V8Entity(World world, int id){
 		super(world, id);
 	}

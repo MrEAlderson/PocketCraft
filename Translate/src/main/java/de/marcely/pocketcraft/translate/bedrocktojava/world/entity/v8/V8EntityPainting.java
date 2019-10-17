@@ -11,7 +11,7 @@ public class V8EntityPainting extends V8Entity {
 
 	@Override
 	public int getTypeId(){
-		return -1;
+		return MAGIC_TYPE_PAINTING;
 	}
 
 	@Override

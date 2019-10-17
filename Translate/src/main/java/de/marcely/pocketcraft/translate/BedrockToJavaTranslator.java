@@ -191,6 +191,11 @@ public class BedrockToJavaTranslator extends Translator {
 		registerEntity(V8EntityZombieVillager.class);
 		registerEntity(V8EntitySkeleton.class);
 		registerEntity(V8EntityWitherSkeleton.class);
+		registerEntity(V8EntityHorse.class);
+		registerEntity(V8EntityDonkey.class);
+		registerEntity(V8EntityMule.class);
+		registerEntity(V8EntityZombieHorse.class);
+		registerEntity(V8EntitySkeletonHorse.class);
 	}
 	
 	protected void registerJavaPacket(Class<? extends Packet> packet, Class<? extends JavaPacketTranslator<?>> translatorClazz){
@@ -217,6 +222,9 @@ public class BedrockToJavaTranslator extends Translator {
 	
 	protected void registerEntity(Class<? extends Entity> clazz){
 		try{
+			if(this.registredEntities.containsKey(clazz))
+				throw new RuntimeException(clazz.getName() + " is already registred");
+			
 			if(V8Entity.class.isAssignableFrom(clazz)){
 				final int type = ((V8Entity) clazz.getConstructor(World.class, int.class).newInstance(null, 0)).getTypeId();
 				

@@ -11,7 +11,7 @@ public class V8EntityWitherSkeleton extends V8EntitySkeleton {
 
 	@Override
 	public int getTypeId(){
-		return 1000 /* magic value */;
+		return MAGIC_TYPE_WITHER_SKELETON;
 	}
 
 	@Override
