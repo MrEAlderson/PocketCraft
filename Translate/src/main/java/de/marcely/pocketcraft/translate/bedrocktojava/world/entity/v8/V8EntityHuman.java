@@ -24,6 +24,11 @@ public class V8EntityHuman extends V8EntityLiving {
 	}
 	
 	@Override
+	public float getBedrockPacketYAppend(){
+		return 1.62F;
+	}
+	
+	@Override
 	public void write(V8EntityMetadata meta){
 		super.write(meta);
 		

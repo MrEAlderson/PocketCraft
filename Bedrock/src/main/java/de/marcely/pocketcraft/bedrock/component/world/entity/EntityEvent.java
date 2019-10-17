@@ -1,5 +1,7 @@
 package de.marcely.pocketcraft.bedrock.component.world.entity;
 
+import lombok.Getter;
+
 public enum EntityEvent {
 	
 	HURT(2),
@@ -40,7 +42,7 @@ public enum EntityEvent {
 	UNKOWN(71), // round white particles falling slowly from top to the bottom of the entity
 	INSTANT_EFFECT(72);
 	
-	public final byte id;
+	@Getter private final byte id;
 	
 	private EntityEvent(int id){
 		this.id = (byte) id;

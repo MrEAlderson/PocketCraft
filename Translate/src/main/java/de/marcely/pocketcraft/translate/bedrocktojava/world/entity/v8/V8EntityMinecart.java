@@ -46,6 +46,11 @@ public class V8EntityMinecart extends V8Entity implements V8EntityObject {
 	}
 	
 	@Override
+	public float getBedrockPacketYAppend(){
+		return 0.375F;
+	}
+	
+	@Override
 	public void readData(int data){
 		this.type = (byte) data;
 	}

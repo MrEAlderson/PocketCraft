@@ -21,6 +21,11 @@ public class V8EntityBoat extends V8Entity implements V8EntityObject {
 	}
 	
 	@Override
+	public float getBedrockPacketYAppend(){
+		return 0.375F;
+	}
+	
+	@Override
 	public void read(V8EntityMetadata meta, int key){
 		// 17 = int = time since hit
 		// 18 = int = forward direction

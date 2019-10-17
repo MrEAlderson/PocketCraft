@@ -2,6 +2,7 @@ package de.marcely.pocketcraft.bedrock.network.packet;
 
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityAttribute;
+import de.marcely.pocketcraft.bedrock.component.world.entity.EntityLink;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityMetadata;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityType;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
@@ -14,7 +15,7 @@ public class PacketSpawnEntity extends PCPacket {
 	public float veloX, veloY, veloZ;
 	public EntityMetadata metadata;
 	public EntityAttribute[] attributes;
-	public final Object[][] links = new Object[0][3];
+	public final EntityLink[] links = new EntityLink[0];
 	
 	public PacketSpawnEntity(){
 		super(PacketType.SpawnEntity);
@@ -34,11 +35,9 @@ public class PacketSpawnEntity extends PCPacket {
 		writer.writeMetadata(this.metadata);
 		
 		writer.writeUnsignedVarInt(this.links.length);
-        for(Object[] link:this.links){
-        	writer.writeSignedVarLong((long) link[0]);
-        	writer.writeSignedVarLong((long) link[1]);
-            writer.writeSignedByte((byte) link[2]);
-        }
+        
+		for(EntityLink link:this.links)
+			link.write(writer);
 	}
 
 	@Override

@@ -7,19 +7,19 @@ import de.marcely.pocketcraft.utils.io.ByteArrayWriter;
 public class EntityLink {
 	
 	public final EntityLinkType type;
-	public final long fromEntityUniqueID, toEntityUniqueID;
+	public final long vehicleUniqueId, riderUniqueId;
 	public final boolean immediate;
 	
-	public EntityLink(EntityLinkType type, long fromEntityUniqueID, long toEntityUniqueID, boolean immediate){
+	public EntityLink(EntityLinkType type, long fromEntityUniqueId, long toEntityUniqueId, boolean immediate){
 		this.type = type;
-		this.fromEntityUniqueID = fromEntityUniqueID;
-		this.toEntityUniqueID = toEntityUniqueID;
+		this.vehicleUniqueId = fromEntityUniqueId;
+		this.riderUniqueId = toEntityUniqueId;
 		this.immediate = immediate;
 	}
 	
 	public void write(ByteArrayWriter writer) throws IOException {
-		writer.writeSignedVarLong(this.fromEntityUniqueID);
-		writer.writeSignedVarLong(this.toEntityUniqueID);
+		writer.writeSignedVarLong(this.vehicleUniqueId);
+		writer.writeSignedVarLong(this.riderUniqueId);
 		writer.writeSignedByte((byte) type.ordinal());
 		writer.writeBoolean(this.immediate);
 	}

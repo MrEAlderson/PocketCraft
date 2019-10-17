@@ -149,6 +149,7 @@ public class BedrockToJavaTranslator extends Translator {
 		registerJavaPacket(V8D9PacketPlayExplosion.class, TV8D9PacketPlayExplosion.class);
 		registerJavaPacket(V8D9PacketPlayEntityEvent.class, TV8D9PacketPlayEntityEvent.class);
 		registerJavaPacket(V8D9PacketPlaySpawnObject.class, TV8D9PacketPlaySpawnObject.class);
+		registerJavaPacket(V8D9PacketPlayEntityAttach.class, TV8D9PacketPlayEntityAttach.class);
 		
 		registerBedrockPacket(PacketPlayerMove.class, TPacketPlayerMove.class);
 		registerBedrockPacket(PacketChunkRadiusChangeRequest.class, TPacketChunkRadiusChangeRequest.class);

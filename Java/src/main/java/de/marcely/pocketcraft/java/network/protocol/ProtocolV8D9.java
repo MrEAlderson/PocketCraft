@@ -102,7 +102,7 @@ public class ProtocolV8D9 extends Protocol {
 				V8D9PacketPlayEntityTeleport.class,
 				V8D9PacketPlayEntityHeadLook.class,
 				V8D9PacketPlayEntityEvent.class,
-				null, // attach entity
+				V8D9PacketPlayEntityAttach.class,
 				V8D9PacketPlayEntityMetadata.class,
 				null, // entity effect
 				null, // remove entity effect
