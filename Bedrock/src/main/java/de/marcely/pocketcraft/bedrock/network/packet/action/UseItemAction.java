@@ -24,8 +24,6 @@ public class UseItemAction extends Action {
 					     int hotbarSlot, Item item, float playerPosX, float playerPosY, float playerPosZ,
 					     float clickPosX, float clickPosY, float clickPosZ){
 		
-		super(ActionType.USE_ITEM);
-		
 		this.actionType = actionType;
 		this.blockPosX = blockPosX;
 		this.blockPosY = blockPosY;
@@ -39,6 +37,11 @@ public class UseItemAction extends Action {
 		this.clickPosX = clickPosX;
 		this.clickPosY = clickPosY;
 		this.clickPosZ = clickPosZ;
+	}
+	
+	@Override
+	public ActionType getType(){
+		return ActionType.USE_ITEM;
 	}
 	
 	public static UseItemAction read(EByteArrayReader stream) throws IOException {

@@ -162,6 +162,7 @@ public class BedrockToJavaTranslator extends Translator {
 		registerBedrockPacket(PacketShowCredits.class, TPacketShowCredits.class);
 		registerBedrockPacket(PacketEntityEquipment.class, TPacketEntityEquipment.class);
 		registerBedrockPacket(PacketEntityAnimate.class, TPacketEntityAnimate.class);
+		registerBedrockPacket(PacketInventoryAction.class, TPacketInventoryAction.class);
 		
 		registerEntity(V8EntityPig.class);
 		registerEntity(V8EntityCaveSpider.class);

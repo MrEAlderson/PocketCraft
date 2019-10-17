@@ -14,12 +14,15 @@ public class DropItemAction extends Action {
 	public final Vector3 headRotation;
 	
 	public DropItemAction(long actionType, int hotbarSlot, Item item, Vector3 headRotation){
-		super(ActionType.DROP_ITEM);
-		
 		this.actionType = actionType;
 		this.hotbarSlot = hotbarSlot;
 		this.item = item;
 		this.headRotation = headRotation;
+	}
+	
+	@Override
+	public ActionType getType(){
+		return ActionType.DROP_ITEM;
 	}
 	
 	public static DropItemAction read(EByteArrayReader stream) throws IOException {

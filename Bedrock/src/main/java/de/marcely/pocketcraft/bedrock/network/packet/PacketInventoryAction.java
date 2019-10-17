@@ -18,11 +18,14 @@ public class PacketInventoryAction extends PCPacket {
 
 	@Override
 	public void decode(EByteArrayReader reader) throws Exception {
-		final ActionType type = ActionType.VALUES.get(reader.readUnsignedVarInt());
+		final ActionType type = ActionType.getById((int) reader.readUnsignedVarInt());
 		
-		this.invActions = new InventoryAction[(int) reader.readUnsignedVarInt()];
-		for(int i=0; i<this.invActions.length; i++)
-			this.invActions[i] = InventoryAction.read(reader);
+		{
+			this.invActions = new InventoryAction[(int) reader.readUnsignedVarInt()];
+			
+			for(int i=0; i<this.invActions.length; i++)
+				this.invActions[i] = InventoryAction.read(reader);
+		}
 		
 		switch(type){
 		case USE_ITEM:
@@ -35,7 +38,7 @@ public class PacketInventoryAction extends PCPacket {
 			this.action = DropItemAction.read(reader);
 			break;
 		default:
-			this.action = new Action(type);
+			this.action = null;
 			break;
 		}
 	}
