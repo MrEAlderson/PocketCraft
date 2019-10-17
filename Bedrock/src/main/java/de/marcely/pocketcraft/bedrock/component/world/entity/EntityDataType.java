@@ -1,5 +1,7 @@
 package de.marcely.pocketcraft.bedrock.component.world.entity;
 
+import org.jetbrains.annotations.Nullable;
+
 import lombok.Getter;
 
 public enum EntityDataType {
@@ -23,15 +25,12 @@ public enum EntityDataType {
 	DISPLAY_ITEM(16, EntityDataValueType.INT),
 	DISPLAY_OFFSET(17, EntityDataValueType.INT),
 	HAS_DISPLAY(18, EntityDataValueType.BYTE /* BOOL */),
-	/* 19 */
-	/* 20 */
-	/* 21*/
-	/* 22 */
+	CHARGED(22, EntityDataValueType.BYTE),
 	ENDERMAN_HELD_ITEM_RUNTIME_ID(23, EntityDataValueType.SHORT),
 	ENTITY_AGE(24, EntityDataValueType.SHORT),
 	/* 25 */
 	PLAYER_FLAGS(26, EntityDataValueType.BYTE),
-	/* 27 */
+	PLAYER_INDEX(27, null /* idk */),
 	PLAYER_BED_POSITION(28, EntityDataValueType.FLOOR_VECTOR3),
 	FIREBALL_POWER_X(29, EntityDataValueType.FLOAT),
 	FIREBALL_POWER_Y(30, EntityDataValueType.FLOAT),
@@ -40,10 +39,10 @@ public enum EntityDataType {
 	 * 33
 	 * 34
 	 * 35 */
-	POTION_AUX_VALUE(36, EntityDataValueType.SHORT),
+	// POTION_AUX_VALUE(36, EntityDataValueType.SHORT),
 	LEAD_HOLDER_ID(37, EntityDataValueType.LONG),
 	SCALE(38, EntityDataValueType.FLOAT),
-	INTERACTIVE_TAG(39, EntityDataValueType.STRING),
+	// INTERACTIVE_TAG(39, EntityDataValueType.STRING),
 	NPC_SKIN_ID(40, EntityDataValueType.STRING),
 	URL_TAG(41, EntityDataValueType.STRING),
 	MAX_AIR(42, EntityDataValueType.SHORT),
@@ -118,8 +117,8 @@ public enum EntityDataType {
     public static final int FLAG_TEMPTED = 6;
     public static final int FLAG_INLOVE = 7;
     public static final int FLAG_SADDLED = 8;
-    public static final int FLAG_POWERED = 9;
-    public static final int FLAG_IGNITED = 10;
+    public static final int FLAG_IGNITED = 9;
+    public static final int FLAG_POWERED = 10;
     public static final int FLAG_BABY = 11; //disable head scaling
     public static final int FLAG_CONVERTING = 12;
     public static final int FLAG_CRITICAL = 13;
@@ -165,9 +164,9 @@ public enum EntityDataType {
 	public static final int FLAG_SHOW_TRIDENT_ROPE = 52; // tridents show an animated rope when enchanted with loyalty after they are thrown and return to their owner. To be combined with OWNER_EID
 	public static final int FLAG_CONTAINER_PRIVATE = 53; //inventory is private, doesn't drop contents when killed if true
 	public static final int FLAG_TRANSFORMING = 54;
-	public static final int FLAG_SPIN_ATTACK = 55;
+	public static final int FLAG_SPIN_ATTACK = 55; // entity starts spinning, player also gets weird glass thingy
 	public static final int FLAG_SWIMMING = 56;
-	public static final int FLAG_BRIBED = 57; //dolphins have this set when they go to find treasure for the player
+	public static final int FLAG_BRIBED = 57;
 	public static final int FLAG_PREGNANT = 58;
 	public static final int FLAG_LAYING_EGG = 59;
 	public static final int FLAG_RIDER_CAN_PICK = 60; //???
@@ -208,5 +207,14 @@ public enum EntityDataType {
 	private EntityDataType(int id, EntityDataValueType valueType){
 		this.id = id;
 		this.valueType = valueType;
+	}
+	
+	public static @Nullable EntityDataType getById(int id){
+		for(EntityDataType type:values()){
+			if(type.id == id)
+				return type;
+		}
+		
+		return null;
 	}
 }

@@ -5,14 +5,16 @@ public class BinaryUtil {
 	private final static char[] HEXCHARS = "0123456789ABCDEF".toCharArray();
 	
     public static String bytesToDisplayedHex(byte... bytes) {
-        final char[] hexChars = new char[bytes.length * 3];
+        final char[] hexChars = new char[bytes.length * 3 - 1];
         
         for(int j=0; j<bytes.length; j++){
             final int v = bytes[j] & 0xFF;
             
-            hexChars[j * 2] = HEXCHARS[v >>> 4];
-            hexChars[j * 2 + 1] = HEXCHARS[v & 0x0F];
-            hexChars[j * 2 + 2] = ' ';
+            hexChars[j * 3] = HEXCHARS[v >>> 4];
+            hexChars[j * 3 + 1] = HEXCHARS[v & 0x0F];
+            
+            if(j+1 < bytes.length)
+            	hexChars[j * 3 + 2] = ' ';
         }
         
         return new String(hexChars);

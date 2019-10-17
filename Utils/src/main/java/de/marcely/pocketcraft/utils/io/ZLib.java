@@ -1,72 +1,47 @@
 package de.marcely.pocketcraft.utils.io;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.util.Arrays;
+import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
-import java.util.zip.InflaterInputStream;
+import java.util.zip.Inflater;
 
-/**
- * 
- * NOT by me!
- * Author: Nukkit
- */
 public class ZLib {
-    
-    public static byte[] deflate(byte[] data) throws Exception {
-        return deflate(data, Deflater.DEFAULT_COMPRESSION);
-    }
 
-    public static byte[] deflate(byte[] data, int level) throws Exception {
-        Deflater deflater = getDef(level);
-        if (deflater == null) throw new IllegalArgumentException("No deflate for level " + level + " !");
-        deflater.reset();
-        deflater.setInput(data);
-        deflater.finish();
-        ByteArrayOutputStream bos = new ByteArrayOutputStream(data.length);
-        while (!deflater.finished()) {
-            int i = deflater.deflate(buf.get());
-            bos.write(buf.get(), 0, i);
-        }
-        //Deflater::end is called the time when the process exits.
-        return bos.toByteArray();
-    }
+	public static byte[] deflate(byte[] data, int bufferSize) throws IOException {
+		final byte[] buffer = new byte[bufferSize];
+		
+		return Arrays.copyOf(buffer, deflate(data, buffer));
+	}
 
-    public static byte[] inflate(byte[] data) throws IOException {
-        return inflate(new ByteArrayInputStream(data));
-    }
+	public static int deflate(byte[] data, byte[] output) throws IOException {
+		return deflate(data, output, Deflater.DEFAULT_COMPRESSION);
+	}
 
-    public static byte[] inflate(byte[] data, int maxSize) throws IOException {
-        return inflate(new ByteArrayInputStream(data, 0, maxSize));
-    }
+	public static int deflate(byte[] data, byte[] output, int level) throws IOException {
+		final Deflater deflater = new Deflater(level);
 
-    /* -=-=-=-=-=- Internal -=-=-=-=-=- Do NOT attempt to use in production -=-=-=-=-=- */
+		deflater.setInput(data);
+		deflater.finish();
 
-    private static final ThreadLocal<byte[]> buf = ThreadLocal.withInitial(() -> new byte[1024]);
-    private static final ThreadLocal<Deflater> def = ThreadLocal.withInitial(Deflater::new);
-
-    private static Deflater getDef(int level) {
-        def.get().setLevel(level);
-        return def.get();
-    }
-
-    private static byte[] inflate(InputStream stream) throws IOException {
-        InflaterInputStream inputStream = new InflaterInputStream(stream);
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        int length;
-
-        try {
-            while ((length = inputStream.read(buf.get())) != -1) {
-                outputStream.write(buf.get(), 0, length);
-            }
-        } finally {
-            buf.set(outputStream.toByteArray());
-            outputStream.flush();
-            outputStream.close();
-            inputStream.close();
-        }
-
-        return buf.get();
-    }
+		return deflater.deflate(output);
+	}
+	
+	public static byte[] inflate(byte[] data, int bufferSize) throws IOException, DataFormatException {
+		final byte[] buffer = new byte[bufferSize];
+		
+		return Arrays.copyOf(buffer, inflate(data, buffer));
+	}
+	
+	public static int inflate(byte[] data, byte[] output) throws IOException, DataFormatException {
+		final Inflater inflater = new Inflater();
+		
+		inflater.setInput(data);
+		
+		final int size = inflater.inflate(output);
+		
+		inflater.end(); // do we have to? not sure
+		
+		return size;
+	}
 }

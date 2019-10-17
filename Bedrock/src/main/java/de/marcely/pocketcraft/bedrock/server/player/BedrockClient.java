@@ -11,6 +11,7 @@ import com.whirvis.jraknet.RakNetPacket;
 import com.whirvis.jraknet.peer.RakNetClientPeer;
 import com.whirvis.jraknet.protocol.Reliability;
 
+import de.marcely.pocketcraft.bedrock.BedrockConfig;
 import de.marcely.pocketcraft.bedrock.component.GameRules;
 import de.marcely.pocketcraft.bedrock.component.UserInfo;
 import de.marcely.pocketcraft.bedrock.component.world.entity.Entity;
@@ -63,15 +64,23 @@ public class BedrockClient {
 	}
 	
 	public void sendPacket(PCPacket packet){
-		sendPacket(packet, Reliability.RELIABLE_ORDERED);
+		sendPacket(packet, Reliability.RELIABLE_ORDERED, BedrockConfig.COMPRESSION_LEVEL);
 	}
 	
-	private void sendPacket(PCPacket packet, Reliability rel){
+	public void sendPacket(PCPacket packet, Reliability rel){
+		sendPacket(packet, rel, BedrockConfig.COMPRESSION_LEVEL);
+	}
+	
+	public void sendPacket(PCPacket packet, int compressionLevel){
+		sendPacket(packet, Reliability.RELIABLE_ORDERED, BedrockConfig.COMPRESSION_LEVEL);
+	}
+	
+	private void sendPacket(PCPacket packet, Reliability rel, int compressionLevel){
 		if(packet.getType() != PacketType.Batch){
 			final PacketBatch batch = new PacketBatch();
 			
 			try{
-				batch.writePayload(Arrays.asList(packet), packet.compressionLevel);
+				batch.writePayload(Arrays.asList(packet), compressionLevel);
 			}catch(Exception e){
 				e.printStackTrace();
 			}

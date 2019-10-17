@@ -12,6 +12,10 @@ public class EByteArrayReader extends ByteArrayReader {
 		super(array);
 	}
 	
+	public EByteArrayReader(byte[] buf, int offset, int length){
+		super(buf, offset, length);
+	}
+	
 	public UUID readUUID() throws IOException {
 		return null;
 	}

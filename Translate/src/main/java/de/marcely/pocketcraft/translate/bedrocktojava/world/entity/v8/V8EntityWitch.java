@@ -24,7 +24,7 @@ public class V8EntityWitch extends V8EntityInsentient {
 	@Override
 	public void read(V8EntityMetadata meta, int key){
 		if(key == 21)
-			this.setDataFlag(EntityDataType.FLAG_ANGRY, meta.readBoolean(key));
+			this.setDataFlag(EntityDataType.FLAG_ANGRY, meta.readBoolean(key)); // ?
 		else
 			super.read(meta, key);
 	}

@@ -6,11 +6,16 @@ import java.util.List;
 
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
+import de.marcely.pocketcraft.utils.BinaryUtil;
 import de.marcely.pocketcraft.utils.io.ZLib;
 
 public class PacketBatch extends PCPacket {
 
+	private static final int COMPRESSION_BUFFER_SIZE = 1024 * 1024 * 2;
+	
 	public byte[] payload;
+	
+	private int payloadSize = 0;
 	
 	public PacketBatch(){
 		super(PacketType.Batch);
@@ -18,7 +23,7 @@ public class PacketBatch extends PCPacket {
 
 	@Override
 	public void encode(EByteArrayWriter writer) throws Exception {
-		writer.write(this.payload);
+		writer.write(this.payload, 0, this.payloadSize);
 	}
 
 	@Override
@@ -28,7 +33,13 @@ public class PacketBatch extends PCPacket {
 	
 	public List<PCPacket> readPayload() throws Exception {
 		final List<PCPacket> list = new ArrayList<>();
-		final EByteArrayReader reader = new EByteArrayReader(ZLib.inflate(payload, 64 * 1024 * 1024 * 2)); // max 2mb buffer
+		EByteArrayReader reader = null;
+		
+		{
+			final byte[] buffer = new byte[COMPRESSION_BUFFER_SIZE];
+			
+			reader = new EByteArrayReader(buffer, 0, ZLib.inflate(this.payload, buffer));
+		}
 		
 		while(reader.available() >= 1){
 			if(list.size() >= 500){
@@ -44,8 +55,8 @@ public class PacketBatch extends PCPacket {
 				final PCPacket packet = type.newInstance();
 				packet.decode(reader2);
 				list.add(packet);
-			}//else
-				//System.out.println("Received unkown packet '" + BinaryUtil.bytesToDisplayedHex((byte) id) + "'");
+			}else
+				System.out.println("Received unkown packet '" + BinaryUtil.bytesToDisplayedHex((byte) id) + "'");
 			
 			reader2.close();
 		}
@@ -67,7 +78,11 @@ public class PacketBatch extends PCPacket {
 			}
 		}
 		
-		this.payload = ZLib.deflate(writer.toByteArray(), compressionLevel);
+		{
+			this.payload = new byte[COMPRESSION_BUFFER_SIZE];
+			this.payloadSize = ZLib.deflate(writer.toByteArray(), this.payload, compressionLevel);
+		}
+		
 		writer.close();
 	}
 }

@@ -24,7 +24,7 @@ public class V8EntityBlaze extends V8EntityInsentient {
 	@Override
 	public void read(V8EntityMetadata meta, int key){
 		if(key == 16)
-			this.setDataFlag(EntityDataType.FLAG_ONFIRE, meta.readBoolean(16));
+			this.setDataFlag(EntityDataType.FLAG_CHARGED, meta.readBoolean(key));
 		else
 			super.read(meta, key);
 	}

@@ -106,6 +106,7 @@ public class EntityMetadata {
 		setFloat(EntityDataType.SCALE, 1F);
 		setString(EntityDataType.NAMETAG, "");
 		setLong(EntityDataType.FLAGS, (long) 0);
+		setLong(EntityDataType.FLAGS_EXTENDED, (long) 0);
 		setLong(EntityDataType.LEAD_HOLDER_ID, (long) -1);
 		setFloat(EntityDataType.BOUNDING_BOX_WIDTH, entity.getType().getWidth());
 		setFloat(EntityDataType.BOUNDING_BOX_HEIGHT, entity.getType().getHeight());

@@ -20,6 +20,8 @@ import lombok.Setter;
 
 public class PacketBuilder {
 	
+	private static final int COMPRESSION_BUFFER_SIZE = 1024 * 1024 * 2;
+	
 	private Cipher readCipher, writeCipher;
 	@Getter @Setter private int compressionThreshold = -1;
 	
@@ -69,7 +71,7 @@ public class PacketBuilder {
 		
 		// compress
 		if(data.length >= compressionThreshold && compressionThreshold >= 0){
-			data = ZLib.deflate(data);
+			data = ZLib.deflate(data, COMPRESSION_BUFFER_SIZE);
 		}
 		
 		// construct packet data part
@@ -142,7 +144,7 @@ public class PacketBuilder {
 					if(uncompressedDataLength > 2097152)
 						throw new IOException("Malformed packet: Uncompressed packet is larger than limitation");
 					
-					final byte[] data = ZLib.inflate(stream.read(stream.readableBytes()));
+					final byte[] data = ZLib.inflate(stream.read(stream.readableBytes()), COMPRESSION_BUFFER_SIZE);
 					
 					stream.release();
 					stream = new EByteBuf(data);

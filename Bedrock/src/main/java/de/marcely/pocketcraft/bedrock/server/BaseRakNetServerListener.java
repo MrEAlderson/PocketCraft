@@ -67,7 +67,7 @@ public class BaseRakNetServerListener implements RakNetServerListener {
 			return;
 		}
 		
-		final PacketBatch packet = (PacketBatch) PacketType.Batch.newInstance();
+		final PacketBatch packet = new PacketBatch();
 		
 		try{
 			packet.decode(new EByteArrayReader(rawPacket.read(rawPacket.remaining())));

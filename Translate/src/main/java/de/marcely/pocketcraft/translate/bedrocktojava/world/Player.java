@@ -18,6 +18,7 @@ import de.marcely.pocketcraft.bedrock.network.packet.PacketLoginStatus;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketPlayerPermissions;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketRespawn;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketShowCredits;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketText;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketNetworkChunkPublisherUpdate;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketPlayerMove;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketPlayerMove.PlayerMoveType;
@@ -331,6 +332,15 @@ public class Player {
 			
 			out.data = nbt;
 		}
+		
+		sendPacket(out);
+	}
+	
+	public void sendChatMessage(String message){
+		final PacketText out = new PacketText();
+		
+		out.type = PacketText.TYPE_CHAT;
+		out.message = message;
 		
 		sendPacket(out);
 	}

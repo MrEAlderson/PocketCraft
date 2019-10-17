@@ -8,7 +8,7 @@ import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
 public class PacketEntityAnimate extends PCPacket {
 	
-	public long entityID;
+	public long entityId;
 	public int type;
 	public float unkown;
 	
@@ -19,7 +19,7 @@ public class PacketEntityAnimate extends PCPacket {
 	@Override
 	public void encode(EByteArrayWriter writer) throws Exception {
 		writer.writeSignedVarInt(type);
-		writer.writeUnsignedVarLong(entityID);
+		writer.writeUnsignedVarLong(entityId);
 		if((type & 0x80) != 0)
 			writer.writeLFloat(unkown);
 	}
@@ -27,7 +27,7 @@ public class PacketEntityAnimate extends PCPacket {
 	@Override
 	public void decode(EByteArrayReader reader) throws Exception {
 		this.type = reader.readSignedVarInt();
-		this.entityID = reader.readUnsignedVarLong();
+		this.entityId = reader.readUnsignedVarLong();
 		if((type & 0x80) != 0)
 			this.unkown = reader.readLFloat();
 	}
@@ -37,7 +37,11 @@ public class PacketEntityAnimate extends PCPacket {
 	public static enum EntityAnimateType {
 		
 		SWING_ARM(1),
-		WAKE_UP(3);
+		WAKE_UP(3),
+		CRITICAL_HIT(4),
+		MAGIC_CRITICAL_HIT(5),
+		ROW_RIGHT(128),
+		ROW_LEFT(129);
 		
 		public static Map<Integer, EntityAnimateType> VALUES = new HashMap<>();
 		

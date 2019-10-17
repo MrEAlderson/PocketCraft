@@ -56,6 +56,12 @@
 			<version>2.11.8</version>
 			<scope>compile</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>fr.bmartel</groupId>
+			<artifactId>pcapngdecoder</artifactId>
+			<version>1.2</version>
+		</dependency>
 	</dependencies>
 
 	<build>

@@ -14,8 +14,12 @@ import java.nio.charset.StandardCharsets;
  */
 public class ByteArrayReader extends ByteArrayInputStream {
 
-	public ByteArrayReader(byte[] array){
-		super(array);
+	public ByteArrayReader(byte[] buf){
+		super(buf);
+	}
+	
+	public ByteArrayReader(byte[] buf, int offset, int length){
+		super(buf, offset, length);
 	}
 	
 	public byte[] read(int length) throws IOException {

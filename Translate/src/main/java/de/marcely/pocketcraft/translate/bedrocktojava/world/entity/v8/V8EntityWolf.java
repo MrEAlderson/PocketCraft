@@ -28,9 +28,9 @@ public class V8EntityWolf extends V8EntityTameable {
 		{
 			final byte map = meta.readByte(16);
 			
-			this.setDataFlag(EntityDataType.FLAG_ANGRY, (map & 0x02) > 0);
+			this.setDataFlag(EntityDataType.FLAG_ANGRY, (map & 0x02) > 0); // ok
 			
-			super.read(meta, key); // that should be here
+			super.read(meta, key);
 		}
 		break;
 		
@@ -38,12 +38,12 @@ public class V8EntityWolf extends V8EntityTameable {
 			this.metadata.setInt(EntityDataType.HEALTH, (int) meta.readFloat(key));
 			break;
 			
-		case 19: // begging: TODO check if it's correct
+		case 19:
 			this.setDataFlag(EntityDataType.FLAG_INTERESTED, meta.readBoolean(key));
 			break;
 			
 		case 20:
-			this.metadata.setByte(EntityDataType.COLOR, meta.readByte(key));
+			this.metadata.setByte(EntityDataType.COLOR, (byte) (15 - meta.readByte(key))); // it's inverted for some reason
 			break;
 			
 		default:

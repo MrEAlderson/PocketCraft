@@ -32,6 +32,17 @@ public abstract class Entity {
 		this.metadata.setLong(EntityDataType.FLAGS, flags);
 	}
 	
+	public void setDataFlag2(int key, boolean value){
+		if(getDataFlag(key) == value)
+			return;
+		
+		long flags = this.metadata.getLong(EntityDataType.FLAGS_EXTENDED);
+		
+		flags ^= 1L << key;
+		
+		this.metadata.setLong(EntityDataType.FLAGS_EXTENDED, flags);
+	}
+	
 	public void setDataPlayerFlag(int key, boolean value){
 		if(getType() != EntityType.PLAYER)
 			throw new IllegalStateException("Entity isn't a player");
@@ -48,6 +59,10 @@ public abstract class Entity {
 	
 	public boolean getDataFlag(int key){
 		return (this.metadata.getLong(EntityDataType.FLAGS) & (1L << key)) > 0;
+	}
+	
+	public boolean getDataFlag2(int key){
+		return (this.metadata.getLong(EntityDataType.FLAGS_EXTENDED) & (1L << key)) > 0;
 	}
 	
 	public boolean getDataPlayerFlag(int key){

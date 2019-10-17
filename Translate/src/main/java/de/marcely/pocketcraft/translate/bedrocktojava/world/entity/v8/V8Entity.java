@@ -1,9 +1,12 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.world.entity.v8;
 
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityDataType;
+import de.marcely.pocketcraft.bedrock.component.world.entity.EntityEvent;
 import de.marcely.pocketcraft.java.component.entity.meta.V8EntityMetadata;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Entity;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.World;
+
+import static de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayEntityEvent.*;
 
 public abstract class V8Entity extends Entity {
 
@@ -13,7 +16,13 @@ public abstract class V8Entity extends Entity {
 	
 	public abstract int getTypeId();
 	
-	public void playEvent(byte type){ }
+	public void playEvent(byte type){
+		switch(type){
+		case TYPE_WITCH_MAGIC:
+			this.playEvent(EntityEvent.WITCH_SPELL);
+			break;
+		}
+	}
 	
 	public void write(V8EntityMetadata meta){
 		{

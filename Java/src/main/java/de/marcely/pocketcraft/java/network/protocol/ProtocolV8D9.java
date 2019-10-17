@@ -55,7 +55,7 @@ public class ProtocolV8D9 extends Protocol {
 				V8D9PacketPlayClientPositionLook.class,
 				null, // block dig
 				null, // block place
-				null, // held item slot
+				V8D9PacketPlaySetHeldItemSlot.class,
 				null, // arm animation
 				V8D9PacketPlayClientEntityAction.class,
 				null, // steer vehicle

@@ -6,9 +6,9 @@ import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
 public class PacketEntityEquipment extends PCPacket {
 
-	public long entityRuntimeID;
+	public long entityRuntimeId;
 	public Item item;
-	public byte inventorySlot, hotbarSlot, windowID;
+	public byte inventorySlot, hotbarSlot, windowId;
 	
 	public PacketEntityEquipment(){
 		super(PacketType.EntityEquipment);
@@ -16,19 +16,19 @@ public class PacketEntityEquipment extends PCPacket {
 
 	@Override
 	public void encode(EByteArrayWriter writer) throws Exception {
-		writer.writeUnsignedVarLong(this.entityRuntimeID);
+		writer.writeUnsignedVarLong(this.entityRuntimeId);
 		item.write(writer);
 		writer.writeSignedByte(this.inventorySlot);
 		writer.writeSignedByte(this.hotbarSlot);
-		writer.writeSignedByte(this.windowID);
+		writer.writeSignedByte(this.windowId);
 	}
 
 	@Override
 	public void decode(EByteArrayReader reader) throws Exception {
-		this.entityRuntimeID = reader.readUnsignedVarLong();
+		this.entityRuntimeId = reader.readUnsignedVarLong();
 		this.item = Item.read(reader);
 		this.inventorySlot = reader.readSignedByte();
 		this.hotbarSlot = reader.readSignedByte();
-		this.windowID = reader.readSignedByte();
+		this.windowId = reader.readSignedByte();
 	}
 }

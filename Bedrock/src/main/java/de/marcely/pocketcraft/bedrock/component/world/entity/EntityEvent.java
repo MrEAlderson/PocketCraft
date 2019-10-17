@@ -4,6 +4,7 @@ public enum EntityEvent {
 	
 	HURT(2),
 	DEATH(3),
+	PUNCHING(4),
 	
 	TAME_FAIL(6),
 	TAME_SUCCESS(7),
@@ -22,13 +23,22 @@ public enum EntityEvent {
 	SOUND_AMBIENT(17),
 	RESPAWN(18),
 	
+	HEART(21),
+	
 	FIREWORK_EXPLODE(25),
+	DRINK(29),
 	
 	ENCHANT(34),
+	FALL(38),
 	
-	EAT(57),
+	EAT(57), // data = item id
 	
-	MERGE_ITEMS(69);
+	VILLAGER_HAPPY(60),
+	DEATH_EFFECTS(61), // plays cloud particles + death sound
+	WITCH_SPELL(68), 
+	MERGE_ITEMS(69),
+	UNKOWN(71), // round white particles falling slowly from top to the bottom of the entity
+	INSTANT_EFFECT(72);
 	
 	public final byte id;
 	
