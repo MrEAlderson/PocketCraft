@@ -197,6 +197,9 @@ public class BedrockToJavaTranslator extends Translator {
 		registerEntity(V8EntityZombieHorse.class);
 		registerEntity(V8EntitySkeletonHorse.class);
 		registerEntity(V8EntityWither.class);
+		registerEntity(V8EntitySlime.class);
+		registerEntity(V8EntityMagmaCube.class);
+		registerEntity(V8EntityGuardian.class);
 	}
 	
 	protected void registerJavaPacket(Class<? extends Packet> packet, Class<? extends JavaPacketTranslator<?>> translatorClazz){

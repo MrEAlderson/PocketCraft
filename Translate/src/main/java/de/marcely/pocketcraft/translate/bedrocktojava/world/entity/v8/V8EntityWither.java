@@ -5,7 +5,7 @@ import de.marcely.pocketcraft.bedrock.component.world.entity.EntityType;
 import de.marcely.pocketcraft.java.component.entity.meta.V8EntityMetadata;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.World;
 
-public class V8EntityWither extends V8EntityLiving {
+public class V8EntityWither extends V8EntityInsentient {
 
 	public V8EntityWither(World world, int id){
 		super(world, id);
@@ -18,7 +18,7 @@ public class V8EntityWither extends V8EntityLiving {
 
 	@Override
 	public EntityType getType(){
-		return EntityType.WITCH;
+		return EntityType.WITHER;
 	}
 	
 	@Override
