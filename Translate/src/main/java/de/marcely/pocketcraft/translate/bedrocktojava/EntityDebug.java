@@ -110,7 +110,7 @@ public class EntityDebug {
 			
 			out.entityId = entity.getLongId();
 			out.type = this.index;
-			out.unkown = this.data;
+			out.rowingTime = this.data;
 			
 			player.sendPacket(out);
 		}

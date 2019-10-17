@@ -48,15 +48,15 @@ public class ProtocolV8D9 extends Protocol {
 		setPacketIds(SequenceType.PLAY, CLIENT, new Class[]{
 				V8D9PacketPlayKeepAlive.class,
 				V8D9PacketPlayClientChatMessage.class,
-				null, // use entity
+				V8D9PacketPlayClickEntity.class,
 				V8D9PacketPlayClientStanding.class,
 				V8D9PacketPlayClientPosition.class,
 				V8D9PacketPlayClientLook.class,
 				V8D9PacketPlayClientPositionLook.class,
 				null, // block dig
 				null, // block place
-				V8D9PacketPlaySetHeldItemSlot.class,
-				null, // arm animation
+				V8D9PacketPlayClientSetHeldItemSlot.class,
+				V8D9PacketPlayClientAnimation.class,
 				V8D9PacketPlayClientEntityAction.class,
 				null, // steer vehicle
 				null, // close window
@@ -84,9 +84,9 @@ public class ProtocolV8D9 extends Protocol {
 				V8D9PacketPlayUpdateHealth.class,
 				V8D9PacketPlayRespawn.class,
 				V8D9PacketPlayTeleport.class,
-				V8D9PacketPlaySetHeldItemSlot.class,
+				V8D9PacketPlayServerSetHeldItemSlot.class,
 				V8D9PacketPlayPlayerEnterBed.class,
-				null, // animation
+				V8D9PacketPlayEntityAnimation.class,
 				V8D9PacketPlaySpawnPlayer.class,
 				V8D9PacketPlayCollectItem.class,
 				V8D9PacketPlaySpawnObject.class,

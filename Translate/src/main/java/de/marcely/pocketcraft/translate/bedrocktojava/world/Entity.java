@@ -1,6 +1,7 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.world;
 
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityEvent;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityAnimate;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityEvent;
 import lombok.Getter;
 import lombok.Setter;
@@ -38,6 +39,20 @@ public abstract class Entity extends de.marcely.pocketcraft.bedrock.component.wo
 		out.entityId = this.longId;
 		out.type = event.getId();
 		out.data = data;
+		
+		this.world.getPlayer().sendPacket(out);
+	}
+	
+	public void playAnimation(int type){
+		playAnimation(type, 0F);
+	}
+	
+	public void playAnimation(int type, float rowingTime){
+		final PacketEntityAnimate out = new PacketEntityAnimate();
+		
+		out.entityId = this.longId;
+		out.type = type;
+		out.rowingTime = rowingTime;
 		
 		this.world.getPlayer().sendPacket(out);
 	}

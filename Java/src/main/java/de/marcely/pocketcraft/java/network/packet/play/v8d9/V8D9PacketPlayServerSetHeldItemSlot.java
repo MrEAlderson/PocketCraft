@@ -4,7 +4,7 @@ import de.marcely.pocketcraft.java.network.packet.PacketProperties;
 import de.marcely.pocketcraft.java.network.packet.PlayPacket;
 import de.marcely.pocketcraft.java.util.EByteBuf;
 
-public class V8D9PacketPlaySetHeldItemSlot extends PlayPacket {
+public class V8D9PacketPlayServerSetHeldItemSlot extends PlayPacket {
 
 	public static final PacketProperties PROPERTIES = new PacketProperties();
 	

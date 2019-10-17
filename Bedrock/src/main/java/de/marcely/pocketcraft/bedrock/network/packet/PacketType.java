@@ -23,6 +23,7 @@ public enum PacketType {
 	SpawnEntity(0x0D, Channel.ENTITY, PacketSpawnEntity.class),
 	DestroyEntity(0x0E, Channel.ENTITY, PacketDestroyEntity.class),
 	SpawnEntityItem(0x0F, Channel.ENTITY, PacketSpawnEntityItem.class),
+	CollectItem(0x11, Channel.ENTITY, PacketCollectItem.class),
 	EntityMove(0x12, Channel.MOVEMENT, PacketEntityMove.class),
 	PlayerMove(0x13, Channel.MOVEMENT, PacketPlayerMove.class),
 	BlockChange(0x15, Channel.BLOCKS, PacketBlockChange.class),
