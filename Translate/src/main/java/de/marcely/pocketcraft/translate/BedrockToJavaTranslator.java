@@ -102,7 +102,12 @@ public class BedrockToJavaTranslator extends Translator {
 		return (BedrockPacketTranslator<T>) packet.getProperties().getMetadata(getBedrockTranslatorMetaName());
 	}
 	
-	public @Nullable Entity newEntityInstance(Object type, int id, World world){
+	public @Nullable Entity newEntityInstance(Object type, int id, World world, boolean isObject){
+		if(isObject){
+			if(type instanceof Integer)
+				type = (int) type | 0x80000000;
+		}
+		
 		final Class<? extends Entity> clazz = this.registredEntities.get(type);
 		
 		if(clazz == null)
@@ -162,7 +167,6 @@ public class BedrockToJavaTranslator extends Translator {
 		registerEntity(V8EntityCaveSpider.class);
 		registerEntity(V8EntityChicken.class);
 		registerEntity(V8EntityCow.class);
-		registerEntity(V8EntityHuman.class);
 		registerEntity(V8EntityMooshroom.class);
 		registerEntity(V8EntityPig.class);
 		registerEntity(V8EntityRabbit.class);
@@ -171,11 +175,9 @@ public class BedrockToJavaTranslator extends Translator {
 		registerEntity(V8EntitySpider.class);
 		registerEntity(V8EntitySquid.class);
 		registerEntity(V8EntityVillager.class);
-		registerEntity(V8EntityArmorStand.class);
 		registerEntity(V8EntityOcelot.class);
 		registerEntity(V8EntityWolf.class);
 		registerEntity(V8EntityEnderDragon.class);
-		registerEntity(V8EntityEnderCrystal.class);
 		registerEntity(V8EntityCreeper.class);
 		registerEntity(V8EntityGhast.class);
 		registerEntity(V8EntityGiant.class);
@@ -186,20 +188,24 @@ public class BedrockToJavaTranslator extends Translator {
 		registerEntity(V8EntityBat.class);
 		registerEntity(V8EntityBlaze.class);
 		registerEntity(V8EntityEnderman.class);
-		registerEntity(V8EntityPainting.class);
 		registerEntity(V8EntityZombiePigman.class);
-		registerEntity(V8EntityZombieVillager.class);
 		registerEntity(V8EntitySkeleton.class);
-		registerEntity(V8EntityWitherSkeleton.class);
 		registerEntity(V8EntityHorse.class);
-		registerEntity(V8EntityDonkey.class);
-		registerEntity(V8EntityMule.class);
-		registerEntity(V8EntityZombieHorse.class);
-		registerEntity(V8EntitySkeletonHorse.class);
 		registerEntity(V8EntityWither.class);
 		registerEntity(V8EntitySlime.class);
 		registerEntity(V8EntityMagmaCube.class);
 		registerEntity(V8EntityGuardian.class);
+		registerEntity(V8EntityIronGolem.class);
+		
+		registerObject(V8EntityEgg.class);
+		registerObject(V8EntityArrow.class);
+		registerObject(V8EntityLeashKnot.class);
+		registerObject(V8EntityEnderPearl.class);
+		registerObject(V8EntityArmorStand.class);
+		registerObject(V8EntityEnderCrystal.class);
+		
+		registerEntity(V8EntityPainting.class);
+		registerEntity(V8EntityHuman.class);
 	}
 	
 	protected void registerJavaPacket(Class<? extends Packet> packet, Class<? extends JavaPacketTranslator<?>> translatorClazz){
@@ -225,15 +231,26 @@ public class BedrockToJavaTranslator extends Translator {
 	}
 	
 	protected void registerEntity(Class<? extends Entity> clazz){
+		registerEntity(clazz, false);
+	}
+	
+	protected void registerObject(Class<? extends Entity> clazz){
+		registerEntity(clazz, true);
+	}
+	
+	protected void registerEntity(Class<? extends Entity> clazz, boolean isObject){
 		try{
 			if(this.registredEntities.containsKey(clazz))
 				throw new RuntimeException(clazz.getName() + " is already registred");
 			
 			if(V8Entity.class.isAssignableFrom(clazz)){
-				final int type = ((V8Entity) clazz.getConstructor(World.class, int.class).newInstance(null, 0)).getTypeId();
+				int type = ((V8Entity) clazz.getConstructor(World.class, int.class).newInstance(null, 0)).getTypeId();
 				
 				if(type < 0)
 					return;
+				
+				if(isObject)
+					type |= 0x80000000;
 				
 				this.registredEntities.put((short) type, clazz);
 			}

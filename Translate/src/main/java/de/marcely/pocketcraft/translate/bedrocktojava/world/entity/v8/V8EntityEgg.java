@@ -3,19 +3,19 @@ package de.marcely.pocketcraft.translate.bedrocktojava.world.entity.v8;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityType;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.World;
 
-public class V8EntityZombieVillager extends V8EntityZombie {
+public class V8EntityEgg extends V8Entity implements V8EntityObject {
 
-	public V8EntityZombieVillager(World world, int id){
+	public V8EntityEgg(World world, int id){
 		super(world, id);
 	}
 
 	@Override
 	public int getTypeId(){
-		return MAGIC_TYPE_ZOMBIE_VILLAGER;
+		return 7;
 	}
 
 	@Override
 	public EntityType getType(){
-		return EntityType.ZOMBIE_VILLAGER;
+		return EntityType.EGG;
 	}
 }

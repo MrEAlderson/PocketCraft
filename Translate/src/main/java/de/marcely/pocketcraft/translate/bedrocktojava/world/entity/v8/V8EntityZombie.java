@@ -6,7 +6,9 @@ import de.marcely.pocketcraft.java.component.entity.meta.V8EntityMetadata;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.World;
 
 public class V8EntityZombie extends V8EntityInsentient {
-
+	
+	private boolean isVillager = false;
+	
 	public V8EntityZombie(World world, int id){
 		super(world, id);
 	}
@@ -18,7 +20,7 @@ public class V8EntityZombie extends V8EntityInsentient {
 
 	@Override
 	public EntityType getType(){
-		return EntityType.ZOMBIE;
+		return this.isVillager ? EntityType.ZOMBIE_VILLAGER : EntityType.ZOMBIE;
 	}
 	
 	@Override
@@ -28,6 +30,10 @@ public class V8EntityZombie extends V8EntityInsentient {
 			this.setDataFlag(EntityDataType.FLAG_BABY, meta.readBoolean(key));
 			break;
 		
+		case 13:
+			this.isVillager = meta.readBoolean(key);
+			break;
+			
 		case 14:
 			this.setDataFlag(EntityDataType.FLAG_CONVERTING, meta.readBoolean(key));
 			break;

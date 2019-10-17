@@ -2,6 +2,7 @@ package de.marcely.pocketcraft.translate.bedrocktojava.world.entity.v8;
 
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityDataType;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityEvent;
+import de.marcely.pocketcraft.bedrock.component.world.entity.EntityType;
 import de.marcely.pocketcraft.java.component.entity.meta.V8EntityMetadata;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Entity;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.World;
@@ -10,28 +11,20 @@ import static de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPla
 
 public abstract class V8Entity extends Entity {
 	
-	public static final int MAGIC_TYPE_WITHER_SKELETON = 1000;
-	public static final int MAGIC_TYPE_ZOMBIE_VILLAGER = 1001;
-	public static final int MAGIC_TYPE_DONKEY = 1002;
-	public static final int MAGIC_TYPE_MULE = 1003;
-	public static final int MAGIC_TYPE_ZOMBIE_HORSE = 1004;
-	public static final int MAGIC_TYPE_SKELETON_HORSE = 1005;
-	public static final int MAGIC_TYPE_HUMAN = 1006;
-	public static final int MAGIC_TYPE_PAINTING = 1007;
-	
-	
 	public V8Entity(World world, int id){
 		super(world, id);
 	}
 	
 	public abstract int getTypeId();
 	
-	public void playEvent(byte type){
-		switch(type){
-		case TYPE_WITCH_MAGIC:
-			this.playEvent(EntityEvent.WITCH_SPELL);
-			break;
-		}
+	/**
+	 * Java edition sometimes packs multiple entity types into one.
+	 * E.g: Skeletons metadata has a boolen which defines wether he's a wither skeleton or not.
+	 * Bedrock on the other hands has split them. This method will return the entity type for bedrock
+	 * It must be called after all data has been read
+	 */
+	public EntityType getActualType(){
+		return getType();
 	}
 	
 	public void write(V8EntityMetadata meta){
@@ -93,5 +86,13 @@ public abstract class V8Entity extends Entity {
 	public void readAll(V8EntityMetadata meta){
 		for(int key:meta.getEntries().keySet())
 			read(meta, key);
+	}
+	
+	public void playEvent(byte type){
+		switch(type){
+		case TYPE_WITCH_MAGIC:
+			this.playEvent(EntityEvent.WITCH_SPELL);
+			break;
+		}
 	}
 }

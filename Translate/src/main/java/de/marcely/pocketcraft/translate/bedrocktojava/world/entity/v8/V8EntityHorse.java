@@ -6,7 +6,9 @@ import de.marcely.pocketcraft.java.component.entity.meta.V8EntityMetadata;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.World;
 
 public class V8EntityHorse extends V8EntityAgeable {
-
+	
+	private byte type = 0;
+	
 	public V8EntityHorse(World world, int id){
 		super(world, id);
 	}
@@ -18,7 +20,23 @@ public class V8EntityHorse extends V8EntityAgeable {
 
 	@Override
 	public EntityType getType(){
-		return EntityType.HORSE;
+		switch(this.type){
+		case 0:
+		default:
+			return EntityType.HORSE;
+			
+		case 1:
+			return EntityType.DONKEY;
+			
+		case 2:
+			return EntityType.MULE;
+			
+		case 3:
+			return EntityType.ZOMBIE_HORSE;
+			
+		case 4:
+			return EntityType.SKELETON_HORSE;
+		}
 	}
 	
 	@Override
@@ -38,7 +56,8 @@ public class V8EntityHorse extends V8EntityAgeable {
 		}
 		break;
 		
-		case 19: // type, isn't handled here
+		case 19:
+			this.type = meta.readByte(key);
 			break;
 		
 		case 20:

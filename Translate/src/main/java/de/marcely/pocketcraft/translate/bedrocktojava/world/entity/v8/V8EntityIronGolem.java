@@ -4,29 +4,25 @@ import de.marcely.pocketcraft.bedrock.component.world.entity.EntityType;
 import de.marcely.pocketcraft.java.component.entity.meta.V8EntityMetadata;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.World;
 
-public class V8EntitySkeleton extends V8EntityInsentient {
-	
-	private boolean isWitherSkeleton = false;
-	
-	public V8EntitySkeleton(World world, int id){
+public class V8EntityIronGolem extends V8EntityInsentient {
+
+	public V8EntityIronGolem(World world, int id){
 		super(world, id);
 	}
 
 	@Override
 	public int getTypeId(){
-		return 51;
+		return 99;
 	}
 
 	@Override
 	public EntityType getType(){
-		return this.isWitherSkeleton ? EntityType.WITHER_SKELETON : EntityType.SKELETON;
+		return EntityType.IRON_GOLEM;
 	}
 	
 	@Override
 	public void read(V8EntityMetadata meta, int key){
-		if(key == 13)
-			this.isWitherSkeleton = meta.readBoolean(key);
-		else
-			super.read(meta, key);
+		// 16 = is player created
+		super.read(meta, key);
 	}
 }

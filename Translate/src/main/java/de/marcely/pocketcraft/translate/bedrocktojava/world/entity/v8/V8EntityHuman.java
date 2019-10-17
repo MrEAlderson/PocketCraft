@@ -15,7 +15,7 @@ public class V8EntityHuman extends V8EntityLiving {
 	
 	@Override
 	public int getTypeId(){
-		return MAGIC_TYPE_HUMAN;
+		return -1;
 	}
 
 	@Override

@@ -3,19 +3,19 @@ package de.marcely.pocketcraft.translate.bedrocktojava.world.entity.v8;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityType;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.World;
 
-public class V8EntitySkeletonHorse extends V8EntityHorse {
+public class V8EntityEnderPearl extends V8Entity {
 
-	public V8EntitySkeletonHorse(World world, int id){
+	public V8EntityEnderPearl(World world, int id){
 		super(world, id);
 	}
-	
+
 	@Override
 	public int getTypeId(){
-		return MAGIC_TYPE_SKELETON_HORSE;
+		return 14;
 	}
 
 	@Override
 	public EntityType getType(){
-		return EntityType.SKELETON_HORSE;
+		return EntityType.ENDER_PEARL;
 	}
 }
