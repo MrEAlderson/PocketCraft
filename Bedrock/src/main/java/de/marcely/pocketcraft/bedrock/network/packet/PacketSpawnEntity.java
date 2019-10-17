@@ -8,7 +8,7 @@ import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
 public class PacketSpawnEntity extends PCPacket {
 	
-	public long entityUID, entityRuntimeID;
+	public long entityUniqueId, entityRuntimeId;
 	public EntityType type;
 	public float x, y, z, yaw, pitch, headYaw;
 	public float veloX, veloY, veloZ;
@@ -22,8 +22,8 @@ public class PacketSpawnEntity extends PCPacket {
 
 	@Override
 	public void encode(EByteArrayWriter writer) throws Exception {
-		writer.writeSignedVarLong(this.entityUID);
-		writer.writeUnsignedVarLong(this.entityRuntimeID);
+		writer.writeSignedVarLong(this.entityUniqueId);
+		writer.writeUnsignedVarLong(this.entityRuntimeId);
 		writer.writeString(this.type.getId());
 		writer.writeVector(this.x, this.y, this.z);
 		writer.writeVector(this.veloX, this.veloY, this.veloZ);

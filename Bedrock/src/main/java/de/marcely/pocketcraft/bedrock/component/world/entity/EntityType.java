@@ -109,11 +109,15 @@ public enum EntityType {
 	LIGHTNING_BOLT("minecraft:lightning_bolt"),
 	SMALL_FIREBALL("minecraft:small_fireball"),
 	AREA_EFFECT_CLOUD("minecraft:area_effect_cloud"),
+	
+	SPAWNER_MINECART("minecraft:spawner_minecart"),
+	FURNACE_MINECART("minecraft:furnace_minecart"),
+	FURANCE("minecraft:furnace_minecart"),
 	HOPPER_MINECART("minecraft:hopper_minecart"),
 	TNT_MINECART("minecraft:tnt_minecart"),
 	CHEST_MINECART("minecraft:chest_minecart"),
-	
 	COMMAND_BLOCK_MINECART("minecraft:command_block_minecart"),
+	
 	LINGERING_POTION("minecraft:lingering_potion"),
 	LLAMA_SPIT("minecraft:llama_spit"),
 	EVOCATION_FANG("minecraft:evocation_fang"),

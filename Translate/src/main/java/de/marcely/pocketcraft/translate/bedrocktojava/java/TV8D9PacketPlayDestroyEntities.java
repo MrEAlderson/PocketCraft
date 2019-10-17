@@ -15,7 +15,7 @@ public class TV8D9PacketPlayDestroyEntities extends JavaPacketTranslator<V8D9Pac
 			
 			final PacketDestroyEntity out = new PacketDestroyEntity();
 			
-			out.entityUID = id;
+			out.entityUniqueId = id;
 			
 			player.sendPacket(out);
 		}

@@ -1,4 +1,4 @@
-package de.marcely.pocketcraft.translate.world;
+package de.marcely.pocketcraft.translate.component;
 
 import de.marcely.pocketcraft.utils.Pair;
 

@@ -200,6 +200,8 @@ public class BedrockToJavaTranslator extends Translator {
 		registerObject(V8EntityEnderCrystal.class);
 		registerObject(V8EntityMinecart.class);
 		registerObject(V8EntityFallingBlock.class);
+		registerObject(V8EntityItem.class);
+		registerObject(V8EntityBoat.class);
 	}
 	
 	protected void registerJavaPacket(Class<? extends Packet> packet, Class<? extends JavaPacketTranslator<?>> translatorClazz){

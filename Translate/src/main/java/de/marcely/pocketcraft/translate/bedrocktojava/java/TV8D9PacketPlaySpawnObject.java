@@ -4,8 +4,8 @@ import de.marcely.pocketcraft.bedrock.component.world.entity.EntityAttribute;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketSpawnEntity;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlaySpawnObject;
 import de.marcely.pocketcraft.translate.bedrocktojava.JavaPacketTranslator;
-import de.marcely.pocketcraft.translate.bedrocktojava.world.Entity;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
+import de.marcely.pocketcraft.translate.bedrocktojava.world.entity.v8.V8Entity;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.entity.v8.V8EntityObject;
 
 public class TV8D9PacketPlaySpawnObject extends JavaPacketTranslator<V8D9PacketPlaySpawnObject> {
@@ -13,27 +13,26 @@ public class TV8D9PacketPlaySpawnObject extends JavaPacketTranslator<V8D9PacketP
 	@Override
 	public void handle(V8D9PacketPlaySpawnObject packet, Player player){
 		// spawn it
-		final Entity entity = player.getTranslator().newEntityInstance(packet.type, packet.entityId, player.getWorld(), true);
+		final V8Entity entity = (V8Entity) player.getTranslator().newEntityInstance(packet.type, packet.entityId, player.getWorld(), true);
 		
 		if(entity == null || entity.getType() == null)
 			return;
 		
 		{
-			((V8EntityObject) entity).readData(packet.data);
-			
 			entity.setX(packet.x);
 			entity.setY(packet.y);
 			entity.setZ(packet.z);
 			entity.setYaw(packet.yaw);
 			entity.setPitch(packet.pitch);
+			((V8EntityObject) entity).readData(packet.data); // should be at bottom since entity might does custom spawning
 		}
 		
 		player.getWorld().addEntity(entity);
 		
-		{
+		if(!entity.hasCustomSpawning()){
 			final PacketSpawnEntity out = new PacketSpawnEntity();
 			
-			out.entityUID = out.entityRuntimeID = packet.entityId;
+			out.entityUniqueId = out.entityRuntimeId = packet.entityId;
 			out.type = entity.getType();
 			out.x = packet.x;
 			out.y = packet.y;

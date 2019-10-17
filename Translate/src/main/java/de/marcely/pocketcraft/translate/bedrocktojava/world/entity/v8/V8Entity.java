@@ -2,7 +2,6 @@ package de.marcely.pocketcraft.translate.bedrocktojava.world.entity.v8;
 
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityDataType;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityEvent;
-import de.marcely.pocketcraft.bedrock.component.world.entity.EntityType;
 import de.marcely.pocketcraft.java.component.entity.meta.V8EntityMetadata;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Entity;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.World;
@@ -17,15 +16,9 @@ public abstract class V8Entity extends Entity {
 	
 	public abstract int getTypeId();
 	
-	/**
-	 * Java edition sometimes packs multiple entity types into one.
-	 * E.g: Skeletons metadata has a boolen which defines wether he's a wither skeleton or not.
-	 * Bedrock on the other hands has split them. This method will return the entity type for bedrock
-	 * It must be called after all data has been read
-	 */
-	public EntityType getActualType(){
-		return getType();
-	}
+	public boolean hasCustomSpawning(){ return false; }
+	
+	protected void onReadMeta(){ }
 	
 	public void write(V8EntityMetadata meta){
 		{

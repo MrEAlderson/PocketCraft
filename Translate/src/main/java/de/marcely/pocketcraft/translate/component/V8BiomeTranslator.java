@@ -1,4 +1,4 @@
-package de.marcely.pocketcraft.translate.world;
+package de.marcely.pocketcraft.translate.component;
 
 import de.marcely.pocketcraft.bedrock.component.world.Biome;
 import de.marcely.pocketcraft.java.component.v8.V8Biome;

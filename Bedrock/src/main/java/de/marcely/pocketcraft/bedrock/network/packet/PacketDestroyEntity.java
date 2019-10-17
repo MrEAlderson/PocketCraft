@@ -5,7 +5,7 @@ import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
 public class PacketDestroyEntity extends PCPacket {
 	
-	public long entityUID;
+	public long entityUniqueId;
 	
 	public PacketDestroyEntity(){
 		super(PacketType.DestroyEntity);
@@ -13,7 +13,7 @@ public class PacketDestroyEntity extends PCPacket {
 
 	@Override
 	public void encode(EByteArrayWriter writer) throws Exception {
-		writer.writeSignedVarLong(entityUID);
+		writer.writeSignedVarLong(entityUniqueId);
 	}
 
 	@Override

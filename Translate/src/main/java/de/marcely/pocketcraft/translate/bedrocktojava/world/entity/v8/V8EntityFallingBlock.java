@@ -4,7 +4,7 @@ import de.marcely.pocketcraft.bedrock.component.BlockMapping;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityDataType;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityType;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.World;
-import de.marcely.pocketcraft.translate.world.V8BlockTranslator;
+import de.marcely.pocketcraft.translate.component.V8BlockTranslator;
 import de.marcely.pocketcraft.utils.Pair;
 
 public class V8EntityFallingBlock extends V8Entity implements V8EntityObject {

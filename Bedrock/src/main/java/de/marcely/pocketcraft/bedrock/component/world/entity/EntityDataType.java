@@ -17,8 +17,8 @@ public enum EntityDataType {
 	POTION_COLOR(8, EntityDataValueType.INT /* ARGB */),
 	POTION_AMBIENT(9, EntityDataValueType.BYTE),
 	JUMP_DURATION(10, EntityDataValueType.LONG),
-	HURT_TIME(11, EntityDataValueType.INT),
-	HURT_DIRECTION(12, EntityDataValueType.INT),
+	SHAKING_POWER(11, EntityDataValueType.INT), // for minecart
+	SHAKING_DIRECTION(12, EntityDataValueType.INT), // for minecarts
 	PADDLE_TIME_LEFT(13, EntityDataValueType.FLOAT),
 	PADDLE_TIME_RIGHT(14, EntityDataValueType.FLOAT),
 	EXPERIENCE(15, EntityDataValueType.INT),

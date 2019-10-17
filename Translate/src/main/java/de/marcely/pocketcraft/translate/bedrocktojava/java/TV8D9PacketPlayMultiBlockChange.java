@@ -7,7 +7,7 @@ import de.marcely.pocketcraft.translate.bedrocktojava.JavaPacketTranslator;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.V8BlockEntityTranslator;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.V8Chunk;
-import de.marcely.pocketcraft.translate.world.V8BlockTranslator;
+import de.marcely.pocketcraft.translate.component.V8BlockTranslator;
 import de.marcely.pocketcraft.utils.Pair;
 
 public class TV8D9PacketPlayMultiBlockChange extends JavaPacketTranslator<V8D9PacketPlayMultiBlockChange> {
