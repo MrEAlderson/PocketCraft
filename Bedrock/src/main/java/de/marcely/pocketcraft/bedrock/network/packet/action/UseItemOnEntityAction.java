@@ -8,14 +8,10 @@ import de.marcely.pocketcraft.utils.math.Vector3;
 
 public class UseItemOnEntityAction extends Action {
 	
-	public static final byte ACTION_TYPE_HIT = 0;
-	public static final byte ACTION_TYPE_INTERACT = 1;
+	public static final byte ACTION_TYPE_INTERACT = 0;
+	public static final byte ACTION_TYPE_ATTACK = 1;
 	
 	public final long entityId;
-	/*
-	 * 1 = Hit
-	 * 0 = Interact
-	 */
 	public final long actionType;
 	public final int hotbarSlot;
 	public final Item item;

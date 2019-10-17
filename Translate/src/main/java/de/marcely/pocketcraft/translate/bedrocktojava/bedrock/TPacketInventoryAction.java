@@ -32,7 +32,7 @@ public class TPacketInventoryAction extends BedrockPacketTranslator<PacketInvent
 		final V8D9PacketPlayClickEntity out = new V8D9PacketPlayClickEntity();
 		
 		out.targetEntityId = (int) action.entityId;
-		out.type = action.actionType == UseItemOnEntityAction.ACTION_TYPE_HIT ? V8D9PacketPlayClickEntity.TYPE_ATTACK : V8D9PacketPlayClickEntity.TYPE_INTERACT_AT;
+		out.type = action.actionType == UseItemOnEntityAction.ACTION_TYPE_ATTACK ? V8D9PacketPlayClickEntity.TYPE_ATTACK : V8D9PacketPlayClickEntity.TYPE_INTERACT_AT;
 		out.targetX = action.clickPos.getX();
 		out.targetY = action.clickPos.getY();
 		out.targetZ = action.clickPos.getZ();

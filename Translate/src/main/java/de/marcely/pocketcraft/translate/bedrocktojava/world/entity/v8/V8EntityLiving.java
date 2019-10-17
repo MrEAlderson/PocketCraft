@@ -41,7 +41,6 @@ public abstract class V8EntityLiving extends V8Entity {
 		switch(key){
 		case 2:
 			this.metadata.setString(EntityDataType.NAMETAG, meta.readString(key));
-			this.setDataFlag(EntityDataType.FLAG_CAN_SHOW_NAMETAG, true);
 			break;
 			
 		case 3:

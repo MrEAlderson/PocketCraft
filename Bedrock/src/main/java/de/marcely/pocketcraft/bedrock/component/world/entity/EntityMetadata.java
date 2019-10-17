@@ -113,6 +113,7 @@ public class EntityMetadata {
 		setInt(EntityDataType.HEALTH, 20);
 		
 		entity.setDataFlag(EntityDataType.FLAG_HAS_COLLISION, true);
+		entity.setDataFlag(EntityDataType.FLAG_CAN_SHOW_NAMETAG, true);
 		
 		if(entity.getType() == EntityType.PLAYER){
 			setByte(EntityDataType.PLAYER_FLAGS, (byte) 0);
