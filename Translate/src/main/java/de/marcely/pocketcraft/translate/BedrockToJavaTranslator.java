@@ -40,7 +40,7 @@ public class BedrockToJavaTranslator extends Translator {
 	@Getter private final Protocol javaProtocol;
 	
 	private final Map<InetSocketAddress, Player> players = new HashMap<>();
-	private Map<Object, Class<? extends Entity>> registredEntities = new HashMap<>();
+	private Map<String, Class<? extends Entity>> registredEntities = new HashMap<>();
 	
 	public BedrockToJavaTranslator(BedrockServer bedrockServer, Connection javaConnection, Protocol javaProtocol){
 		this.bedrockServer = bedrockServer;
@@ -103,12 +103,7 @@ public class BedrockToJavaTranslator extends Translator {
 	}
 	
 	public @Nullable Entity newEntityInstance(Object type, int id, World world, boolean isObject){
-		if(isObject){
-			if(type instanceof Integer)
-				type = (int) type | 0x80000000;
-		}
-		
-		final Class<? extends Entity> clazz = this.registredEntities.get(type);
+		final Class<? extends Entity> clazz = this.registredEntities.get((isObject ? "0" : "1") + type);
 		
 		if(clazz == null)
 			return null;
@@ -153,6 +148,7 @@ public class BedrockToJavaTranslator extends Translator {
 		registerJavaPacket(V8D9PacketPlaySpawnPainting.class, TV8D9PacketPlaySpawnPainting.class);
 		registerJavaPacket(V8D9PacketPlayExplosion.class, TV8D9PacketPlayExplosion.class);
 		registerJavaPacket(V8D9PacketPlayEntityEvent.class, TV8D9PacketPlayEntityEvent.class);
+		registerJavaPacket(V8D9PacketPlaySpawnObject.class, TV8D9PacketPlaySpawnObject.class);
 		
 		registerBedrockPacket(PacketPlayerMove.class, TPacketPlayerMove.class);
 		registerBedrockPacket(PacketChunkRadiusChangeRequest.class, TPacketChunkRadiusChangeRequest.class);
@@ -168,7 +164,6 @@ public class BedrockToJavaTranslator extends Translator {
 		registerEntity(V8EntityChicken.class);
 		registerEntity(V8EntityCow.class);
 		registerEntity(V8EntityMooshroom.class);
-		registerEntity(V8EntityPig.class);
 		registerEntity(V8EntityRabbit.class);
 		registerEntity(V8EntitySheep.class);
 		registerEntity(V8EntitySnowman.class);
@@ -203,9 +198,8 @@ public class BedrockToJavaTranslator extends Translator {
 		registerObject(V8EntityEnderPearl.class);
 		registerObject(V8EntityArmorStand.class);
 		registerObject(V8EntityEnderCrystal.class);
-		
-		registerEntity(V8EntityPainting.class);
-		registerEntity(V8EntityHuman.class);
+		registerObject(V8EntityMinecart.class);
+		registerObject(V8EntityFallingBlock.class);
 	}
 	
 	protected void registerJavaPacket(Class<? extends Packet> packet, Class<? extends JavaPacketTranslator<?>> translatorClazz){
@@ -240,7 +234,7 @@ public class BedrockToJavaTranslator extends Translator {
 	
 	protected void registerEntity(Class<? extends Entity> clazz, boolean isObject){
 		try{
-			if(this.registredEntities.containsKey(clazz))
+			if(this.registredEntities.containsValue(clazz))
 				throw new RuntimeException(clazz.getName() + " is already registred");
 			
 			if(V8Entity.class.isAssignableFrom(clazz)){
@@ -249,10 +243,7 @@ public class BedrockToJavaTranslator extends Translator {
 				if(type < 0)
 					return;
 				
-				if(isObject)
-					type |= 0x80000000;
-				
-				this.registredEntities.put((short) type, clazz);
+				this.registredEntities.put((isObject ? "0" : "1") + type, clazz);
 			}
 		}catch(Exception e){
 			e.printStackTrace();

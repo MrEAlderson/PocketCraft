@@ -11,7 +11,7 @@ public class V8EntityEnderPearl extends V8Entity {
 
 	@Override
 	public int getTypeId(){
-		return 14;
+		return 65;
 	}
 
 	@Override

@@ -4,7 +4,7 @@ import de.marcely.pocketcraft.bedrock.component.world.entity.EntityType;
 import de.marcely.pocketcraft.java.component.entity.meta.V8EntityMetadata;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.World;
 
-public class V8EntityArrow extends V8Entity {
+public class V8EntityArrow extends V8Entity implements V8EntityObject {
 
 	public V8EntityArrow(World world, int id){
 		super(world, id);
@@ -12,7 +12,7 @@ public class V8EntityArrow extends V8Entity {
 
 	@Override
 	public int getTypeId(){
-		return 10;
+		return 60;
 	}
 
 	@Override

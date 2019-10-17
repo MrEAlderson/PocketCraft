@@ -11,7 +11,7 @@ public class V8EntityEgg extends V8Entity implements V8EntityObject {
 
 	@Override
 	public int getTypeId(){
-		return 7;
+		return 62;
 	}
 
 	@Override

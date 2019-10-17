@@ -13,7 +13,7 @@ public class V8EntityEnderCrystal extends V8Entity implements V8EntityObject {
 
 	@Override
 	public int getTypeId(){
-		return 200;
+		return 51;
 	}
 
 	@Override
@@ -24,7 +24,7 @@ public class V8EntityEnderCrystal extends V8Entity implements V8EntityObject {
 	@Override
 	public void read(V8EntityMetadata meta, int key){
 		if(key == 8)
-			this.metadata.setInt(EntityDataType.HEALTH, (int) meta.readFloat(key));
+			this.metadata.setInt(EntityDataType.HEALTH, meta.readInt(key));
 		else
 			super.read(meta, key);
 	}
