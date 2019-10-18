@@ -22,7 +22,7 @@ public class V8D9PacketPlaySpawnPainting extends PlayPacket {
 		stream.writeVarInt(this.entityId);
 		stream.writeString(this.paintingName, 13);
 		stream.writeBlockPosition(this.x, this.y, this.z);
-		stream.writeByte(this.direction.getId());
+		stream.writeByte(this.direction.getSideId());
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public class V8D9PacketPlaySpawnPainting extends PlayPacket {
 			this.z = loc.getFloorZ();
 		}
 		
-		this.direction = BlockFace.ofId(stream.readByte());
+		this.direction = BlockFace.getBySideId(stream.readByte());
 	}
 
 	@Override

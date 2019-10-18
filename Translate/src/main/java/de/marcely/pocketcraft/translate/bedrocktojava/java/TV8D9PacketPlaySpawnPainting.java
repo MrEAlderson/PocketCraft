@@ -18,7 +18,7 @@ public class TV8D9PacketPlaySpawnPainting extends JavaPacketTranslator<V8D9Packe
 			entity.setX(packet.x);
 			entity.setY(packet.y);
 			entity.setZ(packet.z);
-			entity.setYaw(packet.direction.getId());
+			entity.setYaw(packet.direction.getSideId());
 		}
 		
 		player.getWorld().addEntity(entity);
@@ -31,7 +31,7 @@ public class TV8D9PacketPlaySpawnPainting extends JavaPacketTranslator<V8D9Packe
 			out.x = packet.x;
 			out.y = packet.y;
 			out.z = packet.z;
-			out.direction = BlockFaceTranslator.toBedrock(packet.direction);
+			out.direction = BlockFaceTranslator.sideToBedrock(packet.direction);
 			out.title = packet.paintingName;
 			
 			player.sendPacket(out);

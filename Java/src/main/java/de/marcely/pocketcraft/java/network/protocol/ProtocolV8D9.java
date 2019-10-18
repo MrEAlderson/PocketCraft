@@ -53,25 +53,25 @@ public class ProtocolV8D9 extends Protocol {
 				V8D9PacketPlayClientPosition.class,
 				V8D9PacketPlayClientLook.class,
 				V8D9PacketPlayClientPositionLook.class,
-				null, // block dig
-				null, // block place
+				V8D9PacketPlayBlockDig.class,
+				V8D9PacketPlayBlockPlace.class,
 				V8D9PacketPlayClientSetHeldItemSlot.class,
 				V8D9PacketPlayClientAnimation.class,
 				V8D9PacketPlayClientEntityAction.class,
-				null, // steer vehicle
-				null, // close window
+				V8D9PacketPlaySteerVehicle.class,
+				V8D9PacketPlayCloseWindow.class,
 				null, // window click
-				null, // transaction
-				null, // set creative slot
-				null, // enchant item
+				V8D9PacketPlayConfirmWindowTransaction.class,
+				V8D9PacketPlaySetCreativeSlot.class,
+				V8D9PacketPlayEnchantItem.class,
 				V8D9PacketPlayUpdateSignText.class,
 				V8D9PacketPlayAbilities.class,
-				null, // tab complete
+				V8D9PacketPlayRequestTabComplete.class,
 				V8D9PacketPlayClientSettings.class,
 				V8D9PacketPlayClientCommand.class,
 				V8D9PacketPlayCustomPayload.class,
-				null, // spectate
-				null  // resource pack status
+				V8D9PacketPlaySpectatePlayer.class,
+				V8D9PacketPlayResourcePackStatus.class
 		});
 		
 		setPacketIds(SequenceType.PLAY, SERVER, new Class[]{
@@ -79,7 +79,7 @@ public class ProtocolV8D9 extends Protocol {
 				V8D9PacketPlayLogin.class,
 				V8D9PacketPlayServerChatMessage.class,
 				V8D9PacketPlayWorldTime.class,
-				null, // entity equipment
+				V8D9PacketPlayEntityEquipment.class,
 				V8D9PacketPlaySpawnPosition.class,
 				V8D9PacketPlayUpdateHealth.class,
 				V8D9PacketPlayRespawn.class,
@@ -106,7 +106,7 @@ public class ProtocolV8D9 extends Protocol {
 				V8D9PacketPlayEntityMetadata.class,
 				null, // entity effect
 				null, // remove entity effect
-				null, // experience
+				V8D9PacketPlaySetExperience.class,
 				null, // update attributes
 				V8D9PacketPlayMapChunk.class,
 				V8D9PacketPlayMultiBlockChange.class,
@@ -119,11 +119,11 @@ public class ProtocolV8D9 extends Protocol {
 				null, // named sound effect
 				null, // world particles
 				V8D9PacketPlayChangeGameState.class,
-				null, // spawn entity weather
+				V8D9PacketPlaySpawnGlobalEntity.class,
 				null, // open window
-				null, // close window
-				null, // set slot
-				null, // window items
+				V8D9PacketPlayCloseWindow.class,
+				V8D9PacketPlayWindowSetItem.class,
+				V8D9PacketPlayWindowItems.class,
 				null, // window data
 				null, // transaction
 				V8D9PacketPlayUpdateSignText.class,

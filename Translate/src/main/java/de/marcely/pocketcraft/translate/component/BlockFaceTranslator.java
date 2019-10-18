@@ -2,7 +2,7 @@ package de.marcely.pocketcraft.translate.component;
 
 public class BlockFaceTranslator {
 	
-	public static de.marcely.pocketcraft.bedrock.component.BlockFace toBedrock(de.marcely.pocketcraft.java.component.BlockFace face){
+	public static de.marcely.pocketcraft.bedrock.component.BlockFace sideToBedrock(de.marcely.pocketcraft.java.component.BlockFace face){
 		switch(face){
 		case NORTH:
 			return de.marcely.pocketcraft.bedrock.component.BlockFace.NORTH;

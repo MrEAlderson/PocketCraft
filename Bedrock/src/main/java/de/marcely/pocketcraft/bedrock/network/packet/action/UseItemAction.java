@@ -5,6 +5,7 @@ import java.io.IOException;
 import de.marcely.pocketcraft.bedrock.component.BlockFace;
 import de.marcely.pocketcraft.bedrock.component.inventory.Item;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
+import lombok.Getter;
 
 public class UseItemAction extends Action {
 	
@@ -15,7 +16,7 @@ public class UseItemAction extends Action {
 	public final long actionType;
 	public final int blockPosX, blockPosY, blockPosZ;
 	public final BlockFace face;
-	public final int hotbarSlot;
+	@Getter public final int hotbarSlot;
 	public final Item item;
 	public final float playerPosX, playerPosY, playerPosZ;
 	public final float clickPosX, clickPosY, clickPosZ;
