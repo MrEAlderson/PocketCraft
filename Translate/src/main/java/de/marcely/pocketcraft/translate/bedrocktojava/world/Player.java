@@ -250,7 +250,7 @@ public class Player {
 					sendPacket(out);
 				
 				
-				}else if(this.currentTick % 20 == 0){ // only every second
+				}else{ // we must send this every tick, otherwise the players air value isn't going correctly down and other issues may occur
 					final V8D9PacketPlayClientStanding out = new V8D9PacketPlayClientStanding();
 					
 					out.isOnGround = this.isOnGround;
