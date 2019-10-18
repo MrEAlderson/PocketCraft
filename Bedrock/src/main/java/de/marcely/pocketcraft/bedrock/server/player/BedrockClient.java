@@ -34,7 +34,7 @@ public class BedrockClient {
 	
 	@Getter private final List<PacketListener> packetListeners = new ArrayList<>(4);
 	
-	@Getter private Entity entity;
+	@Getter @Setter private Entity entity;
 	@Getter @Setter private UserInfo info;
 	@Getter @Setter private String username;
 	

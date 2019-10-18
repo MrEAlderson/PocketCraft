@@ -75,6 +75,9 @@ public class World {
 	}
 	
 	public @Nullable Entity getEntity(int id){
+		if(id == this.player.getEntityId())
+			return this.player.getEntity();
+		
 		return this.entitiesMap.get(id);
 	}
 	

@@ -101,8 +101,8 @@ public class EntityMetadata {
 	}
 	
 	public void applyDefault(Entity entity){
-		setShort(EntityDataType.AIR, (short) 400);
-		setShort(EntityDataType.MAX_AIR, (short) 400);
+		setShort(EntityDataType.AIR, (short) 300);
+		setShort(EntityDataType.MAX_AIR, (short) 300);
 		setFloat(EntityDataType.SCALE, 1F);
 		setString(EntityDataType.NAMETAG, "");
 		setLong(EntityDataType.FLAGS, (long) 0);

@@ -38,7 +38,7 @@ public class TV8D9PacketPlayLogin extends JavaPacketTranslator<V8D9PacketPlayLog
 			{
 				final PacketEntityAttributes out = (PacketEntityAttributes) PacketType.EntityAttributes.newInstance();
 				
-				out.entityRuntimeID = player.getEntityId();
+				out.entityRuntimeId = player.getEntityId();
 				out.attributes = new EntityAttribute[]{
 						new EntityAttribute(EntityAttributeType.HEALTH, EntityAttributeType.HEALTH.defaultValue),
 						new EntityAttribute(EntityAttributeType.FOOD, EntityAttributeType.FOOD.defaultValue),

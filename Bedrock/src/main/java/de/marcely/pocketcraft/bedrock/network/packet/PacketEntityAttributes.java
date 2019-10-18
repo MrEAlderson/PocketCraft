@@ -6,7 +6,7 @@ import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
 public class PacketEntityAttributes extends PCPacket {
 	
-	public long entityRuntimeID;
+	public long entityRuntimeId;
 	public EntityAttribute[] attributes;
 	
 	public PacketEntityAttributes(){
@@ -15,12 +15,11 @@ public class PacketEntityAttributes extends PCPacket {
 
 	@Override
 	public void encode(EByteArrayWriter writer) throws Exception {
-		writer.writeUnsignedVarLong(entityRuntimeID);
+		writer.writeUnsignedVarLong(this.entityRuntimeId);
 		
-		// why a different scheme tho
-		writer.writeUnsignedVarInt(attributes.length);
+		writer.writeUnsignedVarInt(this.attributes.length);
 		
-		for(EntityAttribute attr:attributes){
+		for(EntityAttribute attr:this.attributes){
 			writer.writeLFloat(attr.type.minValue);
 			writer.writeLFloat(attr.type.maxValue);
 			writer.writeLFloat(attr.value);

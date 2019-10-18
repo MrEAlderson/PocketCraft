@@ -13,7 +13,7 @@ public class TV8D9PacketPlayUpdateHealth extends JavaPacketTranslator<V8D9Packet
 	public void handle(V8D9PacketPlayUpdateHealth packet, Player player){
 		final PacketEntityAttributes out = new PacketEntityAttributes();
 		
-		out.entityRuntimeID = player.getEntityId();
+		out.entityRuntimeId = player.getEntityId();
 		out.attributes = new EntityAttribute[]{
 			new EntityAttribute(EntityAttributeType.HEALTH, packet.health),
 			new EntityAttribute(EntityAttributeType.FOOD, packet.foodLevel),

@@ -152,6 +152,10 @@ public class BedrockToJavaTranslator extends Translator {
 		registerJavaPacket(V8D9PacketPlayEntityAttach.class, TV8D9PacketPlayEntityAttach.class);
 		registerJavaPacket(V8D9PacketPlayCollectItem.class, TV8D9PacketPlayCollectItem.class);
 		registerJavaPacket(V8D9PacketPlayEntityAnimation.class, TV8D9PacketPlayEntityAnimation.class);
+		registerJavaPacket(V8D9PacketPlaySpawnExperienceOrb.class, TV8D9PacketPlaySpawnExperienceOrb.class);
+		registerJavaPacket(V8D9PacketPlayWindowItems.class, TV8D9PacketPlayWindowItems.class);
+		registerJavaPacket(V8D9PacketPlayWindowSetItem.class, TV8D9PacketPlayWindowSetItem.class);
+		registerJavaPacket(V8D9PacketPlaySetExperience.class, TV8D9PacketPlaySetExperience.class);
 		
 		registerBedrockPacket(PacketPlayerMove.class, TPacketPlayerMove.class);
 		registerBedrockPacket(PacketChunkRadiusChangeRequest.class, TPacketChunkRadiusChangeRequest.class);
@@ -207,6 +211,7 @@ public class BedrockToJavaTranslator extends Translator {
 		registerObject(V8EntityFallingBlock.class);
 		registerObject(V8EntityItem.class);
 		registerObject(V8EntityBoat.class);
+		registerObject(V8EntityExpBottle.class);
 	}
 	
 	protected void registerJavaPacket(Class<? extends Packet> packet, Class<? extends JavaPacketTranslator<?>> translatorClazz){

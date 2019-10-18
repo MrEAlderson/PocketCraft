@@ -7,9 +7,9 @@ import lombok.Getter;
 
 public abstract class Entity {
 	
-	@Getter protected final long longId;
+	@Getter protected long longId;
 	
-	@Getter protected final EntityMetadata metadata;
+	@Getter protected EntityMetadata metadata;
 	
 	public Entity(long id){
 		this.longId = id;
@@ -79,5 +79,10 @@ public abstract class Entity {
 		packet.metadata = this.metadata;
 		
 		to.sendPacket(packet);
+	}
+	
+	public void applyTo(Entity entity){
+		entity.longId = this.longId;
+		entity.metadata = this.metadata;
 	}
 }

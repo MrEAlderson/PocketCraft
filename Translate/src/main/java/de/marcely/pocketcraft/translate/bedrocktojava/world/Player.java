@@ -56,7 +56,7 @@ public class Player {
 	
 	@Getter private boolean isDead = false;
 	@Getter @Setter private byte spawnState = SPAWN_STATE_SENDING_CHUNKS;
-	@Setter private Long loginTime = null;
+	@Getter private Long loginTime = null;
 	@Getter @Setter private Dimension currentDimension;
 	private boolean queuedShowCreditsTask = false;
 	
@@ -67,6 +67,10 @@ public class Player {
 		this.translator = translator;
 		this.bedrock = bedrock;
 		this.java = java;
+	}
+	
+	public Entity getEntity(){
+		return (Entity) this.getBedrock().getEntity();
 	}
 	
 	public void sendPacket(Packet packet){
@@ -284,7 +288,7 @@ public class Player {
 		{
 			final PacketEntityAttributes out = new PacketEntityAttributes();
 			
-			out.entityRuntimeID = getEntityId();
+			out.entityRuntimeId = getEntityId();
 			out.attributes = new EntityAttribute[]{
 				new EntityAttribute(EntityAttributeType.MOVEMENT_SPEED, speed * (this.isSprinting ? 1.3F : 1))	
 			};
@@ -316,6 +320,20 @@ public class Player {
 	
 	public boolean isLoggedIn(){
 		return this.loginTime != null;
+	}
+	
+	public void logIn(Entity entity){
+		if(isLoggedIn())
+			return;
+		
+		this.loginTime = System.currentTimeMillis();
+		
+		// override bedrocks entity instance with our wrapped entity
+		{
+			this.bedrock.getEntity().applyTo(entity);
+			
+			this.bedrock.setEntity(entity);
+		}
 	}
 	
 	public void updateBlockEntity(BlockEntity entity){
