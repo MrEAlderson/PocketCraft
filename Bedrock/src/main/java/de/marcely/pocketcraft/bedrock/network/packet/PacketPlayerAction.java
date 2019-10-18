@@ -44,7 +44,7 @@ public class PacketPlayerAction extends PCPacket {
     public static final int TYPE_START_SPIN_ATTACK = 23;
     public static final int TYPE_STOP_SPIN_ATTACK = 24;
 	
-	public long entityID;
+	public long entityId;
 	public byte type;
 	public int x;
 	public int y;
@@ -57,7 +57,7 @@ public class PacketPlayerAction extends PCPacket {
 
 	@Override
 	public void encode(EByteArrayWriter writer) throws Exception {
-		writer.writeUnsignedVarLong(this.entityID);
+		writer.writeUnsignedVarLong(this.entityId);
 		writer.writeSignedVarInt(this.type);
 		writer.writeSignedVarInt(this.x);
 		writer.writeUnsignedVarInt(this.y);
@@ -67,7 +67,7 @@ public class PacketPlayerAction extends PCPacket {
 
 	@Override
 	public void decode(EByteArrayReader reader) throws Exception {
-		this.entityID = reader.readUnsignedVarLong();
+		this.entityId = reader.readUnsignedVarLong();
 		this.type = (byte) reader.readSignedVarInt();
 		this.x = reader.readSignedVarInt();
 		this.y = (int) reader.readUnsignedVarInt();

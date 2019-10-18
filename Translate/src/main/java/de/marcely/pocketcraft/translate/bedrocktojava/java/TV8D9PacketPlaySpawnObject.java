@@ -23,6 +23,9 @@ public class TV8D9PacketPlaySpawnObject extends JavaPacketTranslator<V8D9PacketP
 			entity.setZ(packet.z);
 			entity.setYaw(packet.yaw);
 			entity.setPitch(packet.pitch);
+			entity.setVeloX(packet.veloX);
+			entity.setVeloY(packet.veloY);
+			entity.setVeloZ(packet.veloZ);
 			((V8EntityObject) entity).readData(packet.data); // should be at bottom since entity might does custom spawning
 		}
 		

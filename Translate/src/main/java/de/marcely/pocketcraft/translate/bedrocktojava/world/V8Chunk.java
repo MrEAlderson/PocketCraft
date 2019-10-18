@@ -38,6 +38,12 @@ public class V8Chunk extends Chunk {
 			}
 		}
 	}
+	
+
+	@Override
+	public boolean isTransparentBlock(int x, int y, int z){
+		return this.reference.getBlockId(x, y, z) == 0;
+	}
 
 	@Override
 	public PacketFullChunk buildPacket(int x, int z){

@@ -7,7 +7,7 @@ import de.marcely.pocketcraft.java.component.entity.meta.V8EntityMetadata;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.World;
 import de.marcely.pocketcraft.translate.component.ItemTranslator;
 
-public class V8EntityItem extends V8Entity implements V8EntityObject {
+public class V8EntityItem extends V8EntityProjectile implements V8EntityObject {
 
 	public V8EntityItem(World world, int id){
 		super(world, id);

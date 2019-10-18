@@ -1,7 +1,6 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.world;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -17,7 +16,7 @@ public class World {
 	@Getter private final Player player;
 	
 	@Getter private Map<Long, Chunk> chunksMap = new ConcurrentHashMap<>();
-	@Getter private Map<Integer, Entity> entitiesMap = new HashMap<>();
+	@Getter private Map<Integer, Entity> entitiesMap = new ConcurrentHashMap<>();
 	
 	@Getter @Setter private Dimension dimension;
 	@Getter @Setter private int spawnX, spawnY, spawnZ;
@@ -26,6 +25,11 @@ public class World {
 	
 	public World(Player player){
 		this.player = player;
+	}
+	
+	public void tick(int currentTick){
+		for(Entity entity:this.getEntities())
+			entity.tick();
 	}
 	
 	public void unloadAllChunks(){

@@ -18,6 +18,8 @@ public abstract class Chunk {
 	
 	public abstract PacketFullChunk buildPacket(int x, int z);
 	
+	public abstract boolean isTransparentBlock(int x, int y, int z);
+	
 	private short getBlockEntityIndex(int x, int y, int z){
 		return (short) (x | (y << 4) | (z << 12));
 	}

@@ -259,6 +259,8 @@ public class Player {
 				}
 			}
 		}
+		
+		this.world.tick(this.currentTick);
 	}
 	
 	public void receivedChunk(int x, int z){

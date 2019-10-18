@@ -70,7 +70,7 @@ public class TV8D9PacketPlayExplosion extends JavaPacketTranslator<V8D9PacketPla
 		{
 			final PacketEntityVelocity out = new PacketEntityVelocity();
 			
-			out.entityRuntimeID = player.getEntityId();
+			out.entityRuntimeId = player.getEntityId();
 			out.veloX = packet.velocityX;
 			out.veloY = packet.velocityY;
 			out.veloZ = packet.velocityZ;

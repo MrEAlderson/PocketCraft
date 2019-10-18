@@ -5,7 +5,7 @@ import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
 public class PacketEntityVelocity extends PCPacket {
 
-	public long entityRuntimeID;
+	public long entityRuntimeId;
 	public float veloX, veloY, veloZ;
 	
 	public PacketEntityVelocity(){
@@ -14,8 +14,8 @@ public class PacketEntityVelocity extends PCPacket {
 
 	@Override
 	public void encode(EByteArrayWriter writer) throws Exception {
-		writer.writeUnsignedVarLong(entityRuntimeID);
-		writer.writeVector(veloX, veloY, veloZ);
+		writer.writeUnsignedVarLong(this.entityRuntimeId);
+		writer.writeVector(this.veloX, this.veloY, this.veloZ);
 	}
 
 	@Override

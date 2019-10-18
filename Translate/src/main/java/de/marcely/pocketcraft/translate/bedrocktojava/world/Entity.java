@@ -10,16 +10,19 @@ public abstract class Entity extends de.marcely.pocketcraft.bedrock.component.wo
 	
 	@Getter private final World world;
 	
-	@Getter @Setter private float x, y, z, yaw, pitch, headYaw;
-	@Getter @Setter private boolean isOnGround;
+	@Getter @Setter protected float x, y, z, yaw, pitch, headYaw;
+	@Getter @Setter protected float veloX, veloY, veloZ;
+	@Getter @Setter protected boolean isOnGround;
 	
-	@Getter @Setter int vehicleEntityId = -1;
+	@Getter @Setter private int vehicleEntityId = -1;
 	
 	public Entity(World world, int id){
 		super(id);
 		
 		this.world = world;
 	}
+	
+	public void tick(){ }
 	
 	public int getId(){
 		return (int) this.getLongId();

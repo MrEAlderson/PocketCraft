@@ -47,9 +47,11 @@ public class TPacketInventoryAction extends BedrockPacketTranslator<PacketInvent
 	boolean e = false;
 	
 	private void handleAction(UseItemAction action, Player player){
+		System.out.println("USE");
+		
 		final V8D9PacketPlayBlockPlace out = new V8D9PacketPlayBlockPlace();
 		
-		out.position = new Vector3(-1, -1, -1);
+		out.position = new Vector3(action.blockPosX, action.blockPosY, action.blockPosZ);
 		out.face = -1;
 		out.item = ItemTranslator.toJava(action.item);
 		out.cursorPosX = -1;
@@ -61,6 +63,8 @@ public class TPacketInventoryAction extends BedrockPacketTranslator<PacketInvent
 	
 	// sent e.g. when stopping to eat food
 	private void handleAction(CancelUseItemAction action, Player player){
+		System.out.println("CANCEL");
+		
 		final V8D9PacketPlayBlockDig out = new V8D9PacketPlayBlockDig();
 		
 		out.status = V8D9PacketPlayBlockDig.STATUS_FINISH_ACTION;
