@@ -45,8 +45,6 @@ public class JavaClient implements ClientSequenceHolder, ConnectionInterface {
 		
 		conn.setInterface(this);
 		protocol.defineIds();
-		
-		System.out.println("AAAAAAAAAAA");
 	}
 
 	@SuppressWarnings("unchecked")

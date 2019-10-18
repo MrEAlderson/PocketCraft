@@ -9,6 +9,10 @@ public class V8D9PacketPlayWindowItems extends PlayPacket {
 
 	public static final PacketProperties PROPERTIES = new PacketProperties();
 	
+	/* 0             = player inventory
+	 * -1            = cursor
+	 * anything else = current open window. should match with its' id tho
+	 */
 	public byte windowId;
 	public Item[] items;
 	
