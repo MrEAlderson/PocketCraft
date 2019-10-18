@@ -1,6 +1,5 @@
 package de.marcely.pocketcraft.java.network.packet.play.v8d9;
 
-import de.marcely.pocketcraft.java.component.BlockFace;
 import de.marcely.pocketcraft.java.component.Item;
 import de.marcely.pocketcraft.java.network.packet.PacketProperties;
 import de.marcely.pocketcraft.java.network.packet.PlayPacket;
@@ -12,7 +11,7 @@ public class V8D9PacketPlayBlockPlace extends PlayPacket {
 	public static final PacketProperties PROPERTIES = new PacketProperties();
 	
 	public Vector3 position;
-	public BlockFace face; // the face on which the block was placed
+	public int face; // the face on which the block was placed; not an actual BlockFace instance since it can also be 0xFF
 	public Item item;
 	public float cursorPosX;
 	public float cursorPosY;
@@ -21,7 +20,7 @@ public class V8D9PacketPlayBlockPlace extends PlayPacket {
 	@Override
 	public void write(EByteBuf stream) throws Exception {
 		stream.writeBlockPosition(this.position);
-		stream.writeByte(this.face.getId());
+		stream.writeUnsignedByte(this.face);
 		stream.writeItem(this.item);
 		stream.writeUnsignedByte((byte) (this.cursorPosX * 16F));
 		stream.writeUnsignedByte((byte) (this.cursorPosY * 16F));
@@ -31,7 +30,7 @@ public class V8D9PacketPlayBlockPlace extends PlayPacket {
 	@Override
 	public void read(EByteBuf stream) throws Exception {
 		this.position = stream.readBlockPosition();
-		this.face = BlockFace.getById(stream.readByte());
+		this.face = stream.readUnsignedByte();
 		this.item = stream.readItem();
 		this.cursorPosX = stream.readUnsignedByte() / 16F;
 		this.cursorPosY = stream.readUnsignedByte() / 16F;

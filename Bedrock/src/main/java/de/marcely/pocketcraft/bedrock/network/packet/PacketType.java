@@ -36,6 +36,7 @@ public enum PacketType {
 	InventoryAction(0x1E, Channel.INVENTORY, PacketInventoryAction.class),
 	EntityEquipment(0x1F, Channel.ENTITY, PacketEntityEquipment.class),
 	EntityArmor(0x20, Channel.ENTITY, PacketEntityArmor.class),
+	INTERACT(0x21, Channel.NONE, PacketInteract.class),
 	BlockPick(0x22, Channel.BLOCKS, PacketBlockPick.class),
 	PlayerAction(0x24, Channel.NONE, PacketPlayerAction.class),
 	EntityData(0x27, Channel.ENTITY, PacketEntityData.class),

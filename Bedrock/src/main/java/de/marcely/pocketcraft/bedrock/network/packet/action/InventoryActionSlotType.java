@@ -26,7 +26,7 @@ public enum InventoryActionSlotType {
 	
 	BEACON(-24),
 	
-	DROP_CONTENS(-100),
+	DROP_CONTENT(-100),
 	
 	MAGIC_NOT_CURSOR(0),
 	MAGIC_UNKOWN(1);

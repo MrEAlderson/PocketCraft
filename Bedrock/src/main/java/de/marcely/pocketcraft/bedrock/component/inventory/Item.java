@@ -6,9 +6,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import de.marcely.pocketcraft.utils.BinaryUtil;
+import lombok.ToString;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
+@ToString(exclude = "tags")
 public class Item {
 
 	public int id, amount, data;

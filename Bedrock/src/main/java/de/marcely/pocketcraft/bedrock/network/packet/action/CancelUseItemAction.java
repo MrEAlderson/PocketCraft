@@ -7,14 +7,14 @@ import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 import de.marcely.pocketcraft.utils.math.Vector3;
 import lombok.Getter;
 
-public class DropItemAction extends Action {
+public class CancelUseItemAction extends Action {
 	
 	public final long actionType;
 	@Getter public final int hotbarSlot;
 	public final Item item;
 	public final Vector3 headRotation;
 	
-	public DropItemAction(long actionType, int hotbarSlot, Item item, Vector3 headRotation){
+	public CancelUseItemAction(long actionType, int hotbarSlot, Item item, Vector3 headRotation){
 		this.actionType = actionType;
 		this.hotbarSlot = hotbarSlot;
 		this.item = item;
@@ -23,15 +23,15 @@ public class DropItemAction extends Action {
 	
 	@Override
 	public ActionType getType(){
-		return ActionType.DROP_ITEM;
+		return ActionType.CANCEL_USE_ITEM;
 	}
 	
-	public static DropItemAction read(EByteArrayReader stream) throws IOException {
+	public static CancelUseItemAction read(EByteArrayReader stream) throws IOException {
 		final long actionType = stream.readUnsignedVarInt();
 		final int hotbarSlot = stream.readSignedVarInt();
 		final Item item = Item.read(stream);
 		final Vector3 headRotation = new Vector3(stream.readLFloat(), stream.readLFloat(), stream.readLFloat());
 
-		return new DropItemAction(actionType, hotbarSlot, item, headRotation);
+		return new CancelUseItemAction(actionType, hotbarSlot, item, headRotation);
 	}
 }

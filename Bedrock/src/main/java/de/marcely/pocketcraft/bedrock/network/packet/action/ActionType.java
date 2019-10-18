@@ -8,7 +8,7 @@ public enum ActionType {
 	MISMATCH, // 1
 	USE_ITEM, // 2
 	USE_ITEM_ON_ENTITY, // 3
-	DROP_ITEM; // 4
+	CANCEL_USE_ITEM; // 4
 	
 	public int getId(){
 		return this.ordinal();

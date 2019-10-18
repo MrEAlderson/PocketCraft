@@ -3,9 +3,11 @@ package de.marcely.pocketcraft.bedrock.network.packet.action;
 import java.io.IOException;
 
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
+import lombok.ToString;
 import de.marcely.pocketcraft.bedrock.component.inventory.Item;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
+@ToString(exclude = "sourceFlags")
 public class InventoryAction {
 	
 	public final InventoryActionSourceType sourceType;

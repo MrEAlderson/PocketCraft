@@ -27,9 +27,6 @@ public class NBTTagString extends NBTBase<String> {
 	@Override
 	public void read(DataInput stream) throws IOException {
 		this.data = stream.readUTF();
-		
-		if(this.data.length() > 288)
-			throw new IOException("String is too large! (" + this.data.length() + ")");
 	}
 
 	@Override

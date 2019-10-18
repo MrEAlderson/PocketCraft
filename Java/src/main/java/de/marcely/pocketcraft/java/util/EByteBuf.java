@@ -163,7 +163,7 @@ public class EByteBuf {
 	}
 	
 	public void writeItem(Item item){
-		if(item == null || item.getType() == 0){
+		if(item == null){
 			writeShort(-1);
 			return;
 		}
@@ -171,10 +171,7 @@ public class EByteBuf {
 		writeShort(item.getType());
 		writeByte(item.getAmount());
 		writeShort(item.getData());
-		
-		if(item.getNBT() != null){
-			writeNBT(item.getNBT());
-		}
+		writeNBT(item.getNBT());
 	}
 	
 	public void writeV8EntityMetadata(V8EntityMetadata meta){

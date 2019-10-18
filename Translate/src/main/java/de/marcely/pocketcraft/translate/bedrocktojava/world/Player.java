@@ -191,7 +191,7 @@ public class Player {
 			}
 		}
 		
-		if(!isDead){
+		if(!isDead && isLoggedIn()){
 			// drag him down if he's on void. bedrock players walk on it for whatever reason
 			if(this.y <= -39){
 				this.y -= 0.4F;

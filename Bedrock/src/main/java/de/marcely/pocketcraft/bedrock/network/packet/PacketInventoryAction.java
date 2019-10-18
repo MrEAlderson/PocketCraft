@@ -18,11 +18,12 @@ public class PacketInventoryAction extends PCPacket {
 
 	@Override
 	public void decode(EByteArrayReader reader) throws Exception {
-		final ActionType type = ActionType.getById((int) reader.readUnsignedVarInt());
+		final int test = (int) reader.readUnsignedVarInt();
+		final ActionType type = ActionType.getById((int) test);
 		
 		{
 			this.invActions = new InventoryAction[(int) reader.readUnsignedVarInt()];
-			
+
 			for(int i=0; i<this.invActions.length; i++)
 				this.invActions[i] = InventoryAction.read(reader);
 		}
@@ -34,8 +35,8 @@ public class PacketInventoryAction extends PCPacket {
 		case USE_ITEM_ON_ENTITY:
 			this.action = UseItemOnEntityAction.read(reader);
 			break;
-		case DROP_ITEM:
-			this.action = DropItemAction.read(reader);
+		case CANCEL_USE_ITEM:
+			this.action = CancelUseItemAction.read(reader);
 			break;
 		default:
 			this.action = null;
