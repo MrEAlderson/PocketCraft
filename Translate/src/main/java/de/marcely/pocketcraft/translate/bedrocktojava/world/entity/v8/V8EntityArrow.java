@@ -32,4 +32,16 @@ public class V8EntityArrow extends V8EntityProjectile implements V8EntityObject 
 		else
 			super.read(meta, key);
 	}
+	
+	@Override
+	public void tick(){
+		if(this.veloX != 0 || this.veloY != 0 || this.veloZ != 0){
+			double f = Math.sqrt((this.veloX * this.veloX) + (this.veloZ * this.veloZ));
+			
+			this.yaw = (float) (Math.atan2(this.veloX, this.veloZ) * 180 / Math.PI);
+            this.pitch = (float) (Math.atan2(this.veloY, f) * 180 / Math.PI);
+		}
+		
+		super.tick();
+	}
 }

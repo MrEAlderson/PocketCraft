@@ -24,6 +24,8 @@ public abstract class Entity extends de.marcely.pocketcraft.bedrock.component.wo
 	
 	public void tick(){ }
 	
+	public void onTeleport(){ }
+	
 	public int getId(){
 		return (int) this.getLongId();
 	}

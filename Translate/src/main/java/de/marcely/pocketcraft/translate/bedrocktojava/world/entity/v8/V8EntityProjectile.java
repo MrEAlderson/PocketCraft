@@ -5,20 +5,31 @@ import de.marcely.pocketcraft.translate.bedrocktojava.world.Chunk;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.World;
 
 public abstract class V8EntityProjectile extends V8Entity {
-
+	
+	private float serverX, serverY, serverZ;
+	private float localX, localY, localZ;
+	
 	public V8EntityProjectile(World world, int id){
 		super(world, id);
 	}
 	
 	@Override
+	// TODO: Remove block collision and replace it with proper block collision checks
 	public void tick(){
 		super.tick();
 		
 		// update velocity
 		if(this.veloX != 0 || this.veloY != 0 || this.veloZ != 0){
-			this.x += this.veloX;
-			this.y += this.veloY;
-			this.z += this.veloZ;
+			if(this.serverX != this.x || this.serverY != this.y || this.serverZ != this.z){
+				this.serverX = this.localX = this.x;
+				this.serverY = this.localY = this.y;
+				this.serverZ = this.localZ = this.z;
+				return;
+			}
+			
+			this.localX += this.veloX;
+			this.localY += this.veloY;
+			this.localZ += this.veloZ;
 			
 			// gravity
 			{
@@ -37,10 +48,11 @@ public abstract class V8EntityProjectile extends V8Entity {
 					this.veloZ = 0;
 					return;
 				
-				}else if(!chunk.isTransparentBlock((int) this.x & 0x10, (int) this.y, (int) this.z & 0x10)){
+				}else if(!chunk.isTransparentBlock(((int) this.x) & 0x10, (int) this.y, ((int) this.z) & 0x10)){
 					this.veloX = 0;
 					this.veloY = 0;
 					this.veloZ = 0;
+					return;
 				}
 			}
 			
@@ -49,9 +61,9 @@ public abstract class V8EntityProjectile extends V8Entity {
 				final PacketEntityMove out = new PacketEntityMove();
 				
 				out.entityRuntimeId = this.getId();
-				out.x = this.x;
-				out.y = this.y + this.getBedrockPacketYAppend();
-				out.z = this.z;
+				out.x = this.localX;
+				out.y = this.localY + this.getBedrockPacketYAppend();
+				out.z = this.localZ;
 				out.yaw = this.yaw;
 				out.headYaw = this.headYaw;
 				out.pitch = this.pitch;
@@ -61,6 +73,13 @@ public abstract class V8EntityProjectile extends V8Entity {
 				this.getWorld().getPlayer().sendPacket(out);
 			}
 		}
+	}
+	
+	@Override
+	public void onTeleport(){
+		this.veloX = 0;
+		this.veloY = 0;
+		this.veloZ = 0;
 	}
 	
 	public float getGravity(){

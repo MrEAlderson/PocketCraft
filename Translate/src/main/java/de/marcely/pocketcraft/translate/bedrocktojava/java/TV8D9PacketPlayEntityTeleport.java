@@ -22,6 +22,7 @@ public class TV8D9PacketPlayEntityTeleport extends JavaPacketTranslator<V8D9Pack
 			entity.setYaw(packet.yaw);
 			entity.setPitch(packet.pitch);
 			entity.setOnGround(packet.isOnGround);
+			entity.onTeleport();
 		}
 		
 		{
