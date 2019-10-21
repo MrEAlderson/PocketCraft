@@ -3,8 +3,8 @@ package de.marcely.pocketcraft.translate.bedrocktojava.world;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketFullChunk;
 import de.marcely.pocketcraft.java.component.v8.V8Biome;
 import de.marcely.pocketcraft.java.component.v8.V8ChunkSection;
-import de.marcely.pocketcraft.translate.component.V8BiomeTranslator;
-import de.marcely.pocketcraft.translate.component.V8BlockTranslator;
+import de.marcely.pocketcraft.translate.bedrocktojava.component.v8.V8BiomeTranslator;
+import de.marcely.pocketcraft.translate.bedrocktojava.component.v8.V8BlockTranslator;
 import de.marcely.pocketcraft.utils.Pair;
 import lombok.Getter;
 

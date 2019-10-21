@@ -8,6 +8,7 @@ import org.jetbrains.annotations.Nullable;
 
 import de.marcely.pocketcraft.bedrock.component.Dimension;
 import de.marcely.pocketcraft.bedrock.component.world.blockentity.BlockEntity;
+import de.marcely.pocketcraft.translate.bedrocktojava.component.TranslateComponents;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,6 +26,10 @@ public class World {
 	
 	public World(Player player){
 		this.player = player;
+	}
+	
+	public TranslateComponents getTranslateComponents(){
+		return this.player.getTranslateComponents();
 	}
 	
 	public void tick(int currentTick){

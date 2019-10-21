@@ -15,7 +15,7 @@ public enum GameMode {
 		return (byte) (this.ordinal()-1);
 	}
 	
-	public static @Nullable GameMode ofId(byte id){
+	public static @Nullable GameMode getById(byte id){
 		id++;
 		
 		if(id < 0 || id >= values().length)

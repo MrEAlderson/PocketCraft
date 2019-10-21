@@ -59,8 +59,8 @@ public class ProtocolV8D9 extends Protocol {
 				V8D9PacketPlayClientAnimation.class,
 				V8D9PacketPlayClientEntityAction.class,
 				V8D9PacketPlaySteerVehicle.class,
-				V8D9PacketPlayCloseWindow.class,
-				null, // window click
+				V8D9PacketPlayWindowClose.class,
+				V8D9PacketPlayWindowClick.class,
 				V8D9PacketPlayConfirmWindowTransaction.class,
 				V8D9PacketPlaySetCreativeSlot.class,
 				V8D9PacketPlayEnchantItem.class,
@@ -121,11 +121,11 @@ public class ProtocolV8D9 extends Protocol {
 				V8D9PacketPlayChangeGameState.class,
 				V8D9PacketPlaySpawnGlobalEntity.class,
 				null, // open window
-				V8D9PacketPlayCloseWindow.class,
+				V8D9PacketPlayWindowClose.class,
 				V8D9PacketPlayWindowSetItem.class,
 				V8D9PacketPlayWindowItems.class,
 				null, // window data
-				null, // transaction
+				V8D9PacketPlayWindowClickResponse.class,
 				V8D9PacketPlayUpdateSignText.class,
 				null, // map
 				V8D9PacketPlayUpdateBlockEntity.class,

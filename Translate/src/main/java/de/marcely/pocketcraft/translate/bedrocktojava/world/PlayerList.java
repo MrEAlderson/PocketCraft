@@ -7,7 +7,7 @@ import java.util.UUID;
 
 import org.jetbrains.annotations.Nullable;
 
-import de.marcely.pocketcraft.java.component.GameMode;
+import de.marcely.pocketcraft.java.component.v8.V8GameMode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -37,10 +37,10 @@ public class PlayerList {
 		
 		@Getter private final UUID id;
 		@Getter @Setter private String name;
-		@Getter @Setter private GameMode gameMode;
+		@Getter @Setter private V8GameMode gameMode;
 		@Getter @Setter private int ping;
 		
-		public Entry(UUID id, String name, GameMode gameMode, int ping){
+		public Entry(UUID id, String name, V8GameMode gameMode, int ping){
 			this.id = id;
 			this.name = name;
 			this.gameMode = gameMode;

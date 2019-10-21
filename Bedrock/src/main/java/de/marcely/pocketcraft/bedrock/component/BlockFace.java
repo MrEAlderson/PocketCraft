@@ -33,7 +33,7 @@ public enum BlockFace {
 		}
 	}
 	
-	public static @Nullable BlockFace ofId(byte id){
+	public static @Nullable BlockFace getById(byte id){
 		id++;
 		
 		if(id < 0 || id >= values().length)

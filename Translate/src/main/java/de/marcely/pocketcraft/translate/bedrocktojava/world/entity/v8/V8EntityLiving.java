@@ -11,6 +11,8 @@ public abstract class V8EntityLiving extends V8Entity {
 
 	public V8EntityLiving(World world, int id){
 		super(world, id);
+		
+		this.metadata.setShort(EntityDataType.MAX_AIR, (short) 300);
 	}
 	
 	@Override

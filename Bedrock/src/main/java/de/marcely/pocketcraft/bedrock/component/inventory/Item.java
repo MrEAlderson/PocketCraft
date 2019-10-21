@@ -1,6 +1,7 @@
 package de.marcely.pocketcraft.bedrock.component.inventory;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -53,6 +54,16 @@ public class Item {
 				stream.writeSignedVarLong(0);
 			
 		}
+	}
+	
+	@Override
+	public boolean equals(Object obj){
+		if(obj instanceof Item){
+			final Item item = (Item) obj;
+			
+			return item.id == this.id && item.amount == this.amount && item.data == item.data && Arrays.equals(this.tags, item.tags);
+		}else
+			return false;
 	}
 	
 	public static Item read(EByteArrayReader stream) throws IOException {

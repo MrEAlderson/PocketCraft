@@ -1,6 +1,6 @@
 package de.marcely.pocketcraft.java.network.packet.play.v8d9;
 
-import de.marcely.pocketcraft.java.component.BlockFace;
+import de.marcely.pocketcraft.java.component.v8.V8BlockFace;
 import de.marcely.pocketcraft.java.network.packet.PacketProperties;
 import de.marcely.pocketcraft.java.network.packet.PlayPacket;
 import de.marcely.pocketcraft.java.util.EByteBuf;
@@ -15,7 +15,7 @@ public class V8D9PacketPlaySpawnPainting extends PlayPacket {
 	public int x;
 	public int y;
 	public int z;
-	public BlockFace direction;
+	public V8BlockFace direction;
 
 	@Override
 	public void write(EByteBuf stream) throws Exception {
@@ -38,7 +38,7 @@ public class V8D9PacketPlaySpawnPainting extends PlayPacket {
 			this.z = loc.getFloorZ();
 		}
 		
-		this.direction = BlockFace.getBySideId(stream.readByte());
+		this.direction = V8BlockFace.getBySideId(stream.readByte());
 	}
 
 	@Override

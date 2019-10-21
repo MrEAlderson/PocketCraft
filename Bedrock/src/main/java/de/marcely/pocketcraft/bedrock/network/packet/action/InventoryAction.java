@@ -7,63 +7,66 @@ import lombok.ToString;
 import de.marcely.pocketcraft.bedrock.component.inventory.Item;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
-@ToString(exclude = "sourceFlags")
+@ToString
 public class InventoryAction {
 	
-	public final InventoryActionSourceType sourceType;
-	public final InventoryActionSlotType slotType;
-	public final long slot;
-	public final Item newItem, oldItem;
-	public final long sourceFlags;
+	public static final byte SOURCE_TYPE_CONTAINER = 0;
+	public static final byte SOURCE_TYPE_WORLD = 2;
+	public static final byte SOURCE_TYPE_CREATIVE = 3;
+	public static final byte SOURCE_TYPE_CRAFTING_GRID = 100;
+	// public static final int SOURCE_TYPE_TODO = 99999;
 	
-	public InventoryAction(InventoryActionSourceType sourceType, InventoryActionSlotType slotType, long slot, Item newItem, Item oldItem, long sourceFlags){
+	
+	
+	public final int sourceType;
+	public final int inventoryId;
+	public final int sourceFlags;
+	public final int slot;
+	public final Item newItem, oldItem;
+	
+	public InventoryAction(int sourceType, int inventoryId, int sourceFlags, int slot, Item newItem, Item oldItem){
 		this.sourceType = sourceType;
-		this.slotType = slotType;
+		this.inventoryId = inventoryId;
+		this.sourceFlags = sourceFlags;
 		this.slot = slot;
 		this.newItem = newItem;
 		this.oldItem = oldItem;
-		this.sourceFlags = sourceFlags;
 	}
 	
-	public void write(EByteArrayWriter writer) throws IOException {
-		writer.writeUnsignedVarInt(sourceType.id);
-		
-		switch(sourceType){
-		case CONTAINER:
-			writer.writeSignedVarInt(slotType.id);
-			break;
-		case WORLD:
-			writer.writeUnsignedVarInt(sourceFlags);
-			break;
-		default:
-			break;
-		}
-		
-		writer.writeUnsignedVarInt(slot);
-		
-		newItem.write(writer);
-		oldItem.write(writer);
-	}
+	public void write(EByteArrayWriter writer) throws IOException { }
 	
 	public static InventoryAction read(EByteArrayReader reader) throws IOException {
-		final InventoryActionSourceType sourceType = InventoryActionSourceType.VALUES.get(reader.readUnsignedVarInt());
-		InventoryActionSlotType slotType = null;
-		long sourceFlags = 0;
+		int sourceType = (int) reader.readUnsignedVarInt();
+		int inventoryId = 0xFF;
+		int sourceFlags = 0xFF;
+		int slot = 0xFF;
+		Item newItem = null, oldItem = null;
 		
 		switch(sourceType){
-		case CONTAINER:
-			slotType = InventoryActionSlotType.VALUES.get(reader.readSignedVarInt());
+		case SOURCE_TYPE_CONTAINER:
+			inventoryId = reader.readSignedVarInt();
 			break;
-		case WORLD:
-			sourceFlags = reader.readUnsignedVarInt();
+			
+		case SOURCE_TYPE_WORLD:
+			sourceFlags = (int) reader.readUnsignedVarInt();
 			break;
+			
+		case SOURCE_TYPE_CREATIVE:
+			break;
+			
+		case SOURCE_TYPE_CRAFTING_GRID:
+		// case SOURCE_TYPE_TODO:
+			inventoryId = reader.readSignedVarInt();
+			break;
+			
 		default:
-			break;
+			throw new IOException("Unkown inventory action source type: " + sourceType);
 		}
 		
-		final long slot = reader.readUnsignedVarInt();
-		final Item newItem = Item.read(reader), oldItem = Item.read(reader);
+		slot = (int) reader.readUnsignedVarInt();
+		oldItem = Item.read(reader);
+		newItem = Item.read(reader);
 		
-		return new InventoryAction(sourceType, slotType, slot, oldItem, newItem, sourceFlags);
+		return new InventoryAction(sourceType, inventoryId, sourceFlags, slot, newItem, oldItem);
 	}
 }

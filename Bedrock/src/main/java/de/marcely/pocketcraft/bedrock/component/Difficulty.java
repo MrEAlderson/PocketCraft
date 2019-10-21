@@ -13,7 +13,7 @@ public enum Difficulty {
 		return (byte) this.ordinal();
 	}
 	
-	public static @Nullable Difficulty ofId(byte id){
+	public static @Nullable Difficulty getById(byte id){
 		if(id < 0 || id >= values().length)
 			return null;
 		

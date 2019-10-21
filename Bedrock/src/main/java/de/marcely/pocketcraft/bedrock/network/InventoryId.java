@@ -8,4 +8,5 @@ public class InventoryId {
 	public static final byte SPECIAL_CREATIVE = 0x79;
 	public static final byte SPECIAL_HOTBAR = 0x7A;
 	public static final byte SPECIAL_FIXED_INVENTORY = 0x7B;
+	public static final byte SPECIAL_CURSOR = 0x7C;
 }

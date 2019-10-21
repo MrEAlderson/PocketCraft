@@ -30,6 +30,7 @@ import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayClient
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayClientPositionLook;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayClientStanding;
 import de.marcely.pocketcraft.translate.BedrockToJavaTranslator;
+import de.marcely.pocketcraft.translate.bedrocktojava.component.TranslateComponents;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -42,6 +43,7 @@ public class Player {
 	@Getter private final BedrockToJavaTranslator translator;
 	@Getter private final BedrockClient bedrock;
 	@Getter private final JavaClient java;
+	@Getter private final TranslateComponents translateComponents = new TranslateComponents();
 	
 	@Getter private final World world = new World(this);
 	@Getter private final PlayerPermissions permissions = PlayerPermissions.newDefaultInstance();

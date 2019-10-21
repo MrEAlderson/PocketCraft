@@ -4,8 +4,8 @@ import java.util.UUID;
 
 import org.jetbrains.annotations.Nullable;
 
-import de.marcely.pocketcraft.java.component.GameMode;
 import de.marcely.pocketcraft.java.component.chat.ChatBaseComponent;
+import de.marcely.pocketcraft.java.component.v8.V8GameMode;
 import de.marcely.pocketcraft.java.network.packet.PacketProperties;
 import de.marcely.pocketcraft.java.network.packet.PlayPacket;
 import de.marcely.pocketcraft.java.util.EByteBuf;
@@ -102,7 +102,7 @@ public class V8D9PacketPlayPlayerList extends PlayPacket {
 						property.signature = stream.readString();
 				}
 				
-				entry.mode = GameMode.ofId(stream.readVarInt());
+				entry.mode = V8GameMode.getById(stream.readVarInt());
 				entry.ping = stream.readVarInt();
 				
 				if(stream.readBoolean())
@@ -111,7 +111,7 @@ public class V8D9PacketPlayPlayerList extends PlayPacket {
 				break;
 				
 			case ACTION_UPDATE_GAMEMODE:
-				entry.mode = GameMode.ofId(stream.readVarInt());
+				entry.mode = V8GameMode.getById(stream.readVarInt());
 				
 				break;
 				
@@ -143,12 +143,12 @@ public class V8D9PacketPlayPlayerList extends PlayPacket {
 		public UUID id;
 		public String name;
 		public Property[] properties;
-		public GameMode mode;
+		public V8GameMode mode;
 		public int ping;
 		@Nullable public ChatBaseComponent displayName;
 		
 		// add
-		public PlayerListEntry(UUID id, String name, Property[] properties, GameMode mode, int ping, @Nullable ChatBaseComponent displayName){
+		public PlayerListEntry(UUID id, String name, Property[] properties, V8GameMode mode, int ping, @Nullable ChatBaseComponent displayName){
 			this.id = id;
 			this.name = name;
 			this.properties = properties;
@@ -158,7 +158,7 @@ public class V8D9PacketPlayPlayerList extends PlayPacket {
 		}
 		
 		// update gamemode
-		public PlayerListEntry(UUID id, GameMode mode){
+		public PlayerListEntry(UUID id, V8GameMode mode){
 			this.id = id;
 			this.mode = mode;
 		}

@@ -3,6 +3,7 @@ package de.marcely.pocketcraft.translate.bedrocktojava.world;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityEvent;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityAnimate;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityEvent;
+import de.marcely.pocketcraft.translate.bedrocktojava.component.TranslateComponents;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,18 +23,23 @@ public abstract class Entity extends de.marcely.pocketcraft.bedrock.component.wo
 		this.world = world;
 	}
 	
+	// childs can override these
 	public void tick(){ }
 	
 	public void onTeleport(){ }
 	
+	public float getBedrockPacketYAppend(){ return 0F; }
+	
+	// info
 	public int getId(){
 		return (int) this.getLongId();
 	}
 	
-	public float getBedrockPacketYAppend(){
-		return 0F;
+	public TranslateComponents getTranslateComponents(){
+		return this.world.getTranslateComponents();
 	}
 	
+	// utils
 	public void playEvent(EntityEvent event){
 		playEvent(event, 0);
 	}

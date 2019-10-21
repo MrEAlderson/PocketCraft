@@ -1,5 +1,6 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.world.entity.v8;
 
+import de.marcely.pocketcraft.bedrock.component.world.entity.EntityDataType;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityMove;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Chunk;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.World;
@@ -11,6 +12,8 @@ public abstract class V8EntityProjectile extends V8Entity {
 	
 	public V8EntityProjectile(World world, int id){
 		super(world, id);
+		
+		this.setDataFlag(EntityDataType.FLAG_IMMOBILE, true);
 	}
 	
 	@Override

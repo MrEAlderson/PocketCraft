@@ -1,8 +1,8 @@
 package de.marcely.pocketcraft.java.network.packet.play.v8d9;
 
-import de.marcely.pocketcraft.java.component.Difficulty;
-import de.marcely.pocketcraft.java.component.Dimension;
-import de.marcely.pocketcraft.java.component.GameMode;
+import de.marcely.pocketcraft.java.component.v8.V8Difficulty;
+import de.marcely.pocketcraft.java.component.v8.V8Dimension;
+import de.marcely.pocketcraft.java.component.v8.V8GameMode;
 import de.marcely.pocketcraft.java.network.packet.PacketProperties;
 import de.marcely.pocketcraft.java.network.packet.PlayPacket;
 import de.marcely.pocketcraft.java.util.EByteBuf;
@@ -12,10 +12,10 @@ public class V8D9PacketPlayLogin extends PlayPacket {
 	public static final PacketProperties PROPERTIES = new PacketProperties();
 	
 	public int entityId;
-	public GameMode gamemode;
+	public V8GameMode gamemode;
 	public boolean isHardcore;
-	public Dimension dimension;
-	public Difficulty difficulty;
+	public V8Dimension dimension;
+	public V8Difficulty difficulty;
 	public int maxPlayers;
 	public String levelType;
 	public boolean reducedDebugInfo;
@@ -37,11 +37,11 @@ public class V8D9PacketPlayLogin extends PlayPacket {
 		{
 			final int gm = stream.readUnsignedByte();
 			
-			this.gamemode = GameMode.ofId(gm & 0xFFFFFFF7);
+			this.gamemode = V8GameMode.getById(gm & 0xFFFFFFF7);
 			this.isHardcore = ((gm & 0x8) == 0x8);
 		}
-		this.dimension = Dimension.ofId(stream.readByte());
-		this.difficulty = Difficulty.ofId(stream.readUnsignedByte());
+		this.dimension = V8Dimension.getById(stream.readByte());
+		this.difficulty = V8Difficulty.getById(stream.readUnsignedByte());
 		this.maxPlayers = stream.readUnsignedByte();
 		this.levelType = stream.readString(16);
 		this.reducedDebugInfo = stream.readBoolean();
