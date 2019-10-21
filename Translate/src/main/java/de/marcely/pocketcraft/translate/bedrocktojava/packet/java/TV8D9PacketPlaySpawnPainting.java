@@ -3,7 +3,7 @@ package de.marcely.pocketcraft.translate.bedrocktojava.packet.java;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketSpawnEntityPainting;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlaySpawnPainting;
 import de.marcely.pocketcraft.translate.bedrocktojava.JavaPacketTranslator;
-import de.marcely.pocketcraft.translate.bedrocktojava.component.v8.V8BlockFaceTranslator;
+import de.marcely.pocketcraft.translate.bedrocktojava.component.TranslateComponents;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.entity.v8.V8Entity;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.entity.v8.V8EntityPainting;
@@ -31,7 +31,7 @@ public class TV8D9PacketPlaySpawnPainting extends JavaPacketTranslator<V8D9Packe
 			out.x = packet.x;
 			out.y = packet.y;
 			out.z = packet.z;
-			out.direction = V8BlockFaceTranslator.sideToBedrock(packet.direction);
+			out.direction = player.getTranslateComponents().toBedrock(packet.direction, TranslateComponents.BLOCK_FACE);
 			out.title = packet.paintingName;
 			
 			player.sendPacket(out);

@@ -12,9 +12,7 @@ import de.marcely.pocketcraft.bedrock.network.packet.PacketType;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayClientSettings;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayLogin;
 import de.marcely.pocketcraft.translate.bedrocktojava.JavaPacketTranslator;
-import de.marcely.pocketcraft.translate.bedrocktojava.component.v8.V8DifficultyTranslator;
-import de.marcely.pocketcraft.translate.bedrocktojava.component.v8.V8DimensionTranslator;
-import de.marcely.pocketcraft.translate.bedrocktojava.component.v8.V8GameModeTranslator;
+import de.marcely.pocketcraft.translate.bedrocktojava.component.TranslateComponents;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
 
 public class TV8D9PacketPlayLogin extends JavaPacketTranslator<V8D9PacketPlayLogin> {
@@ -25,7 +23,7 @@ public class TV8D9PacketPlayLogin extends JavaPacketTranslator<V8D9PacketPlayLog
 		{
 			// init player
 			{
-				final Dimension dimension = V8DimensionTranslator.toBedrock(packet.dimension);
+				final Dimension dimension = player.getTranslateComponents().toBedrock(packet.dimension, TranslateComponents.DIMENSION);
 				
 				player.getBedrock().initEntity(packet.entityId);
 				player.getWorld().setDimension(dimension);
@@ -101,19 +99,19 @@ public class TV8D9PacketPlayLogin extends JavaPacketTranslator<V8D9PacketPlayLog
 		
 		out.entityUniqueId = player.getEntityId();
 		out.entityRuntimeId = player.getEntityId();
-		out.gamemode = out.worldGamemode = V8GameModeTranslator.toBedrock(packet.gamemode);
+		out.gamemode = out.worldGamemode = player.getTranslateComponents().toBedrock(packet.gamemode, TranslateComponents.GAMEMODE);
 		out.x = 0;
 		out.y = 100;
 		out.z = 0;
 		out.yaw = 0F;
 		out.pitch = 0F;
 		out.seed = -1;
-		out.dimension = (byte) (V8DimensionTranslator.toBedrock(packet.dimension).getId());
+		out.dimension = (byte) ((Dimension) player.getTranslateComponents().toBedrock(packet.dimension, TranslateComponents.DIMENSION)).getId();
 		/* 0 = old
 		 * 1 = infinite
 		 * 2 = flat */
 		out.generator = 1;
-		out.difficulty = V8DifficultyTranslator.toBedrock(packet.difficulty);
+		out.difficulty = player.getTranslateComponents().toBedrock(packet.difficulty, TranslateComponents.DIFFICULTY);
 		out.spawnX = 0;
 		out.spawnY = 100;
 		out.spawnZ = 0;

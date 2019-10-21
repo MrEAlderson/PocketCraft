@@ -5,9 +5,7 @@ import de.marcely.pocketcraft.bedrock.network.packet.PacketGameDifficulty;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketGameMode;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayRespawn;
 import de.marcely.pocketcraft.translate.bedrocktojava.JavaPacketTranslator;
-import de.marcely.pocketcraft.translate.bedrocktojava.component.v8.V8DifficultyTranslator;
-import de.marcely.pocketcraft.translate.bedrocktojava.component.v8.V8DimensionTranslator;
-import de.marcely.pocketcraft.translate.bedrocktojava.component.v8.V8GameModeTranslator;
+import de.marcely.pocketcraft.translate.bedrocktojava.component.TranslateComponents;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
 
 public class TV8D9PacketPlayRespawn extends JavaPacketTranslator<V8D9PacketPlayRespawn> {
@@ -16,7 +14,7 @@ public class TV8D9PacketPlayRespawn extends JavaPacketTranslator<V8D9PacketPlayR
 	public void handle(V8D9PacketPlayRespawn packet, Player player){
 		// dimension
 		{
-			final Dimension dimension = V8DimensionTranslator.toBedrock(packet.dimension);
+			final Dimension dimension = player.getTranslateComponents().toBedrock(packet.dimension, TranslateComponents.DIMENSION);
 			
 			if(dimension == player.getWorld().getDimension())
 				return;
@@ -30,7 +28,7 @@ public class TV8D9PacketPlayRespawn extends JavaPacketTranslator<V8D9PacketPlayR
 		{
 			final PacketGameMode out = new PacketGameMode();
 			
-			out.mode = V8GameModeTranslator.toBedrock(packet.gamemode);
+			out.mode = player.getTranslateComponents().toBedrock(packet.gamemode, TranslateComponents.GAMEMODE);
 			
 			player.sendPacket(out);
 		}
@@ -39,7 +37,7 @@ public class TV8D9PacketPlayRespawn extends JavaPacketTranslator<V8D9PacketPlayR
 		{
 			final PacketGameDifficulty out = new PacketGameDifficulty();
 			
-			out.difficulty = V8DifficultyTranslator.toBedrock(packet.difficulty);
+			out.difficulty = player.getTranslateComponents().toBedrock(packet.difficulty, TranslateComponents.DIFFICULTY);
 			
 			player.sendPacket(out);
 		}

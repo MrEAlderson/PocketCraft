@@ -3,8 +3,7 @@ package de.marcely.pocketcraft.translate.bedrocktojava.world;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketFullChunk;
 import de.marcely.pocketcraft.java.component.v8.V8Biome;
 import de.marcely.pocketcraft.java.component.v8.V8ChunkSection;
-import de.marcely.pocketcraft.translate.bedrocktojava.component.v8.V8BiomeTranslator;
-import de.marcely.pocketcraft.translate.bedrocktojava.component.v8.V8BlockTranslator;
+import de.marcely.pocketcraft.translate.bedrocktojava.component.TranslateComponents;
 import de.marcely.pocketcraft.utils.Pair;
 import lombok.Getter;
 
@@ -46,7 +45,7 @@ public class V8Chunk extends Chunk {
 	}
 
 	@Override
-	public PacketFullChunk buildPacket(int x, int z){
+	public PacketFullChunk buildPacket(World world, int x, int z){
 		final de.marcely.pocketcraft.bedrock.component.world.Chunk bedrock = new de.marcely.pocketcraft.bedrock.component.world.Chunk();
 		
 		// sections
@@ -61,7 +60,8 @@ public class V8Chunk extends Chunk {
 					for(int iz=0; iz<16; iz++){
 						final int y = iy+si*16; 
 						
-						final Pair<Short, Byte> pair = V8BlockTranslator.toBedrock(section.getId(ix, iy, iz), section.getData(ix, iy, iz));
+						final Pair<Short, Byte> pair = world.getTranslateComponents()
+								.toBedrock(new Pair<Short, Byte>(section.getId(ix, iy, iz), section.getData(ix, iy, iz)), TranslateComponents.BLOCK);
 						
 						bedrock.setBlockId(ix, y, iz, pair.getEntry1());
 						bedrock.setBlockData(ix, y, iz, pair.getEntry2());
@@ -78,7 +78,7 @@ public class V8Chunk extends Chunk {
 				if(biome == null)
 					continue;
 				
-				bedrock.setBiome(ix, iz, V8BiomeTranslator.toBedrock(biome));
+				bedrock.setBiome(ix, iz, world.getTranslateComponents().toBedrock(biome, TranslateComponents.BIOME));
 			}
 		}
 		

@@ -4,7 +4,7 @@ import de.marcely.pocketcraft.bedrock.component.BlockMapping;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketBlockChange;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayBlockChange;
 import de.marcely.pocketcraft.translate.bedrocktojava.JavaPacketTranslator;
-import de.marcely.pocketcraft.translate.bedrocktojava.component.v8.V8BlockTranslator;
+import de.marcely.pocketcraft.translate.bedrocktojava.component.TranslateComponents;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.V8BlockEntityTranslator;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.V8Chunk;
@@ -35,7 +35,7 @@ public class TV8D9PacketPlayBlockChange extends JavaPacketTranslator<V8D9PacketP
 		
 		// send it to the player
 		if(chunk.isSent()){
-			final Pair<Short, Byte> pair = V8BlockTranslator.toBedrock(packet.id, packet.data);
+			final Pair<Short, Byte> pair = player.getTranslateComponents().toBedrock(new Pair<Short, Byte>(packet.id, packet.data), TranslateComponents.BLOCK);
 			final PacketBlockChange out = new PacketBlockChange();
 			
 			out.x = packet.x;

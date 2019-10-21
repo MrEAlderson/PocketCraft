@@ -7,7 +7,7 @@ import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayBlockP
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayClickEntity;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayWindowClick;
 import de.marcely.pocketcraft.translate.bedrocktojava.BedrockPacketTranslator;
-import de.marcely.pocketcraft.translate.bedrocktojava.component.v8.V8ItemTranslator;
+import de.marcely.pocketcraft.translate.bedrocktojava.component.TranslateComponents;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
 import de.marcely.pocketcraft.utils.math.Vector3;
 
@@ -59,7 +59,7 @@ public class TPacketInventoryAction extends BedrockPacketTranslator<PacketInvent
 		
 		out.position = new Vector3(action.blockPosX, action.blockPosY, action.blockPosZ);
 		out.face = -1;
-		out.item = V8ItemTranslator.toJava(action.item);
+		out.item = player.getTranslateComponents().toJava(action.item, TranslateComponents.ITEM);
 		out.cursorPosX = -1;
 		out.cursorPosY = -1;
 		out.cursorPosZ = -1;
@@ -135,7 +135,7 @@ public class TPacketInventoryAction extends BedrockPacketTranslator<PacketInvent
 				out.mode = V8D9PacketPlayWindowClick.MODE_MOUSE_CLICK;
 				out.transactionId = this.transactionId++;
 				out.slot = (short) slot;
-				out.clickedItem = V8ItemTranslator.toJava(oldSlotItem);
+				out.clickedItem = player.getTranslateComponents().toJava(oldSlotItem, TranslateComponents.ITEM);
 				
 				player.sendPacket(out);
 			}

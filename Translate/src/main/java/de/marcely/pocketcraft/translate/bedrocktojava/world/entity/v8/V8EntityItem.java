@@ -4,7 +4,7 @@ import de.marcely.pocketcraft.bedrock.component.world.entity.EntityType;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketDestroyEntity;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketSpawnEntityItem;
 import de.marcely.pocketcraft.java.component.entity.meta.V8EntityMetadata;
-import de.marcely.pocketcraft.translate.bedrocktojava.component.v8.V8ItemTranslator;
+import de.marcely.pocketcraft.translate.bedrocktojava.component.TranslateComponents;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.World;
 
 public class V8EntityItem extends V8EntityProjectile implements V8EntityObject {
@@ -52,7 +52,7 @@ public class V8EntityItem extends V8EntityProjectile implements V8EntityObject {
 				out.veloY = 0;
 				out.veloZ = 0;
 				out.metadata = this.getMetadata();
-				out.item = V8ItemTranslator.toBedrock(meta.readItem(key));
+				out.item = this.getWorld().getTranslateComponents().toBedrock(meta.readItem(key), TranslateComponents.ITEM);
 				
 				this.getWorld().getPlayer().sendPacket(out);
 			}

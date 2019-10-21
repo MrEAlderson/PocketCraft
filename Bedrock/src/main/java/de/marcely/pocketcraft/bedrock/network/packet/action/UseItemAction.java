@@ -51,7 +51,7 @@ public class UseItemAction extends Action {
 		final int blockPosY = (int) stream.readUnsignedVarInt();
 		final int blockPosZ = stream.readSignedVarInt();
 		final int f = stream.readSignedVarInt();
-		final BlockFace face = BlockFace.ofId((byte) f);
+		final BlockFace face = BlockFace.getById((byte) f);
 		final int hotbarSlot = stream.readSignedVarInt();
 		final Item item = Item.read(stream);
 		final float playerPosX = stream.readLFloat();

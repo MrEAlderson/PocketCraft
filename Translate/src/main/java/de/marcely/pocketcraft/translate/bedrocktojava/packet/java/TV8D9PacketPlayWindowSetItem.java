@@ -4,7 +4,7 @@ import de.marcely.pocketcraft.bedrock.network.InventoryId;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketInventorySetItem;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayWindowSetItem;
 import de.marcely.pocketcraft.translate.bedrocktojava.JavaPacketTranslator;
-import de.marcely.pocketcraft.translate.bedrocktojava.component.v8.V8ItemTranslator;
+import de.marcely.pocketcraft.translate.bedrocktojava.component.TranslateComponents;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
 
 public class TV8D9PacketPlayWindowSetItem extends JavaPacketTranslator<V8D9PacketPlayWindowSetItem> {
@@ -43,7 +43,7 @@ public class TV8D9PacketPlayWindowSetItem extends JavaPacketTranslator<V8D9Packe
 			
 			out.inventoryId = inventoryId;
 			out.slot = slot;
-			out.item = V8ItemTranslator.toBedrock(packet.item);
+			out.item = player.getTranslateComponents().toBedrock(packet.item, TranslateComponents.ITEM);
 			
 			player.sendPacket(out);
 		}

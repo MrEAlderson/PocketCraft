@@ -118,7 +118,7 @@ public class Player {
 						final boolean inDistance = isChunkInDistance(x, z, newChunkX, newChunkZ, this.viewDistance-1);
 						
 						if(!chunk.isSent() && inDistance){	
-							sendPacket(chunk.buildPacket(x, z));
+							sendPacket(chunk.buildPacket(this.world, x, z));
 							chunk.setSent(true);
 							sentChunks++;
 							

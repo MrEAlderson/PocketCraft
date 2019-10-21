@@ -16,7 +16,7 @@ public abstract class Chunk {
 	
 	@Getter @Setter private boolean sent = false;
 	
-	public abstract PacketFullChunk buildPacket(int x, int z);
+	public abstract PacketFullChunk buildPacket(World world, int x, int z);
 	
 	public abstract boolean isTransparentBlock(int x, int y, int z);
 	

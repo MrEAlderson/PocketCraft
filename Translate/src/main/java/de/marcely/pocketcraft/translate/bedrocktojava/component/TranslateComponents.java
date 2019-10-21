@@ -15,7 +15,7 @@ public class TranslateComponents {
 	public static final byte INVENTORY = 8;
 	public static final byte TEXT_COLOR = 9;
 	
-	private ComponentTranslator<?, ?>[] translators = new ComponentTranslator[9];
+	private ComponentTranslator<?, ?>[] translators = new ComponentTranslator[10];
 	
 	public TranslateComponents(){
 		this.translators[BIOME] = new V8BiomeTranslator();
@@ -26,7 +26,8 @@ public class TranslateComponents {
 		this.translators[FORMATTED_TEXT] = new V8FormattedTextTranslator();
 		this.translators[GAMEMODE] = new V8GameModeTranslator();
 		this.translators[ITEM] = new V8ItemTranslator();
-		this.translators[INVENTORY] = new V8InventoryTranslator();
+		// this.translators[INVENTORY] = new V8InventoryTranslator();
+		this.translators[TEXT_COLOR] = new V8TextColorTranslator();
 	}
 	@SuppressWarnings("unchecked")
 	public <T>T toBedrock(Object input, byte type){

@@ -5,7 +5,7 @@ import de.marcely.pocketcraft.bedrock.network.packet.PacketWorldEvent;
 import de.marcely.pocketcraft.java.component.v8.V8GameMode;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayChangeGameState;
 import de.marcely.pocketcraft.translate.bedrocktojava.JavaPacketTranslator;
-import de.marcely.pocketcraft.translate.bedrocktojava.component.v8.V8GameModeTranslator;
+import de.marcely.pocketcraft.translate.bedrocktojava.component.TranslateComponents;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
 
 import static de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayChangeGameState.*;
@@ -40,12 +40,12 @@ public class TV8D9PacketPlayChangeGameState extends JavaPacketTranslator<V8D9Pac
 		case KEY_CHANGE_GAMEMODE:
 		{
 			final PacketGameMode out = new PacketGameMode();
-			final V8GameMode mode = V8GameMode.ofId((int) packet.value);
+			final V8GameMode mode = V8GameMode.getById((int) packet.value);
 			
 			if(mode == null)
 				return;
 			
-			out.mode = V8GameModeTranslator.toBedrock(mode);
+			out.mode = player.getTranslateComponents().toBedrock(mode, TranslateComponents.GAMEMODE);
 			
 			player.sendPacket(out);
 		}
