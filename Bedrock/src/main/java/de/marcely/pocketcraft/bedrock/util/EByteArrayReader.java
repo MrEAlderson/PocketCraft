@@ -17,7 +17,7 @@ public class EByteArrayReader extends ByteArrayReader {
 	}
 	
 	public UUID readUUID() throws IOException {
-		return null;
+		return new UUID(this.readLLong(), this.readLLong());
 	}
 	
     public InetSocketAddress readAddress() throws IOException {

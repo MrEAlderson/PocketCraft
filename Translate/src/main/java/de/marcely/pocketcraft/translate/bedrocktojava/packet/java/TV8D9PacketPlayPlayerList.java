@@ -120,7 +120,7 @@ public class TV8D9PacketPlayPlayerList extends JavaPacketTranslator<V8D9PacketPl
 			out.type = action;
 			out.entries = entries.stream().toArray(PlayerListEntry[]::new);
 			
-			player.sendPacket(out);
+			// player.sendPacket(out);
 		}
 	}
 }

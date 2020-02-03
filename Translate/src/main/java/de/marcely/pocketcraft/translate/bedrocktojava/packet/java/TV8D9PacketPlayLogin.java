@@ -5,6 +5,8 @@ import de.marcely.pocketcraft.bedrock.component.GameRule;
 import de.marcely.pocketcraft.bedrock.component.GameRules;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityAttribute;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityAttributeType;
+import de.marcely.pocketcraft.bedrock.network.Protocol;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketBiomeDefinitionList;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityAttributes;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketGame;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketGameRules;
@@ -31,6 +33,7 @@ public class TV8D9PacketPlayLogin extends JavaPacketTranslator<V8D9PacketPlayLog
 			}
 			
 			sendGamePacket(packet, player);
+			player.sendPacket(new PacketBiomeDefinitionList());
 			
 			// test
 			{
@@ -66,7 +69,7 @@ public class TV8D9PacketPlayLogin extends JavaPacketTranslator<V8D9PacketPlayLog
 				
 				out.gameRules = rules;
 				
-				player.sendPacket(out);
+				// player.sendPacket(out);
 			}
 			
 			player.getBedrock().getEntity().sendAllMetadata(player.getBedrock());
@@ -117,19 +120,20 @@ public class TV8D9PacketPlayLogin extends JavaPacketTranslator<V8D9PacketPlayLog
 		out.spawnZ = 0;
 		out.hasAchievementsDisabled = true;
 		out.time = -1; //-1 = not stopped, any positive value = stopped at that time
-		out.eduMode = false;
+		out.eduEditionOffer = 0;
 		out.hasEduFeaturesEnabled = false;
 		out.rainLevel = 0F;
 		out.lightningLevel = 0F;
 		out.hasConfirmedPlatformLockedContent = false;
 		out.multiplayerGame = true;
 		out.broadcastToLAN = true;
-		out.xboxLiveBroadcastMode = 0;
-		out.platformBroadcastMode = 0;
+		out.xboxLiveBroadcastMode = PacketGame.GAME_PUBLISH_SETTING_PUBLIC;
+		out.platformBroadcastMode = PacketGame.GAME_PUBLISH_SETTING_PUBLIC;
 		out.commandsEnabled = true;
 		out.isTexturePacksRequired = true;
 		out.bonusChest = false;
 		out.defaultPermissionLevel = PacketGame.PERMISSION_LEVEL_MEMBER;
+		out.vanillaVersion = Protocol.VERSION_NAME;
 		out.levelId = ""; // folder name in base64
 		out.worldName = "";
 		out.premiumWorldTemplateID = "";

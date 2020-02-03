@@ -15,6 +15,11 @@ public class PacketGame extends PCPacket {
 	public static final byte PERMISSION_LEVEL_OPERATOR = 2;
 	public static final byte PERMISSION_LEVEL_CUSTOM = 3;
 	
+	public static final int GAME_PUBLISH_SETTING_NO_MULTI_PLAY = 0;
+    public static final int GAME_PUBLISH_SETTING_INVITE_ONLY = 1;
+    public static final int GAME_PUBLISH_SETTING_FRIENDS_ONLY = 2;
+    public static final int GAME_PUBLISH_SETTING_FRIENDS_OF_FRIENDS = 3;
+    public static final int GAME_PUBLISH_SETTING_PUBLIC = 4;
 	
     public long entityUniqueId;
     public long entityRuntimeId;
@@ -30,7 +35,7 @@ public class PacketGame extends PCPacket {
     public int spawnX, spawnY, spawnZ;
     public boolean hasAchievementsDisabled;
     public int time;
-    public boolean eduMode;
+    public int eduEditionOffer;
     public boolean hasEduFeaturesEnabled;
     public float rainLevel;
     public float lightningLevel;
@@ -54,10 +59,12 @@ public class PacketGame extends PCPacket {
     public boolean isWorldTemplateOptionLocked;
     public boolean isOnlySpawningV1Villagers;
     
+    public String vanillaVersion;
     public String levelId;
     public String worldName;
     public String premiumWorldTemplateID;
     public boolean isTrial;
+    public boolean isMovementServerAuthoritative;
     public long currentTick;
     public int enchantmentSeed;
 	public String multiplayerCorrelationID;
@@ -74,8 +81,8 @@ public class PacketGame extends PCPacket {
 		writer.writeSignedVarInt(this.gamemode.getId() & 0x03 /* */);
         
         writer.writeVector(this.x, this.y, this.z);
-        writer.writeLFloat(this.yaw);
         writer.writeLFloat(this.pitch);
+        writer.writeLFloat(this.yaw);
         
         writer.writeSignedVarInt(this.seed);
         writer.writeSignedVarInt(this.dimension);
@@ -85,7 +92,7 @@ public class PacketGame extends PCPacket {
         writer.writeBlockPosition(this.spawnX, this.spawnY, this.spawnZ);
         writer.writeBoolean(this.hasAchievementsDisabled);
         writer.writeSignedVarInt(this.time);
-        writer.writeBoolean(this.eduMode);
+        writer.writeSignedVarInt(this.eduEditionOffer);
         writer.writeBoolean(this.hasEduFeaturesEnabled);
         writer.writeLFloat(this.rainLevel);
         writer.writeLFloat(this.lightningLevel);
@@ -109,16 +116,17 @@ public class PacketGame extends PCPacket {
         writer.writeBoolean(this.isWorldTemplateOptionLocked);
         writer.writeBoolean(this.isOnlySpawningV1Villagers);
         
+        writer.writeString(this.vanillaVersion);
         writer.writeString(this.levelId);
         writer.writeString(this.worldName);
         writer.writeString(this.premiumWorldTemplateID);
         writer.writeBoolean(this.isTrial);
+        writer.writeBoolean(this.isMovementServerAuthoritative);
         writer.writeLLong(this.currentTick);
         
         writer.writeSignedVarInt(this.enchantmentSeed);
         
-        writer.writeUnsignedVarInt(BlockMapping.INSTANCE.getCachedTableSize());
-        writer.write(BlockMapping.INSTANCE.getCachedTable());
+        writer.write(BlockMapping.INSTANCE.getPalette());
         
         writer.writeUnsignedVarInt(ItemMapping.INSTANCE.cachedTableSize);
         writer.write(ItemMapping.INSTANCE.cachedTable);

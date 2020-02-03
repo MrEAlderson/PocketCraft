@@ -124,6 +124,8 @@ public class Player {
 							
 							// spawn him
 							if(this.spawnState == SPAWN_STATE_SENDING_CHUNKS && newChunkX == x && newChunkZ == z){
+								System.out.println("========== SPAWNED");
+								
 								final PacketLoginStatus out = new PacketLoginStatus();
 								
 								out.result = PacketLoginStatus.PLAYER_SPAWN;
@@ -149,7 +151,7 @@ public class Player {
 						out.z = (int) this.z;
 						out.radius = this.viewDistance << 4;
 						
-					    sendPacket(out);
+					   sendPacket(out);
 					}
 				}
 			}
@@ -313,6 +315,8 @@ public class Player {
 			out.posX = this.x;
 			out.posY = this.y;
 			out.posZ = this.z;
+			out.state = PacketRespawn.STATE_READY_TO_SPAWN;
+			out.entityRuntimeId = getEntityId();
 			
 			sendPacket(out);
 		}

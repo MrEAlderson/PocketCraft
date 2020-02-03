@@ -53,8 +53,10 @@ public class PacketBatch extends PCPacket {
 			
 			if(type != null){
 				final PCPacket packet = type.newInstance();
+				
 				packet.decode(reader2);
 				list.add(packet);
+			
 			}else
 				System.out.println("Received unkown packet '" + BinaryUtil.bytesToDisplayedHex((byte) id) + "'");
 			
@@ -71,7 +73,7 @@ public class PacketBatch extends PCPacket {
 		
 		for(PCPacket packet:packets){
 			try(EByteArrayWriter writer2 = new EByteArrayWriter()){
-				writer2.writeUnsignedVarInt(packet.getType().getId());
+				writer2.writeUnsignedVarInt(packet.getType().getId() & 0xFF);
 				packet.encode(writer2);
 				
 				writer.writeByteArray(writer2.toByteArray());

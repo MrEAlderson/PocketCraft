@@ -34,10 +34,12 @@ public class SkinData {
 	
 	public void write(EByteArrayWriter writer) throws IOException {
 		writer.writeString(this.skinId);
-        writer.writeByteArray(this.skinData);
+        writer.writeString(""); // skin resource path
+        
+		/*writer.writeByteArray(this.skinData);
         writer.writeByteArray(this.capeData);
         writer.writeString(this.geometryName);
-        writer.writeByteArray(this.geometryData);
+        writer.writeByteArray(this.geometryData);*/
     }
 	
 	public boolean isValid(){

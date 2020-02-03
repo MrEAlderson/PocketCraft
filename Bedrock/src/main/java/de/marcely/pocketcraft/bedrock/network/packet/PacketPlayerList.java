@@ -28,9 +28,14 @@ public class PacketPlayerList extends PCPacket {
 				writer.writeUUID(entry.uuid);
 				writer.writeSignedVarLong(entry.entityId);
 				writer.writeString(entry.name);
-				entry.skin.write(writer);
 				writer.writeString(entry.xboxId);
 				writer.writeString(entry.platformChatId);
+				writer.writeLInt(entry.buildPlatform);
+				
+				entry.skin.write(writer);
+				
+				writer.writeBoolean(entry.isTeacher);
+				writer.writeBoolean(entry.isHost);
 			}
 		
 		}else if(type == TYPE_REMOVE){
@@ -51,6 +56,8 @@ public class PacketPlayerList extends PCPacket {
 		public String name,  platformChatId = "";
 		public SkinData skin;
 		public String xboxId;
+		public int buildPlatform;
+		public boolean isTeacher, isHost;
 		
 		public PlayerListEntry(UUID uuid){ // only for remove
 			this(uuid, 0, null, null, "");

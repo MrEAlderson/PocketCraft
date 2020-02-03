@@ -83,7 +83,7 @@ public class V8Chunk extends Chunk {
 		}
 		
 		// others
-		bedrock.setBlockEntities(this.getBlockEntities());
+		bedrock.setBlockEntities(this.blockEntities);
 		
 		return bedrock.buildPacket(x, z);
 	}

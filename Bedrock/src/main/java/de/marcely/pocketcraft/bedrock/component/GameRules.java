@@ -19,7 +19,7 @@ public class GameRules {
 		return this.values.get(rule);
 	}
 	
-	public void setValue(GameRule rule, boolean value){
+	public void setValue(GameRule rule, Object value){
 		this.values.put(rule, value);
 	}
 	
@@ -47,7 +47,7 @@ public class GameRules {
 				break;
 				
 			case INT:
-				stream.writeUnsignedVarInt((long) val);
+				stream.writeUnsignedVarInt((int) val);
 				break;
 				
 			case FLOAT:
@@ -64,6 +64,7 @@ public class GameRules {
         rules.setValue(GameRule.DO_DAYLIGHT_CYCLE,  true);
         rules.setValue(GameRule.DO_ENTITY_DROPS,  true);
         rules.setValue(GameRule.DO_FIRE_TICK, true);
+        rules.setValue(GameRule.DO_IMMEDIATE_RESPAWN, false);
         rules.setValue(GameRule.DO_MOB_LOOT,  true);
         rules.setValue(GameRule.DO_MOB_SPAWNING,  true);
         rules.setValue(GameRule.DO_TILE_DROPS,  true);
@@ -75,6 +76,7 @@ public class GameRules {
         rules.setValue(GameRule.MOB_GRIEFING,  true);
         rules.setValue(GameRule.NATURAL_REGENERATION,  true);
         rules.setValue(GameRule.PVP,  true);
+        rules.setValue(GameRule.RANDOM_TICK_SPEED, 3);
         rules.setValue(GameRule.SEND_COMMAND_FEEDBACK,  true);
         rules.setValue(GameRule.SHOW_COORDINATES,  true);
         rules.setValue(GameRule.TNT_EXPLODES,  true);

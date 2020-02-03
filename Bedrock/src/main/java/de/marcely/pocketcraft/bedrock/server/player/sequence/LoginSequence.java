@@ -1,6 +1,7 @@
 package de.marcely.pocketcraft.bedrock.server.player.sequence;
 
 import de.marcely.pocketcraft.bedrock.component.ResourcePack;
+import de.marcely.pocketcraft.bedrock.network.Protocol;
 import de.marcely.pocketcraft.bedrock.network.packet.PCPacket;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketLogin;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketResourcePackStatus;
@@ -79,6 +80,8 @@ public class LoginSequence extends Sequence {
 				out.mustAccept = false;
 				out.behaviourPacks = new ResourcePack[0];
 				out.resourcePacks = new ResourcePack[0];
+				out.isExperimental = false;
+				out.gameVersion = Protocol.VERSION_NAME;
 				
 				player.sendPacket(out);
 			}

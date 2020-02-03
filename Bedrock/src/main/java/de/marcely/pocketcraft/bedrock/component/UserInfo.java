@@ -30,11 +30,11 @@ public class UserInfo {
 		
 		// skin
 		{
-			final String skinId = obj.get("SkinId").getAsString();
-			final byte[] skinData = Base64.getDecoder().decode(obj.get("SkinData").getAsString());
-			final byte[] geometryData = Base64.getDecoder().decode(obj.get("SkinGeometry").getAsString());
-			final String geometryName = obj.get("SkinGeometryName").getAsString();
-			final byte[] capeData = Base64.getDecoder().decode(obj.get("CapeData").getAsString());
+			final String skinId = "";//obj.get("SkinId").getAsString();
+			final byte[] skinData = new byte[0];//Base64.getDecoder().decode(obj.get("SkinData").getAsString());
+			final byte[] geometryData = new byte[0];//Base64.getDecoder().decode(obj.get("SkinGeometry").getAsString());
+			final String geometryName = "";// obj.get("SkinGeometryName").getAsString();
+			final byte[] capeData = new byte[0];//Base64.getDecoder().decode(obj.get("CapeData").getAsString());
 			
 			info.skin = new SkinData(skinId, skinData, capeData, geometryName, geometryData);
 		}

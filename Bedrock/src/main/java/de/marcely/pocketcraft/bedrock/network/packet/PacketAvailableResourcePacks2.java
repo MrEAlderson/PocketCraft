@@ -8,6 +8,8 @@ public class PacketAvailableResourcePacks2 extends PCPacket {
 	
 	public boolean mustAccept = false;
 	public ResourcePack[] resourcePacks, behaviourPacks;
+	public boolean isExperimental;
+	public String gameVersion;
 	
 	public PacketAvailableResourcePacks2(){
 		super(PacketType.AvailableResourcePacks2);
@@ -28,6 +30,9 @@ public class PacketAvailableResourcePacks2 extends PCPacket {
 			writer.writeString(pack.id);
 			writer.writeString(pack.version);
 		}
+		
+		writer.writeBoolean(this.isExperimental);
+		writer.writeString(this.gameVersion);
 	}
 
 	@Override

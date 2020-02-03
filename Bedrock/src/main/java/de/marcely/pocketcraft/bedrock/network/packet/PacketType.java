@@ -28,7 +28,7 @@ public enum PacketType {
 	PlayerMove(0x13, Channel.MOVEMENT, PacketPlayerMove.class),
 	BlockChange(0x15, Channel.BLOCKS, PacketBlockChange.class),
 	SpawnEntityPainting(0x16, Channel.ENTITY, PacketSpawnEntityPainting.class),
-	Explosion(0x17, Channel.BLOCKS, PacketExplosion.class),
+	Explosion(0x17, Channel.BLOCKS, PacketExplosion.class), // TICK_SYNC_PACKET
 	WorldEvent(0x19, Channel.WORLD_EVENTS, PacketWorldEvent.class),
 	BlockEvent(0x1A, Channel.BLOCKS, PacketBlockEvent.class),
 	EntityEvent(0x1B, Channel.ENTITY, PacketEntityEvent.class),
