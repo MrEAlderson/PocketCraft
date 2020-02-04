@@ -36,14 +36,15 @@ public class TV8D9PacketPlaySpawnObject extends JavaPacketTranslator<V8D9PacketP
 			
 			out.entityUniqueId = out.entityRuntimeId = packet.entityId;
 			out.type = entity.getType();
-			out.x = packet.x;
-			out.y = packet.y;
-			out.z = packet.z;
-			out.yaw = packet.yaw;
-			out.pitch = packet.pitch;
-			out.veloX = packet.veloX;
-			out.veloY = packet.veloY;
-			out.veloZ = packet.veloZ;
+			// vv it's important that we take the parameters from the entity and not from the packet since the entity might already changed them
+			out.x = entity.getX();
+			out.y = entity.getY();
+			out.z = entity.getZ();
+			out.yaw = entity.getYaw();
+			out.pitch = entity.getPitch();
+			out.veloX = entity.getVeloX();
+			out.veloY = entity.getVeloY();
+			out.veloZ = entity.getVeloZ();
 			out.metadata = entity.getMetadata();
 			out.attributes = new EntityAttribute[0];
 			

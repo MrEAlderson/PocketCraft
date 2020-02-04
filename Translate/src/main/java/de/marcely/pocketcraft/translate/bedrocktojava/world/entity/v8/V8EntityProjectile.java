@@ -13,7 +13,7 @@ public abstract class V8EntityProjectile extends V8Entity {
 	public V8EntityProjectile(World world, int id){
 		super(world, id);
 		
-		this.setDataFlag(EntityDataType.FLAG_IMMOBILE, true);
+		// this.setDataFlag(EntityDataType.FLAG_IMMOBILE, true);
 	}
 	
 	@Override
@@ -68,8 +68,8 @@ public abstract class V8EntityProjectile extends V8Entity {
 				out.y = this.localY + this.getBedrockPacketYAppend();
 				out.z = this.localZ;
 				out.yaw = this.yaw;
-				out.headYaw = this.headYaw;
 				out.pitch = this.pitch;
+				out.headYaw = this.headYaw;
 				out.isOnGround = this.isOnGround;
 				out.isTeleport = false;
 				

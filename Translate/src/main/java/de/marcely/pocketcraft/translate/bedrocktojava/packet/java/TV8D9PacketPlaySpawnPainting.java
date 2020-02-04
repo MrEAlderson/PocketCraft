@@ -28,9 +28,10 @@ public class TV8D9PacketPlaySpawnPainting extends JavaPacketTranslator<V8D9Packe
 			final PacketSpawnEntityPainting out = new PacketSpawnEntityPainting();
 			
 			out.entityRuntimeId = out.entityUniqueId = packet.entityId;
-			out.x = packet.x;
-			out.y = packet.y;
-			out.z = packet.z;
+			// vv it's important that we take the parameters from the entity and not from the packet since the entity might already changed them
+			out.x = entity.getX();
+			out.y = entity.getY();
+			out.z = entity.getZ();
 			out.direction = player.getTranslateComponents().toBedrock(packet.direction, TranslateComponents.BLOCK_FACE);
 			out.title = packet.paintingName;
 			

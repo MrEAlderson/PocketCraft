@@ -27,9 +27,10 @@ public class TV8D9PacketPlaySpawnExperienceOrb extends JavaPacketTranslator<V8D9
 			
 			out.entityUniqueId = out.entityRuntimeId = packet.entityId;
 			out.type = entity.getType();
-			out.x = packet.x;
-			out.y = packet.y;
-			out.z = packet.z;
+			// vv it's important that we take the parameters from the entity and not from the packet since the entity might already changed them
+			out.x = entity.getX();
+			out.y = entity.getY();
+			out.z = entity.getZ();
 			out.metadata = entity.getMetadata();
 			out.attributes = new EntityAttribute[0];
 			

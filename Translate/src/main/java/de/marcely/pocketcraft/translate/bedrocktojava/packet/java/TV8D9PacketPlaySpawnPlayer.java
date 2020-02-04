@@ -67,14 +67,16 @@ public class TV8D9PacketPlaySpawnPlayer extends JavaPacketTranslator<V8D9PacketP
 		{	
 			final PacketSpawnEntityPlayer out = new PacketSpawnEntityPlayer();
 			
+			// vv it's important that we take the parameters from the entity and not from the packet since the entity might already changed them
 			out.uuid = packet.uuid;
 			out.name = listEntry.getName();
-			out.entityUniqueId = out.entityRuntimeId = packet.entityId;
-			out.x = packet.x;
-			out.y = packet.y;
-			out.z = packet.z;
-			out.yaw = out.headYaw = packet.yaw;
-			out.pitch = packet.pitch;
+			out.entityUniqueId = out.entityRuntimeId = entity.getLongId();
+			out.x = entity.getX();
+			out.y = entity.getY();
+			out.z = entity.getZ();
+			out.yaw = entity.getYaw();
+			out.headYaw = entity.getHeadYaw();
+			out.pitch = entity.getPitch();
 			out.itemOnHand = new Item(0);
 			out.metadata = entity.getMetadata();
 			out.links = new EntityLink[0];
