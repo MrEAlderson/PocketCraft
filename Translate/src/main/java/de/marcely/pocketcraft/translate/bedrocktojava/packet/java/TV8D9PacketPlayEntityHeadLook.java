@@ -5,6 +5,7 @@ import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayEntity
 import de.marcely.pocketcraft.translate.bedrocktojava.JavaPacketTranslator;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Entity;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
+import de.marcely.pocketcraft.utils.math.MathUtil;
 
 public class TV8D9PacketPlayEntityHeadLook extends JavaPacketTranslator<V8D9PacketPlayEntityHeadLook> {
 
@@ -15,7 +16,10 @@ public class TV8D9PacketPlayEntityHeadLook extends JavaPacketTranslator<V8D9Pack
 		if(entity == null)
 			return;
 		
+		float yaw = calcHeadYaw(packet.headYaw, entity.getYaw(), 10F);
+		
 		{
+			entity.setYaw(yaw);
 			entity.setHeadYaw(packet.headYaw);
 		}
 		
@@ -23,11 +27,22 @@ public class TV8D9PacketPlayEntityHeadLook extends JavaPacketTranslator<V8D9Pack
 			final PacketEntityRelMove out = new PacketEntityRelMove();
 			
 			out.entityRuntimeId = packet.entityId;
-			out.flags = PacketEntityRelMove.FLAG_HAS_HEAD_YAW | PacketEntityRelMove.FLAG_HAS_YAW;
-			out.yaw = packet.headYaw-10;
+			out.flags |= PacketEntityRelMove.FLAG_HAS_HEAD_YAW;
+			// out.yaw = yaw;
 			out.headYaw = packet.headYaw;
 			
 			player.sendPacket(out);
 		}
 	}
+	
+    private float calcHeadYaw(float yaw, float headYaw, float range){
+        float value = MathUtil.circularDegrees(headYaw - yaw);
+        
+        if(value > range)
+        	value = range;
+        else if (value < -range)
+        	value = -range;
+
+        return yaw + value;
+    }
 }

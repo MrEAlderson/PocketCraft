@@ -3,6 +3,7 @@ package de.marcely.pocketcraft.translate.bedrocktojava.world;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityEvent;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityAnimate;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityEvent;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityMove;
 import de.marcely.pocketcraft.translate.bedrocktojava.component.TranslateComponents;
 import lombok.Getter;
 import lombok.Setter;
@@ -74,5 +75,21 @@ public abstract class Entity extends de.marcely.pocketcraft.bedrock.component.wo
 	
 	public void dismount(){
 		this.vehicleEntityId = -1;
+	}
+	
+	public void sendLocation(Player player, boolean isTeleport){
+		final PacketEntityMove out = new PacketEntityMove();
+		
+		out.entityRuntimeId = this.getId();
+		out.x = this.x;
+		out.y = this.y+getBedrockPacketYAppend();
+		out.z = this.z;
+		out.headYaw = this.headYaw;
+		out.yaw = this.yaw;
+		out.pitch = this.pitch;
+		out.isOnGround = this.isOnGround;
+		out.isTeleport = isTeleport;
+		
+		player.sendPacket(out);
 	}
 }

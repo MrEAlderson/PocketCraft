@@ -1,6 +1,6 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.packet.java;
 
-import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityMove;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityRelMove;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayEntityLook;
 import de.marcely.pocketcraft.translate.bedrocktojava.JavaPacketTranslator;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Entity;
@@ -15,26 +15,45 @@ public class TV8D9PacketPlayEntityLook extends JavaPacketTranslator<V8D9PacketPl
 		if(entity == null)
 			return;
 		
-		{
-			entity.setYaw(packet.yaw);
-			entity.setPitch(packet.pitch);
-			entity.setOnGround(packet.isOnGround);
-		}
+		final boolean sendAbsolute = packet.isOnGround != entity.isOnGround();
 		
 		{
-			final PacketEntityMove out = new PacketEntityMove();
+			// send absolute because isOnGround has changed. delta move packet doesn't have that, so we must send the absolute one
+			if(sendAbsolute){
+				{
+					entity.setYaw(packet.yaw);
+					entity.setPitch(packet.pitch);
+					entity.setOnGround(packet.isOnGround);
+				}
+				
+				entity.sendLocation(player, false);
+				
+				return;
+			}
 			
-			out.entityRuntimeId = packet.entityId;
-			out.x = entity.getX();
-			out.y = entity.getY()+entity.getBedrockPacketYAppend();
-			out.z = entity.getZ();
-			out.yaw = packet.yaw;
-			out.headYaw = entity.getHeadYaw();
-			out.pitch = packet.pitch;
-			out.isOnGround = packet.isOnGround;
-			out.isTeleport = false;
-			
-			player.sendPacket(out);
+			// delta
+			{
+				final PacketEntityRelMove out = new PacketEntityRelMove();
+				
+				out.entityRuntimeId = packet.entityId;
+				
+				if(packet.yaw != entity.getYaw()){
+					entity.setYaw(packet.yaw);
+					
+					out.flags |= PacketEntityRelMove.FLAG_HAS_YAW;
+					out.yaw = packet.yaw;
+				}
+				
+				if(packet.pitch != entity.getPitch()){
+					entity.setPitch(packet.pitch);
+					
+					out.flags |= PacketEntityRelMove.FLAG_HAS_PITCH;
+					out.pitch = packet.pitch;
+				}
+				
+				if(out.flags != 0)
+					player.sendPacket(out);
+			}
 		}
 	}
 }

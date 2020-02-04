@@ -31,8 +31,8 @@ public class PacketEntityMove extends PCPacket {
 		
 		writer.writeVector(this.x, this.y, this.z);
 		writer.writeSignedByte((byte) ((double) this.pitch/(360D/256D)));
-		writer.writeSignedByte((byte) ((double) this.headYaw/(360D/256D)));
 		writer.writeSignedByte((byte) ((double) this.yaw/(360D/256D)));
+		writer.writeSignedByte((byte) ((double) this.headYaw/(360D/256D)));
 	}
 
 	@Override

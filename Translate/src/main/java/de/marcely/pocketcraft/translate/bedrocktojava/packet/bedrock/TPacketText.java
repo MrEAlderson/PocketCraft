@@ -2,6 +2,7 @@ package de.marcely.pocketcraft.translate.bedrocktojava.packet.bedrock;
 
 import de.marcely.pocketcraft.bedrock.component.TextFormat;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityType;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityRelMove;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketText;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayClientChatMessage;
 import de.marcely.pocketcraft.translate.bedrocktojava.BedrockPacketTranslator;

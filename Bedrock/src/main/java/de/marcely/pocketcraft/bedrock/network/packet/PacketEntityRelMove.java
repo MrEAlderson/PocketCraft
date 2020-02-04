@@ -3,6 +3,10 @@ package de.marcely.pocketcraft.bedrock.network.packet;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
 
+/**
+ * 
+ * Position changes are currently broken
+ */
 public class PacketEntityRelMove extends PCPacket {
 
 	public static final byte FLAG_HAS_X = 0x01;
@@ -28,13 +32,13 @@ public class PacketEntityRelMove extends PCPacket {
 	@Override
 	public void encode(EByteArrayWriter writer) throws Exception {
 		writer.writeUnsignedVarLong(this.entityRuntimeId);
-		writer.writeSignedByte(this.flags);
+		writer.writeLShort(this.flags);
 		writeCoordinate(this.relX, FLAG_HAS_X, writer);
 		writeCoordinate(this.relY, FLAG_HAS_Y, writer);
 		writeCoordinate(this.relZ, FLAG_HAS_Z, writer);
 		writeRotation(this.pitch, FLAG_HAS_PITCH, writer);
-		writeRotation(this.yaw, FLAG_HAS_YAW, writer);
 		writeRotation(this.headYaw, FLAG_HAS_HEAD_YAW, writer);
+		writeRotation(this.yaw, FLAG_HAS_YAW, writer);
 	}
 
 	@Override
@@ -42,11 +46,11 @@ public class PacketEntityRelMove extends PCPacket {
 	
 	private void writeCoordinate(float val, byte flag, EByteArrayWriter writer) throws Exception {
 		if((this.flags & flag) > 0)
-			writer.writeSignedVarInt((int) (val * 65535F));
+			writer.writeSignedVarInt((int) (val * 32768F)); // <-- wrong
 	}
 	
 	private void writeRotation(float val, byte flag, EByteArrayWriter writer) throws Exception {
 		if((this.flags & flag) > 0)
-			writer.writeSignedByte((byte) (val * 256F / 360F));
+			writer.writeSignedByte((byte) (val * 256D / 360D));
 	}
 }
