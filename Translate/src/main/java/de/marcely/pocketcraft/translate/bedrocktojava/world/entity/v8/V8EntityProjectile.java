@@ -9,6 +9,7 @@ public abstract class V8EntityProjectile extends V8Entity {
 	
 	private float serverX, serverY, serverZ;
 	private float localX, localY, localZ;
+	private boolean ticked = false;
 	
 	public V8EntityProjectile(World world, int id){
 		super(world, id);
@@ -36,9 +37,10 @@ public abstract class V8EntityProjectile extends V8Entity {
 			
 			// gravity
 			{
-				this.veloX *= 0.99F;
-				this.veloY = this.veloY * 0.99F - getGravity();
-				this.veloZ *= 0.99F;
+				this.veloX *= getWeight() * getAdditionalWeight();
+				this.veloY = this.veloY * getWeight() - getGravity();
+				// this.veloY = this.veloY * getAdditionalWeight() - getAdditionalGravity();
+				this.veloZ *= getWeight() * getAdditionalWeight();
 			}
 			
 			// is hitting block
@@ -51,12 +53,12 @@ public abstract class V8EntityProjectile extends V8Entity {
 					this.veloZ = 0;
 					return;
 				
-				}else if(!chunk.isTransparentBlock(((int) this.x) & 0x10, (int) this.y, ((int) this.z) & 0x10)){
+				}/*else if(!chunk.isTransparentBlock(((int) this.x) & 0x10, (int) this.y, ((int) this.z) & 0x10)){
 					this.veloX = 0;
 					this.veloY = 0;
 					this.veloZ = 0;
 					return;
-				}
+				}*/
 			}
 			
 			// send packet
@@ -71,11 +73,13 @@ public abstract class V8EntityProjectile extends V8Entity {
 				out.pitch = this.pitch;
 				out.headYaw = this.headYaw;
 				out.isOnGround = this.isOnGround;
-				out.isTeleport = false;
+				out.isTeleport = !ticked;
 				
 				this.getWorld().getPlayer().sendPacket(out);
 			}
 		}
+		
+		ticked = true;
 	}
 	
 	@Override
@@ -87,5 +91,17 @@ public abstract class V8EntityProjectile extends V8Entity {
 	
 	public float getGravity(){
 		return 0.03F;
+	}
+	
+	public float getWeight(){
+		return 0.99F /* 0.8 in water */;
+	}
+	
+	public float getAdditionalGravity(){
+		return 0F;
+	}
+	
+	public float getAdditionalWeight(){
+		return 1F;
 	}
 }

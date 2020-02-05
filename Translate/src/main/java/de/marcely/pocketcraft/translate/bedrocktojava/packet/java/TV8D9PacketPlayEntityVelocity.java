@@ -1,5 +1,6 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.packet.java;
 
+import de.marcely.pocketcraft.bedrock.component.world.entity.EntityType;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityVelocity;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayEntityVelocity;
 import de.marcely.pocketcraft.translate.bedrocktojava.JavaPacketTranslator;
@@ -21,15 +22,13 @@ public class TV8D9PacketPlayEntityVelocity extends JavaPacketTranslator<V8D9Pack
 			entity.setVeloZ(packet.veloZ);
 		}
 		
-		{
-			final PacketEntityVelocity out = new PacketEntityVelocity();
-			
-			out.entityRuntimeId = packet.entityId;
-			out.veloX = packet.veloX;
-			out.veloY = packet.veloY;
-			out.veloZ = packet.veloZ;
-			
-			player.sendPacket(out);
-		}
+		final PacketEntityVelocity out = new PacketEntityVelocity();
+		
+		out.entityRuntimeId = packet.entityId;
+		out.veloX = packet.veloX;
+		out.veloY = packet.veloY;
+		out.veloZ = packet.veloZ;
+		
+		player.sendPacket(out);
 	}
 }

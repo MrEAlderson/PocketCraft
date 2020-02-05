@@ -28,7 +28,7 @@ public class TV8D9PacketPlayEntityHeadLook extends JavaPacketTranslator<V8D9Pack
 			
 			out.entityRuntimeId = packet.entityId;
 			out.flags |= PacketEntityRelMove.FLAG_HAS_HEAD_YAW;
-			out.headYaw = packet.headYaw;
+			out.headYaw = entity.getHeadYaw();
 			
 			player.sendPacket(out);
 		}

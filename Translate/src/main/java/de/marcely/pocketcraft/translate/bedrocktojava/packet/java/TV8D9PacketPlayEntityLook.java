@@ -41,14 +41,14 @@ public class TV8D9PacketPlayEntityLook extends JavaPacketTranslator<V8D9PacketPl
 					entity.setYaw(packet.yaw);
 					
 					out.flags |= PacketEntityRelMove.FLAG_HAS_YAW;
-					out.yaw = packet.yaw;
+					out.yaw = entity.getYaw();
 				}
 				
 				if(packet.pitch != entity.getPitch()){
 					entity.setPitch(packet.pitch);
 					
 					out.flags |= PacketEntityRelMove.FLAG_HAS_PITCH;
-					out.pitch = packet.pitch;
+					out.pitch = entity.getPitch();
 				}
 				
 				if(out.flags != 0)

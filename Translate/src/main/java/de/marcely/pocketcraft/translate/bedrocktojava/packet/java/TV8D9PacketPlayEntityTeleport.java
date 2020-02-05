@@ -29,13 +29,13 @@ public class TV8D9PacketPlayEntityTeleport extends JavaPacketTranslator<V8D9Pack
 			final PacketEntityMove out = new PacketEntityMove();
 			
 			out.entityRuntimeId = packet.entityId;
-			out.x = packet.x;
-			out.y = packet.y+entity.getBedrockPacketYAppend();
-			out.z = packet.z;
-			out.yaw = packet.yaw;
+			out.x = entity.getX();
+			out.y = entity.getY()+entity.getBedrockPacketYAppend();
+			out.z = entity.getZ();
+			out.yaw = entity.getYaw();
 			out.headYaw = entity.getHeadYaw();
-			out.pitch = packet.pitch;
-			out.isOnGround = packet.isOnGround;
+			out.pitch = entity.getPitch();
+			out.isOnGround = entity.isOnGround();
 			out.isTeleport = false;
 			
 			player.sendPacket(out);
