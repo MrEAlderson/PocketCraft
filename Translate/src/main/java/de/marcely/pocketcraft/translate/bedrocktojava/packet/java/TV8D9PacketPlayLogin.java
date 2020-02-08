@@ -69,7 +69,7 @@ public class TV8D9PacketPlayLogin extends JavaPacketTranslator<V8D9PacketPlayLog
 				
 				out.gameRules = rules;
 				
-				// player.sendPacket(out);
+				player.sendPacket(out);
 			}
 			
 			player.getBedrock().getEntity().sendAllMetadata(player.getBedrock());
