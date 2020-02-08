@@ -57,8 +57,8 @@ public class V8EntityArmorStand extends V8EntityLiving implements V8EntityObject
 			//this.setDataFlag(EntityDataType.FLAG_SHOWBASE, (map & 0x08) == 0);
 			
 			if((map & 0x16) > 0){ // marker
-			//	this.metadata.setFloat(EntityDataType.BOUNDING_BOX_WIDTH, 0F);
-			//	this.metadata.setFloat(EntityDataType.BOUNDING_BOX_HEIGHT, 0F);
+				this.metadata.setFloat(EntityDataType.BOUNDING_BOX_WIDTH, 0F);
+				this.metadata.setFloat(EntityDataType.BOUNDING_BOX_HEIGHT, 0F);
 			}else{
 				this.metadata.setFloat(EntityDataType.BOUNDING_BOX_WIDTH, getType().getWidth());
 				this.metadata.setFloat(EntityDataType.BOUNDING_BOX_HEIGHT, getType().getHeight());
@@ -72,7 +72,7 @@ public class V8EntityArmorStand extends V8EntityLiving implements V8EntityObject
 		case 14: // right arm position
 		case 15: // left leg position
 		case 16: // right leg position
-			break;
+			break; // bedrock edition does not support this. :(
 			
 		default:
 			super.read(meta, key);

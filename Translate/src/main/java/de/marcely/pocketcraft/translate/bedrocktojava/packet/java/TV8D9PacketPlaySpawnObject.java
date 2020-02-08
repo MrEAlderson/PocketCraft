@@ -48,6 +48,8 @@ public class TV8D9PacketPlaySpawnObject extends JavaPacketTranslator<V8D9PacketP
 			out.metadata = entity.getMetadata();
 			out.attributes = new EntityAttribute[0];
 			
+			System.out.println(entity.getVeloX() + " " + entity.getVeloY() + " " + entity.getVeloZ());
+			
 			player.sendPacket(out);
 		}
 	}

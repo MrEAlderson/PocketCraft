@@ -29,6 +29,11 @@ public class V8EntityItem extends V8EntityProjectile implements V8EntityObject {
 	}
 	
 	@Override
+	public void tick(){
+		
+	}
+	
+	@Override
 	public void read(V8EntityMetadata meta, int key){
 		if(key == 10){
 			// remove old one
@@ -48,9 +53,9 @@ public class V8EntityItem extends V8EntityProjectile implements V8EntityObject {
 				out.x = this.getX();
 				out.y = this.getY();
 				out.z = this.getZ();
-				out.veloX = 0;
-				out.veloY = 0;
-				out.veloZ = 0;
+				out.veloX = this.getVeloX();
+				out.veloY = this.getVeloY();
+				out.veloZ = this.getVeloZ();
 				out.metadata = this.getMetadata();
 				out.item = this.getWorld().getTranslateComponents().toBedrock(meta.readItem(key), TranslateComponents.ITEM);
 				

@@ -1,10 +1,32 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.component.v8;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import de.marcely.pocketcraft.translate.Resources;
 import de.marcely.pocketcraft.translate.bedrocktojava.component.ComponentTranslator;
 import de.marcely.pocketcraft.translate.bedrocktojava.component.TranslateComponents;
+import de.marcely.pocketcraft.translate.bedrocktojava.component.blockidtranslator.BlockState;
+import de.marcely.pocketcraft.translate.bedrocktojava.component.blockidtranslator.BlockStatesList;
 import de.marcely.pocketcraft.utils.Pair;
+import lombok.Cleanup;
 
 public class V8BlockTranslator implements ComponentTranslator<Pair<Short, Byte>, Pair<Short, Byte>> {
+	
+	private static BlockStatesList STATES_INSTANCE;
+	
+	static {
+		try{
+			final @Cleanup InputStream is = Resources.getResourceAsStream("blocks/1.8.json");
+			
+			STATES_INSTANCE = BlockStatesList.load(new Gson().fromJson(new InputStreamReader(is), JsonObject.class));
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
 	
 	// TODO
 	@Override
@@ -14,7 +36,7 @@ public class V8BlockTranslator implements ComponentTranslator<Pair<Short, Byte>,
 
 	@Override
 	public Pair<Short, Byte> toBedrock(TranslateComponents translate, Pair<Short, Byte> pair){
-		final short id = pair.getEntry1();
+		/*final short id = pair.getEntry1();
 		byte data = pair.getEntry2();
 		
 		switch(id){
@@ -43,7 +65,9 @@ public class V8BlockTranslator implements ComponentTranslator<Pair<Short, Byte>,
 		}
 		break;
 		}
+		*/
+		final BlockState state = STATES_INSTANCE.get(pair.getEntry1(), pair.getEntry2());
 		
-		return new Pair<>(id, data);
+		return state != null ? new Pair<>((short) state.bedrockId, (byte) state.bedrockData) : new Pair<>((short) 248 /* error block */, (byte) 0);
 	}
 }

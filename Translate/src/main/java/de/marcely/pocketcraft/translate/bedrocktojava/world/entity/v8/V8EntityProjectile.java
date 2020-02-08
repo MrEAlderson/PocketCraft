@@ -1,8 +1,6 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.world.entity.v8;
 
-import de.marcely.pocketcraft.bedrock.component.world.entity.EntityDataType;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityMove;
-import de.marcely.pocketcraft.translate.bedrocktojava.world.Chunk;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.World;
 
 public abstract class V8EntityProjectile extends V8Entity {
@@ -13,8 +11,6 @@ public abstract class V8EntityProjectile extends V8Entity {
 	
 	public V8EntityProjectile(World world, int id){
 		super(world, id);
-		
-		// this.setDataFlag(EntityDataType.FLAG_IMMOBILE, true);
 	}
 	
 	@Override
@@ -23,7 +19,7 @@ public abstract class V8EntityProjectile extends V8Entity {
 		super.tick();
 		
 		// update velocity
-		if(this.veloX != 0 || this.veloY != 0 || this.veloZ != 0){
+		/*if(this.veloX != 0 || this.veloY != 0 || this.veloZ != 0){
 			if(this.serverX != this.x || this.serverY != this.y || this.serverZ != this.z){
 				this.serverX = this.localX = this.x;
 				this.serverY = this.localY = this.y;
@@ -44,7 +40,7 @@ public abstract class V8EntityProjectile extends V8Entity {
 			}
 			
 			// is hitting block
-			{
+			/*{
 				final Chunk chunk = this.getWorld().getChunk((int) this.x >> 4, (int) this.z >> 4);
 				
 				if(chunk == null){
@@ -53,16 +49,16 @@ public abstract class V8EntityProjectile extends V8Entity {
 					this.veloZ = 0;
 					return;
 				
-				}/*else if(!chunk.isTransparentBlock(((int) this.x) & 0x10, (int) this.y, ((int) this.z) & 0x10)){
+				}else if(!chunk.isTransparentBlock(((int) this.x) & 0x10, (int) this.y, ((int) this.z) & 0x10)){
 					this.veloX = 0;
 					this.veloY = 0;
 					this.veloZ = 0;
 					return;
-				}*/
-			}
+				}
+			}*/
 			
 			// send packet
-			{
+			/*{
 				final PacketEntityMove out = new PacketEntityMove();
 				
 				out.entityRuntimeId = this.getId();
@@ -79,14 +75,12 @@ public abstract class V8EntityProjectile extends V8Entity {
 			}
 		}
 		
-		ticked = true;
+		ticked = true;*/
 	}
 	
 	@Override
 	public void onTeleport(){
-		this.veloX = 0;
-		this.veloY = 0;
-		this.veloZ = 0;
+		System.out.println(":)");
 	}
 	
 	public float getGravity(){

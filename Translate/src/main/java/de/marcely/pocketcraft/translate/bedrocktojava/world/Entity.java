@@ -1,6 +1,7 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.world;
 
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityEvent;
+import de.marcely.pocketcraft.bedrock.component.world.entity.EntityType;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityAnimate;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityEvent;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityMove;
@@ -89,6 +90,9 @@ public abstract class Entity extends de.marcely.pocketcraft.bedrock.component.wo
 		out.pitch = this.pitch;
 		out.isOnGround = this.isOnGround;
 		out.isTeleport = isTeleport;
+		
+		if(this.getType() == EntityType.ARROW)
+			System.out.println("ehho");
 		
 		player.sendPacket(out);
 	}

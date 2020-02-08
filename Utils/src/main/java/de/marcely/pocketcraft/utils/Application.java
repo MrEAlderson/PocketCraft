@@ -5,5 +5,6 @@ public enum Application {
 	RAKNET,
 	JAVA_CLIENT,
 	BEDROCK_SERVER,
-	BUKKIT;
+	BUKKIT,
+	TRANSLATE;
 }
