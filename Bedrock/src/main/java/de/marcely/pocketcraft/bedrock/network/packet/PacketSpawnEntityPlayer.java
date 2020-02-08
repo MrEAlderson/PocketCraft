@@ -22,6 +22,7 @@ public class PacketSpawnEntityPlayer extends PCPacket {
 	public long[] adventureSettings = new long[5];
 	public EntityLink[] links;
 	public String deviceId = "";
+	public int buildPlatform;
 	
 	public PacketSpawnEntityPlayer(){
 		super(PacketType.SpawnEntityPlayer);
@@ -55,6 +56,7 @@ public class PacketSpawnEntityPlayer extends PCPacket {
 		}
 		
 		writer.writeString(this.deviceId);
+		writer.writeLInt(this.buildPlatform);
 	}
 
 	@Override

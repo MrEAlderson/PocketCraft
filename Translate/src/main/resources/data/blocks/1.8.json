@@ -191,11 +191,35 @@
     },
     "43": {
       "bedrock_id": "minecraft:double_stone_slab",
-      "collision": "slab"
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": "cube"
     },
     "44": {
       "bedrock_id": "minecraft:stone_slab",
-      "collision": "slab"
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": {
+	     "id": "slab",
+         "0": { },
+         "1": { },
+         "2": { },
+         "3": { },
+         "4": { },
+         "5": { },
+         "6": { },
+         "7": { },
+         "8": { "set_y": 0.5 },
+         "9": { "set_y": 0.5 },
+         "10": { "set_y": 0.5 },
+         "11": { "set_y": 0.5 },
+         "12": { "set_y": 0.5 },
+         "13": { "set_y": 0.5 },
+         "14": { "set_y": 0.5 },
+         "15": { "set_y": 0.5 }
+	  }
     },
     "45": {
       "bedrock_id": "minecraft:brick_block",
@@ -410,10 +434,17 @@
       "collision": "repeater"
     },
     "95": {
-      "bedrock_id": "minecraft:stained_glass"
+      "bedrock_id": "minecraft:stained_glass",
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": "cubic"
     },
     "96": {
       "bedrock_id": "minecraft:trapdoor",
+	  "bedrock_data": {
+	     "same": 8
+	  },
       "collision": "trapdoor"
     },
     "97": {
@@ -524,7 +555,11 @@
       "collision": "cubic"
     },
     "125": {
-      "bedrock_id": "minecraft:dropper"
+      "bedrock_id": "minecraft:dropper",
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": "cubic"
     },
     "126": {
       "bedrock_id": "minecraft:activator_rail"
@@ -689,10 +724,18 @@
       "bedrock_id": "minecraft:red_sandstone_stairs"
     },
     "181": {
-      "bedrock_id": "minecraft:double_stone_slab2"
+      "bedrock_id": "minecraft:double_stone_slab2",
+	  "bedrock_data": {
+	     "same": 15
+	  },
+	  "collision": "cube"
     },
     "182": {
-      "bedrock_id": "minecraft:stone_slab2"
+      "bedrock_id": "minecraft:stone_slab2",
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": "slab"
     },
     "183": {
       "bedrock_id": "minecraft:spruce_fence_gate"
