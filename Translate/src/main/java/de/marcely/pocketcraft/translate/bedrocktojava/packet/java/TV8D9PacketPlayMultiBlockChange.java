@@ -29,7 +29,7 @@ public class TV8D9PacketPlayMultiBlockChange extends JavaPacketTranslator<V8D9Pa
 				if(beforeChunkX == null || (chunkX != beforeChunkX || chunkZ != beforeChunkZ)){
 					beforeChunkX = chunkX;
 					beforeChunkZ = chunkZ;
-					chunk = player.getWorld().getChunk(x >> 4, z >> 4, V8Chunk.class);
+					chunk = player.getWorld().getChunk(chunkX, chunkZ, V8Chunk.class);
 				}
 			}
 			

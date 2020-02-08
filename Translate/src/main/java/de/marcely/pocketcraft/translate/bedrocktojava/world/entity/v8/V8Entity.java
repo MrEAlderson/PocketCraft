@@ -2,11 +2,17 @@ package de.marcely.pocketcraft.translate.bedrocktojava.world.entity.v8;
 
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityDataType;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityEvent;
+import de.marcely.pocketcraft.bedrock.component.world.entity.EntityType;
 import de.marcely.pocketcraft.java.component.entity.meta.V8EntityMetadata;
+import de.marcely.pocketcraft.translate.bedrocktojava.world.Chunk;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Entity;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.World;
+import de.marcely.pocketcraft.translate.bedrocktojava.world.block.BlockInfo;
+import de.marcely.pocketcraft.translate.bedrocktojava.world.block.BlockState;
 
 import static de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayEntityEvent.*;
+
+import org.jetbrains.annotations.Nullable;
 
 public abstract class V8Entity extends Entity {
 	
@@ -19,6 +25,36 @@ public abstract class V8Entity extends Entity {
 	public boolean hasCustomSpawning(){ return false; }
 	
 	protected void onReadMeta(){ }
+	
+	@Override
+	public @Nullable BlockInfo getCollidingBlock(){
+		final EntityType type = this.getType();
+		
+		if(this.y + type.getHeight() < 0 || this.y > 255)
+			return null;
+		
+		final int maxX = (int) (this.x + type.getWidth());
+		final int maxY = Math.min((int) (this.y + type.getHeight()), 255);
+		final int maxZ = (int) (this.z + type.getWidth());
+		
+		for(int ix=(int) this.x; ix<=maxX; ix++){
+			for(int iy=Math.max((int) this.y, 0); iy<=maxY; iy++){
+				for(int iz=(int) this.z; iz<=maxZ; iz++){
+					final Chunk chunk = this.getWorld().getChunk(ix >> 4, iz >> 4);
+					
+					if(chunk == null)
+						continue;
+					
+					final BlockState state = chunk.getBlockState(Math.abs(ix % 16), iy, Math.abs(iz % 16));
+					
+					if(state != null && state.getCollision() != null && state.getCollision().collidesWith(ix, iy, iz, this))
+						return new BlockInfo(ix, iy, iz, state);
+				}
+			}
+		}
+		
+		return null;
+	}
 	
 	public void write(V8EntityMetadata meta){
 		{

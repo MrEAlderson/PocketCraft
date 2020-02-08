@@ -31,9 +31,7 @@ public class TV8D9PacketPlaySpawnPlayer extends JavaPacketTranslator<V8D9PacketP
 				packet.metadata.writeString(2, !listEntry.getName().isEmpty() ? listEntry.getName() : " ");
 			
 			entity.readAll(packet.metadata);
-			entity.setX(packet.x);
-			entity.setY(packet.y);
-			entity.setZ(packet.z);
+			entity.onNetworkPositionChange(packet.x, packet.y, packet.z, false);
 			entity.setYaw(packet.yaw);
 			entity.setHeadYaw(packet.yaw);
 			entity.setPitch(packet.pitch);

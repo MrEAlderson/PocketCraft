@@ -15,9 +15,7 @@ public class TV8D9PacketPlaySpawnPainting extends JavaPacketTranslator<V8D9Packe
 		final V8Entity entity = new V8EntityPainting(player.getWorld(), packet.entityId);
 		
 		{
-			entity.setX(packet.x);
-			entity.setY(packet.y);
-			entity.setZ(packet.z);
+			entity.onNetworkPositionChange(packet.x, packet.y, packet.z, false);
 			entity.setYaw(packet.direction.getSideId());
 		}
 		

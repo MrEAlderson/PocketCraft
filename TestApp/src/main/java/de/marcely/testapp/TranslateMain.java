@@ -15,7 +15,7 @@ import de.marcely.pocketcraft.java.network.protocol.Protocol;
 import de.marcely.pocketcraft.java.network.protocol.ProtocolV8D9;
 import de.marcely.pocketcraft.translate.BedrockToJavaTranslator;
 import de.marcely.pocketcraft.translate.Resources;
-import de.marcely.pocketcraft.translate.bedrocktojava.component.blockidtranslator.BlockStatesList;
+import de.marcely.pocketcraft.translate.bedrocktojava.world.block.IDBlockStatesList;
 import lombok.Cleanup;
 
 public class TranslateMain {
@@ -24,7 +24,7 @@ public class TranslateMain {
 		try{
 			final @Cleanup InputStream is = Resources.getResourceAsStream("blocks/1.8.json");
 			
-			BlockStatesList.load(new Gson().fromJson(new InputStreamReader(is), JsonObject.class));
+			IDBlockStatesList.load(new Gson().fromJson(new InputStreamReader(is), JsonObject.class));
 		}catch(Exception e){
 			e.printStackTrace();
 		}

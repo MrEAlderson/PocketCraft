@@ -1,12 +1,10 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.world.entity.v8;
 
-import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityMove;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.World;
+import de.marcely.pocketcraft.translate.bedrocktojava.world.block.BlockInfo;
 
 public abstract class V8EntityProjectile extends V8Entity {
 	
-	private float serverX, serverY, serverZ;
-	private float localX, localY, localZ;
 	private boolean ticked = false;
 	
 	public V8EntityProjectile(World world, int id){
@@ -14,68 +12,39 @@ public abstract class V8EntityProjectile extends V8Entity {
 	}
 	
 	@Override
-	// TODO: Remove block collision and replace it with proper block collision checks
 	public void tick(){
 		super.tick();
 		
 		// update velocity
-		/*if(this.veloX != 0 || this.veloY != 0 || this.veloZ != 0){
-			if(this.serverX != this.x || this.serverY != this.y || this.serverZ != this.z){
-				this.serverX = this.localX = this.x;
-				this.serverY = this.localY = this.y;
-				this.serverZ = this.localZ = this.z;
-				return;
-			}
-			
-			this.localX += this.veloX;
-			this.localY += this.veloY;
-			this.localZ += this.veloZ;
+		if(this.veloX != 0 || this.veloY != 0 || this.veloZ != 0){
+			this.x += this.veloX;
+			this.y += this.veloY;
+			this.z += this.veloZ;
 			
 			// gravity
 			{
 				this.veloX *= getWeight() * getAdditionalWeight();
 				this.veloY = this.veloY * getWeight() - getGravity();
-				// this.veloY = this.veloY * getAdditionalWeight() - getAdditionalGravity();
+				this.veloY = this.veloY * getAdditionalWeight() - getAdditionalGravity();
 				this.veloZ *= getWeight() * getAdditionalWeight();
 			}
 			
 			// is hitting block
-			/*{
-				final Chunk chunk = this.getWorld().getChunk((int) this.x >> 4, (int) this.z >> 4);
+			{
+				final BlockInfo block = this.getCollidingBlock();
 				
-				if(chunk == null){
+				if(block != null){
 					this.veloX = 0;
 					this.veloY = 0;
 					this.veloZ = 0;
-					return;
-				
-				}else if(!chunk.isTransparentBlock(((int) this.x) & 0x10, (int) this.y, ((int) this.z) & 0x10)){
-					this.veloX = 0;
-					this.veloY = 0;
-					this.veloZ = 0;
-					return;
 				}
-			}*/
+			}
 			
 			// send packet
-			/*{
-				final PacketEntityMove out = new PacketEntityMove();
-				
-				out.entityRuntimeId = this.getId();
-				out.x = this.localX;
-				out.y = this.localY + this.getBedrockPacketYAppend();
-				out.z = this.localZ;
-				out.yaw = this.yaw;
-				out.pitch = this.pitch;
-				out.headYaw = this.headYaw;
-				out.isOnGround = this.isOnGround;
-				out.isTeleport = !ticked;
-				
-				this.getWorld().getPlayer().sendPacket(out);
-			}
+			this.sendLocation(this.getWorld().getPlayer(), !ticked);
 		}
 		
-		ticked = true;*/
+		ticked = true;
 	}
 	
 	@Override

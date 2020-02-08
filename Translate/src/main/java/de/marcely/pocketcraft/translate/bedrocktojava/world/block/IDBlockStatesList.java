@@ -1,4 +1,4 @@
-package de.marcely.pocketcraft.translate.bedrocktojava.component.blockidtranslator;
+package de.marcely.pocketcraft.translate.bedrocktojava.world.block;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,11 +17,11 @@ import de.marcely.pocketcraft.bedrock.component.BlockMapping;
 import de.marcely.pocketcraft.utils.Application;
 import de.marcely.pocketcraft.utils.logger.Logger;
 
-public class BlockStatesList {
+public class IDBlockStatesList {
 	
 	private final BlockState[][] states;
 	
-	public BlockStatesList(BlockState[][] states){
+	public IDBlockStatesList(BlockState[][] states){
 		this.states = states;
 	}
 	
@@ -39,7 +39,7 @@ public class BlockStatesList {
 	
 	
 	
-	public static BlockStatesList load(JsonObject root) throws Exception {
+	public static IDBlockStatesList load(JsonObject root) throws Exception {
 		final List<BlockCollision> collisionInstances = new ArrayList<>();
 		final Map<String, BlockCollision> collisionBaseList = new HashMap<>();
 		final Map<String, Integer> idsMap = BlockMapping.loadIdsMap();
@@ -297,6 +297,6 @@ public class BlockStatesList {
 		
 		statesMap.entrySet().forEach(e -> states[e.getKey()] = e.getValue());
 		
-		return new BlockStatesList(states);
+		return new IDBlockStatesList(states);
 	}
 }

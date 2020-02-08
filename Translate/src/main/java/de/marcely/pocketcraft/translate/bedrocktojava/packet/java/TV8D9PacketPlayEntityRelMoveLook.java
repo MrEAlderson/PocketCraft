@@ -16,9 +16,7 @@ public class TV8D9PacketPlayEntityRelMoveLook extends JavaPacketTranslator<V8D9P
 		
 		{
 			{
-				entity.setX(entity.getX() + packet.relX);
-				entity.setY(entity.getY() + packet.relY);
-				entity.setZ(entity.getZ() + packet.relZ);
+				entity.onNetworkPositionChange(packet.relX, packet.relY, packet.relZ, true);
 				entity.setYaw(packet.yaw);
 				entity.setPitch(packet.pitch);
 				entity.setOnGround(packet.isOnGround);

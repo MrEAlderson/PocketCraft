@@ -1,11 +1,13 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.world;
 
+import org.jetbrains.annotations.Nullable;
+
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityEvent;
-import de.marcely.pocketcraft.bedrock.component.world.entity.EntityType;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityAnimate;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityEvent;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityMove;
 import de.marcely.pocketcraft.translate.bedrocktojava.component.TranslateComponents;
+import de.marcely.pocketcraft.translate.bedrocktojava.world.block.BlockInfo;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,7 +15,9 @@ public abstract class Entity extends de.marcely.pocketcraft.bedrock.component.wo
 	
 	@Getter private final World world;
 	
-	@Getter @Setter protected float x, y, z, yaw, pitch, headYaw;
+	@Getter @Setter protected float x, y, z;
+	@Getter @Setter protected float networkX, networkY, networkZ;
+	@Getter @Setter protected float yaw, pitch, headYaw;
 	@Getter @Setter protected float veloX, veloY, veloZ;
 	@Getter @Setter protected boolean isOnGround;
 	
@@ -24,6 +28,8 @@ public abstract class Entity extends de.marcely.pocketcraft.bedrock.component.wo
 		
 		this.world = world;
 	}
+	
+	public abstract @Nullable BlockInfo getCollidingBlock();
 	
 	// childs can override these
 	public void tick(){ }
@@ -91,9 +97,19 @@ public abstract class Entity extends de.marcely.pocketcraft.bedrock.component.wo
 		out.isOnGround = this.isOnGround;
 		out.isTeleport = isTeleport;
 		
-		if(this.getType() == EntityType.ARROW)
-			System.out.println("ehho");
-		
 		player.sendPacket(out);
+	}
+	
+	public void onNetworkPositionChange(float x, float y, float z, boolean relative){
+		if(relative){
+			this.x = this.networkX += x;
+			this.y = this.networkY += y;
+			this.z = this.networkZ += z;
+		
+		}else{
+			this.x = this.networkX = x;
+			this.y = this.networkY = y;
+			this.z = this.networkZ = z;
+		}
 	}
 }

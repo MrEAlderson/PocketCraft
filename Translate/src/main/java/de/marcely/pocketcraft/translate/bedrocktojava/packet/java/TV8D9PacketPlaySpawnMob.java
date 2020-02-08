@@ -18,9 +18,7 @@ public class TV8D9PacketPlaySpawnMob extends JavaPacketTranslator<V8D9PacketPlay
 			return;
 		
 		{
-			entity.setX(packet.x);
-			entity.setY(packet.y);
-			entity.setZ(packet.z);
+			entity.onNetworkPositionChange(packet.x, packet.y, packet.z, false);
 			entity.setYaw(packet.yaw);
 			entity.setHeadYaw(packet.headPitch);
 			entity.setPitch(packet.pitch);

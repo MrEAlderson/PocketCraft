@@ -15,9 +15,7 @@ public class TV8D9PacketPlaySpawnExperienceOrb extends JavaPacketTranslator<V8D9
 		final V8Entity entity = new V8EntityExperienceOrb(player.getWorld(), packet.entityId, packet.amount);
 		
 		{
-			entity.setX(packet.x);
-			entity.setY(packet.y);
-			entity.setZ(packet.z);
+			entity.onNetworkPositionChange(packet.x, packet.y, packet.z, false);
 		}
 		
 		player.getWorld().addEntity(entity);

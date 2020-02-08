@@ -16,9 +16,7 @@ public class TV8D9PacketPlayEntityRelMove extends JavaPacketTranslator<V8D9Packe
 		
 		{
 			{
-				entity.setX(entity.getX() + packet.relX);
-				entity.setY(entity.getY() + packet.relY);
-				entity.setZ(entity.getZ() + packet.relZ);
+				entity.onNetworkPositionChange(packet.relX, packet.relY, packet.relZ, true);
 				entity.setOnGround(packet.isOnGround);
 			}
 			

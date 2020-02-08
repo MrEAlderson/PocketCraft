@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 
 import de.marcely.pocketcraft.bedrock.component.world.blockentity.BlockEntity;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketFullChunk;
+import de.marcely.pocketcraft.translate.bedrocktojava.world.block.BlockState;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,7 +19,7 @@ public abstract class Chunk {
 	
 	public abstract PacketFullChunk buildPacket(World world, int x, int z);
 	
-	public abstract boolean isTransparentBlock(int x, int y, int z);
+	public abstract @Nullable BlockState getBlockState(int x, int y, int z);
 	
 	private short getBlockEntityIndex(int x, int y, int z){
 		return (short) (x | (y << 4) | (z << 12));

@@ -1,4 +1,4 @@
-package de.marcely.pocketcraft.translate.bedrocktojava.component.blockidtranslator;
+package de.marcely.pocketcraft.translate.bedrocktojava.world.block;
 
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Entity;
 import lombok.Data;
