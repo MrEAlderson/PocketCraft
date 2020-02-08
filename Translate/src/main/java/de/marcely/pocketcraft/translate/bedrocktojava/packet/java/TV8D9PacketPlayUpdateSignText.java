@@ -12,6 +12,9 @@ public class TV8D9PacketPlayUpdateSignText extends JavaPacketTranslator<V8D9Pack
 	public void handle(V8D9PacketPlayUpdateSignText packet, Player player){
 		final BlockEntitySign entity = (BlockEntitySign) player.getWorld().getBlockEntity(packet.x, packet.y, packet.z);
 		
+		if(entity == null)
+			return;
+		
 		{
 			final String[] lines = new String[4];
 			
