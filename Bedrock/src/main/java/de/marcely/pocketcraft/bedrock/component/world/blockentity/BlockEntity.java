@@ -26,16 +26,16 @@ public abstract class BlockEntity {
 	}
 	
 	public static @Nullable BlockEntity read(NBTCompound nbt){
-		final BlockEntityType type = BlockEntityType.getById(nbt.get("id").getValue(String.class));
+		final BlockEntityType type = BlockEntityType.getById(nbt.get("id").getValueData());
 		
 		if(type == null)
 			return null;
 		
 		final BlockEntity entity = type.newInstance();
 		
-		entity.x = nbt.get("x").getValue(int.class);
-		entity.y = nbt.get("y").getValue(int.class);
-		entity.z = nbt.get("z").getValue(int.class);
+		entity.x = nbt.get("x").getValueData();
+		entity.y = nbt.get("y").getValueData();
+		entity.z = nbt.get("z").getValueData();
 		
 		return entity;
 	}

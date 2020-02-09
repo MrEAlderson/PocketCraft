@@ -23,7 +23,7 @@ public class BlockEntityEnchantTable extends BlockEntity implements BlockEntityN
 	@Override
 	protected void _read(NBTCompound nbt){
 		if(nbt.contains("CustomName")){
-			this.customName = nbt.get("CustomName").getValue(String.class);
+			this.customName = nbt.get("CustomName").getValueData();
 		}
 	}
 	

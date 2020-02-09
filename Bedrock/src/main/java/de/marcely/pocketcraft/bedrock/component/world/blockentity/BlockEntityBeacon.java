@@ -26,9 +26,9 @@ public class BlockEntityBeacon extends BlockEntity {
 
 	@Override
 	protected void _read(NBTCompound nbt){
-		this.lock = nbt.get("Lock").getValue(String.class);
-		this.levels = nbt.get("Levels").getValue(int.class);
-		this.primary = nbt.get("Primary").getValue(int.class);
-		this.secondary = nbt.get("Secondary").getValue(int.class);
+		this.lock = nbt.get("Lock").getValueData();
+		this.levels = nbt.get("Levels").getValueData();
+		this.primary = nbt.get("Primary").getValueData();
+		this.secondary = nbt.get("Secondary").getValueData();
 	}
 }

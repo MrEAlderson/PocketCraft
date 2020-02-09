@@ -1,6 +1,5 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.world;
 
-import java.nio.ByteOrder;
 import java.util.Map.Entry;
 import java.util.UUID;
 
@@ -362,7 +361,7 @@ public class Player {
 		out.z = entity.getZ();
 		
 		{
-			final NBTCompound nbt = new NBTCompound(ByteOrder.LITTLE_ENDIAN);
+			final NBTCompound nbt = new NBTCompound();
 			
 			entity.write(nbt);
 			

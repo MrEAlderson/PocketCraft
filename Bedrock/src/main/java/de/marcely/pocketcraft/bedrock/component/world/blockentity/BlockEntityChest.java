@@ -29,12 +29,12 @@ public class BlockEntityChest extends BlockEntity implements BlockEntityNameable
 	@Override
 	protected void _read(NBTCompound nbt){
 		if(nbt.contains("pairx")){
-			this.pairX = nbt.get("pairx").getValue(int.class);
-			this.pairZ = nbt.get("pairz").getValue(int.class);
+			this.pairX = nbt.get("pairx").getValueData();
+			this.pairZ = nbt.get("pairz").getValueData();
 		}
 		
 		if(nbt.contains("CustomName")){
-			this.customName = nbt.get("CustomName").getValue(String.class);
+			this.customName = nbt.get("CustomName").getValueData();
 		}
 	}
 	

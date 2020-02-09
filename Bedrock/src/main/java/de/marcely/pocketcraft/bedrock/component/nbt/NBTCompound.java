@@ -1,5 +1,6 @@
 package de.marcely.pocketcraft.bedrock.component.nbt;
 
+import java.io.IOException;
 import java.nio.ByteOrder;
 import java.util.HashMap;
 import java.util.List;
@@ -21,25 +22,43 @@ import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTValueList;
 import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTValueLong;
 import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTValueShort;
 import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTValueString;
-import de.marcely.pocketcraft.utils.io.ByteArrayReader;
-import de.marcely.pocketcraft.utils.io.ByteArrayWriter;
+import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
 import lombok.Getter;
-import lombok.Setter;
 
 public class NBTCompound {
 	
-	@Getter @Setter private ByteOrder order;
-	@Getter private final String name;
-	
 	@Getter private final Map<String, NBTTag> tags = new HashMap<>();
 	
-	public NBTCompound(ByteOrder order){
-		this(order, "");
+	public void write(EByteArrayWriter stream, ByteOrder order, boolean isNetwork){
+		final NBTByteBuf buf = new NBTByteBuf(order, isNetwork);
+		
+		try{
+			write(buf);
+			
+			try{
+				stream.write(buf.array());
+			}catch(IOException e){
+				e.printStackTrace();
+			}
+		}finally{
+			buf.release();
+		}
 	}
 	
-	public NBTCompound(ByteOrder order, String name){
-		this.order = order;
-		this.name = name;
+	public void write(NBTByteBuf stream){
+		for(NBTTag tag:tags.values())
+			tag.write(stream);
+		
+		stream.writeByte(NBTValue.TYPE_END);
+	}
+	
+	public void read(NBTByteBuf stream){
+		this.tags.clear();
+		
+		NBTTag tag = null;
+		
+		while((tag = NBTTag.read(stream)) != null && tag.getValue().getType() != NBTValue.TYPE_END)
+			add(tag);
 	}
 	
 	public void add(NBTTag tag){
@@ -106,27 +125,58 @@ public class NBTCompound {
 		add(new NBTTag(name, new NBTValueIntArray(value)));
 	}
 	
+	@SuppressWarnings("unchecked")
+	private @Nullable <T>T getValue(String name){
+		final NBTTag tag = get(name);
+		
+		return tag != null ? (T) tag.getValue().getData() : null;
+	}
+	
+	public @Nullable Byte getByte(String name){
+		return getValue(name);
+	}
+	
+	public @Nullable Short getShort(String name){
+		return getValue(name);
+	}
+	
+	public @Nullable Integer getInt(String name){
+		return getValue(name);
+	}
+	
+	public @Nullable Long getLong(String name){
+		return getValue(name);
+	}
+	
+	public @Nullable Float getFloat(String name){
+		return getValue(name);
+	}
+	
+	public @Nullable Double getDouble(String name){
+		return getValue(name);
+	}
+	
+	public @Nullable byte[] getByteArray(String name){
+		return getValue(name);
+	}
+	
+	public @Nullable String getString(String name){
+		return getValue(name);
+	}
+	
+	public @Nullable List<NBTValue<?>> getList(String name){
+		return getValue(name);
+	}
+	
+	public @Nullable NBTCompound getCompound(String name){
+		return getValue(name);
+	}
+	
+	public @Nullable int[] getIntArray(String name){
+		return getValue(name);
+	}
+	
 	public void clear(){
 		this.tags.clear();
-	}
-	
-	public void write(ByteArrayWriter stream) throws Exception {
-		stream.writeSignedByte(NBTValue.TYPE_COMPOUND);
-		NBTValueString.writeString(stream, order, this.name);
-		
-		for(NBTTag tag:tags.values())
-			tag.write(stream, order);
-		
-		stream.writeSignedByte(NBTValue.TYPE_END);
-	}
-	
-	public static NBTCompound read(ByteArrayReader stream, ByteOrder order) throws Exception {
-		final NBTCompound c = new NBTCompound(order);
-		NBTTag tag = null;
-		
-		while((tag = NBTTag.read(stream, order)) != null && tag.getValue().getID() != NBTValue.TYPE_END)
-			c.add(tag);
-		
-		return c;
 	}
 }

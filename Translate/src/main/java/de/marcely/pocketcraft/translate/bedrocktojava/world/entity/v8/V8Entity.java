@@ -1,8 +1,10 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.world.entity.v8;
 
+import de.marcely.pocketcraft.bedrock.component.BlockMapping;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityDataType;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityEvent;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityType;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketBlockChange;
 import de.marcely.pocketcraft.java.component.entity.meta.V8EntityMetadata;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Chunk;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Entity;
@@ -50,6 +52,18 @@ public abstract class V8Entity extends Entity {
 						continue;
 					
 					final BlockState state = chunk.getBlockState(Math.abs(ix % 16), iy, Math.abs(iz % 16));
+					
+					{
+						PacketBlockChange change = new PacketBlockChange();
+						
+						change.x = ix;
+						change.y = iy;
+						change.z = iz;
+						change.flag = PacketBlockChange.FLAG_ALL;
+						change.blockRuntimeId = state != null ? BlockMapping.INSTANCE.getRuntimeId(state.getBedrockId(), state.getBedrockData()) : 0;
+						
+						this.getWorld().getPlayer().sendPacket(change);
+					}
 					
 					if(state == null || state.getCollision() == null)
 						continue;

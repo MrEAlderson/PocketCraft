@@ -26,10 +26,10 @@ public class BlockEntityMovingBlock extends BlockEntity {
 
 	@Override
 	protected void _read(NBTCompound nbt){
-		this.movingBlockId = nbt.get("movingBlockId").getValue(float.class);
-		this.movingBlockData = nbt.get("movingBlockData").getValue(float.class);
-		this.pistonPosX = nbt.get("pistonPosX").getValue(int.class);
-		this.pistonPosY = nbt.get("pistonPosY").getValue(int.class);
-		this.pistonPosZ = nbt.get("pistonPosZ").getValue(int.class);
+		this.movingBlockId = nbt.get("movingBlockId").getValueData();
+		this.movingBlockData = nbt.get("movingBlockData").getValueData();
+		this.pistonPosX = nbt.get("pistonPosX").getValueData();
+		this.pistonPosY = nbt.get("pistonPosY").getValueData();
+		this.pistonPosZ = nbt.get("pistonPosZ").getValueData();
 	}
 }

@@ -22,7 +22,7 @@ public class BlockEntityFlowerPot extends BlockEntity {
 
 	@Override
 	protected void _read(NBTCompound nbt){
-		this.item = nbt.get("item").getValue(short.class);
-		this.data = nbt.get("mData").getValue(int.class);
+		this.item = nbt.get("item").getValueData();
+		this.data = nbt.get("mData").getValueData();
 	}
 }

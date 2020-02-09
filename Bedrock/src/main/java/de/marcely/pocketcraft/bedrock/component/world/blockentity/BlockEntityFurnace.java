@@ -30,12 +30,12 @@ public class BlockEntityFurnace extends BlockEntity implements BlockEntityNameab
 
 	@Override
 	protected void _read(NBTCompound nbt){
-		this.burnDuration = nbt.get("BurnDuration").getValue(Short.class);
-		this.burnTime = nbt.get("BurnTime").getValue(Short.class);
-		this.cookTime = nbt.get("CookTime").getValue(Short.class);
+		this.burnDuration = nbt.get("BurnDuration").getValueData();
+		this.burnTime = nbt.get("BurnTime").getValueData();
+		this.cookTime = nbt.get("CookTime").getValueData();
 		
 		if(nbt.contains("CustomName")){
-			this.customName = nbt.get("CustomName").getValue(String.class);
+			this.customName = nbt.get("CustomName").getValueData();
 		}
 	}
 	

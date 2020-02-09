@@ -1,50 +1,46 @@
 package de.marcely.pocketcraft.bedrock.component.nbt.value;
 
-import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTNumericValue;
+import de.marcely.pocketcraft.bedrock.component.nbt.NBTByteBuf;
 import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTValue;
-import de.marcely.pocketcraft.utils.io.ByteArrayReader;
-import de.marcely.pocketcraft.utils.io.ByteArrayWriter;
 
-public class NBTValueList extends NBTNumericValue<List<NBTValue<?>>>  /* Numeric because we need to send a number*/ {
+public class NBTValueList extends NBTValue<List<NBTValue<?>>> {
 
 	public NBTValueList(List<NBTValue<?>> value){
 		super(value);
 	}
 
 	@Override
-	public byte getID(){ return TYPE_LIST; }
+	public byte getType(){ return TYPE_LIST; }
 
 	@Override
-	public void write(ByteArrayWriter stream, ByteOrder order) throws Exception {
-		if(this.value.size() >= 1) stream.writeSignedByte(this.value.get(0).getID());
-		else stream.writeSignedByte((byte) 0x01);
+	public void write(NBTByteBuf stream){
+		if(this.data.size() >= 1)
+			stream.writeByte(this.data.get(0).getType());
+		else
+			stream.writeByte(0x01);
 		
-		stream.writeSignedVarInt(this.value.size(), order);
+		stream.writeInt(this.data.size());
 		
-		for(NBTValue<?> val:this.value)
+		for(NBTValue<?> val:this.data)
 			val.write(stream);
 	}
 
 	@Override
-	public void read(ByteArrayReader stream, ByteOrder order) throws Exception {
-		final byte type = stream.readSignedByte();
-		final int length = stream.readSignedVarInt(order);
+	public void read(NBTByteBuf stream){
+		final byte type = stream.readByte();
+		final int length = stream.readInt();
 		
-		this.value = new ArrayList<>(length);
+		this.data = new ArrayList<>(length);
 		
 		for(int i=0; i<length; i++){
 			final NBTValue<?> val = NBTValue.newInstance(type);
 			
-			if(!(val instanceof NBTNumericValue))
-				val.read(stream);
-			else
-				((NBTNumericValue<?>) val).read(stream, order);
+			val.read(stream);
 			
-			this.value.add(val);
+			this.data.add(val);
 		}
 	}
 }

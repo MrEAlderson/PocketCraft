@@ -1,13 +1,12 @@
 package de.marcely.pocketcraft.bedrock.component.nbt;
 
+import java.io.IOException;
 import java.nio.ByteOrder;
 
 import de.marcely.pocketcraft.bedrock.component.nbt.NBTTag;
-import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTNumericValue;
 import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTValue;
-import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTValueString;
-import de.marcely.pocketcraft.utils.io.ByteArrayReader;
-import de.marcely.pocketcraft.utils.io.ByteArrayWriter;
+import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
+import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
 import lombok.Getter;
 
 public class NBTTag {
@@ -20,34 +19,53 @@ public class NBTTag {
 		this.value = value;
 	}
 	
-	public void write(ByteArrayWriter stream, ByteOrder order) throws Exception {
-		stream.writeSignedByte(this.value.getID());
+	public void write(EByteArrayWriter stream, ByteOrder order, boolean isNetwork){
+		final NBTByteBuf buf = new NBTByteBuf(order, isNetwork);
 		
-		if(this.value.getID() == NBTValue.TYPE_END) return;
+		try{
+			write(buf);
+			
+			try{
+				stream.write(buf.array());
+			}catch(IOException e){
+				e.printStackTrace();
+			}
+		}finally{
+			buf.release();
+		}
+	}
+	
+	public void write(NBTByteBuf stream){
+		stream.writeByte(this.value.getType());
 		
-		NBTValueString.writeString(stream, order, this.name);
+		if(this.value.getType() == NBTValue.TYPE_END) return;
 		
-		if(!(value instanceof NBTNumericValue))
-			value.write(stream);
-		else
-			((NBTNumericValue<?>) value).write(stream, order);
+		stream.writeUTF(this.name);
+		this.value.write(stream);
 	}
 	
 	@SuppressWarnings("unchecked")
-	public <T>T getValue(Class<T> clazz){
-		return (T) this.value;
+	public <T>T getValueData(){
+		return (T) this.value.getData();
 	}
 	
-	public static NBTTag read(ByteArrayReader stream, ByteOrder order) throws Exception {
-		final byte type = stream.readSignedByte();
+	public static NBTTag read(EByteArrayReader stream, ByteOrder order, boolean isNetwork){
+		final NBTByteBuf buf = new NBTByteBuf(stream.getBuffer(), order, isNetwork);
+		
+		try{
+			return read(buf);
+		}finally{
+			buf.release();
+		}
+	}
+	
+	public static NBTTag read(NBTByteBuf stream){
+		final byte type = stream.readByte();
 		if(type == NBTValue.TYPE_END) return new NBTTag(null, NBTValue.newInstance(NBTValue.TYPE_END));
-		final String name = NBTValueString.readString(stream, order);
+		final String name = stream.readUTF();
 		final NBTValue<?> value = NBTValue.newInstance(type);
 		
-		if(!(value instanceof NBTNumericValue))
-			value.read(stream);
-		else
-			((NBTNumericValue<?>) value).read(stream, order);
+		value.read(stream);
 		
 		return new NBTTag(name, value);
 	}

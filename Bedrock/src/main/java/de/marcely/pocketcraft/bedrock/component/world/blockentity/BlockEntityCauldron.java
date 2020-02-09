@@ -22,7 +22,7 @@ public class BlockEntityCauldron extends BlockEntity {
 
 	@Override
 	protected void _read(NBTCompound nbt){
-		this.potionId = nbt.get("PotionId").getValue(short.class);
-		this.splashPotion = nbt.get("SplashPotion").getValue(byte.class);
+		this.potionId = nbt.get("PotionId").getValueData();
+		this.splashPotion = nbt.get("SplashPotion").getValueData();
 	}
 }

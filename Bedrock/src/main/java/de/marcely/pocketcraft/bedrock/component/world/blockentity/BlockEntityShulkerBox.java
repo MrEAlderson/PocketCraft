@@ -25,10 +25,10 @@ public class BlockEntityShulkerBox extends BlockEntity implements BlockEntityNam
 
 	@Override
 	protected void _read(NBTCompound nbt){
-		this.facing = nbt.get("facing").getValue(byte.class);
+		this.facing = nbt.get("facing").getValueData();
 		
 		if(nbt.contains("CustomName")){
-			this.customName = nbt.get("CustomName").getValue(String.class);
+			this.customName = nbt.get("CustomName").getValueData();
 		}
 	}
 	

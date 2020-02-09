@@ -22,7 +22,7 @@ public class BlockEntitySkull extends BlockEntity {
 
 	@Override
 	protected void _read(NBTCompound nbt){
-		this.skullType = nbt.get("SkullType").getValue(byte.class);
-		this.rotation = nbt.get("Rot").getValue(byte.class);
+		this.skullType = nbt.get("SkullType").getValueData();
+		this.rotation = nbt.get("Rot").getValueData();
 	}
 }

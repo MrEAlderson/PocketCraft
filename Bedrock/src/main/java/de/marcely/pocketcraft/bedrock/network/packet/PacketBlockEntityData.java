@@ -1,6 +1,9 @@
 package de.marcely.pocketcraft.bedrock.network.packet;
 
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
+
+import java.nio.ByteOrder;
+
 import de.marcely.pocketcraft.bedrock.component.nbt.NBTCompound;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
@@ -18,7 +21,7 @@ public class PacketBlockEntityData extends PCPacket {
 		writer.writeSignedVarInt(this.x);
 		writer.writeUnsignedVarInt(this.y);
 		writer.writeSignedVarInt(this.z);
-		this.data.write(writer);
+		this.data.write(writer, ByteOrder.LITTLE_ENDIAN, false);
 	}
 
 	@Override

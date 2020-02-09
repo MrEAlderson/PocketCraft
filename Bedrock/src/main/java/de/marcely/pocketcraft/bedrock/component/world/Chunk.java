@@ -84,7 +84,7 @@ public class Chunk {
 		// block entities
 		try{
 			if(this.blockEntities != null && this.blockEntities.size() >= 1){
-				final NBTCompound nbt = new NBTCompound(ByteOrder.LITTLE_ENDIAN);
+				final NBTCompound nbt = new NBTCompound();
 				
 				for(Entry<Short, BlockEntity> e:this.blockEntities.entrySet()){
 					final BlockEntity entity = e.getValue();
@@ -101,7 +101,7 @@ public class Chunk {
 					// write
 					{
 						entity.write(nbt);
-						nbt.write(stream);
+						nbt.write(stream, ByteOrder.LITTLE_ENDIAN, true);
 						nbt.clear();
 					}
 				}

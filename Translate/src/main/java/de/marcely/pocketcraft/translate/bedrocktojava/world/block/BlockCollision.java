@@ -1,5 +1,7 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.world.block;
 
+import org.jetbrains.annotations.Nullable;
+
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,10 +15,16 @@ public class BlockCollision implements Cloneable {
 		this.entries = entries;
 	}
 	
-	public Cube getCollidingWith(int blockX, int blockY, int blockZ, Entity entity){
+	public @Nullable Cube getCollidingWith(int blockX, int blockY, int blockZ, Entity entity){
 		final float x = entity.getX() - blockX;
 		final float y = entity.getY() - blockY;
 		final float z = entity.getZ() - blockZ;
+		
+		// if(Math.abs(x) > 1D || Math.abs(y) > 1D || Math.abs(z) > 1D)
+		//	return null;
+		
+		System.out.println(x + " " + y + " " + z);
+		
 		final float width = entity.getType().getWidth();
 		final float height = entity.getType().getHeight();
 		

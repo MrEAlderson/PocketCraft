@@ -20,6 +20,6 @@ public class BlockEntityBed extends BlockEntity {
 
 	@Override
 	protected void _read(NBTCompound nbt){
-		this.color = nbt.get("color").getValue(byte.class);
+		this.color = nbt.get("color").getValueData();
 	}
 }

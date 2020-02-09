@@ -32,15 +32,15 @@ public class BlockEntityBrewingStand extends BlockEntity implements BlockEntityN
 
 	@Override
 	protected void _read(NBTCompound nbt){
-		this.fuelTotal = nbt.get("FuelTotal").getValue(short.class);
-		this.fuelAmount = nbt.get("FuelAmount").getValue(short.class);
+		this.fuelTotal = nbt.get("FuelTotal").getValueData();
+		this.fuelAmount = nbt.get("FuelAmount").getValueData();
 		
 		if(nbt.contains("CookTime")){
-			this.brewTime = nbt.get("CookTime").getValue(short.class);
+			this.brewTime = nbt.get("CookTime").getValueData();
 		}
 		
 		if(nbt.contains("CustomName")){
-			this.customName = nbt.get("CustomName").getValue(String.class);
+			this.customName = nbt.get("CustomName").getValueData();
 		}
 	}
 	

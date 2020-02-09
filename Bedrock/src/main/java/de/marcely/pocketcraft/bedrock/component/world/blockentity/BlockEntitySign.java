@@ -27,6 +27,8 @@ public class BlockEntitySign extends BlockEntity {
 
 	@Override
 	protected void _read(NBTCompound nbt){
-		this.lines = nbt.get("Text").getValue(String.class).split("\n", 4);
+		final String rawLines = nbt.get("Text").getValueData();
+		
+		this.lines = rawLines.split("\n", 4);
 	}
 }

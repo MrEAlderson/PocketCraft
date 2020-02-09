@@ -2,8 +2,7 @@ package de.marcely.pocketcraft.bedrock.component.nbt.value;
 
 import org.jetbrains.annotations.Nullable;
 
-import de.marcely.pocketcraft.utils.io.ByteArrayReader;
-import de.marcely.pocketcraft.utils.io.ByteArrayWriter;
+import de.marcely.pocketcraft.bedrock.component.nbt.NBTByteBuf;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,17 +21,17 @@ public abstract class NBTValue<T> {
 	public static final byte TYPE_COMPOUND = 0x0A;
 	public static final byte TYPE_INT_ARRAY = 0x0B;	
 	
-	@Getter @Setter protected T value;
+	@Getter @Setter protected T data;
 	
 	public NBTValue(T value){
-		this.value = value;
+		this.data = value;
 	}
 	
-	public abstract byte getID();
+	public abstract byte getType();
 	
-	public abstract void write(ByteArrayWriter stream) throws Exception;
+	public abstract void write(NBTByteBuf stream);
 	
-	public abstract void read(ByteArrayReader stream) throws Exception;
+	public abstract void read(NBTByteBuf stream);
 	
 	public static @Nullable NBTValue<?> newInstance(byte type){
 		switch(type){

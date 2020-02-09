@@ -1,33 +1,29 @@
 package de.marcely.pocketcraft.bedrock.component.nbt.value;
 
-import java.nio.ByteOrder;
+import de.marcely.pocketcraft.bedrock.component.nbt.NBTByteBuf;
 
-import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTNumericValue;
-import de.marcely.pocketcraft.utils.io.ByteArrayReader;
-import de.marcely.pocketcraft.utils.io.ByteArrayWriter;
-
-public class NBTValueIntArray extends NBTNumericValue<int[]> /* Numeric because we need to send a number*/ {
+public class NBTValueIntArray extends NBTValue<int[]> {
 
 	public NBTValueIntArray(int[] value){
 		super(value);
 	}
 
 	@Override
-	public byte getID(){ return TYPE_BYTE_ARRAY; }
+	public byte getType(){ return TYPE_BYTE_ARRAY; }
 
 	@Override
-	public void write(ByteArrayWriter stream, ByteOrder order) throws Exception {
-		stream.writeSignedVarInt(this.value.length, order);
+	public void write(NBTByteBuf stream){
+		stream.writeInt(this.data.length);
 		
-		for(Integer b:this.value)
-			stream.writeSignedVarInt(b, order);;
+		for(int e:this.data)
+			stream.writeInt(e);
 	}
 
 	@Override
-	public void read(ByteArrayReader stream, ByteOrder order) throws Exception {
-		this.value = new int[stream.readSignedVarInt(order)];
+	public void read(NBTByteBuf stream){
+		this.data = new int[stream.readInt()];
 		
-		for(int i=0; i<this.value.length; i++)
-			this.value[i] = stream.readSignedVarInt(order);
+		for(int i=0; i<this.data.length; i++)
+			this.data[i] = stream.readInt();
 	}
 }
