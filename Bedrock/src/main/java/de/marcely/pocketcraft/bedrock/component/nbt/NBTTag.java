@@ -44,6 +44,18 @@ public class NBTTag {
 		this.value.write(stream);
 	}
 	
+	public byte[] write(ByteOrder order, boolean isNetwork){
+		final NBTByteBuf buf = new NBTByteBuf(order, isNetwork);
+		
+		try{
+			write(buf);
+			
+			return buf.array();
+		}finally{
+			buf.release();
+		}
+	}
+	
 	@SuppressWarnings("unchecked")
 	public <T>T getValueData(){
 		return (T) this.value.getData();
@@ -61,7 +73,10 @@ public class NBTTag {
 	
 	public static NBTTag read(NBTByteBuf stream){
 		final byte type = stream.readByte();
-		if(type == NBTValue.TYPE_END) return new NBTTag(null, NBTValue.newInstance(NBTValue.TYPE_END));
+		
+		if(type == NBTValue.TYPE_END)
+			return new NBTTag(null, NBTValue.newInstance(NBTValue.TYPE_END));
+		
 		final String name = stream.readUTF();
 		final NBTValue<?> value = NBTValue.newInstance(type);
 		

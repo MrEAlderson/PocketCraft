@@ -2,9 +2,7 @@ package de.marcely.pocketcraft.bedrock.component;
 
 import java.io.InputStreamReader;
 import java.nio.ByteOrder;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
@@ -26,7 +24,7 @@ public class BlockMapping {
 	public static BlockMapping INSTANCE;
 	
 	@Getter private byte[] palette;
-	@Getter private List<Integer> runtimeIds = new ArrayList<>();
+	@Getter private Map<Integer, Integer> legacyToRuntimeIds;
 	
 	static {
 		try{
@@ -41,7 +39,9 @@ public class BlockMapping {
 	 * @return Returns -1 if it hasn't been found
 	 */
 	public int getRuntimeId(int legacyId){
-		return this.runtimeIds.indexOf(legacyId);
+		final Integer runtimeId = this.legacyToRuntimeIds.get(legacyId);
+		
+		return runtimeId != null ? runtimeId : -1;
 	}
 	
 	/**
@@ -49,42 +49,43 @@ public class BlockMapping {
 	 * @return Returns -1 if it hasn't been found
 	 */
 	public int getRuntimeId(int id, int data){
-		return getRuntimeId((id << 4) | (data & 0xF));
+		return getRuntimeId((id << 6) | (data & 0xF));
 	}
 	
 	private static BlockMapping loadInternal() throws Exception {
 		final BlockMapping instance = new BlockMapping();
 		
 		instance.palette = IOUtils.toByteArray(Resources.getResourceAsStream("runtime_block_states.dat"));
+		instance.legacyToRuntimeIds = new HashMap<>();
 		
-		
-		/*{
-			final NBTByteBuf buf = new NBTByteBuf(instance.palette, ByteOrder.LITTLE_ENDIAN, false);
+		{
+			final NBTByteBuf buf = new NBTByteBuf(instance.palette, ByteOrder.LITTLE_ENDIAN, true);
 			
 			try{
 				final NBTTag tag = NBTTag.read(buf);
 				final NBTValueList list = (NBTValueList) tag.getValue();
-				
-				int runtimeId = 0;
+				int runtimeId = -1;
 				
 				for(NBTValue<?> rawEntry:list.getData()){
-					++runtimeId;
+					runtimeId++;
 					
 					final NBTCompound entry = ((NBTValueCompound) rawEntry).getData();
-					final int[] meta = entry.getIntArray("meta");
+					final NBTTag meta = entry.remove("meta"); // No point in sending this since the client doesn't use it
 					
 					if(meta == null)
-						System.out.println("not found");
+						continue;
 					
 					final int id = entry.getShort("id");
 					
-					for(int m:meta)
-						instance.runtimeIds.add(id << 6 | m);
+					for(int m:(int[]) meta.getValueData())
+						instance.legacyToRuntimeIds.put(id << 6 | m, runtimeId);
 				}
+				
+				instance.palette = tag.write(ByteOrder.LITTLE_ENDIAN, true);
 			}finally{
 				buf.release();
 			}
-		}*/
+		}
 		
 		return instance;
 	}

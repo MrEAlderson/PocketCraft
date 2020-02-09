@@ -41,27 +41,6 @@ public class V8Chunk extends Chunk {
 		fetchBlockEntities();
 	}
 	
-	private void fetchBlockEntities(){
-		this.blockEntities.clear();
-		
-		for(int si=0; si<16; si++){
-			final V8ChunkSection section = reference.getSections()[si];
-			
-			if(section == null)
-				continue;
-			
-			for(int ix=0; ix<16; ix++){
-				for(int iy=0; iy<16; iy++){
-					for(int iz=0; iz<16; iz++){
-						final int y = iy+si*16;
-						
-						V8BlockEntityTranslator.handleSpawn(null, this, ix, y, iz, section.getId(ix, iy, iz), section.getData(ix, iy, iz), null);
-					}
-				}
-			}
-		}
-	}
-	
 	@Override
 	public BlockState getBlockState(int x, int y, int z){
 		return BLOCK_STATES_INSTANCE.get(this.reference.getBlockId(x, y, z), this.reference.getBlockData(x, y, z));
@@ -109,5 +88,26 @@ public class V8Chunk extends Chunk {
 		bedrock.setBlockEntities(this.blockEntities);
 		
 		return bedrock.buildPacket(x, z);
+	}
+	
+	private void fetchBlockEntities(){
+		this.blockEntities.clear();
+		
+		for(int si=0; si<16; si++){
+			final V8ChunkSection section = reference.getSections()[si];
+			
+			if(section == null)
+				continue;
+			
+			for(int ix=0; ix<16; ix++){
+				for(int iy=0; iy<16; iy++){
+					for(int iz=0; iz<16; iz++){
+						final int y = iy+si*16;
+						
+						V8BlockEntityTranslator.handleSpawn(null, this, ix, y, iz, section.getId(ix, iy, iz), section.getData(ix, iy, iz), null);
+					}
+				}
+			}
+		}
 	}
 }
