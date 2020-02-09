@@ -31,6 +31,7 @@ import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayClient
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayClientStanding;
 import de.marcely.pocketcraft.translate.BedrockToJavaTranslator;
 import de.marcely.pocketcraft.translate.bedrocktojava.component.TranslateComponents;
+import de.marcely.pocketcraft.translate.bedrocktojava.world.block.BlockCollisionEvent;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -219,6 +220,15 @@ public class Player {
 			
 			// send move packets
 			{
+				{
+					this.getEntity().onNetworkPositionChange(this.x, this.y, this.z, false);
+					
+					final BlockCollisionEvent event = this.getEntity().getCollidingBlock();
+					
+					if(event != null)
+						System.out.println("whoops! " + event.getX() + " " + event.getY() + " " + event.getZ() + " " + event.getState().getBedrockId() + " " + event.getState().getBedrockData());
+				}
+				
 				boolean isMoving = this.x != this.oldX || this.y != this.oldY || this.z != this.oldZ;
 				boolean isLooking = this.yaw != this.oldYaw || this.pitch != this.oldPitch;
 				

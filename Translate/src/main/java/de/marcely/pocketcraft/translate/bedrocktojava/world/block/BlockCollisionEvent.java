@@ -5,8 +5,9 @@ import lombok.Getter;
 
 @Data
 @Getter
-public class BlockInfo {
+public class BlockCollisionEvent {
 	
 	private final int x, y, z;
 	private final BlockState state;
+	private final BlockCollision.Cube intersecting;
 }

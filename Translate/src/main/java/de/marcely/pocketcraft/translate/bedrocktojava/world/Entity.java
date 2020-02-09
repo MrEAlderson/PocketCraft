@@ -7,7 +7,7 @@ import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityAnimate;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityEvent;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityMove;
 import de.marcely.pocketcraft.translate.bedrocktojava.component.TranslateComponents;
-import de.marcely.pocketcraft.translate.bedrocktojava.world.block.BlockInfo;
+import de.marcely.pocketcraft.translate.bedrocktojava.world.block.BlockCollisionEvent;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,7 +29,7 @@ public abstract class Entity extends de.marcely.pocketcraft.bedrock.component.wo
 		this.world = world;
 	}
 	
-	public abstract @Nullable BlockInfo getCollidingBlock();
+	public abstract @Nullable BlockCollisionEvent getCollidingBlock();
 	
 	// childs can override these
 	public void tick(){ }

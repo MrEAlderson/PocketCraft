@@ -13,7 +13,7 @@ public class BlockCollision implements Cloneable {
 		this.entries = entries;
 	}
 	
-	public boolean collidesWith(int blockX, int blockY, int blockZ, Entity entity){
+	public Cube getCollidingWith(int blockX, int blockY, int blockZ, Entity entity){
 		final float x = entity.getX() - blockX;
 		final float y = entity.getY() - blockY;
 		final float z = entity.getZ() - blockZ;
@@ -22,10 +22,10 @@ public class BlockCollision implements Cloneable {
 		
 		for(Cube entry:this.entries){
 			if(entry.collidesWith(x, y, z, width, height, width))
-				return true;
+				return entry;
 		}
 		
-		return false;
+		return null;
 	}
 	
 	@Override

@@ -1,7 +1,7 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.world.entity.v8;
 
 import de.marcely.pocketcraft.translate.bedrocktojava.world.World;
-import de.marcely.pocketcraft.translate.bedrocktojava.world.block.BlockInfo;
+import de.marcely.pocketcraft.translate.bedrocktojava.world.block.BlockCollisionEvent;
 
 public abstract class V8EntityProjectile extends V8Entity {
 	
@@ -31,7 +31,7 @@ public abstract class V8EntityProjectile extends V8Entity {
 			
 			// is hitting block
 			{
-				final BlockInfo block = this.getCollidingBlock();
+				final BlockCollisionEvent block = this.getCollidingBlock();
 				
 				if(block != null){
 					this.veloX = 0;
@@ -49,7 +49,7 @@ public abstract class V8EntityProjectile extends V8Entity {
 	
 	@Override
 	public void onTeleport(){
-		System.out.println(":)");
+		
 	}
 	
 	public float getGravity(){

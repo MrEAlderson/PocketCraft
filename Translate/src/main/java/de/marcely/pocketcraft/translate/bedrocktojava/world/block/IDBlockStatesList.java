@@ -282,7 +282,7 @@ public class IDBlockStatesList {
 					for(int i=0; i<dataStates.length; i++){
 						final int bedrockId = i < bedrockIds.length ? bedrockIds[i] : bedrockIds[0];
 						final int bedrockData = bedrockDatas[i];
-						final BlockCollision coll = collisions != null && i < collisions.length ? collisions[i] : collisions[0];
+						final BlockCollision coll = collisions != null ? (i < collisions.length ? collisions[i] : collisions[0]) : null;
 						
 						dataStates[i] = new BlockState(bedrockId, bedrockData, coll);
 					}
