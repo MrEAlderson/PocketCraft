@@ -1,12 +1,9 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.world.v8.entity;
 
-import de.marcely.pocketcraft.bedrock.component.BlockMapping;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityDataType;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityEvent;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityType;
-import de.marcely.pocketcraft.bedrock.network.packet.PacketBlockChange;
 import de.marcely.pocketcraft.java.component.entity.meta.V8EntityMetadata;
-import de.marcely.pocketcraft.translate.bedrocktojava.world.Chunk;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Entity;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.World;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.block.BlockCollision;
@@ -46,24 +43,7 @@ public abstract class V8Entity extends Entity {
 		for(int ix=minX; ix<=maxX; ix++){
 			for(int iy=minY; iy<=maxY; iy++){
 				for(int iz=minZ; iz<=maxZ; iz++){
-					final Chunk chunk = this.getWorld().getChunk(ix >> 4, iz >> 4);
-					
-					if(chunk == null)
-						continue;
-					
-					final BlockState state = chunk.getBlockState(Math.abs(ix % 16), iy, Math.abs(iz % 16));
-					
-					{
-						PacketBlockChange change = new PacketBlockChange();
-						
-						change.x = ix;
-						change.y = iy;
-						change.z = iz;
-						change.flag = PacketBlockChange.FLAG_ALL;
-						change.blockRuntimeId = state != null ? BlockMapping.INSTANCE.getRuntimeId(state.getBedrockId(), state.getBedrockData()) : 0;
-						
-						this.getWorld().getPlayer().sendPacket(change);
-					}
+					final BlockState state = this.getWorld().getBlockState(ix, iy, iz);
 					
 					if(state == null || state.getCollision() == null)
 						continue;

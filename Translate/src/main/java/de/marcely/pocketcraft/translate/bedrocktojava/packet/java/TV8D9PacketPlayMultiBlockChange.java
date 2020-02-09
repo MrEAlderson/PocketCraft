@@ -43,8 +43,8 @@ public class TV8D9PacketPlayMultiBlockChange extends JavaPacketTranslator<V8D9Pa
 			// change it in the chunk
 			{
 				final de.marcely.pocketcraft.java.component.v8.V8Chunk ref = chunk.getReference();
-				final int relX = Math.abs(x % 16);
-				final int relZ = Math.abs(z % 16);
+				final int relX = x & 0xF;
+				final int relZ = z & 0xF;
 				final short oldId = ref.getBlockId(relX, y, relZ);
 				
 				ref.setBlockId(relX, y, relZ, id);

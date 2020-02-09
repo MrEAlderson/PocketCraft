@@ -14,12 +14,6 @@ public class ChunkSection {
 		this.data = new byte[SIZE+SIZE/2];
 	}
 	
-	// x y z - 
-	// y z x -
-	// z x y -
-	// y x z -
-	// x z y
-	
 	private static int getIndex(int x, int y, int z, int section){
 		if(section == 0)
 			return ((x << 8) + (z << 4) + y);

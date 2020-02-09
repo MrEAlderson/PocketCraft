@@ -22,8 +22,8 @@ public class TV8D9PacketPlayBlockChange extends JavaPacketTranslator<V8D9PacketP
 		// change it in the chunk
 		{
 			final de.marcely.pocketcraft.java.component.v8.V8Chunk ref = chunk.getReference();
-			final int relX = Math.abs(packet.x % 16);
-			final int relZ = Math.abs(packet.z % 16);
+			final int relX = packet.x & 0xF;
+			final int relZ = packet.z & 0xF;
 			final short oldId = ref.getBlockId(relX, packet.y, relZ);
 			
 			ref.setBlockId(relX, packet.y, relZ, packet.id);

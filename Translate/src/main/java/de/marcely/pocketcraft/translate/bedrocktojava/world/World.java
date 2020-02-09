@@ -9,6 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import de.marcely.pocketcraft.bedrock.component.Dimension;
 import de.marcely.pocketcraft.bedrock.component.world.blockentity.BlockEntity;
 import de.marcely.pocketcraft.translate.bedrocktojava.component.TranslateComponents;
+import de.marcely.pocketcraft.translate.bedrocktojava.world.block.BlockState;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -72,7 +73,16 @@ public class World {
 		if(chunk == null)
 			return null;
 		
-		return chunk.getBlockEntity(x % 16, y, z % 16);
+		return chunk.getBlockEntity(x & 0xF, y, z & 0xF);
+	}
+	
+	public @Nullable BlockState getBlockState(int x, int y, int z){
+		final Chunk chunk = getChunk(x >> 4, z >> 4);
+		
+		if(chunk == null)
+			return null;
+		
+		return chunk.getBlockState(x & 0xF, y, z & 0xF);
 	}
 	
 	public void addEntity(Entity entity){

@@ -33,19 +33,19 @@ public class Chunk {
 	}
 	
 	public short getBlockId(int x, int y, int z){
-		return this.sections[y >> 4].getBlockId(x, y%16, z);
+		return this.sections[y >> 4].getBlockId(x, y & 0xF, z);
 	}
 	
 	public byte getBlockData(int x, int y, int z){
-		return this.sections[y >> 4].getBlockData(x, y%16, z);
+		return this.sections[y >> 4].getBlockData(x, y & 0xF, z);
 	}
 	
 	public void setBlockId(int x, int y, int z, short id){
-		this.sections[y >> 4].setBlockId(x, y%16, z, id);
+		this.sections[y >> 4].setBlockId(x, y & 0xF, z, id);
 	}
 	
 	public void setBlockData(int x, int y, int z, byte data){
-		this.sections[y >> 4].setBlockData(x, y%16, z, data);
+		this.sections[y >> 4].setBlockData(x, y & 0xF, z, data);
 	}
 	
 	public @Nullable Biome getBiome(int x, int z){

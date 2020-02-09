@@ -38,16 +38,16 @@ public class V8Chunk {
 			this.sections[y >> 4] = section = new V8ChunkSection();
 		}
 		
-		section.setId(x, y % 16, z, id);
+		section.setId(x, y & 0xF, z, id);
 		
 		if(id == 0)
-			section.setData(x, y % 16, z, (byte) 0);
+			section.setData(x, y & 0xF, z, (byte) 0);
 	}
 	
 	public short getBlockId(int x, int y, int z){
 		final V8ChunkSection section = this.sections[y >> 4];
 		
-		return section != null ? section.getId(x, y % 16, z) : 0;
+		return section != null ? section.getId(x, y & 0xF, z) : 0;
 	}
 	
 	public void setBlockData(int x, int y, int z, byte data){
@@ -57,13 +57,13 @@ public class V8Chunk {
 			this.sections[y >> 4] = section = new V8ChunkSection();
 		}
 		
-		section.setData(x, y % 16, z, data);
+		section.setData(x, y & 0xF, z, data);
 	}
 	
 	public byte getBlockData(int x, int y, int z){
 		final V8ChunkSection section = this.sections[y >> 4];
 		
-		return section != null ? section.getData(x, y % 16, z) : 0;
+		return section != null ? section.getData(x, y & 0xF, z) : 0;
 	}
 	
 	/**

@@ -23,8 +23,6 @@ public class BlockCollision implements Cloneable {
 		// if(Math.abs(x) > 1D || Math.abs(y) > 1D || Math.abs(z) > 1D)
 		//	return null;
 		
-		System.out.println(x + " " + y + " " + z);
-		
 		final float width = entity.getType().getWidth();
 		final float height = entity.getType().getHeight();
 		

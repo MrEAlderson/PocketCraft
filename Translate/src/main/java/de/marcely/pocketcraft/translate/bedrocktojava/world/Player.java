@@ -219,13 +219,17 @@ public class Player {
 			
 			// send move packets
 			{
+				// player may glide through a block
+				// java server will teleport him back because of this. this causes that it's not possible to e.g. walk on stairs
 				{
 					this.getEntity().onNetworkPositionChange(this.x, this.y, this.z, false);
 					
 					final BlockCollisionEvent event = this.getEntity().getCollidingBlock();
 					
-					if(event != null)
-						System.out.println("whoops! " + event.getX() + " " + event.getY() + " " + event.getZ() + " " + event.getState().getBedrockId() + " " + event.getState().getBedrockData());
+					if(event != null){
+						this.getEntity().setY(this.y = event.getY() + event.getIntersecting().getY() + event.getIntersecting().getHeight() + 0.1F);
+					}
+						
 				}
 				
 				boolean isMoving = this.x != this.oldX || this.y != this.oldY || this.z != this.oldZ;
