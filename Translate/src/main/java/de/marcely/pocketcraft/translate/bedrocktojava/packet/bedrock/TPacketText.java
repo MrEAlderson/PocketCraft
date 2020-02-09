@@ -2,11 +2,12 @@ package de.marcely.pocketcraft.translate.bedrocktojava.packet.bedrock;
 
 import de.marcely.pocketcraft.bedrock.component.TextFormat;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityType;
-import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityRelMove;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketText;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketWorldEvent;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayClientChatMessage;
 import de.marcely.pocketcraft.translate.bedrocktojava.BedrockPacketTranslator;
 import de.marcely.pocketcraft.translate.bedrocktojava.EntityDebug;
+import de.marcely.pocketcraft.translate.bedrocktojava.packet.java.TV8D9PacketPlayBlockBreakAnimation;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
 
 public class TPacketText extends BedrockPacketTranslator<PacketText> {
@@ -37,6 +38,20 @@ public class TPacketText extends BedrockPacketTranslator<PacketText> {
 			
 			return;
 		}
+		
+		TV8D9PacketPlayBlockBreakAnimation.asd = Double.parseDouble(packet.message);
+		/*{
+			final PacketWorldEvent out = new PacketWorldEvent();
+			final String[] parts = packet.message.split(" ");
+			
+			out.x = (int) player.getX() + 1;
+			out.y = (int) player.getY();
+			out.z = (int) player.getZ();
+			out.type = Integer.parseInt(parts[0]);
+			out.data = Integer.parseInt(parts[1]);
+			
+			player.sendPacket(out);
+		}*/
 		
 		// send to java
 		{
