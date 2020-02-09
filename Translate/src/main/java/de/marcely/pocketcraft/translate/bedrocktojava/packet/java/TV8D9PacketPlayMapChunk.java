@@ -4,7 +4,7 @@ import de.marcely.pocketcraft.bedrock.component.Dimension;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayMapChunk;
 import de.marcely.pocketcraft.translate.bedrocktojava.JavaPacketTranslator;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
-import de.marcely.pocketcraft.translate.bedrocktojava.world.V8Chunk;
+import de.marcely.pocketcraft.translate.bedrocktojava.world.v8.V8Chunk;
 
 public class TV8D9PacketPlayMapChunk extends JavaPacketTranslator<V8D9PacketPlayMapChunk> {
 

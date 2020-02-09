@@ -5,8 +5,8 @@ import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlaySpawnP
 import de.marcely.pocketcraft.translate.bedrocktojava.JavaPacketTranslator;
 import de.marcely.pocketcraft.translate.bedrocktojava.component.TranslateComponents;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
-import de.marcely.pocketcraft.translate.bedrocktojava.world.entity.v8.V8Entity;
-import de.marcely.pocketcraft.translate.bedrocktojava.world.entity.v8.V8EntityPainting;
+import de.marcely.pocketcraft.translate.bedrocktojava.world.v8.entity.V8Entity;
+import de.marcely.pocketcraft.translate.bedrocktojava.world.v8.entity.V8EntityPainting;
 
 public class TV8D9PacketPlaySpawnPainting extends JavaPacketTranslator<V8D9PacketPlaySpawnPainting> {
 

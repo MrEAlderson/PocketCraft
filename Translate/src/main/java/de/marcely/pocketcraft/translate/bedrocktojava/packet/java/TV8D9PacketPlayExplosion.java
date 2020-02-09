@@ -5,7 +5,7 @@ import de.marcely.pocketcraft.bedrock.network.packet.PacketExplosion;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayExplosion;
 import de.marcely.pocketcraft.translate.bedrocktojava.JavaPacketTranslator;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
-import de.marcely.pocketcraft.translate.bedrocktojava.world.V8Chunk;
+import de.marcely.pocketcraft.translate.bedrocktojava.world.v8.V8Chunk;
 
 public class TV8D9PacketPlayExplosion extends JavaPacketTranslator<V8D9PacketPlayExplosion> {
 

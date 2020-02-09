@@ -4,7 +4,7 @@ import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayEntity
 import de.marcely.pocketcraft.translate.bedrocktojava.JavaPacketTranslator;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Entity;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
-import de.marcely.pocketcraft.translate.bedrocktojava.world.entity.v8.V8Entity;
+import de.marcely.pocketcraft.translate.bedrocktojava.world.v8.entity.V8Entity;
 
 public class TV8D9PacketPlayEntityEvent extends JavaPacketTranslator<V8D9PacketPlayEntityEvent> {
 

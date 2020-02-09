@@ -28,7 +28,7 @@ import de.marcely.pocketcraft.translate.bedrocktojava.packet.java.*;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Entity;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.World;
-import de.marcely.pocketcraft.translate.bedrocktojava.world.entity.v8.*;
+import de.marcely.pocketcraft.translate.bedrocktojava.world.v8.entity.*;
 import de.marcely.pocketcraft.utils.callback.R1Callback;
 import de.marcely.pocketcraft.utils.scheduler.Scheduler;
 import lombok.Getter;

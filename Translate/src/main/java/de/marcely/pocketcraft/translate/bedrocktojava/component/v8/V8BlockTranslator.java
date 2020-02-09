@@ -9,9 +9,9 @@ import com.google.gson.JsonObject;
 import de.marcely.pocketcraft.translate.Resources;
 import de.marcely.pocketcraft.translate.bedrocktojava.component.ComponentTranslator;
 import de.marcely.pocketcraft.translate.bedrocktojava.component.TranslateComponents;
-import de.marcely.pocketcraft.translate.bedrocktojava.world.V8Chunk;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.block.BlockState;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.block.IDBlockStatesList;
+import de.marcely.pocketcraft.translate.bedrocktojava.world.v8.V8Chunk;
 import de.marcely.pocketcraft.utils.Pair;
 import lombok.Cleanup;
 

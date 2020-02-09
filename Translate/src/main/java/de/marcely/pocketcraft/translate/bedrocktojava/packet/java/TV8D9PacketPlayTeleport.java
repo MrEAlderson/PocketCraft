@@ -9,7 +9,7 @@ import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayClient
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayTeleport;
 import de.marcely.pocketcraft.translate.bedrocktojava.JavaPacketTranslator;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
-import de.marcely.pocketcraft.translate.bedrocktojava.world.entity.v8.V8EntityHuman;
+import de.marcely.pocketcraft.translate.bedrocktojava.world.v8.entity.V8EntityHuman;
 
 public class TV8D9PacketPlayTeleport extends JavaPacketTranslator<V8D9PacketPlayTeleport> {
 	
