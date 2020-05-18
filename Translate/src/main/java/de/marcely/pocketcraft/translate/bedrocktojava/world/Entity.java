@@ -112,4 +112,45 @@ public abstract class Entity extends de.marcely.pocketcraft.bedrock.component.wo
 			this.z = this.networkZ = z;
 		}
 	}
+	
+	/**
+	 * Does a linear look up from the current location to the target one
+	 * 
+	 * @param accuracy Less = more checks
+	 */
+	public @Nullable BlockCollisionEvent getCollidingBlock(float newX, float newY, float newZ, float accuracy){
+		final float actualX = this.x;
+		final float actualY = this.y;
+		final float actualZ = this.z;
+		final float minX = Math.min(this.x, newX);
+		final float minY = Math.min(this.y, newY);
+		final float minZ = Math.min(this.z, newZ);
+		final float maxX = Math.max(this.x, newX);
+		final float maxY = Math.max(this.y, newY);
+		final float maxZ = Math.max(this.z, newZ);
+		
+		for(x=minX; x<=maxX; x += accuracy){
+			for(y=minY; y<=maxY; y += accuracy){
+				for(z=minZ; z<=maxZ; z += accuracy){
+					final BlockCollisionEvent event = getCollidingBlock();
+					
+					if(event != null){
+						event.setExact(this.x, this.y, this.z);
+						
+						this.x = actualX;
+						this.y = actualY;
+						this.z = actualZ;
+						
+						return event;
+					}
+				}
+			}
+		}
+		
+		this.x = actualX;
+		this.y = actualY;
+		this.z = actualZ;
+		
+		return null;
+	}
 }

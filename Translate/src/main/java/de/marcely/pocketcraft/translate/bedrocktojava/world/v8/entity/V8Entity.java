@@ -36,9 +36,9 @@ public abstract class V8Entity extends Entity {
 		final int minX = (int) (this.x - type.getWidth() / 2F);
 		final int minY = Math.max((int) (this.y), 0);
 		final int minZ = (int) (this.z - type.getWidth() / 2F);
-		final int maxX = (int) (this.x + type.getWidth() / 2F);
-		final int maxY = Math.min((int) (this.y + type.getHeight()), 255);
-		final int maxZ = (int) (this.z + type.getWidth() / 2F);
+		final int maxX = (int) Math.ceil(this.x + type.getWidth() / 2F);
+		final int maxY = (int) Math.ceil(Math.min(this.y + type.getHeight(), 255));
+		final int maxZ = (int) Math.ceil(this.z + type.getWidth() / 2F);
 		
 		for(int ix=minX; ix<=maxX; ix++){
 			for(int iy=minY; iy<=maxY; iy++){

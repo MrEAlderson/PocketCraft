@@ -20,14 +20,12 @@ public class BlockCollision implements Cloneable {
 		final float y = entity.getY() - blockY;
 		final float z = entity.getZ() - blockZ;
 		
-		// if(Math.abs(x) > 1D || Math.abs(y) > 1D || Math.abs(z) > 1D)
-		//	return null;
-		
 		final float width = entity.getType().getWidth();
 		final float height = entity.getType().getHeight();
 		
 		for(Cube entry:this.entries){
-			if(entry.collidesWith(x, y, z, width, height, width))
+			// will falsely return true without the "- 0.0001F"
+			if(entry.collidesWith(x - width/2F, y, z - width/2F, width - 0.0001F, height - 0.0001F, width - 0.0001F))
 				return entry;
 		}
 		
@@ -66,7 +64,15 @@ public class BlockCollision implements Cloneable {
 			final float maxY1 = y1 + height1;
 			final float maxZ1 = z1 + widthZ1;
 			
-			return !(maxX > x1 && x < maxX1 && maxY > y1 && y < maxY1 && maxZ > z1 && z < maxZ1);
+			if(x1 >= x && x1 <= x + widthX || x1 < x && x1 + widthX1 >= x){
+				if(y1 >= y && y1 <= y + height || y1 < y && y1 + height1 >= y){
+					if(z1 >= z && z1 <= z + widthZ || z1 < z && z1 + widthZ1 >= z){
+						return true;
+					}
+				}
+			}
+			
+			return false;
 		}
 		
 		@Override

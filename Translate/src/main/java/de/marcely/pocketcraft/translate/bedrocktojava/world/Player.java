@@ -227,7 +227,9 @@ public class Player {
 					final BlockCollisionEvent event = this.getEntity().getCollidingBlock();
 					
 					if(event != null){
-						this.getEntity().setY(this.y = event.getY() + event.getIntersecting().getY() + event.getIntersecting().getHeight() + 0.1F);
+						System.out.println("collision! " + event);
+						
+						this.getEntity().setY(this.y = event.getY() + event.getIntersecting().getY() + event.getIntersecting().getHeight());
 					}
 						
 				}

@@ -194,7 +194,7 @@
 	  "bedrock_data": {
 	     "same": 15
 	  },
-      "collision": "cube"
+      "collision": "cubic"
     },
     "44": {
       "bedrock_id": "minecraft:stone_slab",
@@ -728,7 +728,7 @@
 	  "bedrock_data": {
 	     "same": 15
 	  },
-	  "collision": "cube"
+	  "collision": "cubic"
     },
     "182": {
       "bedrock_id": "minecraft:stone_slab2",

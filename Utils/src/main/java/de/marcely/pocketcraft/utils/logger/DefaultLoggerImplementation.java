@@ -6,6 +6,6 @@ public class DefaultLoggerImplementation implements LoggerImplementation {
 
 	@Override
 	public void log(Logger logger, Level level, String msg){
-		System.out.println("[" + logger.getApplication() + "-" + level + "] " + msg);
+		System.out.println("[" + logger.getApplication() + "-" + level + " " + logger.getName() + "] " + msg);
 	}
 }

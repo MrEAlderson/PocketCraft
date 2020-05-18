@@ -17,9 +17,9 @@ public abstract class V8EntityProjectile extends V8Entity {
 		
 		// update velocity
 		if(this.veloX != 0 || this.veloY != 0 || this.veloZ != 0){
-			this.x += this.veloX;
-			this.y += this.veloY;
-			this.z += this.veloZ;
+			final float newX = this.x + this.veloX;
+			final float newY = this.y + this.veloY;
+			final float newZ = this.z + this.veloZ;
 			
 			// gravity
 			{
@@ -31,12 +31,20 @@ public abstract class V8EntityProjectile extends V8Entity {
 			
 			// is hitting block
 			{
-				final BlockCollisionEvent block = this.getCollidingBlock();
+				final BlockCollisionEvent block = this.getCollidingBlock(newX, newY, newZ, 0.1F);
 				
 				if(block != null){
+					this.x = block.getExactX();
+					this.y = block.getExactY();
+					this.z = block.getExactZ();
 					this.veloX = 0;
 					this.veloY = 0;
 					this.veloZ = 0;
+					
+				}else{
+					this.x = newX;
+					this.y = newY;
+					this.z = newZ;
 				}
 			}
 			
