@@ -1,5 +1,7 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.world;
 
+import java.util.List;
+
 import org.jetbrains.annotations.Nullable;
 
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityEvent;
@@ -29,7 +31,7 @@ public abstract class Entity extends de.marcely.pocketcraft.bedrock.component.wo
 		this.world = world;
 	}
 	
-	public abstract @Nullable BlockCollisionEvent getCollidingBlock();
+	public abstract List<BlockCollisionEvent> getCollidingBlocks();
 	
 	// childs can override these
 	public void tick(){ }
@@ -132,9 +134,11 @@ public abstract class Entity extends de.marcely.pocketcraft.bedrock.component.wo
 		for(x=minX; x<=maxX; x += accuracy){
 			for(y=minY; y<=maxY; y += accuracy){
 				for(z=minZ; z<=maxZ; z += accuracy){
-					final BlockCollisionEvent event = getCollidingBlock();
+					final List<BlockCollisionEvent> events = getCollidingBlocks();
 					
-					if(event != null){
+					if(events != null){
+						final BlockCollisionEvent event = events.get(0);
+						
 						event.setExact(this.x, this.y, this.z);
 						
 						this.x = actualX;

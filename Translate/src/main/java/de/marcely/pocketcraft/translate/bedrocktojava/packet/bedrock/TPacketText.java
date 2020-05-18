@@ -3,7 +3,7 @@ package de.marcely.pocketcraft.translate.bedrocktojava.packet.bedrock;
 import de.marcely.pocketcraft.bedrock.component.TextFormat;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityType;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketText;
-import de.marcely.pocketcraft.bedrock.network.packet.PacketWorldEvent;
+import de.marcely.pocketcraft.java.component.chat.ChatColor;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayClientChatMessage;
 import de.marcely.pocketcraft.translate.bedrocktojava.BedrockPacketTranslator;
 import de.marcely.pocketcraft.translate.bedrocktojava.EntityDebug;
@@ -30,10 +30,19 @@ public class TPacketText extends BedrockPacketTranslator<PacketText> {
 				EntityDebug.INSTANCE = null;
 				player.sendChatMessage(TextFormat.GREEN + "Ok. Disabled debug");
 				
+			}else if(command.equals("blockinfo")){
+				final int x = (int) player.getEntity().getX();
+				final int y = (int) player.getEntity().getY() - 1;
+				final int z = (int) player.getEntity().getZ();
+				
+				player.sendChatMessage(TextFormat.AQUA + "X" + x + " Y" + y + " Z" + z);
+				player.sendChatMessage("" + TextFormat.GREEN + TextFormat.BOLD + "State: " + ChatColor.GREEN + player.getWorld().getBlockState(x, y, z));
+				
 			}else {
 				player.sendChatMessage(TextFormat.YELLOW + "Debug Commands:");
 				player.sendChatMessage(" p!entity <mode [0=event, 1=flag1, 2=flag2, 3=flag_palyer, 4=animate, 5=armor, 6=meta]> <entity type> <data>");
 				player.sendChatMessage(" p!stop");
+				player.sendChatMessage(" p!blockinfo (displays block info of the block below you)");
 			}
 			
 			return;

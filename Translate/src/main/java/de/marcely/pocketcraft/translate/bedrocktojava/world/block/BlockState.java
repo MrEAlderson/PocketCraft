@@ -1,8 +1,10 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.world.block;
 
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public class BlockState {
 	
 	private final short bedrockId;

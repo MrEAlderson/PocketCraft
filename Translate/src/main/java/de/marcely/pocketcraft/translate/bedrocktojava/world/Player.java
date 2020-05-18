@@ -1,5 +1,7 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.world;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.UUID;
 
@@ -30,6 +32,7 @@ import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayClient
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayClientStanding;
 import de.marcely.pocketcraft.translate.BedrockToJavaTranslator;
 import de.marcely.pocketcraft.translate.bedrocktojava.component.TranslateComponents;
+import de.marcely.pocketcraft.translate.bedrocktojava.world.block.BlockCollision;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.block.BlockCollisionEvent;
 import lombok.Getter;
 import lombok.Setter;
@@ -224,12 +227,15 @@ public class Player {
 				{
 					this.getEntity().onNetworkPositionChange(this.x, this.y, this.z, false);
 					
-					final BlockCollisionEvent event = this.getEntity().getCollidingBlock();
+					final List<BlockCollisionEvent> events = this.getEntity().getCollidingBlocks();
 					
-					if(event != null){
-						System.out.println("collision! " + event);
+					if(events != null){
+						final BlockCollisionEvent event = Collections.max(events, (e1, e2) -> Integer.compare(e1.getY(), e2.getY()));
+						final BlockCollision.Cube cube = Collections.max(event.getIntersecting(), (c1, c2) -> Float.compare(c1.getY() + c1.getHeight(), c2.getY() + c2.getHeight()));
+						final float newY = event.getY() + cube.getY() + cube.getHeight();
 						
-						this.getEntity().setY(this.y = event.getY() + event.getIntersecting().getY() + event.getIntersecting().getHeight());
+						if(newY - this.y <= 0.7F && newY - this.y >= 0)
+							this.getEntity().setY(this.y = newY);
 					}
 						
 				}

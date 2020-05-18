@@ -5,7 +5,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -106,7 +109,7 @@ public class IDBlockStatesList {
 				final JsonObject entry = listRoot.getAsJsonObject(rawId);
 				Integer[] bedrockIds = null;
 				int[] bedrockDatas = null;
-				BlockCollision[] collisions = null;
+				AtomicReference<BlockCollision[]> collisions = new AtomicReference<>();
 				
 				// get bedrock ids
 				{
@@ -153,30 +156,41 @@ public class IDBlockStatesList {
 						}else{
 							final JsonObject bedrockDataObj = bedrockDataElement.getAsJsonObject();			
 							final JsonElement sameObj = bedrockDataObj.get("same");
+							final JsonElement alwaysObj = bedrockDataObj.get("always");
 							
-							if(sameObj.isJsonNull()){
-								bedrockDatas = new int[bedrockDataObj.size()];
+							if(alwaysObj != null){
+								bedrockDatas = new int[15];
 								
-								for(String bRawData:bedrockDataObj.keySet()){
-									final int bData = Integer.parseInt(bRawData);
-									final int bValue = bedrockDataObj.get(bRawData).getAsInt();
-									
-									if(bData >= bedrockDatas.length){
-										Logger.get(Application.TRANSLATE, "Block States List").warn("bedrock_id data id " + bData + " is higher than the total entries amount");
-										continue;
-									}
-									
-									bedrockDatas[bData] = bValue;
-								}
+								Arrays.fill(bedrockDatas, alwaysObj.getAsInt());
 								
 							}else{
-								final int entriesAmount = sameObj.getAsInt();
-								
-								bedrockDatas = new int[entriesAmount+1];
-								
-								for(int i=0; i<=entriesAmount; i++)
-									bedrockDatas[i] = i;
-							}
+    							if(sameObj != null){
+    								final int entriesAmount = sameObj.getAsInt();
+    								
+    								bedrockDatas = new int[entriesAmount+1];
+    								
+    								for(int i=0; i<=entriesAmount; i++)
+    									bedrockDatas[i] = i;
+    							}
+    							
+    							if(bedrockDatas == null)
+    								bedrockDatas = new int[bedrockDataObj.size()];
+    							
+    							for(String bRawData:bedrockDataObj.keySet()){
+    								if(bRawData.equals("same"))
+    									continue;
+    								
+    								final int bData = Integer.parseInt(bRawData);
+    								final int bValue = bedrockDataObj.get(bRawData).getAsInt();
+    								
+    								if(bData >= bedrockDatas.length){
+    									Logger.get(Application.TRANSLATE, "Block States List").warn("bedrock_id data id " + bData + " is higher than the total entries amount");
+    									continue;
+    								}
+    								
+    								bedrockDatas[bData] = bValue;
+    							}
+    						}
 						}
 					}
 				}
@@ -187,9 +201,9 @@ public class IDBlockStatesList {
 					
 					if(collisionElement != null){
 						if(collisionElement.isJsonPrimitive()){
-							collisions = new BlockCollision[]{ collisionSupplier.apply(collisionElement.getAsString()) };
+							collisions.set(new BlockCollision[]{ collisionSupplier.apply(collisionElement.getAsString()) });
 							
-							if(collisions[0] == null){
+							if(collisions.get()[0] == null){
 								Logger.get(Application.TRANSLATE, "Block States List").warn("Failed to find collision " + collisionElement.getAsString());
 								continue;
 							}
@@ -203,18 +217,22 @@ public class IDBlockStatesList {
 								continue;
 							}
 							
-							collisions = new BlockCollision[bedrockDatas.length];
+							collisions.set(new BlockCollision[bedrockDatas.length]);
 							
 							for(String bRawData:collisionObj.keySet()){
 								if(bRawData.equals("id"))
 									continue;
 								
-								final int bData = Integer.parseInt(bRawData);
-								
-								if(bData >= collisions.length){
-									Logger.get(Application.TRANSLATE, "Block States List").warn("collision data " + bData + " is higher than the total entries amount");
-									continue;
-								}
+								final Set<Integer> bDatas = Arrays.stream(bRawData.replace(" ", "").split(","))
+										.map(raw -> Integer.parseInt(raw))
+										.filter(bData -> {
+            								if(bData >= collisions.get().length){
+            									Logger.get(Application.TRANSLATE, "Block States List").warn("collision data " + bData + " is higher than the total entries amount");
+            									return false;
+            								}
+            								
+            								return true;
+										}).collect(Collectors.toSet());
 								
 								final JsonObject bValue = collisionObj.get(bRawData).getAsJsonObject();
 								final JsonElement multiplyWidthX = bValue.get("multiply_width_x");
@@ -226,6 +244,7 @@ public class IDBlockStatesList {
 								final JsonElement setWidthX = bValue.get("set_width_x");
 								final JsonElement setHeight = bValue.get("set_height");
 								final JsonElement setWidthZ = bValue.get("set_width_z");
+								final JsonArray mirror = bValue.getAsJsonArray("mirror");
 								
 								final BlockCollision newColl = coll.clone();
 								
@@ -265,7 +284,40 @@ public class IDBlockStatesList {
 									Arrays.stream(newColl.entries).forEach(cube -> cube.widthZ = setWidthZ.getAsFloat());
 								}
 								
-								collisions[bData] = collisionSupplier.apply(newColl);
+								if(mirror != null){
+									for(JsonElement e:mirror){
+										final String axes = e.getAsString();
+										
+										switch(axes){
+										case "x":
+											Arrays.stream(newColl.entries).forEach(cube -> cube.x = 1F - (cube.x + cube.widthX) );
+											break;
+											
+										case "y":
+											Arrays.stream(newColl.entries).forEach(cube -> cube.y = 1F - (cube.y + cube.height) );
+											break;
+											
+										case "z":
+											Arrays.stream(newColl.entries).forEach(cube -> cube.z = 1F - (cube.z + cube.widthZ) );
+											break;
+											
+										case "rot":
+											Arrays.stream(newColl.entries).forEach(cube -> {
+												final float z = cube.z, widthZ = cube.widthZ;
+												
+												cube.z = cube.x;
+												cube.widthZ = cube.widthX;
+												cube.x = z;
+												cube.widthX = widthZ;
+											});
+											break;
+										}
+									}
+								}
+								
+								final BlockCollision finalColl = collisionSupplier.apply(newColl);
+								
+								bDatas.forEach(bData -> collisions.get()[bData] = finalColl);
 							}
 						}
 					}
@@ -276,13 +328,13 @@ public class IDBlockStatesList {
 				
 				if(bedrockDatas == null){
 					
-					dataStates[0] = new BlockState(bedrockIds[0], 0, collisions != null && collisions.length >= 1 ? collisions[0] : null);
+					dataStates[0] = new BlockState(bedrockIds[0], 0, collisions.get() != null && collisions.get().length >= 1 ? collisions.get()[0] : null);
 					
 				}else{
 					for(int i=0; i<dataStates.length; i++){
 						final int bedrockId = i < bedrockIds.length ? bedrockIds[i] : bedrockIds[0];
 						final int bedrockData = bedrockDatas[i];
-						final BlockCollision coll = collisions != null ? (i < collisions.length ? collisions[i] : collisions[0]) : null;
+						final BlockCollision coll = collisions.get() != null ? (i < collisions.get().length ? collisions.get()[i] : collisions.get()[0]) : null;
 						
 						dataStates[i] = new BlockState(bedrockId, bedrockData, coll);
 					}

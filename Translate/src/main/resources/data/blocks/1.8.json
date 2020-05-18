@@ -35,7 +35,7 @@
     "6": {
       "bedrock_id": "minecraft:sapling",
 	  "bedrock_data": {
-		"same": 5
+		"same": 15
 	  }
     },
     "7": {
@@ -43,16 +43,28 @@
       "collision": "cubic"
     },
     "8": {
-      "bedrock_id": "minecraft:flowing_water"
+      "bedrock_id": "minecraft:flowing_water",
+	  "bedrock_data": {
+		"same": 15
+	  }
     },
     "9": {
-      "bedrock_id": "minecraft:water"
+      "bedrock_id": "minecraft:water",
+	  "bedrock_data": {
+		"same": 15
+	  }
     },
     "10": {
-      "bedrock_id": "minecraft:flowing_lava"
+      "bedrock_id": "minecraft:flowing_lava",
+	  "bedrock_data": {
+		"same": 15
+	  }
     },
     "11": {
-      "bedrock_id": "minecraft:lava"
+      "bedrock_id": "minecraft:lava",
+	  "bedrock_data": {
+		"same": 15
+	  }
     },
     "12": {
       "bedrock_id": "minecraft:sand",
@@ -80,14 +92,14 @@
     "17": {
       "bedrock_id": "minecraft:log",
 	  "bedrock_data": {
-		"same": 3
+		"same": 15
 	  },
       "collision": "cubic"
     },
     "18": {
       "bedrock_id": "minecraft:leaves",
 	  "bedrock_data": {
-		"same": 3
+		"same": 15
 	  },
       "collision": "cubic"
     },
@@ -112,6 +124,9 @@
     },
     "23": {
       "bedrock_id": "minecraft:dispenser",
+	  "bedrock_data": {
+	     "same": 15
+	  },
       "collision": "cubic"
     },
     "24": {
@@ -127,13 +142,22 @@
     },
     "26": {
       "bedrock_id": "minecraft:bed",
+	  "bedrock_data": {
+	     "same": 15
+	  },
       "collision": "bed"
     },
     "27": {
-      "bedrock_id": "minecraft:golden_rail"
+      "bedrock_id": "minecraft:golden_rail",
+	  "bedrock_data": {
+	     "same": 15
+	  }
     },
     "28": {
-      "bedrock_id": "minecraft:detector_rail"
+      "bedrock_id": "minecraft:detector_rail",
+	  "bedrock_data": {
+	     "same": 15
+	  }
     },
     "29": {
       "bedrock_id": "minecraft:sticky_piston",
@@ -203,27 +227,13 @@
 	  },
       "collision": {
 	     "id": "slab",
-         "0": { },
-         "1": { },
-         "2": { },
-         "3": { },
-         "4": { },
-         "5": { },
-         "6": { },
-         "7": { },
-         "8": { "set_y": 0.5 },
-         "9": { "set_y": 0.5 },
-         "10": { "set_y": 0.5 },
-         "11": { "set_y": 0.5 },
-         "12": { "set_y": 0.5 },
-         "13": { "set_y": 0.5 },
-         "14": { "set_y": 0.5 },
-         "15": { "set_y": 0.5 }
+         "0,1,2,3,4,5,6,7": { },
+         "8,9,10,11,12,13,14,15": { "set_y": 0.5 }
 	  }
     },
     "45": {
       "bedrock_id": "minecraft:brick_block",
-      "collision": "slab"
+      "collision": "cubic"
     },
     "46": {
       "bedrock_id": "minecraft:tnt",
@@ -245,7 +255,10 @@
       "bedrock_id": "minecraft:torch"
     },
     "51": {
-      "bedrock_id": "minecraft:fire"
+      "bedrock_id": "minecraft:fire",
+	  "bedrock_data": {
+	     "same": 15
+	  }
     },
     "52": {
       "bedrock_id": "minecraft:mob_spawner",
@@ -253,10 +266,26 @@
     },
     "53": {
       "bedrock_id": "minecraft:oak_stairs",
-      "collision": "stairs"
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": {
+	     "id": "stairs",
+         "0,8": { },
+         "1,9": { "mirror": [ "x" ] },
+         "2,10": { "mirror": [ "rot" ] },
+         "3,11": { "mirror": [ "x", "rot" ] },
+         "4,12": { "mirror": [ "y" ] },
+         "5,13": { "mirror": [ "y", "x" ] },
+         "6,14": { "mirror": [ "y", "rot" ] },
+         "7,15": { "mirror": [ "y", "x", "rot" ] }
+	  }
     },
     "54": {
       "bedrock_id": "minecraft:chest",
+	  "bedrock_data": {
+	     "same": 15
+	  },
       "collision": "chest"
     },
     "55": {
@@ -275,7 +304,10 @@
       "collision": "cubic"
     },
     "59": {
-      "bedrock_id": "minecraft:wheat"
+      "bedrock_id": "minecraft:wheat",
+	  "bedrock_data": {
+	     "same": 7
+	  }
     },
     "60": {
       "bedrock_id": "minecraft:farmland",
@@ -283,14 +315,23 @@
     },
     "61": {
       "bedrock_id": "minecraft:furnace",
+	  "bedrock_data": {
+	     "same": 15
+	  },
       "collision": "cubic"
     },
     "62": {
       "bedrock_id": "minecraft:lit_furnace",
+	  "bedrock_data": {
+	     "same": 15
+	  },
       "collision": "cubic"
     },
     "63": {
-      "bedrock_id": "minecraft:standing_sign"
+      "bedrock_id": "minecraft:standing_sign",
+	  "bedrock_data": {
+		"same": 15
+	  }
     },
     "64": {
       "bedrock_id": "minecraft:wooden_door",
@@ -298,17 +339,39 @@
     },
     "65": {
       "bedrock_id": "minecraft:ladder",
+      "bedrock_data": {
+	     "same": 15
+	  },
       "collision": "ladder"
     },
     "66": {
-      "bedrock_id": "minecraft:rail"
+      "bedrock_id": "minecraft:rail",
+      "bedrock_data": {
+	     "same": 15
+	  }
     },
     "67": {
       "bedrock_id": "minecraft:stone_stairs",
-      "collision": "stairs"
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": {
+	     "id": "stairs",
+         "0,8": { },
+         "1,9": { "mirror": [ "x" ] },
+         "2,10": { "mirror": [ "rot" ] },
+         "3,11": { "mirror": [ "x", "rot" ] },
+         "4,12": { "mirror": [ "y" ] },
+         "5,13": { "mirror": [ "y", "x" ] },
+         "6,14": { "mirror": [ "y", "rot" ] },
+         "7,15": { "mirror": [ "y", "x", "rot" ] }
+	  }
     },
     "68": {
-      "bedrock_id": "minecraft:wall_sign"
+      "bedrock_id": "minecraft:wall_sign",
+	  "bedrock_data": {
+		"same": 15
+	  }
     },
     "69": {
       "bedrock_id": "minecraft:lever"
@@ -342,7 +405,20 @@
     },
     "78": {
       "bedrock_id": "minecraft:snow_layer",
-      "collision": "snow_layer"
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": {
+	     "id": "snow_layer",
+         "0,8": { "multiply_height": 0 },
+         "1,9": { "multiply_height": 1 },
+         "2,10": { "multiply_height": 2 },
+         "3,11": { "multiply_height": 3 },
+         "4,12": { "multiply_height": 4 },
+         "5,13": { "multiply_height": 5 },
+         "6,14": { "multiply_height": 7 },
+         "7,15": { "multiply_height": 8 }
+	  }
     },
     "79": {
       "bedrock_id": "minecraft:ice",
@@ -354,6 +430,9 @@
     },
     "81": {
       "bedrock_id": "minecraft:cactus",
+	  "bedrock_data": {
+	     "same": 15
+	  },
       "collision": "cactus"
     },
     "82": {
@@ -369,6 +448,9 @@
     },
     "85": {
       "bedrock_id": "minecraft:fence",
+	  "bedrock_data": {
+	     "same": 15
+	  },
       "collision": "fence"
     },
     "86": {
@@ -388,7 +470,10 @@
       "collision": "cubic"
     },
     "90": {
-      "bedrock_id": "minecraft:portal"
+      "bedrock_id": "minecraft:portal",
+	  "bedrock_data": {
+	     "same": 15
+	  }
     },
     "91": {
       "bedrock_id": "minecraft:lit_pumpkin",
@@ -402,26 +487,33 @@
       "collision": {
 	    "id": "cake",
 	  
-	     "6": {
-			"multiply_width_x": 1
-		 },
-		 "5": {
-		    "multiply_width_x": 2
-		 },
-		 "4": {
-		    "multiply_width_x": 3
-		 },
-		 "3": {
-		    "multiply_width_x": 4
-		 },
-		 "2": {
-		    "multiply_width_x": 5
+	     "0": {
+	    	 "set_x": 0.0625,
+		    "set_width_x": 0.875
 		 },
 		 "1": {
-		    "multiply_width_x": 6
+		 	"set_x": 0.1875,
+		    "set_width_x": 0.75
 		 },
-		 "0": {
-		    "multiply_width_x": 7
+		 "2": {
+		 	"set_x": 0.3125,
+		    "set_width_x": 0.625
+		 },
+		 "3": {
+		 	"set_x": 0.4375,
+		    "set_width_x": 0.5
+		 },
+		 "4": {
+		 	"set_x": 0.5625,
+		    "set_width_x": 0.375
+		 },
+		 "5": {
+		 	"set_x": 0.6875,
+		    "set_width_x": 0.25
+		 },
+		 "6": {
+		 	"set_x": 0.8125,
+		    "set_width_x": 0.125
 		 }
 	  }
     },
@@ -449,6 +541,9 @@
     },
     "97": {
       "bedrock_id": "minecraft:monster_egg",
+	  "bedrock_data": {
+	     "same": 15
+	  },
       "collision": "cubic"
     },
     "98": {
@@ -486,15 +581,48 @@
     },
     "107": {
       "bedrock_id": "minecraft:fence_gate",
-      "collision": "fence"
-    },
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": {
+	     "id": "fence_gate",
+         "0,2,4,6,8,10,12,14": { },
+         "1,3,5,7,9,11,13,15": { "mirror": [ "rot" ] }
+	  }
+	},
     "108": {
       "bedrock_id": "minecraft:brick_stairs",
-      "collision": "stairs"
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": {
+	     "id": "stairs",
+         "0,8": { },
+         "1,9": { "mirror": [ "x" ] },
+         "2,10": { "mirror": [ "rot" ] },
+         "3,11": { "mirror": [ "x", "rot" ] },
+         "4,12": { "mirror": [ "y" ] },
+         "5,13": { "mirror": [ "y", "x" ] },
+         "6,14": { "mirror": [ "y", "rot" ] },
+         "7,15": { "mirror": [ "y", "x", "rot" ] }
+	  }
     },
     "109": {
       "bedrock_id": "minecraft:stone_brick_stairs",
-      "collision": "stairs"
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": {
+	     "id": "stairs",
+         "0,8": { },
+         "1,9": { "mirror": [ "x" ] },
+         "2,10": { "mirror": [ "rot" ] },
+         "3,11": { "mirror": [ "x", "rot" ] },
+         "4,12": { "mirror": [ "y" ] },
+         "5,13": { "mirror": [ "y", "x" ] },
+         "6,14": { "mirror": [ "y", "rot" ] },
+         "7,15": { "mirror": [ "y", "x", "rot" ] }
+	  }
     },
     "110": {
       "bedrock_id": "minecraft:mycelium",
@@ -502,6 +630,9 @@
     },
     "111": {
       "bedrock_id": "minecraft:waterlily",
+	  "bedrock_data": {
+	     "same": 15
+	  },
       "collision": "lily_pad"
     },
     "112": {
@@ -510,17 +641,36 @@
     },
     "113": {
       "bedrock_id": "minecraft:nether_brick_fence",
+	  "bedrock_data": {
+	     "same": 15
+	  },
       "collision": "fence"
     },
     "114": {
       "bedrock_id": "minecraft:nether_brick_stairs",
-      "collision": "stairs"
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": {
+	     "id": "stairs",
+         "0,8": { },
+         "1,9": { "mirror": [ "x" ] },
+         "2,10": { "mirror": [ "rot" ] },
+         "3,11": { "mirror": [ "x", "rot" ] },
+         "4,12": { "mirror": [ "y" ] },
+         "5,13": { "mirror": [ "y", "x" ] },
+         "6,14": { "mirror": [ "y", "rot" ] },
+         "7,15": { "mirror": [ "y", "x", "rot" ] }
+	  }
     },
     "115": {
       "bedrock_id": "minecraft:nether_wart"
     },
     "116": {
       "bedrock_id": "minecraft:enchanting_table",
+	  "bedrock_data": {
+	     "same": 15
+	  },
       "collision": "enchantment_table"
     },
     "117": {
@@ -536,6 +686,9 @@
     },
     "120": {
       "bedrock_id": "minecraft:end_portal_frame",
+	  "bedrock_data": {
+	     "same": 15
+	  },
       "collision": "end_portal_frame"
     },
     "121": {
@@ -555,158 +708,514 @@
       "collision": "cubic"
     },
     "125": {
-      "bedrock_id": "minecraft:dropper",
+      "bedrock_id": "minecraft:double_wooden_slab",
 	  "bedrock_data": {
 	     "same": 15
 	  },
       "collision": "cubic"
     },
     "126": {
-      "bedrock_id": "minecraft:activator_rail"
+      "bedrock_id": "minecraft:wooden_slab",
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": {
+	     "id": "slab",
+         "0,1,2,3,4,5,6,7": { },
+         "8,9,10,11,12,13,14,15": { "set_y": 0.5 }
+	  }
     },
     "127": {
-      "bedrock_id": "minecraft:cocoa"
+      "bedrock_id": "minecraft:cocoa",
+	  "bedrock_data": {
+	     "same": 11
+	  },
+      "collision": {
+	    "id": "cubic",
+	  
+	     "0": {
+			"set_x": 0.375,
+			"set_y": 0.4375,
+			"set_z": 0.6875,
+			"set_width_x": 0.25,
+			"set_height": 0.3125,
+			"set_width_z": 0.25
+		 },
+		 "1": {
+		    "set_x": 0.0625,
+			"set_y": 0.4375,
+			"set_z": 0.6875,
+			"set_width_x": 0.25,
+			"set_height": 0.3125,
+			"set_width_z": 0.25
+		 },
+		 "2": {
+		    "set_x": 0.375,
+			"set_y": 0.4375,
+			"set_z": 0.0625,
+			"set_width_x": 0.25,
+			"set_height": 0.3125,
+			"set_width_z": 0.25
+		 },
+		 "3": {
+		    "set_x": 0.6875,
+			"set_y": 0.4375,
+			"set_z": 0.375,
+			"set_width_x": 0.25,
+			"set_height": 0.3125,
+			"set_width_z": 0.25
+		 },
+		 "4": {
+		    "set_x": 0.3125,
+			"set_y": 0.3125,
+			"set_z": 0.5625,
+			"set_width_x": 0.375,
+			"set_height": 0.4375,
+			"set_width_z": 0.375
+		 },
+		 "5": {
+		    "set_x": 0.0625,
+			"set_y": 0.3125,
+			"set_z": 0.3125,
+			"set_width_x": 0.375,
+			"set_height": 0.4375,
+			"set_width_z": 0.375
+		 },
+		 "6": {
+		    "set_x": 0.3125,
+			"set_y": 0.3125,
+			"set_z": 0.0625,
+			"set_width_x": 0.375,
+			"set_height": 0.4375,
+			"set_width_z": 0.375
+		 },
+		 "7": {
+		    "set_x": 0.5625,
+			"set_y": 0.3125,
+			"set_z": 0.3125,
+			"set_width_x": 0.375,
+			"set_height": 0.4375,
+			"set_width_z": 0.375
+		 },
+		 "8": {
+		    "set_x": 0.25,
+			"set_y": 0.1875,
+			"set_z": 0.4375,
+			"set_width_x": 0.5,
+			"set_height": 0.5625,
+			"set_width_z": 0.5
+		 },
+		 "9": {
+		    "set_x": 0.0625,
+			"set_y": 0.1875,
+			"set_z": 0.25,
+			"set_width_x": 0.5,
+			"set_height": 0.5625,
+			"set_width_z": 0.5
+		 },
+		 "10": {
+		    "set_x": 0.25,
+			"set_y": 0.1875,
+			"set_z": 0.0625,
+			"set_width_x": 0.5,
+			"set_height": 0.5625,
+			"set_width_z": 0.5
+		 },
+		 "11": {
+		    "set_x": 0.4375,
+			"set_y": 0.1875,
+			"set_z": 0.25,
+			"set_width_x": 0.5,
+			"set_height": 0.5625,
+			"set_width_z": 0.5
+		 }
+	  }
     },
     "128": {
-      "bedrock_id": "minecraft:sandstone_stairs"
+      "bedrock_id": "minecraft:sandstone_stairs",
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": {
+	     "id": "stairs",
+         "0,8": { },
+         "1,9": { "mirror": [ "x" ] },
+         "2,10": { "mirror": [ "rot" ] },
+         "3,11": { "mirror": [ "x", "rot" ] },
+         "4,12": { "mirror": [ "y" ] },
+         "5,13": { "mirror": [ "y", "x" ] },
+         "6,14": { "mirror": [ "y", "rot" ] },
+         "7,15": { "mirror": [ "y", "x", "rot" ] }
+	  }
     },
     "129": {
-      "bedrock_id": "minecraft:emerald_ore"
+      "bedrock_id": "minecraft:emerald_ore",
+      "collision": "cubic"
     },
     "130": {
-      "bedrock_id": "minecraft:ender_chest"
+      "bedrock_id": "minecraft:ender_chest",
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": "chest"
     },
     "131": {
-      "bedrock_id": "minecraft:tripwire_hook"
+      "bedrock_id": "minecraft:tripwire_hook",
+      "collision": "cubic"
     },
     "132": {
       "bedrock_id": "minecraft:tripWire"
     },
     "133": {
-      "bedrock_id": "minecraft:emerald_block"
+      "bedrock_id": "minecraft:emerald_block",
+      "collision": "cubic"
     },
     "134": {
-      "bedrock_id": "minecraft:spruce_stairs"
+      "bedrock_id": "minecraft:spruce_stairs",
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": {
+	     "id": "stairs",
+         "0,8": { },
+         "1,9": { "mirror": [ "x" ] },
+         "2,10": { "mirror": [ "rot" ] },
+         "3,11": { "mirror": [ "x", "rot" ] },
+         "4,12": { "mirror": [ "y" ] },
+         "5,13": { "mirror": [ "y", "x" ] },
+         "6,14": { "mirror": [ "y", "rot" ] },
+         "7,15": { "mirror": [ "y", "x", "rot" ] }
+	  }
     },
     "135": {
-      "bedrock_id": "minecraft:birch_stairs"
+      "bedrock_id": "minecraft:birch_stairs",
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": {
+	     "id": "stairs",
+         "0,8": { },
+         "1,9": { "mirror": [ "x" ] },
+         "2,10": { "mirror": [ "rot" ] },
+         "3,11": { "mirror": [ "x", "rot" ] },
+         "4,12": { "mirror": [ "y" ] },
+         "5,13": { "mirror": [ "y", "x" ] },
+         "6,14": { "mirror": [ "y", "rot" ] },
+         "7,15": { "mirror": [ "y", "x", "rot" ] }
+	  }
     },
     "136": {
-      "bedrock_id": "minecraft:jungle_stairs"
+      "bedrock_id": "minecraft:jungle_stairs",
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": {
+	     "id": "stairs",
+         "0,8": { },
+         "1,9": { "mirror": [ "x" ] },
+         "2,10": { "mirror": [ "rot" ] },
+         "3,11": { "mirror": [ "x", "rot" ] },
+         "4,12": { "mirror": [ "y" ] },
+         "5,13": { "mirror": [ "y", "x" ] },
+         "6,14": { "mirror": [ "y", "rot" ] },
+         "7,15": { "mirror": [ "y", "x", "rot" ] }
+	  }
     },
     "137": {
-      "bedrock_id": "minecraft:command_block"
+      "bedrock_id": "minecraft:command_block",
+      "collision": "cubic"
     },
     "138": {
-      "bedrock_id": "minecraft:beacon"
+      "bedrock_id": "minecraft:beacon",
+      "collision": "cubic"
     },
     "139": {
-      "bedrock_id": "minecraft:cobblestone_wall"
+      "bedrock_id": "minecraft:cobblestone_wall",
+      "collision": "wall",
+	  "bedrock_data": {
+		"same": 15
+	  }
     },
     "140": {
-      "bedrock_id": "minecraft:flower_pot"
+      "bedrock_id": "minecraft:flower_pot",
+      "collision": "flower_pot",
+	  "bedrock_data": {
+		"same": 15
+	  }
     },
     "141": {
-      "bedrock_id": "minecraft:carrots"
+      "bedrock_id": "minecraft:carrots",
+	  "bedrock_data": {
+	     "same": 7
+	  }
     },
     "142": {
-      "bedrock_id": "minecraft:potatoes"
+      "bedrock_id": "minecraft:potatoes",
+	  "bedrock_data": {
+	     "same": 7
+	  }
     },
     "143": {
-      "bedrock_id": "minecraft:wooden_button"
+      "bedrock_id": "minecraft:wooden_button",
+	  "bedrock_data": {
+	     "same": 15
+	  }
     },
     "144": {
-      "bedrock_id": "minecraft:skull"
+      "bedrock_id": "minecraft:skull",
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": {
+	     "id": "skull",
+         "0,1,6,7,8,9,14,15": { },
+         "2,10": {
+         	"set_y": 0.25,
+         	"set_z": 0.5
+         },
+         "3,11": {
+         	"set_y": 0.25,
+         	"set_z": 0
+         },
+         "4,12": {
+         	"set_y": 0.25,
+         	"set_x": 0.5
+         },
+         "5,13": {
+         	"set_y": 0.25,
+         	"set_x": 0
+         }
+	  }
     },
     "145": {
-      "bedrock_id": "minecraft:anvil"
+      "bedrock_id": "minecraft:anvil",
+	  "bedrock_data": {
+	     "same": 11
+	  },
+      "collision": {
+	     "id": "anvil",
+         "0,2,6,8,10": { },
+         "1,3,5,7,9,11": { "mirror": [ "rot" ] }
+	  }
     },
     "146": {
-      "bedrock_id": "minecraft:trapped_chest"
+      "bedrock_id": "minecraft:trapped_chest",
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": "chest"
     },
     "147": {
-      "bedrock_id": "minecraft:light_weighted_pressure_plate"
+      "bedrock_id": "minecraft:light_weighted_pressure_plate",
+	  "bedrock_data": {
+	     "same": 15
+	  }
     },
     "148": {
-      "bedrock_id": "minecraft:heavy_weighted_pressure_plate"
+      "bedrock_id": "minecraft:heavy_weighted_pressure_plate",
+	  "bedrock_data": {
+	     "same": 11
+	  }
     },
     "149": {
-      "bedrock_id": "minecraft:unpowered_comparator"
+      "bedrock_id": "minecraft:unpowered_comparator",
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": "repeater"
     },
     "150": {
-      "bedrock_id": "minecraft:powered_comparator"
+      "bedrock_id": "minecraft:powered_comparator",
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": "repeater"
     },
     "151": {
-      "bedrock_id": "minecraft:daylight_detector"
+      "bedrock_id": "minecraft:daylight_detector",
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": "daylight_detector"
     },
     "152": {
-      "bedrock_id": "minecraft:redstone_block"
+      "bedrock_id": "minecraft:redstone_block",
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": "cubic"
     },
     "153": {
-      "bedrock_id": "minecraft:quartz_ore"
+      "bedrock_id": "minecraft:quartz_ore",
+      "collision": "cubic"
     },
     "154": {
-      "bedrock_id": "minecraft:hopper"
+      "bedrock_id": "minecraft:hopper",
+      "collision": "hopper"
     },
     "155": {
-      "bedrock_id": "minecraft:quartz_block"
+      "bedrock_id": "minecraft:quartz_block",
+      "collision": "cubic"
     },
     "156": {
-      "bedrock_id": "minecraft:quartz_stairs"
-    },
-    "157": {
-      "bedrock_id": "minecraft:double_wooden_slab"
+      "bedrock_id": "minecraft:quartz_stairs",
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": {
+	     "id": "stairs",
+         "0,8": { },
+         "1,9": { "mirror": [ "x" ] },
+         "2,10": { "mirror": [ "rot" ] },
+         "3,11": { "mirror": [ "x", "rot" ] },
+         "4,12": { "mirror": [ "y" ] },
+         "5,13": { "mirror": [ "y", "x" ] },
+         "6,14": { "mirror": [ "y", "rot" ] },
+         "7,15": { "mirror": [ "y", "x", "rot" ] }
+	  }
     },
     "158": {
-      "bedrock_id": "minecraft:wooden_slab"
+      "bedrock_id": "minecraft:dropper",
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": "cubic"
+    },
+    "157": {
+      "bedrock_id": "minecraft:activator_rail",
+	  "bedrock_data": {
+	     "same": 15
+	  }
     },
     "159": {
-      "bedrock_id": "minecraft:stained_hardened_clay"
+      "bedrock_id": "minecraft:stained_hardened_clay",
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": "cubic"
     },
     "160": {
-      "bedrock_id": "minecraft:stained_glass_pane"
+      "bedrock_id": "minecraft:stained_glass_pane",
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": "cubic"
     },
     "161": {
-      "bedrock_id": "minecraft:leaves2"
+      "bedrock_id": "minecraft:leaves2",
+	  "bedrock_data": {
+		"same": 15
+	  },
+      "collision": "cubic"
     },
     "162": {
-      "bedrock_id": "minecraft:log2"
+      "bedrock_id": "minecraft:log2",
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": "cubic"
     },
     "163": {
-      "bedrock_id": "minecraft:acacia_stairs"
+      "bedrock_id": "minecraft:acacia_stairs",
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": {
+	     "id": "stairs",
+         "0,8": { },
+         "1,9": { "mirror": [ "x" ] },
+         "2,10": { "mirror": [ "rot" ] },
+         "3,11": { "mirror": [ "x", "rot" ] },
+         "4,12": { "mirror": [ "y" ] },
+         "5,13": { "mirror": [ "y", "x" ] },
+         "6,14": { "mirror": [ "y", "rot" ] },
+         "7,15": { "mirror": [ "y", "x", "rot" ] }
+	  }
     },
     "164": {
-      "bedrock_id": "minecraft:dark_oak_stairs"
+      "bedrock_id": "minecraft:dark_oak_stairs",
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": {
+	     "id": "stairs",
+         "0,8": { },
+         "1,9": { "mirror": [ "x" ] },
+         "2,10": { "mirror": [ "rot" ] },
+         "3,11": { "mirror": [ "x", "rot" ] },
+         "4,12": { "mirror": [ "y" ] },
+         "5,13": { "mirror": [ "y", "x" ] },
+         "6,14": { "mirror": [ "y", "rot" ] },
+         "7,15": { "mirror": [ "y", "x", "rot" ] }
+	  }
     },
     "165": {
-      "bedrock_id": "minecraft:slime"
+      "bedrock_id": "minecraft:slime",
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": "cubic"
     },
     "167": {
-      "bedrock_id": "minecraft:iron_trapdoor"
+      "bedrock_id": "minecraft:iron_trapdoor",
+	  "bedrock_data": {
+	     "same": 8
+	  },
+      "collision": "trapdoor"
     },
     "168": {
-      "bedrock_id": "minecraft:prismarine"
+      "bedrock_id": "minecraft:prismarine",
+	  "bedrock_data": {
+	     "same": 15,
+	     "1": 2,
+	     "2": 1
+	  },
+      "collision": "cubic"
     },
     "169": {
-      "bedrock_id": "minecraft:seaLantern"
+      "bedrock_id": "minecraft:seaLantern",
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": "cubic"
     },
     "170": {
-      "bedrock_id": "minecraft:hay_block"
+      "bedrock_id": "minecraft:hay_block",
+      "collision": "cubic"
     },
     "171": {
-      "bedrock_id": "minecraft:carpet"
+      "bedrock_id": "minecraft:carpet",
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": "carpet"
     },
     "172": {
-      "bedrock_id": "minecraft:hardened_clay"
+      "bedrock_id": "minecraft:hardened_clay",
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": "cubic"
     },
     "173": {
-      "bedrock_id": "minecraft:coal_block"
+      "bedrock_id": "minecraft:coal_block",
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": "cubic"
     },
     "174": {
-      "bedrock_id": "minecraft:packed_ice"
+      "bedrock_id": "minecraft:packed_ice",
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": "cubic"
     },
     "175": {
-      "bedrock_id": "minecraft:double_plant"
+      "bedrock_id": "minecraft:double_plant",
+	  "bedrock_data": {
+	     "same": 15
+	  }
     },
     "176": {
       "bedrock_id": "minecraft:standing_banner"
@@ -721,7 +1230,21 @@
       "bedrock_id": "minecraft:red_sandstone"
     },
     "180": {
-      "bedrock_id": "minecraft:red_sandstone_stairs"
+      "bedrock_id": "minecraft:red_sandstone_stairs",
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": {
+	     "id": "stairs",
+         "0,8": { },
+         "1,9": { "mirror": [ "x" ] },
+         "2,10": { "mirror": [ "rot" ] },
+         "3,11": { "mirror": [ "x", "rot" ] },
+         "4,12": { "mirror": [ "y" ] },
+         "5,13": { "mirror": [ "y", "x" ] },
+         "6,14": { "mirror": [ "y", "rot" ] },
+         "7,15": { "mirror": [ "y", "x", "rot" ] }
+	  }
     },
     "181": {
       "bedrock_id": "minecraft:double_stone_slab2",
@@ -735,37 +1258,101 @@
 	  "bedrock_data": {
 	     "same": 15
 	  },
-      "collision": "slab"
+      "collision": {
+	     "id": "slab",
+         "0,1,2,3,4,5,6,7": { },
+         "8,9,10,11,12,13,14,15": { "set_y": 0.5 }
+	  }
     },
     "183": {
-      "bedrock_id": "minecraft:spruce_fence_gate"
+      "bedrock_id": "minecraft:spruce_fence_gate",
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": {
+	     "id": "fence_gate",
+         "0,2,4,6,8,10,12,14": { },
+         "1,3,5,7,9,11,13,15": { "mirror": [ "rot" ] }
+	  }
     },
     "184": {
-      "bedrock_id": "minecraft:birch_fence_gate"
+      "bedrock_id": "minecraft:birch_fence_gate",
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": {
+	     "id": "fence_gate",
+         "0,2,4,6,8,10,12,14": { },
+         "1,3,5,7,9,11,13,15": { "mirror": [ "rot" ] }
+	  }
     },
     "185": {
-      "bedrock_id": "minecraft:jungle_fence_gate"
+      "bedrock_id": "minecraft:jungle_fence_gate",
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": {
+	     "id": "fence_gate",
+         "0,2,4,6,8,10,12,14": { },
+         "1,3,5,7,9,11,13,15": { "mirror": [ "rot" ] }
+	  }
     },
     "186": {
-      "bedrock_id": "minecraft:dark_oak_fence_gate"
+      "bedrock_id": "minecraft:dark_oak_fence_gate",
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": {
+	     "id": "fence_gate",
+         "0,2,4,6,8,10,12,14": { },
+         "1,3,5,7,9,11,13,15": { "mirror": [ "rot" ] }
+	  }
     },
     "187": {
-      "bedrock_id": "minecraft:acacia_fence_gate"
+      "bedrock_id": "minecraft:acacia_fence_gate",
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": {
+	     "id": "fence_gate",
+         "0,2,4,6,8,10,12,14": { },
+         "1,3,5,7,9,11,13,15": { "mirror": [ "rot" ] }
+	  }
     },
     "188": {
-      "bedrock_id": "minecraft:repeating_command_block"
+      "bedrock_id": "minecraft:fence",
+	  "bedrock_data": {
+	  	"always": 1
+	  },
+      "collision": "fence"
     },
     "189": {
-      "bedrock_id": "minecraft:chain_command_block"
+      "bedrock_id": "minecraft:fence",
+	  "bedrock_data": {
+	  	"always": 2
+	  },
+      "collision": "fence"
     },
     "190": {
-      "bedrock_id": "minecraft:hard_glass_pane"
+      "bedrock_id": "minecraft:fence",
+	  "bedrock_data": {
+	  	"always": 3
+	  },
+      "collision": "fence"
     },
     "191": {
-      "bedrock_id": "minecraft:hard_stained_glass_pane"
+      "bedrock_id": "minecraft:fence",
+	  "bedrock_data": {
+	     "always": 5
+	  },
+      "collision": "fence"
     },
     "192": {
-      "bedrock_id": "minecraft:chemical_heat"
+      "bedrock_id": "minecraft:fence",
+	  "bedrock_data": {
+	     "always": 4
+	  },
+      "collision": "fence"
     },
     "193": {
       "bedrock_id": "minecraft:spruce_door"
@@ -798,7 +1385,21 @@
       "bedrock_id": "minecraft:colored_torch_rg"
     },
     "203": {
-      "bedrock_id": "minecraft:purpur_stairs"
+      "bedrock_id": "minecraft:purpur_stairs",
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": {
+	     "id": "stairs",
+         "0,8": { },
+         "1,9": { "mirror": [ "x" ] },
+         "2,10": { "mirror": [ "rot" ] },
+         "3,11": { "mirror": [ "x", "rot" ] },
+         "4,12": { "mirror": [ "y" ] },
+         "5,13": { "mirror": [ "y", "x" ] },
+         "6,14": { "mirror": [ "y", "rot" ] },
+         "7,15": { "mirror": [ "y", "x", "rot" ] }
+	  }
     },
     "204": {
       "bedrock_id": "minecraft:colored_torch_bp"
@@ -942,13 +1543,55 @@
       "bedrock_id": "minecraft:reserved6"
     },
     "257": {
-      "bedrock_id": "minecraft:prismarine_stairs"
+      "bedrock_id": "minecraft:prismarine_stairs",
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": {
+	     "id": "stairs",
+         "0,8": { },
+         "1,9": { "mirror": [ "x" ] },
+         "2,10": { "mirror": [ "rot" ] },
+         "3,11": { "mirror": [ "x", "rot" ] },
+         "4,12": { "mirror": [ "y" ] },
+         "5,13": { "mirror": [ "y", "x" ] },
+         "6,14": { "mirror": [ "y", "rot" ] },
+         "7,15": { "mirror": [ "y", "x", "rot" ] }
+	  }
     },
     "258": {
-      "bedrock_id": "minecraft:dark_prismarine_stairs"
+      "bedrock_id": "minecraft:dark_prismarine_stairs",
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": {
+	     "id": "stairs",
+         "0,8": { },
+         "1,9": { "mirror": [ "x" ] },
+         "2,10": { "mirror": [ "rot" ] },
+         "3,11": { "mirror": [ "x", "rot" ] },
+         "4,12": { "mirror": [ "y" ] },
+         "5,13": { "mirror": [ "y", "x" ] },
+         "6,14": { "mirror": [ "y", "rot" ] },
+         "7,15": { "mirror": [ "y", "x", "rot" ] }
+	  }
     },
     "259": {
-      "bedrock_id": "minecraft:prismarine_bricks_stairs"
+      "bedrock_id": "minecraft:prismarine_bricks_stairs",
+	  "bedrock_data": {
+	     "same": 15
+	  },
+      "collision": {
+	     "id": "stairs",
+         "0,8": { },
+         "1,9": { "mirror": [ "x" ] },
+         "2,10": { "mirror": [ "rot" ] },
+         "3,11": { "mirror": [ "x", "rot" ] },
+         "4,12": { "mirror": [ "y" ] },
+         "5,13": { "mirror": [ "y", "x" ] },
+         "6,14": { "mirror": [ "y", "rot" ] },
+         "7,15": { "mirror": [ "y", "x", "rot" ] }
+	  }
     },
     "260": {
       "bedrock_id": "minecraft:stripped_spruce_log"
@@ -1161,10 +1804,14 @@
 	],
     "stairs": [
 	   [ 0, 0, 0, 1, 0.5, 1 ],
-	   [ 0, 0.5, 0, 0.5, 0.5, 1 ]
+	   [ 0.5, 0.5, 0, 0.5, 0.5, 1 ]
+	],
+	"stairs_side": [
+	   [ 0, 0, 0, 1, 0.5, 1 ],
+	   [ 0.5, 0.5, 0, 0.5, 0.5, 0.5 ]
 	],
 	"farmland": [
-	
+		[ 0, 0, 0, 1, 0.9375, 1 ]
 	],
     "chest": [
 	   [ 0.0625, 0, 0.0625, 0.875, 0.875, 0.875 ]
@@ -1182,13 +1829,19 @@
 	   [ 0.0625, 0, 0.0625, 0.875, 1, 0.875 ]
 	],
     "fence": [
-	
+		[ 0.375, 0, 0.375, 0.25, 1.0, 0.25 ]
+	],
+    "fence_gate": [
+		[ 0, 0, 0.375, 1, 1, 0.25 ]
+	],
+	"wall": [
+		[ 0.25, 0, 0.25, 0.5, 1.0, 0.5 ]
 	],
     "cake": [
-	   [ 0.0625, 0, 0.0625, 0.125, 0.5, 0.875 ]
+	   [ 0, 0, 0.0625, 0, 0.5, 0.875 ]
 	],
     "repeater": [
-	
+		[ 0, 0, 0, 1, 0.125, 1 ]
 	],
     "trapdoor": [
 	
@@ -1200,22 +1853,38 @@
 	
 	],
     "lily_pad": [
-	
+		[ 0, 0, 0, 1, 0.015625, 1 ]
+	],
+	"daylight_detector": [
+		[ 0, 0, 0, 1, 0.375, 1 ]
 	],
     "enchantment_table": [
-	
+		[ 0, 0, 0, 1, 0.75, 1 ]
 	],
     "brewing_stand": [
-	
+    	
 	],
     "cauldron": [
 	
 	],
-    "end_portal_frame": [
+    "hopper": [
 	
+	],
+	"end_portal_frame": [
+		[ 0, 0, 0, 1, 0.8125, 1 ]
+	],
+    "carpet": [
+		[ 0, 0, 0, 1, 0.0625, 1 ]
+	],
+    "anvil": [
+		[ 0.125, 0, 0, 0.75, 1, 1 ]
 	],
     "dragon_egg": [
 	
+	],"flower_pot": [
+		[ 0.3125, 0, 0.3125, 0.375, 0.375, 0.375 ]
+	],"skull": [
+		[ 0.25, 0, 0.25, 0.5, 0.5, 0.5 ]
 	]
   }
 }

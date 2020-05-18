@@ -12,6 +12,9 @@ import de.marcely.pocketcraft.translate.bedrocktojava.world.block.BlockState;
 
 import static de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayEntityEvent.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.jetbrains.annotations.Nullable;
 
 public abstract class V8Entity extends Entity {
@@ -26,8 +29,11 @@ public abstract class V8Entity extends Entity {
 	
 	protected void onReadMeta(){ }
 	
+	/**
+	 * Returns null when there are no colliding blocks
+	 */
 	@Override
-	public @Nullable BlockCollisionEvent getCollidingBlock(){
+	public @Nullable List<BlockCollisionEvent> getCollidingBlocks(){
 		final EntityType type = this.getType();
 		
 		if(this.y + type.getHeight() < 0 || this.y > 255)
@@ -40,6 +46,8 @@ public abstract class V8Entity extends Entity {
 		final int maxY = (int) Math.ceil(Math.min(this.y + type.getHeight(), 255));
 		final int maxZ = (int) Math.ceil(this.z + type.getWidth() / 2F);
 		
+		List<BlockCollisionEvent> collisions = null;
+		
 		for(int ix=minX; ix<=maxX; ix++){
 			for(int iy=minY; iy<=maxY; iy++){
 				for(int iz=minZ; iz<=maxZ; iz++){
@@ -48,17 +56,20 @@ public abstract class V8Entity extends Entity {
 					if(state == null || state.getCollision() == null)
 						continue;
 					
-					final BlockCollision.Cube intersecting = state.getCollision().getCollidingWith(ix, iy, iz, this);
+					final List<BlockCollision.Cube> intersecting = state.getCollision().getCollidingWith(ix, iy, iz, this);
 					
 					if(intersecting == null)
 						continue;
 					
-					return new BlockCollisionEvent(ix, iy, iz, state, intersecting);
+					if(collisions == null)
+						collisions = new ArrayList<>();
+					
+					collisions.add(new BlockCollisionEvent(ix, iy, iz, state, intersecting));
 				}
 			}
 		}
 		
-		return null;
+		return collisions;
 	}
 	
 	public void write(V8EntityMetadata meta){
