@@ -64,32 +64,34 @@ public class BedrockClient {
 	}
 	
 	public void sendPacket(PCPacket packet){
-		sendPacket(packet, Reliability.RELIABLE_ORDERED, BedrockConfig.COMPRESSION_LEVEL);
+		sendPackets(Arrays.asList(packet));
 	}
 	
-	public void sendPacket(PCPacket packet, Reliability rel){
-		sendPacket(packet, rel, BedrockConfig.COMPRESSION_LEVEL);
+	public void sendPackets(List<PCPacket> packets){
+		sendPackets(packets, Reliability.RELIABLE_ORDERED, BedrockConfig.COMPRESSION_LEVEL);
 	}
 	
-	public void sendPacket(PCPacket packet, int compressionLevel){
-		sendPacket(packet, Reliability.RELIABLE_ORDERED, BedrockConfig.COMPRESSION_LEVEL);
+	public void sendPackets(List<PCPacket> packets, Reliability rel){
+		sendPackets(packets, rel, BedrockConfig.COMPRESSION_LEVEL);
 	}
 	
-	private void sendPacket(PCPacket packet, Reliability rel, int compressionLevel){
-		if(packet.getType() != PacketType.Batch){
-			final PacketBatch batch = new PacketBatch();
-			
-			try{
-				batch.writePayload(Arrays.asList(packet), compressionLevel);
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-			
-			sendPacket(batch);
-			
-			return;
+	public void sendPackets(List<PCPacket> packets, int compressionLevel){
+		sendPackets(packets, Reliability.RELIABLE_ORDERED, BedrockConfig.COMPRESSION_LEVEL);
+	}
+	
+	private void sendPackets(List<PCPacket> packets, Reliability rel, int compressionLevel){
+		final PacketBatch batch = new PacketBatch();
+		
+		try{
+			batch.writePayload(packets, compressionLevel);
+		}catch(Exception e){
+			e.printStackTrace();
 		}
 		
+		sendBatchPacket(batch, rel);
+	}
+	
+	private void sendBatchPacket(PacketBatch packet, Reliability rel){
 		for(PacketListener listener:this.packetListeners){
 			if(!listener.onSend(packet))
 				return;
@@ -172,7 +174,7 @@ public class BedrockClient {
 			out.hideScreen = false;
 			
 			this.isGettingKicked = true;
-			sendPacket(out, Reliability.RELIABLE_WITH_ACK_RECEIPT);
+			sendPackets(Arrays.asList(out), Reliability.RELIABLE_WITH_ACK_RECEIPT);
 		}
 	}
 }

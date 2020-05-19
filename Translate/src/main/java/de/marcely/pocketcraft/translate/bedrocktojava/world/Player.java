@@ -1,9 +1,13 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.world;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Map.Entry;
+import java.util.Queue;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import de.marcely.pocketcraft.bedrock.component.Dimension;
 import de.marcely.pocketcraft.bedrock.component.nbt.NBTCompound;
@@ -34,6 +38,7 @@ import de.marcely.pocketcraft.translate.BedrockToJavaTranslator;
 import de.marcely.pocketcraft.translate.bedrocktojava.component.TranslateComponents;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.block.BlockCollision;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.block.BlockCollisionEvent;
+import de.marcely.pocketcraft.utils.math.MathUtil;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -64,6 +69,10 @@ public class Player {
 	@Getter private Long loginTime = null;
 	@Getter @Setter private Dimension currentDimension;
 	private boolean queuedShowCreditsTask = false;
+	private Queue<Long> sendingChunks = new ConcurrentLinkedQueue<>(); // chunks that we are about to send
+	private Queue<Long> distantSendingChunks = new ConcurrentLinkedQueue<>(); // chunks that we want to send, but the player is too far
+	private List<Long> sentChunks = Collections.synchronizedList(new ArrayList<>()); // chunks that have been sent
+	private List<PCPacket> batchPackets = Collections.synchronizedList(new ArrayList<>()); // collecting packets and then flushing them at the end of a tick
 	
 	public Integer chunkX = null, chunkZ = null;
 	private int currentTick = 0;
@@ -78,14 +87,6 @@ public class Player {
 		return (Entity) this.getBedrock().getEntity();
 	}
 	
-	public void sendPacket(Packet packet){
-		this.java.sendPacket(packet);
-	}
-	
-	public void sendPacket(PCPacket packet){
-		this.bedrock.sendPacket(packet);
-	}
-	
 	public int getEntityId(){
 		return (int) this.bedrock.getEntity().getLongId();
 	}
@@ -94,38 +95,85 @@ public class Player {
 		return this.java.getId();
 	}
 	
-	private boolean isChunkInDistance(int chunkX, int chunkZ, int viewerX, int viewerZ, int distance){
-		return (chunkX >= viewerX - distance) && (chunkX <= viewerX + distance) && (chunkZ >= viewerZ - distance) && (chunkZ <= viewerZ + distance);
-	}
-	
 	public void tick(){
 		this.currentTick++;
 		
-		// send chunks
+		///////////////////////////////////
+		// HANDLES CHUNKS STUFF & PLAYER SPAWNING
+		///////////////////////////////////
 		{
 			final int newChunkX = ((int) this.x) >> 4;
 			final int newChunkZ = ((int) this.z) >> 4;
 			
-			if(this.currentTick % 10 == 0 &&
-			   (this.spawnState != SPAWN_STATE_DONE || (this.chunkX == null || (this.chunkX != newChunkX || this.chunkZ != newChunkZ)))){
-				this.chunkX = newChunkX;
-				this.chunkZ = newChunkZ;
-				
+			if(true){
 				int sentChunks = 0;
 				
 				{
-					for(Entry<Long, Chunk> e:this.world.getChunksMap().entrySet()){
-						final Chunk chunk = e.getValue();
-						final int x = (int) (long) e.getKey();
-						final int z = (int) (e.getKey() >> 32L);
-						final boolean inDistance = isChunkInDistance(x, z, newChunkX, newChunkZ, this.viewDistance-1);
+					Long index = null;
+					
+					if(this.chunkX == null || (this.chunkX != newChunkX || this.chunkZ != newChunkZ)){
+						// look for new interesting chunks
+						{
+    						final Iterator<Long> it = this.distantSendingChunks.iterator();
+    						
+        					while(it.hasNext()){
+        						index = it.next();
+        						final int x = (int) (long) index;
+        						final int z = (int) (index >> 32L);
+        						
+        						if(isChunkInViewDistance(x, z, newChunkX, newChunkZ)){
+        							this.sendingChunks.add(index);
+        							it.remove();
+        						}
+        					}
+						}
 						
-						if(!chunk.isSent() && inDistance){	
+						// check if chunks got unloaded
+						{
+							final Iterator<Long> it = this.sentChunks.iterator();
+							
+							while(it.hasNext()){
+								index = it.next();
+								final Chunk chunk = this.world.getChunksMap().get(index);
+								
+								if(chunk == null)
+									continue;
+								
+        						final int x = (int) (long) index;
+        						final int z = (int) (index >> 32L);
+        						
+        						if(!isChunkInViewDistance(x, z, newChunkX, newChunkZ)){
+        							this.distantSendingChunks.add(index);
+        							chunk.setSent(false);
+        							it.remove();
+        						}
+							}
+						}
+    					
+    					this.chunkX = newChunkX;
+    					this.chunkZ = newChunkZ;
+					}
+					
+					
+					// send chunks
+					while((index = this.sendingChunks.poll()) != null){
+						final Chunk chunk = this.world.getChunksMap().get(index);
+						
+						if(chunk == null)
+							continue;
+						
+						final int x = (int) (long) index;
+						final int z = (int) (index >> 32L);
+						final boolean inDistance = isChunkInViewDistance(x, z, newChunkX, newChunkZ);
+						
+						if(inDistance){
+							this.sentChunks.add(index);
 							sendPacket(chunk.buildPacket(this.world, x, z));
 							chunk.setSent(true);
-							sentChunks++;
 							
-							// spawn him
+							if(sentChunks++ == 3)
+								break;
+							
 							if(this.spawnState == SPAWN_STATE_SENDING_CHUNKS && newChunkX == x && newChunkZ == z){
 								System.out.println("========== SPAWNED");
 								
@@ -138,8 +186,8 @@ public class Player {
 								this.spawnState = SPAWN_STATE_WAITING_ACK;
 							}
 							
-						}else if(chunk.isSent() && !inDistance){
-							chunk.setSent(false);
+						}else{
+							this.distantSendingChunks.add(index);
 						}
 					}
 				}
@@ -198,6 +246,9 @@ public class Player {
 			}
 		}
 		
+        ///////////////////////////////////
+        // GAME TICK
+        ///////////////////////////////////
 		if(!isDead && isLoggedIn()){
 			// drag him down if he's on void. bedrock players walk on it for whatever reason
 			if(this.y <= -39){
@@ -286,13 +337,48 @@ public class Player {
 		}
 		
 		this.world.tick(this.currentTick);
+		
+        ///////////////////////////////////
+        // FLUSH PACKETS
+        ///////////////////////////////////
+		if(this.batchPackets.size() >= 1){
+			final List<PCPacket> send = new ArrayList<>(this.batchPackets);
+			
+			this.batchPackets.clear();
+			
+			this.bedrock.sendPackets(send);
+		}
 	}
 	
-	public void receivedChunk(int x, int z){
-		if(isChunkInDistance(x, z, (int) this.x >> 4, (int) this.z >> 4, this.viewDistance)){
-			this.chunkX = null;
-			this.chunkZ = null;
-		}
+	public void receivedJavaChunk(int x, int z, Chunk chunk){
+		final long index = World.getChunkIndex(x, z);
+		
+		chunk.setSent(false);
+		
+		if(isChunkInViewDistance(x, z, (int) this.x >> 4, (int) this.z >> 4))
+			this.sendingChunks.add(index);
+		else
+			this.distantSendingChunks.add(index);
+	}
+	
+	public void unloadChunk(int x, int z){
+		final long index = World.getChunkIndex(x, z);
+		final Chunk chunk = this.world.unloadChunk(x, z);
+		
+		this.distantSendingChunks.remove(index);
+		this.sendingChunks.remove(index);
+		this.sentChunks.remove(index);
+		
+		if(chunk != null)
+			chunk.setSent(false);
+	}
+	
+	public void unloadChunks(){
+		this.world.getChunksMap().clear();
+		this.world.getEntitiesMap().clear();
+		this.distantSendingChunks.clear();
+		this.sendingChunks.clear();
+		this.sentChunks.clear();
 	}
 	
 	public void updatePermissions(){
@@ -324,6 +410,22 @@ public class Player {
 		}
 	}
 	
+	public void sendPacket(Packet packet){
+		this.java.sendPacket(packet);
+	}
+	
+	public void sendPacket(PCPacket packet){
+		this.batchPackets.add(packet);
+	}
+	
+	public void sendPackets(PCPacket... packets){
+		this.batchPackets.addAll(Arrays.asList(packets));
+	}
+	
+	public void sendPackets(List<PCPacket> packets){
+		this.batchPackets.addAll(packets);
+	}
+	
 	public void setDead(boolean dead){
 		if(this.isDead == dead)
 			return;
@@ -345,6 +447,10 @@ public class Player {
 	
 	public void showCredits(){
 		this.queuedShowCreditsTask = true;
+	}
+	
+	private boolean isChunkInViewDistance(int chunkX, int chunkZ, int viewerX, int viewerZ){
+		return MathUtil.distance(chunkX, chunkZ, viewerX, viewerZ) < this.viewDistance;
 	}
 	
 	public boolean isLoggedIn(){

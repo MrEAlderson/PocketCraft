@@ -55,12 +55,8 @@ public class World {
 		return (T) getChunk(x, z);
 	}
 	
-	private long getChunkIndex(int x, int z){
-		return ((x & 0xFFFFFFFFL) | ((long) z << 32L));
-	}
-	
-	public boolean unloadChunk(int x, int z){
-		return this.chunksMap.remove(getChunkIndex(x, z)) != null;
+	public @Nullable Chunk unloadChunk(int x, int z){
+		return this.chunksMap.remove(getChunkIndex(x, z));
 	}
 	
 	public Collection<Chunk> getChunks(){
@@ -102,5 +98,9 @@ public class World {
 	
 	public Collection<Entity> getEntities(){
 		return this.entitiesMap.values();
+	}
+	
+	public static long getChunkIndex(int x, int z){
+		return ((x & 0xFFFFFFFFL) | ((long) z << 32L));
 	}
 }

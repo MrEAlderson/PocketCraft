@@ -12,7 +12,7 @@ public class TV8D9PacketPlayMapChunk extends JavaPacketTranslator<V8D9PacketPlay
 	public void handle(V8D9PacketPlayMapChunk packet, Player player){
 		// unload chunk
 		if(packet.groundUpContinous && packet.primaryBitMask == 0){
-			player.getWorld().unloadChunk(packet.x, packet.z);
+			player.unloadChunk(packet.x, packet.z);
 			return;
 		}
 		
@@ -31,11 +31,9 @@ public class TV8D9PacketPlayMapChunk extends JavaPacketTranslator<V8D9PacketPlay
 				(oldChunk != null ? oldChunk.getReference() : null)));
 		
 		// add it to system
-		if(oldChunk == null){
+		if(oldChunk == null)
 			player.getWorld().addChunk(packet.x, packet.z, newChunk);
-			player.receivedChunk(packet.x, packet.z);
 		
-		}else
-			oldChunk.setSent(false);
+		player.receivedJavaChunk(packet.x, packet.z, newChunk);
 	}
 }

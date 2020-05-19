@@ -1,6 +1,5 @@
 package de.marcely.pocketcraft.bedrock.component;
 
-import java.util.Base64;
 import java.util.UUID;
 
 import org.jetbrains.annotations.Nullable;

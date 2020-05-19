@@ -17,6 +17,7 @@ import de.marcely.pocketcraft.bedrock.network.packet.PCPacket;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketBatch;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketType;
 import de.marcely.pocketcraft.bedrock.server.player.BedrockClient;
+import de.marcely.pocketcraft.bedrock.server.player.PacketListener;
 import de.marcely.pocketcraft.bedrock.server.player.sequence.Sequence;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 import de.marcely.pocketcraft.utils.Application;
@@ -106,10 +107,16 @@ public class BaseRakNetServerListener implements RakNetServerListener {
 	
 	@Override
 	public void onAcknowledge(RakNetServer server, RakNetClientPeer client, Record record, EncapsulatedPacket packet){
+		System.out.println("ACK!");
+		
 		final BedrockClient player = this.server.getPlayer(client);
 		
 		if(player.isGettingKicked()){
 			player.getClient().disconnect();
+		
+		}else{
+			for(PacketListener listener:player.getPacketListeners())
+				listener.onAcknowledge(packet);
 		}
 	}
 }

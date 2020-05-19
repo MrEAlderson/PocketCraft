@@ -20,8 +20,7 @@ public class TV8D9PacketPlayRespawn extends JavaPacketTranslator<V8D9PacketPlayR
 				return;
 			
 			player.getWorld().setDimension(dimension);
-			player.getWorld().getChunksMap().clear();
-			player.getWorld().getEntitiesMap().clear();
+			player.unloadChunks();
 		}
 		
 		// game mode

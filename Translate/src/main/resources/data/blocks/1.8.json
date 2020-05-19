@@ -248,6 +248,9 @@
     },
     "45": {
       "bedrock_id": "minecraft:brick_block",
+	  "bedrock_data": {
+	     "same": 3
+	  },
       "collision": "cubic"
     },
     "46": {
@@ -507,6 +510,9 @@
     },
     "84": {
       "bedrock_id": "minecraft:jukebox",
+	  "bedrock_data": {
+	     "same": 1
+	  },
       "collision": "cubic"
     },
     "85": {
@@ -1255,6 +1261,10 @@
 	  "bedrock_data": {
 	     "same": 15
 	  },
+      "collision": "cubic"
+    },
+    "166": {
+      "bedrock_id": "minecraft:barrier",
       "collision": "cubic"
     },
     "167": {
