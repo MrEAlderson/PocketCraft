@@ -2,7 +2,6 @@ package de.marcely.pocketcraft.translate.bedrocktojava.packet.java;
 
 import de.marcely.pocketcraft.bedrock.network.packet.PacketLoginStatus;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketPlayerMove;
-import de.marcely.pocketcraft.bedrock.network.packet.PacketType;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketPlayerMove.PlayerMoveType;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayClientCommand;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayClientPositionLook;
@@ -10,6 +9,7 @@ import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayTelepo
 import de.marcely.pocketcraft.translate.bedrocktojava.JavaPacketTranslator;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.v8.entity.V8EntityHuman;
+import de.marcely.pocketcraft.utils.scheduler.Scheduler;
 
 public class TV8D9PacketPlayTeleport extends JavaPacketTranslator<V8D9PacketPlayTeleport> {
 	
@@ -43,6 +43,19 @@ public class TV8D9PacketPlayTeleport extends JavaPacketTranslator<V8D9PacketPlay
 				player.setPitch(packet.pitch);
 		}
 		
+		if(player.getSpawnState() == Player.SPAWN_STATE_WAITING_SPAWN){
+			// wait a bit otherwise client crashes
+			Scheduler.runAsyncLater(() -> {
+    			final PacketLoginStatus out = new PacketLoginStatus();
+    			
+    			out.result = PacketLoginStatus.PLAYER_SPAWN;
+    			
+    			player.sendPacket(out);
+    			
+    			player.setSpawnState(Player.SPAWN_STATE_DONE);
+			}, 1000);
+		}
+		
 		// log in
 		if(!player.isLoggedIn()){
 			// tells the server that we are ready to join
@@ -54,18 +67,7 @@ public class TV8D9PacketPlayTeleport extends JavaPacketTranslator<V8D9PacketPlay
 				player.sendPacket(out);
 			}
 			
-			{
-				final PacketLoginStatus out = (PacketLoginStatus) PacketType.LoginStatus.newInstance();
-				
-				out.result = PacketLoginStatus.PLAYER_SPAWN;
-				
-				player.sendPacket(out);
-			}
-			
 			player.logIn(new V8EntityHuman(player.getWorld(), player.getEntityId()));
-			
-			// PacketPlayerAction.TYPE_DIMENSION_CHANGE_ACK isn't getting called on spawn therfore we'll have to directly change it to done
-			player.setSpawnState(Player.SPAWN_STATE_DONE);
 		}
 		
 		// confirm it to server

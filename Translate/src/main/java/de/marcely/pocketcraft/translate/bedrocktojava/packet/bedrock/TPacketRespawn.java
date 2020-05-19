@@ -8,6 +8,8 @@ public class TPacketRespawn extends BedrockPacketTranslator<PacketRespawn> {
 
 	@Override
 	public void handle(PacketRespawn packet, Player player){
-		System.out.println("REEESPAWN " + packet.state);
+		if(packet.state == PacketRespawn.STATE_CLIENT_READY_TO_SPAWN){
+			System.out.println("REEESPAWN " + packet.state);
+		}
 	}
 }

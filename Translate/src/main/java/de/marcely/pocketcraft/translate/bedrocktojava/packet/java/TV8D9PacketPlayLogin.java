@@ -29,7 +29,6 @@ public class TV8D9PacketPlayLogin extends JavaPacketTranslator<V8D9PacketPlayLog
 				
 				player.getBedrock().initEntity(packet.entityId);
 				player.getWorld().setDimension(dimension);
-				player.setCurrentDimension(dimension);
 			}
 			
 			sendGamePacket(packet, player);

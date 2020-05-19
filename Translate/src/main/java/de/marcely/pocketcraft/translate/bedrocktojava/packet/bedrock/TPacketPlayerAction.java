@@ -66,7 +66,8 @@ public class TPacketPlayerAction extends BedrockPacketTranslator<PacketPlayerAct
 		
 		case PacketPlayerAction.TYPE_DIMENSION_CHANGE_ACK:
 		{
-			player.setSpawnState(Player.SPAWN_STATE_DONE);
+			// player.setSpawnState(Player.SPAWN_STATE_DONE);
+			System.out.println("READY TO SPAWN");
 		}
 		break;
 		}
