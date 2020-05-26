@@ -771,10 +771,16 @@
     },
     "117": {
       "bedrock_id": "minecraft:brewing_stand",
+	  "bedrock_data": {
+	     "same": 15
+	  },
       "collision": "brewing_stand"
     },
     "118": {
       "bedrock_id": "minecraft:cauldron",
+	  "bedrock_data": {
+	     "same": 15
+	  },
       "collision": "cauldron"
     },
     "119": {
