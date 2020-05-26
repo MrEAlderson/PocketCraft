@@ -1,14 +1,15 @@
 package de.marcely.pocketcraft.utils.scheduler;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class DefaultSchedulerImplementation implements SchedulerImplementation {
 	
 	private Timer timer = new Timer();
-	private Map<Integer, TimerTask> timers = new HashMap<>();
+	private Map<Integer, Runnable> timers = new ConcurrentHashMap<>();
 	
 	public DefaultSchedulerImplementation(){ }
 	
@@ -23,11 +24,19 @@ public class DefaultSchedulerImplementation implements SchedulerImplementation {
 		final int id = nextAvailableID();
 		final TimerTask task = new TimerTask(){
 			public void run(){
-				runn.run();
+				timers.remove(id);
+				
+				try{
+					runn.run();
+				}catch(Exception e){
+					e.printStackTrace();
+				}
 			}
 		};
 		
-		this.timers.put(id, task);
+		this.timers.put(id, () -> {
+			task.cancel();
+		});
 		
 		this.timer.schedule(task, time);
 		
@@ -43,27 +52,75 @@ public class DefaultSchedulerImplementation implements SchedulerImplementation {
 	@Override
 	public int runAsyncRepeated(Runnable runn, long firstTime, long period){
 		final int id = nextAvailableID();
-		final TimerTask task = new TimerTask(){
-			public void run(){
-				runn.run();
-			}
-		};
 		
-		this.timers.put(id, task);
-		
-		this.timer.schedule(task, firstTime, period);
+		if(period < 1000){
+			final AtomicBoolean isCancelled = new AtomicBoolean(false);
+			
+			this.timers.put(id, () -> {
+				isCancelled.set(true);
+			});
+			
+    		runLater(() -> {
+    			new Thread(){
+    				
+    				public void run(){
+    					final double tps = 1000D / period;
+    					final double nsPeriod = 1000000000 / tps;
+    					
+    					long lastTime = System.nanoTime();
+    					double delta = 0;
+    					
+    					while(isCancelled.get() == false){
+    						final long now = System.nanoTime();
+    						
+    						delta += (now - lastTime) / nsPeriod;
+    						lastTime = now;
+    						
+    						if(delta >= 1){
+    							delta--;
+    							
+    							try{
+    								runn.run();
+    							}catch(Exception e){
+    								e.printStackTrace();
+    							}
+    						}
+    					}
+    				}
+    			}.start();
+    		}, firstTime);
+    	
+		}else{
+			final TimerTask task = new TimerTask(){
+				public void run(){
+					timers.remove(id);
+					
+					try{
+						runn.run();
+					}catch(Exception e){
+						e.printStackTrace();
+					}
+				}
+			};
+			
+			this.timers.put(id, () -> {
+				task.cancel();
+			});
+			
+			this.timer.schedule(task, firstTime, period);
+		}
 		
 		return id;
 	}
 
 	@Override
 	public boolean cancel(int id){
-		final TimerTask task = this.timers.remove(id);
+		final Runnable task = this.timers.remove(id);
 		
 		if(task == null)
 			return false;
 		
-		task.cancel();
+		task.run();
 		
 		return true;
 	}
