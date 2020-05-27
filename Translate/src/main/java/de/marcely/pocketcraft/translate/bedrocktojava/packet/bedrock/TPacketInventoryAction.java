@@ -2,6 +2,7 @@ package de.marcely.pocketcraft.translate.bedrocktojava.packet.bedrock;
 
 import de.marcely.pocketcraft.bedrock.network.packet.PacketInventoryAction;
 import de.marcely.pocketcraft.bedrock.network.packet.action.*;
+import de.marcely.pocketcraft.java.component.v8.V8BlockFace;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayBlockDig;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayBlockPlace;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayClickEntity;
@@ -13,6 +14,7 @@ import de.marcely.pocketcraft.utils.math.Vector3;
 
 import static de.marcely.pocketcraft.bedrock.network.packet.action.InventoryAction.*;
 
+import de.marcely.pocketcraft.bedrock.component.BlockFace;
 import de.marcely.pocketcraft.bedrock.component.inventory.Item;
 import de.marcely.pocketcraft.bedrock.network.InventoryId;
 
@@ -53,18 +55,47 @@ public class TPacketInventoryAction extends BedrockPacketTranslator<PacketInvent
 	boolean e = false;
 	
 	private void handleAction(UseItemAction action, Player player){
-		System.out.println("USE");
+		// player breaking block
+		if(action.actionType == UseItemAction.ACTION_TYPE_PLACE_BREAK){
+			{
+				final V8D9PacketPlayBlockDig out = new V8D9PacketPlayBlockDig();
+				
+				out.status = V8D9PacketPlayBlockDig.STATUS_DIG_START;
+				out.position = new Vector3(action.blockPosX, action.blockPosY, action.blockPosZ);
+				out.face = ((V8BlockFace) player.getTranslateComponents().toJava(action.face, TranslateComponents.BLOCK_FACE)).getId();
+				
+				player.sendPacket(out);
+			}
+			
+			return;
+		}
 		
-		final V8D9PacketPlayBlockPlace out = new V8D9PacketPlayBlockPlace();
+		// placing block
+		if(action.face != null){
+    		final V8D9PacketPlayBlockPlace out = new V8D9PacketPlayBlockPlace();
+    		
+    		out.position = new Vector3(action.blockPosX, action.blockPosY, action.blockPosZ);
+    		out.face = ((V8BlockFace) player.getTranslateComponents().toJava(action.face, TranslateComponents.BLOCK_FACE)).getId();
+    		out.item = player.getTranslateComponents().toJava(action.item, TranslateComponents.ITEM);
+    		out.cursorPosX = action.clickPosX;
+    		out.cursorPosY = action.clickPosY;
+    		out.cursorPosZ = action.clickPosZ;
+    		
+    		player.sendPacket(out);
 		
-		out.position = new Vector3(action.blockPosX, action.blockPosY, action.blockPosZ);
-		out.face = -1;
-		out.item = player.getTranslateComponents().toJava(action.item, TranslateComponents.ITEM);
-		out.cursorPosX = -1;
-		out.cursorPosY = -1;
-		out.cursorPosZ = -1;
-		
-		player.sendPacket(out);
+    	// interacting with block/request slot info
+		}else{
+    		final V8D9PacketPlayBlockPlace out = new V8D9PacketPlayBlockPlace();
+    		
+    		out.position = new Vector3(action.blockPosX, action.blockPosY, action.blockPosZ);
+    		out.face = 0xFF;
+    		out.item = player.getTranslateComponents().toJava(action.item, TranslateComponents.ITEM);
+    		out.cursorPosX = -1;
+    		out.cursorPosY = -1;
+    		out.cursorPosZ = -1;
+    		
+    		player.sendPacket(out);
+		}
 	}
 	
 	// sent e.g. when stopping to eat food

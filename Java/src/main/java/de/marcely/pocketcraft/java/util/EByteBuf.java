@@ -127,10 +127,10 @@ public class EByteBuf {
 	}
 	
 	/* 26 bits: x
-	 * 16 bits: y
+	 * 12 bits: y
 	 * 26 bits: z */
-	public void writeBlockPosition(int x, int y, int z){
-		writeLong(((x & 0x3FFFFFF) << 38) | (y & 0xFFF << 26) | (z & 0x3FFFFFF));
+	public void writeBlockPosition(long x, long y, long z){
+		writeLong(((x & 0x3FFFFFF) << 38) | ((y & 0xFFF) << 26) | ((z & 0x3FFFFFF)));
 	}
 	
 	public void writeBlockPosition(Vector3 vec){

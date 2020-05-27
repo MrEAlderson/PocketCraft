@@ -104,4 +104,36 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>debug</id>
+
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>1.2.1</version>
+						<executions>
+							<execution>
+								<phase>package</phase>
+								<configuration>
+									<executable>cmd</executable>
+									<workingDirectory></workingDirectory>
+									<arguments>
+										<argument>/C</argument>
+										<argument>"${project.basedir}/run.bat"</argument>
+									</arguments>
+								</configuration>
+								<goals>
+									<goal>exec</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>

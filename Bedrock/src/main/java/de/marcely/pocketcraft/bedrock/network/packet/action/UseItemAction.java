@@ -9,10 +9,10 @@ import lombok.Getter;
 
 public class UseItemAction extends Action {
 	
-	/*
-	 * 0 = Only interact
-	 * 1 = Place block
-	 */
+	public static final byte ACTION_TYPE_INTERACT = 0;
+	public static final byte ACTION_TYPE_PLACE_BLOCK = 1;
+	public static final byte ACTION_TYPE_PLACE_BREAK = 2;
+	
 	public final long actionType;
 	public final int blockPosX, blockPosY, blockPosZ;
 	public final BlockFace face;

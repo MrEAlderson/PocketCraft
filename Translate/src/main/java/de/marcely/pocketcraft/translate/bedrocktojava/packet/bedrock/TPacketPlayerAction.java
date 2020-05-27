@@ -10,6 +10,8 @@ public class TPacketPlayerAction extends BedrockPacketTranslator<PacketPlayerAct
 
 	@Override
 	public void handle(PacketPlayerAction packet, Player player){
+		System.out.println("action: " + packet.type);
+		
 		switch(packet.type){
 		case PacketPlayerAction.TYPE_STOP_SLEEPING:
 		case PacketPlayerAction.TYPE_START_SPRINT:

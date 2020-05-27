@@ -4,9 +4,6 @@ import org.jetbrains.annotations.Nullable;
 
 public enum BlockFace {
 	
-	// used when clicking to air with PacketPlayInBlockPlace
-	NONE, // -1
-	
 	DOWN, // 0
 	UP, // 1
 	NORTH, // 2
@@ -15,7 +12,7 @@ public enum BlockFace {
 	EAST; // 5
 	
 	public byte getId(){
-		return (byte) (this.ordinal()-1);
+		return (byte) (this.ordinal());
 	}
 	
 	public int getHorizontalId(){
@@ -33,9 +30,7 @@ public enum BlockFace {
 		}
 	}
 	
-	public static @Nullable BlockFace getById(byte id){
-		id++;
-		
+	public static @Nullable BlockFace getById(int id){
 		if(id < 0 || id >= values().length)
 			return null;
 		

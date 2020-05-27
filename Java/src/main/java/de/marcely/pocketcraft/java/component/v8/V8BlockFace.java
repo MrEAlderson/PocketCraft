@@ -6,12 +6,12 @@ import lombok.Getter;
 
 public enum V8BlockFace {
 	
-	DOWN,
-	UP,
-	NORTH,
-	SOUTH,
-	WEST,
-	EAST;
+	DOWN, // 0
+	UP, // 1
+	NORTH, // 2
+	SOUTH, // 3
+	WEST, // 4
+	EAST; // 5
 	
 	private static final V8BlockFace[] SIDE_VALUES;
 	
