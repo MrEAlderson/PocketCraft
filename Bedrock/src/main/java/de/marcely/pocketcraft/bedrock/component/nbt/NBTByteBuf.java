@@ -2,6 +2,7 @@ package de.marcely.pocketcraft.bedrock.component.nbt;
 
 import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 import de.marcely.pocketcraft.utils.io.VarInt;
 import io.netty.buffer.ByteBuf;
@@ -176,6 +177,11 @@ public class NBTByteBuf {
 	
 	public byte[] array(){
 		return this.buffer.array();
+	}
+	
+	// same as array(), but cuts the unwritten bytes out
+	public byte[] cutArray(){
+		return Arrays.copyOf(this.buffer.array(), this.buffer.writerIndex());
 	}
 	
 	public boolean release(){

@@ -9,7 +9,6 @@ import java.util.Map;
 import org.jetbrains.annotations.Nullable;
 
 import de.marcely.pocketcraft.bedrock.component.nbt.NBTCompound;
-import de.marcely.pocketcraft.bedrock.component.nbt.NBTTag;
 import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTValue;
 import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTValueByte;
 import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTValueByteArray;
@@ -24,7 +23,9 @@ import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTValueShort;
 import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTValueString;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
 import lombok.Getter;
+import lombok.ToString;
 
+@ToString
 public class NBTCompound {
 	
 	@Getter private final Map<String, NBTTag> tags = new HashMap<>();
@@ -117,8 +118,8 @@ public class NBTCompound {
 		add(new NBTTag(name, new NBTValueList(value)));
 	}
 	
-	public void addCompound(String name, NBTCompound value){
-		add(new NBTTag(name, new NBTValueCompound(value)));
+	public void addCompound(String name, NBTValueCompound value){
+		add(new NBTTag(name, value));
 	}
 	
 	public void addIntArray(String name, int[] value){

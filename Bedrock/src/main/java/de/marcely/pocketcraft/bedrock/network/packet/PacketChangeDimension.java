@@ -8,7 +8,8 @@ public class PacketChangeDimension extends PCPacket {
 
 	public Dimension dimension;
 	public float posX, posY, posZ;
-	public boolean isRespawn;
+	// true: player dies in an dimension other than the overworld
+	public boolean respawn;
 	
 	public PacketChangeDimension(){
 		super(PacketType.ChangeDimension);
@@ -18,7 +19,7 @@ public class PacketChangeDimension extends PCPacket {
 	public void encode(EByteArrayWriter writer) throws Exception {
 		writer.writeSignedVarInt(this.dimension.getId());
 		writer.writeVector(this.posX, this.posY, this.posZ);
-		writer.writeBoolean(this.isRespawn);
+		writer.writeBoolean(this.respawn);
 		
 	}
 

@@ -5,7 +5,9 @@ import org.jetbrains.annotations.Nullable;
 import de.marcely.pocketcraft.bedrock.component.nbt.NBTCompound;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
+@ToString
 public abstract class BlockEntity {
 	
 	@Getter @Setter private int x, y, z;

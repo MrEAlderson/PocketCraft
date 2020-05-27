@@ -2,8 +2,14 @@ package de.marcely.pocketcraft.bedrock.component.nbt.value;
 
 import de.marcely.pocketcraft.bedrock.component.nbt.NBTByteBuf;
 import de.marcely.pocketcraft.bedrock.component.nbt.NBTCompound;
+import lombok.ToString;
 
+@ToString
 public class NBTValueCompound extends NBTValue<NBTCompound> {
+	
+	public NBTValueCompound(){
+		this(new NBTCompound());
+	}
 	
 	public NBTValueCompound(NBTCompound value){
 		super(value);

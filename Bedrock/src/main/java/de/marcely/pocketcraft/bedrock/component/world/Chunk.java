@@ -7,7 +7,8 @@ import java.util.Map.Entry;
 
 import org.jetbrains.annotations.Nullable;
 
-import de.marcely.pocketcraft.bedrock.component.nbt.NBTCompound;
+import de.marcely.pocketcraft.bedrock.component.nbt.NBTTag;
+import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTValueCompound;
 import de.marcely.pocketcraft.bedrock.component.world.blockentity.BlockEntity;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketFullChunk;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketType;
@@ -78,13 +79,16 @@ public class Chunk {
 		}
 		
 		stream.write(this.biomes); // biomes
-		stream.writeSignedByte((byte) 0); // unkown
-		stream.writeSignedVarInt(0); // extra data
+		// border blocks amount
+		// format: 4 bits (x pos), 4 bits (z pos)
+		// will crash the client (maybe wrong format)
+		stream.writeSignedByte((byte) 0);
+		stream.writeSignedVarInt(0); // extra data amount
 		
 		// block entities
 		try{
 			if(this.blockEntities != null && this.blockEntities.size() >= 1){
-				final NBTCompound nbt = new NBTCompound();
+				final NBTValueCompound nbt = new NBTValueCompound();
 				
 				for(Entry<Short, BlockEntity> e:this.blockEntities.entrySet()){
 					final BlockEntity entity = e.getValue();
@@ -93,16 +97,16 @@ public class Chunk {
 					{
 						final short raw = e.getKey();
 						
-						entity.setX((chunkX << 4) + (raw & 0x000F));
+						entity.setX((chunkX << 4) | (raw & 0x000F));
 						entity.setY((raw & 0x0FF0) >> 4);
-						entity.setZ((chunkZ << 4) + ((raw & 0xF000) >> 12));
+						entity.setZ((chunkZ << 4) | ((raw & 0xF000) >> 12));
 					}
 					
 					// write
 					{
-						entity.write(nbt);
-						nbt.write(stream, ByteOrder.LITTLE_ENDIAN, true);
-						nbt.clear();
+						entity.write(nbt.getData());
+						new NBTTag("", nbt).write(stream, ByteOrder.LITTLE_ENDIAN, true);
+						nbt.getData().clear();
 					}
 				}
 			}

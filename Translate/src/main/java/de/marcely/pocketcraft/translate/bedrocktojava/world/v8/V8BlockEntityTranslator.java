@@ -28,6 +28,8 @@ public class V8BlockEntityTranslator {
 		applyData(entity, data);
 		
 		chunk.addBlockEntity(x, y, z, entity);
+		
+		System.out.println("YAY " + type);
 	}
 	
 	private static void applyData(BlockEntity rawEntity, byte data){

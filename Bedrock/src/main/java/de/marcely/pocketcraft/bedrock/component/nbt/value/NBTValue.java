@@ -5,7 +5,9 @@ import org.jetbrains.annotations.Nullable;
 import de.marcely.pocketcraft.bedrock.component.nbt.NBTByteBuf;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
+@ToString
 public abstract class NBTValue<T> {
 	
 	public static final byte TYPE_END = 0x00;
@@ -27,6 +29,7 @@ public abstract class NBTValue<T> {
 		this.data = value;
 	}
 	
+	@ToString.Include
 	public abstract byte getType();
 	
 	public abstract void write(NBTByteBuf stream);

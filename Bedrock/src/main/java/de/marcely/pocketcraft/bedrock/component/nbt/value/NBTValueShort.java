@@ -2,7 +2,9 @@ package de.marcely.pocketcraft.bedrock.component.nbt.value;
 
 import de.marcely.pocketcraft.bedrock.component.nbt.NBTByteBuf;
 import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTNumericValue;
+import lombok.ToString;
 
+@ToString
 public class NBTValueShort extends NBTNumericValue<Short> {
 
 	public NBTValueShort(Short value){

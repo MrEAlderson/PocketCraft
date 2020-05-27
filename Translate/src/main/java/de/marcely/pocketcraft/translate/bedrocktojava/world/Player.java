@@ -9,7 +9,8 @@ import java.util.Queue;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import de.marcely.pocketcraft.bedrock.component.nbt.NBTCompound;
+import de.marcely.pocketcraft.bedrock.component.nbt.NBTTag;
+import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTValueCompound;
 import de.marcely.pocketcraft.bedrock.component.permission.PlayerPermissions;
 import de.marcely.pocketcraft.bedrock.component.world.blockentity.BlockEntity;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityAttribute;
@@ -18,7 +19,6 @@ import de.marcely.pocketcraft.bedrock.network.packet.PCPacket;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketBlockEntityData;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityAttributes;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketPlayerPermissions;
-import de.marcely.pocketcraft.bedrock.network.packet.PacketRespawn;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketText;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketNetworkChunkPublisherUpdate;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketPlayerMove;
@@ -59,7 +59,7 @@ public class Player {
 	@Getter @Setter private float walkSpeed, flySpeed;
 	@Getter @Setter private boolean isSprinting;
 	
-	@Getter private boolean isDead = false;
+	@Getter @Setter private boolean isDead = false;
 	@Getter @Setter private byte spawnState = SPAWN_STATE_WAITING_SPAWN;
 	@Getter private Long loginTime = null;
 	private boolean queuedShowCreditsTask = false;
@@ -122,7 +122,7 @@ public class Player {
     				}
     				
     				// check if chunks got unloaded
-    				{
+    				synchronized(this.sentChunks){
     					final Iterator<Long> it = this.sentChunks.iterator();
     					
     					while(it.hasNext()){
@@ -389,25 +389,6 @@ public class Player {
 		this.batchPackets.addAll(packets);
 	}
 	
-	public void setDead(boolean dead){
-		if(this.isDead == dead)
-			return;
-		
-		this.isDead = dead;
-		
-		if(dead){
-			final PacketRespawn out = new PacketRespawn();
-			
-			out.posX = this.x;
-			out.posY = this.y;
-			out.posZ = this.z;
-			out.state = PacketRespawn.STATE_READY_TO_SPAWN;
-			out.entityRuntimeId = getEntityId();
-			
-			sendPacket(out);
-		}
-	}
-	
 	public void showCredits(){
 		this.queuedShowCreditsTask = true;
 	}
@@ -442,11 +423,11 @@ public class Player {
 		out.z = entity.getZ();
 		
 		{
-			final NBTCompound nbt = new NBTCompound();
+			final NBTValueCompound nbt = new NBTValueCompound();
 			
-			entity.write(nbt);
+			entity.write(nbt.getData());
 			
-			out.data = nbt;
+			out.data = new NBTTag("", nbt);
 		}
 		
 		sendPacket(out);
@@ -459,5 +440,9 @@ public class Player {
 		out.message = message;
 		
 		sendPacket(out);
+	}
+	
+	public boolean isOnline(){
+		return this.bedrock.getClient().isConnected() && this.java.isRunning();
 	}
 }

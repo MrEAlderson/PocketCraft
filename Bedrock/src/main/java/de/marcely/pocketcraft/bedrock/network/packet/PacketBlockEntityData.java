@@ -4,13 +4,13 @@ import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
 
 import java.nio.ByteOrder;
 
-import de.marcely.pocketcraft.bedrock.component.nbt.NBTCompound;
+import de.marcely.pocketcraft.bedrock.component.nbt.NBTTag;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
 public class PacketBlockEntityData extends PCPacket {
 
 	public int x, y, z;
-	public NBTCompound data;
+	public NBTTag data;
 	
 	public PacketBlockEntityData(){
 		super(PacketType.BlockEntityData);
@@ -21,7 +21,7 @@ public class PacketBlockEntityData extends PCPacket {
 		writer.writeSignedVarInt(this.x);
 		writer.writeUnsignedVarInt(this.y);
 		writer.writeSignedVarInt(this.z);
-		this.data.write(writer, ByteOrder.LITTLE_ENDIAN, false);
+		this.data.write(writer, ByteOrder.LITTLE_ENDIAN, true);
 	}
 
 	@Override

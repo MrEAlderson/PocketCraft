@@ -50,7 +50,7 @@ public abstract class V8EntityLiving extends V8Entity {
 			break;
 			
 		case 6:
-			this.metadata.setInt(EntityDataType.HEALTH, (int) meta.readFloat(key));
+			this.metadata.setInt(EntityDataType.HEALTH, /*(int) meta.readFloat(key)*/10);
 			break;
 			
 		case 7:

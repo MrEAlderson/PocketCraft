@@ -8,7 +8,9 @@ import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTValue;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
 import lombok.Getter;
+import lombok.ToString;
 
+@ToString
 public class NBTTag {
 	
 	@Getter private final String name;
@@ -26,7 +28,7 @@ public class NBTTag {
 			write(buf);
 			
 			try{
-				stream.write(buf.array());
+				stream.write(buf.cutArray());
 			}catch(IOException e){
 				e.printStackTrace();
 			}

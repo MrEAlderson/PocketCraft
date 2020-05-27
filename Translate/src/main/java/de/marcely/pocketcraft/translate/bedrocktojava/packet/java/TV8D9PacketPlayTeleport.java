@@ -3,18 +3,20 @@ package de.marcely.pocketcraft.translate.bedrocktojava.packet.java;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketLoginStatus;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketPlayerMove;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketPlayerMove.PlayerMoveType;
-import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayClientCommand;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayClientPositionLook;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayTeleport;
 import de.marcely.pocketcraft.translate.bedrocktojava.JavaPacketTranslator;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.v8.entity.V8EntityHuman;
-import de.marcely.pocketcraft.utils.scheduler.Scheduler;
 
 public class TV8D9PacketPlayTeleport extends JavaPacketTranslator<V8D9PacketPlayTeleport> {
 	
+	public static long lastDimensionChange = 0;
+	
 	@Override
 	public void handle(V8D9PacketPlayTeleport packet, Player player){
+		System.out.println("TELEPORRT");
+		
 		// read it
 		{
 			if((packet.flags & V8D9PacketPlayTeleport.FLAG_REL_X) > 0)
@@ -43,29 +45,9 @@ public class TV8D9PacketPlayTeleport extends JavaPacketTranslator<V8D9PacketPlay
 				player.setPitch(packet.pitch);
 		}
 		
-		if(player.getSpawnState() == Player.SPAWN_STATE_WAITING_SPAWN){
-			// wait a bit otherwise client crashes
-			Scheduler.runAsyncLater(() -> {
-    			final PacketLoginStatus out = new PacketLoginStatus();
-    			
-    			out.result = PacketLoginStatus.PLAYER_SPAWN;
-    			
-    			player.sendPacket(out);
-    			
-    			player.setSpawnState(Player.SPAWN_STATE_DONE);
-			}, 1000);
-		}
-		
 		// log in
 		if(!player.isLoggedIn()){
-			// tells the server that we are ready to join
-			{
-				final V8D9PacketPlayClientCommand out = new V8D9PacketPlayClientCommand();
-				
-				out.command = V8D9PacketPlayClientCommand.COMMAND_PERFORM_RESPAWN;
-				
-				player.sendPacket(out);
-			}
+			softlyChangeDimension(player, false); // spawn player to world
 			
 			player.logIn(new V8EntityHuman(player.getWorld(), player.getEntityId()));
 		}
@@ -96,6 +78,19 @@ public class TV8D9PacketPlayTeleport extends JavaPacketTranslator<V8D9PacketPlay
 			out.pitch = player.getPitch();
 			out.mode = PlayerMoveType.TELEPORT;
 			out.onGround = false;
+			
+			player.sendPacket(out);
+		}
+		
+		if(player.getSpawnState() == Player.SPAWN_STATE_WAITING_SPAWN)
+			player.setSpawnState(Player.SPAWN_STATE_DONE);
+	}
+	
+	private void softlyChangeDimension(Player player, boolean first){
+		{
+			final PacketLoginStatus out = new PacketLoginStatus();
+			
+			out.result = PacketLoginStatus.PLAYER_SPAWN;
 			
 			player.sendPacket(out);
 		}

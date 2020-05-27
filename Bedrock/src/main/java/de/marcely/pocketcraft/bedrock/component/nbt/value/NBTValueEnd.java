@@ -2,7 +2,9 @@ package de.marcely.pocketcraft.bedrock.component.nbt.value;
 
 import de.marcely.pocketcraft.bedrock.component.nbt.NBTByteBuf;
 import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTValue;
+import lombok.ToString;
 
+@ToString
 public class NBTValueEnd extends NBTValue<Void> {
 
 	public NBTValueEnd(){ super(null); }

@@ -1,7 +1,9 @@
 package de.marcely.pocketcraft.bedrock.component.nbt.value;
 
 import de.marcely.pocketcraft.bedrock.component.nbt.NBTByteBuf;
+import lombok.ToString;
 
+@ToString
 public class NBTValueIntArray extends NBTValue<int[]> {
 
 	public NBTValueIntArray(int[] value){

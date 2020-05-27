@@ -11,6 +11,7 @@ import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityAttributes;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketGame;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketGameRules;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketType;
+import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayClientCommand;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayClientSettings;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayLogin;
 import de.marcely.pocketcraft.translate.bedrocktojava.JavaPacketTranslator;
@@ -93,10 +94,18 @@ public class TV8D9PacketPlayLogin extends JavaPacketTranslator<V8D9PacketPlayLog
 				
 				player.sendPacket(out);
 			}
+			
+			{
+				final V8D9PacketPlayClientCommand out = new V8D9PacketPlayClientCommand();
+				
+				out.command = V8D9PacketPlayClientCommand.COMMAND_PERFORM_RESPAWN;
+				
+				player.sendPacket(out);
+			}
 		}
 	}
 	
-	private void sendGamePacket(V8D9PacketPlayLogin packet, Player player){
+	public static void sendGamePacket(V8D9PacketPlayLogin packet, Player player){
 		final PacketGame out = (PacketGame) PacketType.Game.newInstance();
 		
 		out.entityUniqueId = player.getEntityId();

@@ -2,7 +2,9 @@ package de.marcely.pocketcraft.bedrock.component.nbt.value;
 
 import de.marcely.pocketcraft.bedrock.component.nbt.NBTByteBuf;
 import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTNumericValue;
+import lombok.ToString;
 
+@ToString
 public class NBTValueFloat extends NBTNumericValue<Float> {
 
 	public NBTValueFloat(Float value){
