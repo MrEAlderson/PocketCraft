@@ -85,7 +85,6 @@ public class PacketWorldEvent extends PCPacket {
 
     public static final int TYPE_ADD_PARTICLE_MASK = 0x4000;
     
-    
 	public int type, data = 0;
 	public float x = 0, y = 0, z = 0;
 	
