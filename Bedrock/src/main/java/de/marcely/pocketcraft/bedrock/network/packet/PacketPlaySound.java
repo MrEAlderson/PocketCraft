@@ -6,7 +6,7 @@ import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 public class PacketPlaySound extends PCPacket {
 	
 	public String soundName;
-	public int x, y, z;
+	public float x, y, z;
 	public float volume, pitch;
 	
 	public PacketPlaySound(){
@@ -15,12 +15,12 @@ public class PacketPlaySound extends PCPacket {
 
 	@Override
 	public void encode(EByteArrayWriter writer) throws Exception {
-		writer.writeString(soundName);
-		writer.writeSignedVarInt(x*8);
-		writer.writeUnsignedVarInt(y*8);
-		writer.writeSignedVarInt(z*8);
-		writer.writeLFloat(volume);
-		writer.writeLFloat(pitch);
+		writer.writeString(this.soundName);
+		writer.writeSignedVarInt((int) (this.x * 8F));
+		writer.writeUnsignedVarInt((int) (y * 8F));
+		writer.writeSignedVarInt((int) (z * 8F));
+		writer.writeLFloat(this.volume);
+		writer.writeLFloat(this.pitch);
 	}
 
 	@Override
