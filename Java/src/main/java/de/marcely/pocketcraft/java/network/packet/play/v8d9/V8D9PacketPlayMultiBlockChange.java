@@ -23,9 +23,9 @@ public class V8D9PacketPlayMultiBlockChange extends PlayPacket {
 		stream.writeVarInt(this.relX.length);
 		
 		for(int i=0; i<this.relX.length; i++){
-			stream.writeByte(this.relX[i] << 4 | this.relZ[i]);
-			stream.writeUnsignedByte(this.relZ[i]);
-			stream.writeVarInt(this.id[i] << 4 | this.data[i]);
+			stream.writeUnsignedByte((this.relX[i] << 4) | (this.relZ[i] & 0x0F));
+			stream.writeUnsignedByte(this.y[i]);
+			stream.writeVarInt((this.id[i] << 4) | this.data[i]);
 		}
 	}
 
@@ -47,7 +47,7 @@ public class V8D9PacketPlayMultiBlockChange extends PlayPacket {
 		for(int i=0; i<this.relX.length; i++){
 			final byte rel = stream.readByte();
 			
-			this.relX[i] = (byte) (rel & 0xF0);
+			this.relX[i] = (byte) ((rel & 0xF0) >> 4);
 			this.y[i] = stream.readUnsignedByte();
 			this.relZ[i] = (byte) (rel & 0x0F);
 			
