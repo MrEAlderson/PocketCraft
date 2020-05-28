@@ -8,6 +8,10 @@ public class BlockEntityEnchantTable extends BlockEntity implements BlockEntityN
 
 	@Getter @Setter private String customName;
 	
+	public BlockEntityEnchantTable(int x, int y, int z){
+		super(x, y, z);
+	}
+	
 	@Override
 	public BlockEntityType getType(){
 		return BlockEntityType.ENCHANT_TABLE;

@@ -11,6 +11,10 @@ public class BlockEntityBeacon extends BlockEntity {
 	@Getter @Setter private int primary;
 	@Getter @Setter private int secondary;
 	
+	public BlockEntityBeacon(int x, int y, int z){
+		super(x, y, z);
+	}
+	
 	@Override
 	public BlockEntityType getType(){
 		return BlockEntityType.BEACON;

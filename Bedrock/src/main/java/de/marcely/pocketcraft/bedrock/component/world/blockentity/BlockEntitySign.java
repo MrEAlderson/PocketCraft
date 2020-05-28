@@ -10,6 +10,10 @@ public class BlockEntitySign extends BlockEntity {
 	
 	@Getter @Setter private String[] lines = new String[0];
 	
+	public BlockEntitySign(int x, int y, int z){
+		super(x, y, z);
+	}
+	
 	@Override
 	public BlockEntityType getType(){
 		return BlockEntityType.SIGN;

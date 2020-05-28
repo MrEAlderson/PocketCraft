@@ -37,12 +37,12 @@ public enum BlockEntityType {
 		this.clazz = clazz;
 	}
 	
-	public @Nullable BlockEntity newInstance(){
+	public @Nullable BlockEntity newInstance(int x, int y, int z){
 		if(this.clazz == null)
 			return null;
 		
 		try{
-			return this.clazz.newInstance();
+			return this.clazz.getConstructor(int.class, int.class, int.class).newInstance(x, y, z);
 		}catch(Exception e){
 			e.printStackTrace();
 		}

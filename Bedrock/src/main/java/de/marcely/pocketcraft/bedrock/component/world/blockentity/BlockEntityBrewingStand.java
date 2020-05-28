@@ -11,6 +11,10 @@ public class BlockEntityBrewingStand extends BlockEntity implements BlockEntityN
 	@Getter @Setter private short fuelTotal, fuelAmount, brewTime;
 	@Getter @Setter private String customName;
 	
+	public BlockEntityBrewingStand(int x, int y, int z){
+		super(x, y, z);
+	}
+	
 	@Override
 	public BlockEntityType getType(){
 		return BlockEntityType.BREWING_STAND;

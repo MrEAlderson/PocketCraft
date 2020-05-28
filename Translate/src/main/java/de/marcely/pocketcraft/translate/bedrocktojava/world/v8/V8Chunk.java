@@ -35,10 +35,10 @@ public class V8Chunk extends Chunk {
 		}
 	}
 	
-	public V8Chunk(de.marcely.pocketcraft.java.component.v8.V8Chunk ref){
+	public V8Chunk(de.marcely.pocketcraft.java.component.v8.V8Chunk ref, World world, int x, int z){
 		this.reference = ref;
 		
-		fetchBlockEntities();
+		fetchBlockEntities(world, x, z);
 	}
 	
 	@Override
@@ -90,7 +90,7 @@ public class V8Chunk extends Chunk {
 		return bedrock.buildPacket(x, z);
 	}
 	
-	private void fetchBlockEntities(){
+	private void fetchBlockEntities(World world, int x, int z){
 		this.blockEntities.clear();
 		
 		for(int si=0; si<16; si++){
@@ -104,7 +104,7 @@ public class V8Chunk extends Chunk {
 					for(int iz=0; iz<16; iz++){
 						final int y = iy+si*16;
 						
-						V8BlockEntityTranslator.handleSpawn(null, this, ix, y, iz, section.getId(ix, iy, iz), section.getData(ix, iy, iz), null);
+						V8BlockEntityTranslator.handleSpawn(world, this, (x << 4) | ix, y, (z << 4) | iz, section.getId(ix, iy, iz), section.getData(ix, iy, iz), null);
 					}
 				}
 			}

@@ -12,6 +12,10 @@ public class BlockEntityFurnace extends BlockEntity implements BlockEntityNameab
 	
 	@Getter @Setter private String customName;
 	
+	public BlockEntityFurnace(int x, int y, int z){
+		super(x, y, z);
+	}
+	
 	@Override
 	public BlockEntityType getType(){
 		return BlockEntityType.FURNACE;

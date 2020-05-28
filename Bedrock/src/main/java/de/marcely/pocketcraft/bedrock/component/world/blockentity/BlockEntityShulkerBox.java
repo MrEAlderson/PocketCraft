@@ -9,6 +9,10 @@ public class BlockEntityShulkerBox extends BlockEntity implements BlockEntityNam
 	@Getter @Setter private byte facing;
 	@Getter @Setter private String customName;
 	
+	public BlockEntityShulkerBox(int x, int y, int z){
+		super(x, y, z);
+	}
+	
 	@Override
 	public BlockEntityType getType(){
 		return BlockEntityType.SHULKER_BOX;

@@ -9,6 +9,10 @@ public class BlockEntityChest extends BlockEntity implements BlockEntityNameable
 	@Getter private Integer pairX, pairZ;
 	@Getter @Setter private String customName;
 	
+	public BlockEntityChest(int x, int y, int z){
+		super(x, y, z);
+	}
+	
 	@Override
 	public BlockEntityType getType(){
 		return BlockEntityType.CHEST;

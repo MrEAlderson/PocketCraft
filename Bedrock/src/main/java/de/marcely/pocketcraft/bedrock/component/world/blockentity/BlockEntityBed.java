@@ -8,6 +8,10 @@ public class BlockEntityBed extends BlockEntity {
 	
 	@Getter @Setter private byte color;
 	
+	public BlockEntityBed(int x, int y, int z){
+		super(x, y, z);
+	}
+	
 	@Override
 	public BlockEntityType getType(){
 		return BlockEntityType.BED;

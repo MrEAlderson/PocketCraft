@@ -6,6 +6,10 @@ public class BlockEntityBanner extends BlockEntity {
 	
 	// TODO
 	
+	public BlockEntityBanner(int x, int y, int z){
+		super(x, y, z);
+	}
+
 	@Override
 	public BlockEntityType getType(){
 		return BlockEntityType.BANNER;

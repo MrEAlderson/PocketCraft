@@ -37,7 +37,7 @@ public class TV8D9PacketPlayMapChunkBulk extends JavaPacketTranslator<V8D9Packet
 						primaryBitMask,
 						(player.getWorld().getDimension() == Dimension.OVERWORLD),
 						true,
-						(oldChunk != null ? oldChunk.getReference() : null)));
+						(oldChunk != null ? oldChunk.getReference() : null)), player.getWorld(), x, z);
 				
 				// add it to system
 				if(oldChunk == null)

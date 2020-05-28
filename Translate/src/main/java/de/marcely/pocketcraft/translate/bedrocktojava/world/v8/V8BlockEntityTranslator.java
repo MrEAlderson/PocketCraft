@@ -4,33 +4,35 @@ import org.jetbrains.annotations.Nullable;
 
 import de.marcely.pocketcraft.bedrock.component.world.blockentity.*;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Chunk;
-import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
+import de.marcely.pocketcraft.translate.bedrocktojava.world.World;
 
 public class V8BlockEntityTranslator {
 	
-	public static void handleSpawn(@Nullable Player player, Chunk chunk, int x, int y, int z, short id, byte data, Short oldId){
+	public static @Nullable BlockEntity handleSpawn(World world, Chunk chunk, int x, int y, int z, short id, byte data, Short oldId){
 		final BlockEntityType type = getType(id);
 		
 		if(type == null){
 			if(oldId != null && getType(oldId) != null)
-				chunk.removeBlockEntity(x, y, z);
+				chunk.removeBlockEntity(x & 0xF, y, z & 0xF);
 			
-			return;
+			return null;
 		}
 		
-		final BlockEntity entity = type.newInstance();
+		final BlockEntity entity = type.newInstance(x, y, z);
 		
 		if(entity == null){
 			System.out.println("Failed to create instance of block entity: " + type);
-			return;
+			return null;
 		}
 		
-		applyData(entity, data);
+		applyData(entity, world, data);
 		
-		chunk.addBlockEntity(x, y, z, entity);
+		chunk.addBlockEntity(x & 0xF, y, z & 0xF, entity);
+		
+		return entity;
 	}
 	
-	private static void applyData(BlockEntity rawEntity, byte data){
+	private static void applyData(BlockEntity rawEntity, World world, byte data){
 		switch(rawEntity.getType()){
 		case BED:
 		{
@@ -48,8 +50,66 @@ public class V8BlockEntityTranslator {
 		}
 		break;
 		
+		case CHEST:
+		{
+			final BlockEntityChest entity = (BlockEntityChest) rawEntity;
+			final BlockEntityChest pair = findPairableChest(world, entity.getX(), entity.getY(), entity.getZ());
+			
+			if(pair != null){
+				entity.pair(pair.getX(), pair.getZ());
+				pair.pair(entity.getX(), entity.getZ());
+			}else{
+				System.out.println("found no pair at " + entity.getX() + " " + entity.getY() + " " + entity.getZ());
+				entity.unpair();
+			}
+		}
+		break;
+		
 		default: break;
 		}
+	}
+	
+	private static @Nullable BlockEntityChest findPairableChest(World world, int x, int y, int z){
+		BlockEntityChest pair = null;
+		
+		{
+    		pair = checkPairableChest(world, x+1, y, z);
+    		
+    		if(pair != null)
+    			return pair;
+		}
+		
+		{
+    		pair = checkPairableChest(world, x-1, y, z);
+    		
+    		if(pair != null)
+    			return pair;
+		}
+		
+		{
+    		pair = checkPairableChest(world, x, y, z+1);
+    		
+    		if(pair != null)
+    			return pair;
+		}
+		
+		{
+    		pair = checkPairableChest(world, x, y, z-1);
+    		
+    		if(pair != null)
+    			return pair;
+		}
+		
+		return null;
+	}
+	
+	private static @Nullable BlockEntityChest checkPairableChest(World world, int x, int y, int z){
+		final BlockEntity rawEntity = world.getBlockEntity(x, y, z);
+		
+		if(rawEntity == null || !(rawEntity instanceof BlockEntityChest))
+			return null;
+		
+		return (BlockEntityChest) rawEntity;
 	}
 	
 	private static @Nullable BlockEntityType getType(short id){

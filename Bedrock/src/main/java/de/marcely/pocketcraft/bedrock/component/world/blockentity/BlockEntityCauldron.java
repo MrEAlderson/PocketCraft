@@ -9,6 +9,10 @@ public class BlockEntityCauldron extends BlockEntity {
 	@Getter @Setter private short potionId = (short) 0xFFFF;
 	@Getter @Setter private byte splashPotion;
 	
+	public BlockEntityCauldron(int x, int y, int z){
+		super(x, y, z);
+	}
+	
 	@Override
 	public BlockEntityType getType(){
 		return BlockEntityType.CAULDRON;

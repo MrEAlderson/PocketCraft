@@ -1,6 +1,7 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.packet.java;
 
 import de.marcely.pocketcraft.bedrock.component.BlockMapping;
+import de.marcely.pocketcraft.bedrock.component.world.blockentity.BlockEntity;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketBlockChange;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayBlockChange;
 import de.marcely.pocketcraft.translate.bedrocktojava.JavaPacketTranslator;
@@ -30,7 +31,12 @@ public class TV8D9PacketPlayBlockChange extends JavaPacketTranslator<V8D9PacketP
 			ref.setBlockData(relX, packet.y, relZ, packet.data);
 			
 			// block entity
-			V8BlockEntityTranslator.handleSpawn(player, chunk, relX, packet.y, relZ, packet.id, packet.data, oldId);
+			{
+				final BlockEntity entity = V8BlockEntityTranslator.handleSpawn(player.getWorld(), chunk, packet.x, packet.y, packet.z, packet.id, packet.data, oldId);
+				
+				if(entity != null)
+					player.updateBlockEntity(entity);
+			}
 		}
 		
 		// send it to the player

@@ -4,13 +4,18 @@ import org.jetbrains.annotations.Nullable;
 
 import de.marcely.pocketcraft.bedrock.component.nbt.NBTCompound;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 
 @ToString
 public abstract class BlockEntity {
 	
-	@Getter @Setter private int x, y, z;
+	@Getter private int x, y, z;
+	
+	public BlockEntity(int x, int y, int z){
+		this.x = x;
+		this.y = y;
+		this.z = z;
+	}
 	
 	public abstract BlockEntityType getType();
 	
@@ -33,11 +38,10 @@ public abstract class BlockEntity {
 		if(type == null)
 			return null;
 		
-		final BlockEntity entity = type.newInstance();
-		
-		entity.x = nbt.get("x").getValueData();
-		entity.y = nbt.get("y").getValueData();
-		entity.z = nbt.get("z").getValueData();
+		final BlockEntity entity = type.newInstance(
+				nbt.get("x").getValueData(),
+				nbt.get("y").getValueData(),
+				nbt.get("z").getValueData());
 		
 		return entity;
 	}

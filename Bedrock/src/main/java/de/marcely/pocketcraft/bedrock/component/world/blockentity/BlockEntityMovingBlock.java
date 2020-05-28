@@ -10,6 +10,10 @@ public class BlockEntityMovingBlock extends BlockEntity {
 	@Getter @Setter private float movingBlockData;
 	@Getter @Setter private int pistonPosX, pistonPosY, pistonPosZ;
 	
+	public BlockEntityMovingBlock(int x, int y, int z){
+		super(x, y, z);
+	}
+	
 	@Override
 	public BlockEntityType getType(){
 		return BlockEntityType.MOVING_BLOCK;

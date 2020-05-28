@@ -21,7 +21,7 @@ public class PacketBlockEntityData extends PCPacket {
 		writer.writeSignedVarInt(this.x);
 		writer.writeUnsignedVarInt(this.y);
 		writer.writeSignedVarInt(this.z);
-		this.data.write(writer, ByteOrder.LITTLE_ENDIAN, false);
+		this.data.write(writer, ByteOrder.LITTLE_ENDIAN, true);
 	}
 
 	@Override

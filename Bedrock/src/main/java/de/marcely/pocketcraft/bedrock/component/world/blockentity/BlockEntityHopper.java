@@ -8,6 +8,10 @@ public class BlockEntityHopper extends BlockEntity implements BlockEntityNameabl
 
 	@Getter @Setter private String customName;
 	
+	public BlockEntityHopper(int x, int y, int z){
+		super(x, y, z);
+	}
+	
 	@Override
 	public BlockEntityType getType(){
 		return BlockEntityType.HOPPER;

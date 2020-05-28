@@ -9,6 +9,10 @@ public class BlockEntitySkull extends BlockEntity {
 	@Getter @Setter private byte skullType;
 	@Getter @Setter private byte rotation;
 	
+	public BlockEntitySkull(int x, int y, int z){
+		super(x, y, z);
+	}
+	
 	@Override
 	public BlockEntityType getType(){
 		return BlockEntityType.SKULL;
