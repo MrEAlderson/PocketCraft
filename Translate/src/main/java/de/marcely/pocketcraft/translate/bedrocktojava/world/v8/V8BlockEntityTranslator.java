@@ -58,8 +58,8 @@ public class V8BlockEntityTranslator {
 			if(pair != null){
 				entity.pair(pair.getX(), pair.getZ());
 				pair.pair(entity.getX(), entity.getZ());
+			
 			}else{
-				System.out.println("found no pair at " + entity.getX() + " " + entity.getY() + " " + entity.getZ());
 				entity.unpair();
 			}
 		}
