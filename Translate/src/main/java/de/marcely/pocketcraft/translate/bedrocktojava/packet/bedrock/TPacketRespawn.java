@@ -6,11 +6,9 @@ import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
 
 public class TPacketRespawn extends BedrockPacketTranslator<PacketRespawn> {
 	
-	private boolean respawning = false;
-	
 	@Override
 	public void handle(PacketRespawn packet, Player player){
-		if(!player.isDead() || packet.state != PacketRespawn.STATE_CLIENT_READY_TO_SPAWN || respawning)
+		if(!player.isDead() || packet.state != PacketRespawn.STATE_CLIENT_READY_TO_SPAWN)
 			return;
 		
 		{
