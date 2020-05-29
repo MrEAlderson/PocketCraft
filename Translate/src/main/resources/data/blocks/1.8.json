@@ -162,7 +162,13 @@
     "29": {
       "bedrock_id": "minecraft:sticky_piston",
 	  "bedrock_data": {
-	     "same": 15
+	     "same": 13,
+	     "8": 0,
+	     "9": 1,
+	     "2,10": 3,
+	     "3,11": 2,
+	     "4,12": 5,
+	     "5,13": 4
 	  },
       "collision": "cubic"
     },
@@ -182,7 +188,13 @@
     "33": {
       "bedrock_id": "minecraft:piston",
 	  "bedrock_data": {
-	     "same": 15
+	     "same": 13,
+	     "8": 0,
+	     "9": 1,
+	     "2,10": 3,
+	     "3,11": 2,
+	     "4,12": 5,
+	     "5,13": 4
 	  },
       "collision": "cubic"
     },
@@ -198,6 +210,12 @@
 		"same": 15
 	  },
       "collision": "cubic"
+    },
+    "36": {
+      "bedrock_id": "minecraft:movingBlock",
+	  "bedrock_data": {
+	     "same": 15
+	  }
     },
     "37": {
       "bedrock_id": "minecraft:yellow_flower"

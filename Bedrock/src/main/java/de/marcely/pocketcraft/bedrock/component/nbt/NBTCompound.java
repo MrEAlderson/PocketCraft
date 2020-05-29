@@ -82,12 +82,12 @@ public class NBTCompound {
 		return this.tags.get(name);
 	}
 	
-	public void addByte(String name, byte value){
-		add(new NBTTag(name, new NBTValueByte(value)));
+	public void addByte(String name, int value){
+		add(new NBTTag(name, new NBTValueByte((byte) value)));
 	}
 	
-	public void addShort(String name, short value){
-		add(new NBTTag(name, new NBTValueShort(value)));
+	public void addShort(String name, int value){
+		add(new NBTTag(name, new NBTValueShort((short) value)));
 	}
 	
 	public void addInt(String name, int value){

@@ -65,6 +65,23 @@ public class V8BlockEntityTranslator {
 		}
 		break;
 		
+		case PISTON_ARM:
+		{
+			final BlockEntityPistonArm entity = (BlockEntityPistonArm) rawEntity;
+			
+			if(data >= 6){
+				entity.setPowered(true);
+				entity.setProgress(1F);
+				entity.setLastProgress(0F);
+			
+			}else{
+				entity.setPowered(false);
+				entity.setProgress(0F);
+				entity.setLastProgress(1F);
+			}
+		}
+		break;
+		
 		default: break;
 		}
 	}
@@ -147,8 +164,10 @@ public class V8BlockEntityTranslator {
 		case 138:
 			return BlockEntityType.BEACON;
 			
-		case 34: // piston head
-			return BlockEntityType.MOVING_BLOCK;
+		case 29: // sticky piston
+		case 33: // piston
+		case 34: // piston arm
+			return BlockEntityType.PISTON_ARM;
 			
 		case 154:
 			return BlockEntityType.HOPPER;

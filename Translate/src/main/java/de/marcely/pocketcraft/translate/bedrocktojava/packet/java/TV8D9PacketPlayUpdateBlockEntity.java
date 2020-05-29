@@ -19,6 +19,9 @@ public class TV8D9PacketPlayUpdateBlockEntity extends JavaPacketTranslator<V8D9P
 		if(rawEntity == null)
 			return;
 		
+		System.out.println("TYPE: " + rawEntity.getType());
+		System.out.println(packet.data);
+		
 		switch(packet.action){
 		case ACTION_BEACON:
 		{

@@ -20,7 +20,7 @@ public enum BlockEntityType {
     ITEM_FRAME("ItemFrame", BlockEntityItemFrame.class),
     CAULDRON("Cauldron", BlockEntityCauldron.class),
     BEACON("Beacon", BlockEntityBeacon.class),
-    @Deprecated PISTON_ARM("PistonArm", null),
+    PISTON_ARM("PistonArm", BlockEntityPistonArm.class),
     MOVING_BLOCK("MovingBlock", BlockEntityMovingBlock.class),
     @Deprecated COMPARATOR("Comparator", null),
     HOPPER("Hopper", BlockEntityHopper.class),

@@ -180,15 +180,17 @@ public class IDBlockStatesList {
     								if(bRawData.equals("same"))
     									continue;
     								
-    								final int bData = Integer.parseInt(bRawData);
-    								final int bValue = bedrockDataObj.get(bRawData).getAsInt();
-    								
-    								if(bData >= bedrockDatas.length){
-    									Logger.get(Application.TRANSLATE, "Block States List").warn("bedrock_id data id " + bData + " is higher than the total entries amount");
-    									continue;
+    								for(String bRawDataEntry:bRawData.replace(" ", "").split(",")){
+        								final int bData = Integer.parseInt(bRawDataEntry);
+        								final int bValue = bedrockDataObj.get(bRawData).getAsInt();
+        								
+        								if(bData >= bedrockDatas.length){
+        									Logger.get(Application.TRANSLATE, "Block States List").warn("bedrock_id data id " + bData + " is higher than the total entries amount");
+        									continue;
+        								}
+        								
+        								bedrockDatas[bData] = bValue;
     								}
-    								
-    								bedrockDatas[bData] = bValue;
     							}
     						}
 						}
