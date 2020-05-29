@@ -15,14 +15,11 @@ public class TV8D9PacketPlayPlayerEnterBed extends JavaPacketTranslator<V8D9Pack
 		
 		if(entity == null || entity.getType() != EntityType.PLAYER){
 			System.out.println("unkown entity or not player");
-			
 			return;
 		}
 		
-		System.out.println("bed! " + packet.position.toString() + " :D");
-		
 		entity.getMetadata().setVector3(EntityDataType.PLAYER_BED_POSITION, packet.position);
-		entity.setDataFlag(EntityDataType.PLAYER_FLAG_SLEEP, true);
+		entity.setDataPlayerFlag(EntityDataType.PLAYER_FLAG_SLEEP, true);
 		entity.sendAllMetadata(player.getBedrock());
 	}
 }

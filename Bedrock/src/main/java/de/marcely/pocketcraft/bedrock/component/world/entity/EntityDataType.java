@@ -185,7 +185,7 @@ public enum EntityDataType {
 	//73 is set when a player is attacked while using shield, unclear on purpose
 	//74 related to shield usage, needs further investigation
 	public static final int FLAG_SLEEPING = 75;
-	//76 related to sleeping, unclear usage
+	public static final int FLAG_WANTS_TO_WAKE = 76;
 	public static final int FLAG_TRADE_INTEREST = 77;
 	public static final int FLAG_DOOR_BREAKER = 78; //...
 	public static final int FLAG_BREAKING_OBSTRUCTION = 79;

@@ -7,6 +7,7 @@ import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
 
 import static de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayEntityAnimation.*;
 
+import de.marcely.pocketcraft.bedrock.component.world.entity.EntityDataType;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityEvent;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityAnimate;
 
@@ -30,6 +31,8 @@ public class TV8D9PacketPlayEntityAnimation extends JavaPacketTranslator<V8D9Pac
 			
 		case TYPE_LEAVE_BED:
 			entity.playAnimation(PacketEntityAnimate.TYPE_WAKE_UP);
+			entity.setDataPlayerFlag(EntityDataType.PLAYER_FLAG_SLEEP, false);
+			entity.sendAllMetadata(player.getBedrock());
 			break;
 			
 		case TYPE_EAT_FOOD:
