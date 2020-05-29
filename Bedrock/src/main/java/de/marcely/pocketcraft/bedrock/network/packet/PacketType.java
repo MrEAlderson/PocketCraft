@@ -42,6 +42,7 @@ public enum PacketType {
 	EntityData(0x27, Channel.ENTITY, PacketEntityData.class),
 	EntityVelocity(0x28, Channel.ENTITY, PacketEntityVelocity.class),
 	EntitySetLink(0x29, Channel.ENTITY, PacketEntitySetLink.class),
+	SetSpawnPosition(0x2B, Channel.NONE, PacketSetSpawnPosition.class),
 	EntityAnimate(0x2C, Channel.ENTITY, PacketEntityAnimate.class),
 	Respawn(0x2D, Channel.PRIORITY, PacketRespawn.class),
 	ContainerOpen(0x2E, Channel.INVENTORY, PacketContainerOpen.class),
