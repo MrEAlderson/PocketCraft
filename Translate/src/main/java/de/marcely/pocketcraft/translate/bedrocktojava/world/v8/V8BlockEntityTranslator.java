@@ -149,7 +149,7 @@ public class V8BlockEntityTranslator {
 		case 116:
 			return BlockEntityType.ENCHANT_TABLE;
 			
-		case 397:
+		case 144:
 			return BlockEntityType.SKULL;
 			
 		case 140:
