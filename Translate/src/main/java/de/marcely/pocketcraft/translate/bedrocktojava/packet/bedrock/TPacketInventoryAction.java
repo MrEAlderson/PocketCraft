@@ -1,6 +1,7 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.packet.bedrock;
 
 import de.marcely.pocketcraft.bedrock.network.packet.PacketInventoryAction;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketWorldEvent;
 import de.marcely.pocketcraft.bedrock.network.packet.action.*;
 import de.marcely.pocketcraft.java.component.v8.V8BlockFace;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayBlockDig;
@@ -10,13 +11,14 @@ import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayWindow
 import de.marcely.pocketcraft.translate.bedrocktojava.BedrockPacketTranslator;
 import de.marcely.pocketcraft.translate.bedrocktojava.component.TranslateComponents;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
+import de.marcely.pocketcraft.translate.bedrocktojava.world.block.BlockState;
 import de.marcely.pocketcraft.utils.math.Vector3;
 
-import static de.marcely.pocketcraft.bedrock.network.packet.action.InventoryAction.*;
-
-import de.marcely.pocketcraft.bedrock.component.BlockFace;
+import de.marcely.pocketcraft.bedrock.component.BlockMapping;
 import de.marcely.pocketcraft.bedrock.component.inventory.Item;
 import de.marcely.pocketcraft.bedrock.network.InventoryId;
+
+import static de.marcely.pocketcraft.bedrock.network.packet.action.InventoryAction.*;
 
 public class TPacketInventoryAction extends BedrockPacketTranslator<PacketInventoryAction> {
 	
@@ -57,6 +59,7 @@ public class TPacketInventoryAction extends BedrockPacketTranslator<PacketInvent
 	private void handleAction(UseItemAction action, Player player){
 		// player breaking block
 		if(action.actionType == UseItemAction.ACTION_TYPE_PLACE_BREAK){
+			// tell server we broke block
 			{
 				final V8D9PacketPlayBlockDig out = new V8D9PacketPlayBlockDig();
 				
@@ -65,6 +68,23 @@ public class TPacketInventoryAction extends BedrockPacketTranslator<PacketInvent
 				out.face = ((V8BlockFace) player.getTranslateComponents().toJava(action.face, TranslateComponents.BLOCK_FACE)).getId();
 				
 				player.sendPacket(out);
+			}
+			
+			// play block break particles, because bedrock wouldn't show them now but java would
+			{
+				final BlockState state = player.getWorld().getBlockState(action.blockPosX, action.blockPosY, action.blockPosZ);
+				
+				if(state != null){
+    				final PacketWorldEvent out = new PacketWorldEvent();
+    				
+    				out.type = PacketWorldEvent.TYPE_PARTICLE_DESTROY;
+    				out.data = BlockMapping.INSTANCE.getRuntimeId(state.getBedrockId(), state.getBedrockData());
+    				out.x = action.blockPosX;
+    				out.y = action.blockPosY;
+    				out.z = action.blockPosZ;
+    				
+    				player.sendPacket(out);
+				}
 			}
 			
 			return;

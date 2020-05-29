@@ -16,18 +16,18 @@ public class V8D9PacketPlayWorldEvent extends PlayPacket {
 	
 	@Override
 	public void write(EByteBuf stream) throws Exception {
-		this.effectId = stream.readInt();
-		this.position = stream.readBlockPosition();
-		this.data = stream.readInt();
-		this.disableRelVolume = stream.readBoolean();
-	}
-
-	@Override
-	public void read(EByteBuf stream) throws Exception {
 		stream.writeInt(this.effectId);
 		stream.writeBlockPosition(this.position);
 		stream.writeInt(this.data);
 		stream.writeBoolean(this.disableRelVolume);
+	}
+
+	@Override
+	public void read(EByteBuf stream) throws Exception {
+		this.effectId = stream.readInt();
+		this.position = stream.readBlockPosition();
+		this.data = stream.readInt();
+		this.disableRelVolume = stream.readBoolean();
 	}
 
 	@Override
