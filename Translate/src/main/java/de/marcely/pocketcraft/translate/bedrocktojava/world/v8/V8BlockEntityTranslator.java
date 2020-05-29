@@ -182,6 +182,9 @@ public class V8BlockEntityTranslator {
 		case 177: // wall
 			return BlockEntityType.BANNER;
 			
+		case 52:
+			return BlockEntityType.MOB_SPAWNER;
+			
 		default:
 			return null;
 		}

@@ -10,7 +10,7 @@ public enum BlockEntityType {
     ENDER_CHEST("EnderChest", BlockEntityEnderChest.class),
     FURNACE("Furnace", BlockEntityFurnace.class),
     SIGN("Sign", BlockEntitySign.class),
-    @Deprecated MOB_SPAWNER("MobSpawner", null),
+    MOB_SPAWNER("MobSpawner", BlockEntityMobSpawner.class),
     ENCHANT_TABLE("EnchantTable", BlockEntityEnchantTable.class),
     SKULL("Skull", BlockEntitySkull.class),
     FLOWER_POT("FlowerPot", BlockEntityFlowerPot.class),
