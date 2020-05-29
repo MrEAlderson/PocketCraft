@@ -19,22 +19,24 @@ public class TV8D9PacketPlayUpdateBlockEntity extends JavaPacketTranslator<V8D9P
 		if(rawEntity == null)
 			return;
 		
-		System.out.println("TYPE: " + rawEntity.getType() + " ");
-		System.out.println(packet.data);
-		
 		switch(packet.action){
 		case ACTION_MOB_SPAWNER:
 		{
 			final BlockEntityMobSpawner entity = (BlockEntityMobSpawner) rawEntity;
 			
-			entity.setEntityId(data.get("EntityId").get(String.class));
-			entity.setMaxNearbyEntities(data.get("MaxNearbyEntities").get(short.class));
-			entity.setRequiredPlayerRange(data.get("RequiredPlayerRange").get(short.class));
-			entity.setSpawnCount(data.get("SpawnCount").get(short.class));
-			entity.setMaxSpawnDelay(data.get("MaxSpawnDelay").get(short.class));
-			entity.setSpawnRange(data.get("SpawnRange").get(short.class));
-			entity.setDelay(data.get("Delay").get(short.class));
-			entity.setMinSpawnDelay(data.get("MinSpawnDelay").get(short.class));
+			if(data.has("EntityId")){
+    			entity.setEntityId(data.get("EntityId").get(String.class));
+    			entity.setMaxNearbyEntities(data.get("MaxNearbyEntities").get(short.class));
+    			entity.setRequiredPlayerRange(data.get("RequiredPlayerRange").get(short.class));
+    			entity.setSpawnCount(data.get("SpawnCount").get(short.class));
+    			entity.setMaxSpawnDelay(data.get("MaxSpawnDelay").get(short.class));
+    			entity.setSpawnRange(data.get("SpawnRange").get(short.class));
+    			entity.setDelay(data.get("Delay").get(short.class));
+    			entity.setMinSpawnDelay(data.get("MinSpawnDelay").get(short.class));
+		
+			}else{
+				entity.reset();
+			}
 			
 			player.updateBlockEntity(entity);
 		}
