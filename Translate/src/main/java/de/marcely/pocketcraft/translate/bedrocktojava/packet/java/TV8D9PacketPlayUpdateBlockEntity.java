@@ -51,7 +51,10 @@ public class TV8D9PacketPlayUpdateBlockEntity extends JavaPacketTranslator<V8D9P
 		{
 			final BlockEntityFlowerPot entity = (BlockEntityFlowerPot) rawEntity;
 			
-			System.out.println("flower pot: " + packet.data.toString());
+			entity.setItem((short) (int) data.get("Item").get(int.class));
+			entity.setData(data.get("Data").get(int.class));
+			
+			player.updateBlockEntity(entity);
 		}
 		break;
 		}
