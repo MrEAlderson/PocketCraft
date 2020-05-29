@@ -2,9 +2,7 @@ package de.marcely.pocketcraft.bedrock.component.nbt.value;
 
 import de.marcely.pocketcraft.bedrock.component.nbt.NBTByteBuf;
 import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTNumericValue;
-import lombok.ToString;
 
-@ToString
 public class NBTValueInt extends NBTNumericValue<Integer> {
 
 	public NBTValueInt(Integer value){
@@ -22,5 +20,10 @@ public class NBTValueInt extends NBTNumericValue<Integer> {
 	@Override
 	public void read(NBTByteBuf stream){
 		this.data = stream.readInt();
+	}
+	
+	@Override
+	public String toString(){
+		return this.data + "";
 	}
 }

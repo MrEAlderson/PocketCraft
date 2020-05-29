@@ -23,9 +23,7 @@ import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTValueShort;
 import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTValueString;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
 import lombok.Getter;
-import lombok.ToString;
 
-@ToString
 public class NBTCompound {
 	
 	@Getter private final Map<String, NBTTag> tags = new HashMap<>();
@@ -179,5 +177,19 @@ public class NBTCompound {
 	
 	public void clear(){
 		this.tags.clear();
+	}
+	
+	@Override
+	public String toString(){
+		final StringBuilder builder = new StringBuilder("{");
+		
+		for(NBTTag tag:this.tags.values()){
+			if(builder.length() != 1)
+				builder.append(",");
+			
+			builder.append(tag.getName() + ":").append(tag.getValue().toString());
+		}
+		
+		return builder.append("}").toString();
 	}
 }

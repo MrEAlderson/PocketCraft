@@ -63,6 +63,8 @@ public class Player {
 	@Getter @Setter private byte spawnState = SPAWN_STATE_WAITING_SPAWN;
 	@Getter private Long loginTime = null;
 	private boolean queuedShowCreditsTask = false;
+	@Getter @Setter private String writingSignText = null;
+	
 	private Queue<Long> sendingChunks = new ConcurrentLinkedQueue<>(); // chunks that we are about to send
 	private Queue<Long> distantSendingChunks = new ConcurrentLinkedQueue<>(); // chunks that we want to send, but the player is too far
 	private List<Long> sentChunks = Collections.synchronizedList(new ArrayList<>()); // chunks that have been sent

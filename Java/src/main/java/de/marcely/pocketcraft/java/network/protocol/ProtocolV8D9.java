@@ -129,7 +129,7 @@ public class ProtocolV8D9 extends Protocol {
 				V8D9PacketPlayUpdateSignText.class,
 				null, // map
 				V8D9PacketPlayUpdateBlockEntity.class,
-				null, // open sign editor
+				V8D9PacketPlayOpenSignEditor.class,
 				V8D9PacketPlayStatistics.class,
 				V8D9PacketPlayPlayerList.class,
 				V8D9PacketPlayAbilities.class,

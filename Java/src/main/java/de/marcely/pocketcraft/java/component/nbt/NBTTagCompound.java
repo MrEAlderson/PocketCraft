@@ -92,6 +92,10 @@ public class NBTTagCompound extends NBTBase<Map<String, NBTBase<?>>> {
 		return this.data.get(key);
 	}
 	
+	public boolean has(String key){
+		return this.data.containsKey(key);
+	}
+	
 	public void clear(){
 		this.data.clear();
 	}

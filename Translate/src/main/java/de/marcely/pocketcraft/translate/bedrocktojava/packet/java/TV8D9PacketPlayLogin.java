@@ -117,15 +117,15 @@ public class TV8D9PacketPlayLogin extends JavaPacketTranslator<V8D9PacketPlayLog
 		out.yaw = 0F;
 		out.pitch = 0F;
 		out.seed = -1;
-		out.dimension = (byte) ((Dimension) player.getTranslateComponents().toBedrock(packet.dimension, TranslateComponents.DIMENSION)).getId();
+		out.dimension = Dimension.OVERWORLD.getId(); // (byte) ((Dimension) player.getTranslateComponents().toBedrock(packet.dimension, TranslateComponents.DIMENSION)).getId();
 		/* 0 = old
 		 * 1 = infinite
 		 * 2 = flat */
 		out.generator = 1;
 		out.difficulty = player.getTranslateComponents().toBedrock(packet.difficulty, TranslateComponents.DIFFICULTY);
-		out.spawnX = 0;
-		out.spawnY = 100;
-		out.spawnZ = 0;
+		out.spawnX = player.getWorld().getSpawnX();
+		out.spawnY = player.getWorld().getSpawnY();
+		out.spawnZ = player.getWorld().getSpawnZ();
 		out.hasAchievementsDisabled = true;
 		out.time = -1; //-1 = not stopped, any positive value = stopped at that time
 		out.eduEditionOffer = 0;

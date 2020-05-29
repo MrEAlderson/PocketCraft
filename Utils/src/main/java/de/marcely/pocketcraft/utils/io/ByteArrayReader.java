@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 /**
  * 
@@ -212,6 +213,10 @@ public class ByteArrayReader extends ByteArrayInputStream {
     
     public byte[] getBuffer(){
     	return this.buf;
+    }
+    
+    public byte[] getRemainingBuffer(){
+    	return Arrays.copyOfRange(this.buf, this.pos, this.buf.length);
     }
     
     public void setPos(int pos){

@@ -25,5 +25,10 @@ public class PacketBlockEntityData extends PCPacket {
 	}
 
 	@Override
-	public void decode(EByteArrayReader reader) throws Exception { }
+	public void decode(EByteArrayReader reader) throws Exception {
+		this.x = reader.readSignedVarInt();
+		this.y = (int) reader.readUnsignedVarInt();
+		this.z = reader.readSignedVarInt();
+		this.data = NBTTag.read(reader, ByteOrder.LITTLE_ENDIAN, true);
+	}
 }

@@ -5,9 +5,7 @@ import java.util.List;
 
 import de.marcely.pocketcraft.bedrock.component.nbt.NBTByteBuf;
 import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTValue;
-import lombok.ToString;
 
-@ToString
 public class NBTValueList extends NBTValue<List<NBTValue<?>>> {
 
 	public NBTValueList(List<NBTValue<?>> value){
@@ -44,5 +42,19 @@ public class NBTValueList extends NBTValue<List<NBTValue<?>>> {
 			
 			this.data.add(val);
 		}
+	}
+
+	@Override
+	public String toString(){
+		final StringBuilder builder = new StringBuilder("[");
+		
+		for(int i=0; i<this.data.size(); i++){
+			if(i != 0)
+				builder.append(",");
+			
+			builder.append(i + ":").append(this.data.get(i).toString());
+		}
+		
+		return builder.append("]").toString();
 	}
 }

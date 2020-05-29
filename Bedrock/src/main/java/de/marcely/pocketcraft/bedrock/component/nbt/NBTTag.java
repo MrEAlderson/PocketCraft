@@ -8,9 +8,7 @@ import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTValue;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
 import lombok.Getter;
-import lombok.ToString;
 
-@ToString
 public class NBTTag {
 	
 	@Getter private final String name;
@@ -40,7 +38,8 @@ public class NBTTag {
 	public void write(NBTByteBuf stream){
 		stream.writeByte(this.value.getType());
 		
-		if(this.value.getType() == NBTValue.TYPE_END) return;
+		if(this.value.getType() == NBTValue.TYPE_END)
+			return;
 		
 		stream.writeUTF(this.name);
 		this.value.write(stream);
@@ -64,7 +63,7 @@ public class NBTTag {
 	}
 	
 	public static NBTTag read(EByteArrayReader stream, ByteOrder order, boolean isNetwork){
-		final NBTByteBuf buf = new NBTByteBuf(stream.getBuffer(), order, isNetwork);
+		final NBTByteBuf buf = new NBTByteBuf(stream.getRemainingBuffer(), order, isNetwork);
 		
 		try{
 			return read(buf);
@@ -85,5 +84,10 @@ public class NBTTag {
 		value.read(stream);
 		
 		return new NBTTag(name, value);
+	}
+
+	@Override
+	public String toString(){
+		return this.name + ":" + this.value.toString();
 	}
 }

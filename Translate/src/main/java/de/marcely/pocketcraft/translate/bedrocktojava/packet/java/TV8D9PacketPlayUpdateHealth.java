@@ -29,26 +29,4 @@ public class TV8D9PacketPlayUpdateHealth extends JavaPacketTranslator<V8D9Packet
 			player.setDead(false);
 		}
 	}
-	
-	/*private void updateDeadStatus(Player player){
-		Scheduler.runLater(() -> {
-			System.out.println("online: " + player.isOnline());
-			
-			if(player.isOnline() && player.isDead()){
-				if(player.getSpawnState() == Player.SPAWN_STATE_WAITING_SPAWN)
-					updateDeadStatus(player);
-				
-				else{
-					final PacketEntityAttributes out = new PacketEntityAttributes();
-					
-					out.entityRuntimeId = player.getEntityId();
-					out.attributes = new EntityAttribute[]{
-						new EntityAttribute(EntityAttributeType.HEALTH, 0),
-					};
-					
-					player.sendPacket(out);
-				}
-			}
-		}, 500);
-	}*/
 }

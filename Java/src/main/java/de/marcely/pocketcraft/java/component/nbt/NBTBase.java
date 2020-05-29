@@ -23,7 +23,6 @@ public abstract class NBTBase<T> {
 	public static final byte LONG_ARRAY = 12;
 	
 	
-	
 	protected T data;
 	
 	public NBTBase(){ }

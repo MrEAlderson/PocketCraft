@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@ToString
 public abstract class NBTValue<T> {
 	
 	public static final byte TYPE_END = 0x00;
@@ -35,6 +34,9 @@ public abstract class NBTValue<T> {
 	public abstract void write(NBTByteBuf stream);
 	
 	public abstract void read(NBTByteBuf stream);
+	
+	public abstract String toString();
+	
 	
 	public static @Nullable NBTValue<?> newInstance(byte type){
 		switch(type){

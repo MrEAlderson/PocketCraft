@@ -43,8 +43,6 @@ public class TV8D9PacketPlaySpawnPlayer extends JavaPacketTranslator<V8D9PacketP
 		
 		player.getWorld().addEntity(entity);
 		
-		System.out.println(listEntry.getName());
-		
 		{
 			final PacketPlayerList out = new PacketPlayerList();
 			

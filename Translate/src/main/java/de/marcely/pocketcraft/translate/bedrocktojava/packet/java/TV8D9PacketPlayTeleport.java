@@ -15,8 +15,6 @@ public class TV8D9PacketPlayTeleport extends JavaPacketTranslator<V8D9PacketPlay
 	
 	@Override
 	public void handle(V8D9PacketPlayTeleport packet, Player player){
-		System.out.println("TELEPORRT");
-		
 		// read it
 		{
 			if((packet.flags & V8D9PacketPlayTeleport.FLAG_REL_X) > 0)

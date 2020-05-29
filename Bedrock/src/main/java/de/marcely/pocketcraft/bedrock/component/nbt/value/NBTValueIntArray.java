@@ -1,9 +1,10 @@
 package de.marcely.pocketcraft.bedrock.component.nbt.value;
 
-import de.marcely.pocketcraft.bedrock.component.nbt.NBTByteBuf;
-import lombok.ToString;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
-@ToString
+import de.marcely.pocketcraft.bedrock.component.nbt.NBTByteBuf;
+
 public class NBTValueIntArray extends NBTValue<int[]> {
 
 	public NBTValueIntArray(int[] value){
@@ -27,5 +28,10 @@ public class NBTValueIntArray extends NBTValue<int[]> {
 		
 		for(int i=0; i<this.data.length; i++)
 			this.data[i] = stream.readInt();
+	}
+
+	@Override
+	public String toString(){
+		return "[" + Arrays.stream(this.data).mapToObj(String::valueOf).collect(Collectors.joining(",")) + "]";
 	}
 }

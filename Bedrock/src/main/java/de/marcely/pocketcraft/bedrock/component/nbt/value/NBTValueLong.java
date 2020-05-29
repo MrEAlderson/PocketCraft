@@ -2,9 +2,7 @@ package de.marcely.pocketcraft.bedrock.component.nbt.value;
 
 import de.marcely.pocketcraft.bedrock.component.nbt.NBTByteBuf;
 import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTNumericValue;
-import lombok.ToString;
 
-@ToString
 public class NBTValueLong extends NBTNumericValue<Long> {
 
 	public NBTValueLong(Long value){
@@ -22,5 +20,10 @@ public class NBTValueLong extends NBTNumericValue<Long> {
 	@Override
 	public void read(NBTByteBuf stream){
 		this.data = stream.readLong();
+	}
+
+	@Override
+	public String toString(){
+		return this.data + "L";
 	}
 }
