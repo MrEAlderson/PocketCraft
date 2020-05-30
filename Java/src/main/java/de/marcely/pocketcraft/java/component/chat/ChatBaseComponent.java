@@ -120,7 +120,7 @@ public abstract class ChatBaseComponent implements Iterable<ChatBaseComponent> {
 	
 	public static ChatBaseComponent parseJson(JsonElement el){
 		if(el.isJsonPrimitive())
-			return new ChatTextComponent(el.getAsString());
+			return parsePlain(el.getAsString());
 		else if(el.isJsonObject())
 			return parseJson(el.getAsJsonObject());
 		else if(el.isJsonArray())

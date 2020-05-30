@@ -48,7 +48,7 @@ public class ServerInfo {
 			final DetailedServerInfo result = new DetailedServerInfo();
 			final JsonObject root = new Gson().fromJson(status, JsonObject.class);
 			
-			result.description = ChatBaseComponent.parsePlain(root.get("description").getAsString());
+			result.description = ChatBaseComponent.parseJson(root.get("description"));
 			
 			{
 				final JsonObject players = root.getAsJsonObject("players");

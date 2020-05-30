@@ -19,8 +19,6 @@ public class V8D9PacketPlayKick extends PlayPacket {
 	@Override
 	public void read(EByteBuf stream) throws Exception {
 		this.message = stream.readChatPlain();
-		
-		System.out.println("KICK: " + this.message);
 	}
 
 	@Override

@@ -6,6 +6,7 @@ import org.jetbrains.annotations.Nullable;
 
 import com.google.gson.JsonObject;
 
+import de.marcely.pocketcraft.utils.Util;
 import lombok.Getter;
 
 public class UserInfo {
@@ -43,7 +44,7 @@ public class UserInfo {
 			info.randomClientId = obj.get("ClientRandomId").getAsLong();
 			info.currentInputMode = obj.get("CurrentInputMode").getAsInt();
 			info.defaultInputMode = obj.get("DefaultInputMode").getAsInt();
-			info.deviceId = UUID.fromString(obj.get("DeviceId").getAsString());
+			info.deviceId = Util.parseUUID(obj.get("DeviceId").getAsString());
 			info.deviceModel = obj.get("DeviceModel").getAsString();
 			info.deviceOS = obj.get("DeviceOS").getAsInt();
 			info.gameVersion = obj.get("GameVersion").getAsString();

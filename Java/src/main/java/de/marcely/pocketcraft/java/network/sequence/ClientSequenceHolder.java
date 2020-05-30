@@ -4,7 +4,7 @@ import de.marcely.pocketcraft.java.network.ServerInfo;
 
 public interface ClientSequenceHolder extends SequenceHolder {
 	
-public abstract void setSequence(Sequence<ClientSequenceHolder> type);
+	public abstract void setSequence(Sequence<ClientSequenceHolder> type);
 	
 	public abstract Sequence<ClientSequenceHolder> getSequence();
 	

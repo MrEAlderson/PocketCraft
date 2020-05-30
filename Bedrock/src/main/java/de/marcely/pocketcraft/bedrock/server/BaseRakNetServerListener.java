@@ -107,16 +107,9 @@ public class BaseRakNetServerListener implements RakNetServerListener {
 	
 	@Override
 	public void onAcknowledge(RakNetServer server, RakNetClientPeer client, Record record, EncapsulatedPacket packet){
-		System.out.println("ACK!");
-		
 		final BedrockClient player = this.server.getPlayer(client);
 		
-		if(player.isGettingKicked()){
-			player.getClient().disconnect();
-		
-		}else{
-			for(PacketListener listener:player.getPacketListeners())
-				listener.onAcknowledge(packet);
-		}
+		for(PacketListener listener:player.getPacketListeners())
+			listener.onAcknowledge(packet);
 	}
 }

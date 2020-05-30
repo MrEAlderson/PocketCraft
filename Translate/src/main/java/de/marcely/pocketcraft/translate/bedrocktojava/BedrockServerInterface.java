@@ -79,7 +79,12 @@ public class BedrockServerInterface implements ServerListener {
 					if(player == null)
 						return;
 					
-					if(!bedrockClient.isGettingKicked())
+					// we sent him a disconnect packet with the reason.
+					// we'll kick the bedrock player after that which also causes this process
+					if(player.isGettingKicked())
+						return;
+					
+					if(bedrockClient.getClient().isConnected())
 						bedrockClient.getClient().disconnect();
 					
 					translator.removePlayer(player);
@@ -93,7 +98,7 @@ public class BedrockServerInterface implements ServerListener {
 		final Player player = translator.getPlayer(client.getClient().getAddress());
 		
 		if(player == null)
-			return;		
+			return;
 		
 		player.getJava().close();
 		

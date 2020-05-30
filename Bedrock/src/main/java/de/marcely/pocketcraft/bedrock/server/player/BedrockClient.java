@@ -38,8 +38,6 @@ public class BedrockClient {
 	@Getter @Setter private UserInfo info;
 	@Getter @Setter private String username;
 	
-	@Getter private boolean isGettingKicked = false;
-	
 	public BedrockClient(BedrockServer server, RakNetClientPeer client){
 		this.server = server;
 		this.client = client;
@@ -159,11 +157,15 @@ public class BedrockClient {
 		this.sendPacket(packet);
 	}
 	
-	public void kick(@Nullable String message){
+	/**
+	 * 
+	 * @return True: He got instantly disconnected. False: Sending him a packet with the reason
+	 */
+	public boolean kick(@Nullable String message){
 		// seems to have no reason, so there's also no need to send the kick packet to the player
 		if(message == null || message.isEmpty()){
 			this.client.disconnect();
-			return;
+			return true;
 		}
 		
 		// disconnect when player has received info packet
@@ -173,8 +175,9 @@ public class BedrockClient {
 			out.reason = message;
 			out.hideScreen = false;
 			
-			this.isGettingKicked = true;
-			sendPackets(Arrays.asList(out), Reliability.RELIABLE_WITH_ACK_RECEIPT);
+			sendPackets(Arrays.asList(out));
 		}
+		
+		return false;
 	}
 }

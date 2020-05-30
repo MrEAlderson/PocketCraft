@@ -14,6 +14,7 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
+import io.netty.channel.EventLoopGroup;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
@@ -30,6 +31,7 @@ public class TCPClientConnection extends Connection {
 	@Getter private final int port;
 	
 	private Channel channel;
+	private EventLoopGroup eventLoopGroup;
 	
 	public TCPClientConnection(InetAddress address, int port){
 		this.address = address;
@@ -43,7 +45,7 @@ public class TCPClientConnection extends Connection {
 		
 		final Bootstrap bootstrap = new Bootstrap();
 		
-		bootstrap.group(new NioEventLoopGroup());
+		bootstrap.group(this.eventLoopGroup = new NioEventLoopGroup());
 		bootstrap.channel(NioSocketChannel.class);
 		bootstrap.remoteAddress(this.address, this.port);
 		bootstrap.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 10000);
@@ -72,6 +74,7 @@ public class TCPClientConnection extends Connection {
 		if(isClosed())
 			return;
 		
+		this.eventLoopGroup.shutdownGracefully();
 		this.channel.close();
 	}
 	
@@ -87,10 +90,9 @@ public class TCPClientConnection extends Connection {
 			return;
 		}
 		
-		try {
+		try{
 			this.channel.writeAndFlush(packet).sync();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+		}catch(InterruptedException e){
 			e.printStackTrace();
 		}
 	}

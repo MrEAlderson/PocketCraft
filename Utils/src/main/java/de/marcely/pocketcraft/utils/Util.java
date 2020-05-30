@@ -1,6 +1,7 @@
 package de.marcely.pocketcraft.utils;
 
 import java.util.Arrays;
+import java.util.UUID;
 
 public class Util {
 	
@@ -20,4 +21,14 @@ public class Util {
 
         return splits;
     }
+	
+	public static UUID parseUUID(String raw){
+		if(raw.length() == 32){
+			return UUID.fromString(raw.replaceFirst(
+					"(\\p{XDigit}{8})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}+)", "$1-$2-$3-$4-$5" 
+					));
+		
+		}else
+			return UUID.fromString(raw);
+	}
 }

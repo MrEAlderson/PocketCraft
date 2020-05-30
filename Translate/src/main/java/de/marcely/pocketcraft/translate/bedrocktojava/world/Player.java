@@ -64,6 +64,8 @@ public class Player {
 	@Getter private Long loginTime = null;
 	private boolean queuedShowCreditsTask = false;
 	@Getter @Setter private String writingSignText = null;
+	@Getter @Setter private long gameLoopProcessTime = 0;
+	@Getter @Setter private boolean isGettingKicked = false;
 	
 	private Queue<Long> sendingChunks = new ConcurrentLinkedQueue<>(); // chunks that we are about to send
 	private Queue<Long> distantSendingChunks = new ConcurrentLinkedQueue<>(); // chunks that we want to send, but the player is too far
@@ -92,6 +94,8 @@ public class Player {
 	}
 	
 	public void tick(){
+		final long start = System.currentTimeMillis();
+		
 		this.currentTick++;
 		
 		final int newChunkX = ((int) this.x) >> 4;
@@ -313,7 +317,22 @@ public class Player {
 			
 			this.bedrock.sendPackets(send);
 		}
+		
+		this.gameLoopProcessTime = System.currentTimeMillis() - start;
+		
+		if(System.currentTimeMillis() - last >= 2000){
+			last = System.currentTimeMillis();
+			
+			System.out.println("Game Loop Process Time: " + this.gameLoopProcessTime +
+					", Chunks in World: " + this.world.getChunks().size() +
+					", Sending Chunks: " + this.sendingChunks.size() +
+					", Distant Chunks: " + this.distantSendingChunks.size() +
+					", Sent Chunks: " + this.sentChunks.size() +
+					", Entities in World: " + this.world.getEntities().size());
+		}
 	}
+	
+	private long last = System.currentTimeMillis();
 	
 	public void receivedJavaChunk(int x, int z, Chunk chunk){
 		final long index = World.getChunkIndex(x, z);
