@@ -11,12 +11,30 @@ public class V8BlockEntityTranslator {
 	public static @Nullable BlockEntity handleSpawn(World world, Chunk chunk, int x, int y, int z, short id, byte data, Short oldId){
 		final BlockEntityType type = getType(id);
 		
-		if(type == null){
-			if(oldId != null && getType(oldId) != null)
-				chunk.removeBlockEntity(x & 0xF, y, z & 0xF);
+		// optionally remove the old one
+		if(oldId != null){
+			final BlockEntityType oldType = getType(oldId);
 			
-			return null;
+			if(oldType != null){
+				// there's no block entity at this point anymore. remove the current one
+				// and if there's a new one, it'll replace it anyways, so no need to remove it extra
+				if(type == null)
+					chunk.removeBlockEntity(x & 0xF, y, z & 0xF);
+				
+				// block entity has not changed. do not do any changes other than updating data
+				else if(type == oldType){
+					final BlockEntity entity = chunk.getBlockEntity(x & 0xF, y, z & 0xF);
+					
+					if(entity != null && applyData(entity, world, data) == true)
+						world.getPlayer().updateBlockEntity(entity);
+					
+					return null;
+				}
+			}
 		}
+		
+		if(type == null)
+			return null;
 		
 		final BlockEntity entity = type.newInstance(x, y, z);
 		
@@ -32,7 +50,11 @@ public class V8BlockEntityTranslator {
 		return entity;
 	}
 	
-	private static void applyData(BlockEntity rawEntity, World world, byte data){
+	/**
+	 * 
+	 * @return If changes were made
+	 */
+	private static boolean applyData(BlockEntity rawEntity, World world, byte data){
 		switch(rawEntity.getType()){
 		case BED:
 		{
@@ -40,7 +62,7 @@ public class V8BlockEntityTranslator {
 			
 			entity.setColor((byte) 14);
 		} 
-		break;
+		return true;
 		
 		case SKULL:
 		{
@@ -48,7 +70,7 @@ public class V8BlockEntityTranslator {
 			
 			entity.setSkullType(data);
 		}
-		break;
+		return true;
 		
 		case CHEST:
 		{
@@ -63,7 +85,7 @@ public class V8BlockEntityTranslator {
 				entity.unpair();
 			}
 		}
-		break;
+		return true;
 		
 		case PISTON_ARM:
 		{
@@ -80,9 +102,10 @@ public class V8BlockEntityTranslator {
 				entity.setLastProgress(1F);
 			}
 		}
-		break;
+		return true;
 		
-		default: break;
+		default:
+			return false;
 		}
 	}
 	
@@ -129,7 +152,7 @@ public class V8BlockEntityTranslator {
 		return (BlockEntityChest) rawEntity;
 	}
 	
-	private static @Nullable BlockEntityType getType(short id){
+	public static @Nullable BlockEntityType getType(short id){
 		switch(id){
 		case 54: // normal chest
 		case 146: // trapped chest
