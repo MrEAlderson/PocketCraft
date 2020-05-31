@@ -1,9 +1,12 @@
 package de.marcely.pocketcraft.utils;
 
 import java.util.Arrays;
+import java.util.Random;
 import java.util.UUID;
 
 public class Util {
+	
+	public static final Random RANDOM = new Random();
 	
 	public static byte[][] splitBytes(byte[] bytes, int chunkSize){
         byte[][] splits = new byte[(bytes.length + chunkSize - 1) / chunkSize][chunkSize];

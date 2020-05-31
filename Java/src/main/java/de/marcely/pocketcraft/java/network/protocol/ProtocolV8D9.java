@@ -117,7 +117,7 @@ public class ProtocolV8D9 extends Protocol {
 				V8D9PacketPlayExplosion.class,
 				V8D9PacketPlayWorldEvent.class,
 				V8D9PacketPlaySound.class,
-				null, // world particles
+				V8D9PacketPlayParticles.class,
 				V8D9PacketPlayChangeGameState.class,
 				V8D9PacketPlaySpawnGlobalEntity.class,
 				null, // open window

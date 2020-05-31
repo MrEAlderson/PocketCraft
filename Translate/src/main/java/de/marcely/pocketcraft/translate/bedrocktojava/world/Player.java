@@ -12,6 +12,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import de.marcely.pocketcraft.bedrock.component.nbt.NBTTag;
 import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTValueCompound;
 import de.marcely.pocketcraft.bedrock.component.permission.PlayerPermissions;
+import de.marcely.pocketcraft.bedrock.component.world.ParticleType;
 import de.marcely.pocketcraft.bedrock.component.world.blockentity.BlockEntity;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityAttribute;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityAttributeType;
@@ -20,6 +21,7 @@ import de.marcely.pocketcraft.bedrock.network.packet.PacketBlockEntityData;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityAttributes;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketPlayerPermissions;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketText;
+import de.marcely.pocketcraft.bedrock.network.packet.PacketWorldEvent;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketNetworkChunkPublisherUpdate;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketPlayerMove;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketPlayerMove.PlayerMoveType;
@@ -465,5 +467,17 @@ public class Player {
 	
 	public boolean isOnline(){
 		return this.bedrock.getClient().isConnected() && this.java.isRunning();
+	}
+	
+	public void playParticle(float x, float y, float z, ParticleType type, int data){
+		final PacketWorldEvent out = new PacketWorldEvent();
+		
+		out.x = x;
+		out.y = y;
+		out.z = z;
+		out.type = (short) (PacketWorldEvent.TYPE_ADD_PARTICLE_MASK | type.getId());
+		out.data = data;
+		
+		sendPacket(out);
 	}
 }
