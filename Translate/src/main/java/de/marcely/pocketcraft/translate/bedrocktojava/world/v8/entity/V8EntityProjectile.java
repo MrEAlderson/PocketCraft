@@ -31,7 +31,7 @@ public abstract class V8EntityProjectile extends V8Entity {
 			
 			// is hitting block
 			{
-				final BlockCollisionEvent block = this.getCollidingBlock(newX, newY, newZ, 0.1F);
+				final BlockCollisionEvent block = this.getCollidingBlock(newX, newY, newZ, 0.1F, getBlockCollisionWidth(), getBlockCollisionHeight());
 				
 				if(block != null){
 					this.x = block.getExactX();
@@ -74,5 +74,13 @@ public abstract class V8EntityProjectile extends V8Entity {
 	
 	public float getAdditionalWeight(){
 		return 1F;
+	}
+	
+	protected float getBlockCollisionWidth(){
+		return getType().getWidth();
+	}
+	
+	protected float getBlockCollisionHeight(){
+		return getType().getWidth();
 	}
 }

@@ -2,7 +2,6 @@ package de.marcely.pocketcraft.translate.bedrocktojava.world.v8.entity;
 
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityDataType;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityEvent;
-import de.marcely.pocketcraft.bedrock.component.world.entity.EntityType;
 import de.marcely.pocketcraft.java.component.entity.meta.V8EntityMetadata;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Entity;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.World;
@@ -33,18 +32,16 @@ public abstract class V8Entity extends Entity {
 	 * Returns null when there are no colliding blocks
 	 */
 	@Override
-	public @Nullable List<BlockCollisionEvent> getCollidingBlocks(){
-		final EntityType type = this.getType();
-		
-		if(this.y + type.getHeight() < 0 || this.y > 255)
+	public @Nullable List<BlockCollisionEvent> getCollidingBlocks(float width, float height){
+		if(this.y + height < 0 || this.y > 255)
 			return null;
 		
-		final int minX = (int) (this.x - type.getWidth() / 2F);
+		final int minX = (int) (this.x - width / 2F);
 		final int minY = Math.max((int) (this.y), 0);
-		final int minZ = (int) (this.z - type.getWidth() / 2F);
-		final int maxX = (int) Math.ceil(this.x + type.getWidth() / 2F);
-		final int maxY = (int) Math.ceil(Math.min(this.y + type.getHeight(), 255));
-		final int maxZ = (int) Math.ceil(this.z + type.getWidth() / 2F);
+		final int minZ = (int) (this.z - width / 2F);
+		final int maxX = (int) Math.ceil(this.x + width / 2F);
+		final int maxY = (int) Math.ceil(Math.min(this.y + height, 255));
+		final int maxZ = (int) Math.ceil(this.z + width / 2F);
 		
 		List<BlockCollisionEvent> collisions = null;
 		
@@ -56,7 +53,7 @@ public abstract class V8Entity extends Entity {
 					if(state == null || state.getCollision() == null)
 						continue;
 					
-					final List<BlockCollision.Cube> intersecting = state.getCollision().getCollidingWith(ix, iy, iz, this);
+					final List<BlockCollision.Cube> intersecting = state.getCollision().getCollidingWith(ix, iy, iz, this, width, height);
 					
 					if(intersecting == null)
 						continue;

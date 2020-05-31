@@ -31,7 +31,7 @@ public abstract class Entity extends de.marcely.pocketcraft.bedrock.component.wo
 		this.world = world;
 	}
 	
-	public abstract List<BlockCollisionEvent> getCollidingBlocks();
+	public abstract List<BlockCollisionEvent> getCollidingBlocks(float width, float height);
 	
 	// childs can override these
 	public void tick(){ }
@@ -43,6 +43,10 @@ public abstract class Entity extends de.marcely.pocketcraft.bedrock.component.wo
 	// info
 	public int getId(){
 		return (int) this.getLongId();
+	}
+	
+	public List<BlockCollisionEvent> getCollidingBlocks(){
+		return getCollidingBlocks(getType().getWidth(), getType().getHeight());
 	}
 	
 	public TranslateComponents getTranslateComponents(){
@@ -115,12 +119,16 @@ public abstract class Entity extends de.marcely.pocketcraft.bedrock.component.wo
 		}
 	}
 	
+	public @Nullable BlockCollisionEvent getCollidingBlock(float newX, float newY, float newZ, float accuracy){
+		return getCollidingBlock(newX, newY, newZ, accuracy, getType().getWidth(), getType().getHeight());
+	}
+	
 	/**
 	 * Does a linear look up from the current location to the target one
 	 * 
 	 * @param accuracy Less = more checks
 	 */
-	public @Nullable BlockCollisionEvent getCollidingBlock(float newX, float newY, float newZ, float accuracy){
+	public @Nullable BlockCollisionEvent getCollidingBlock(float newX, float newY, float newZ, float accuracy, float width, float height){
 		final float actualX = this.x;
 		final float actualY = this.y;
 		final float actualZ = this.z;
@@ -134,7 +142,7 @@ public abstract class Entity extends de.marcely.pocketcraft.bedrock.component.wo
 		for(x=minX; x<=maxX; x += accuracy){
 			for(y=minY; y<=maxY; y += accuracy){
 				for(z=minZ; z<=maxZ; z += accuracy){
-					final List<BlockCollisionEvent> events = getCollidingBlocks();
+					final List<BlockCollisionEvent> events = getCollidingBlocks(width, height);
 					
 					if(events != null){
 						final BlockCollisionEvent event = events.get(0);

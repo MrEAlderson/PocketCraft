@@ -18,16 +18,17 @@ public class BlockCollision implements Cloneable {
 		this.entries = entries;
 	}
 	
+	public @Nullable List<Cube> getCollidingWith(int blockX, int blockY, int blockZ, Entity entity){
+		return getCollidingWith(blockX, blockY, blockZ, entity, entity.getType().getWidth(), entity.getType().getHeight());
+	}
+	
 	/**
 	 * Returns null when there are no entries
 	 */
-	public @Nullable List<Cube> getCollidingWith(int blockX, int blockY, int blockZ, Entity entity){
+	public @Nullable List<Cube> getCollidingWith(int blockX, int blockY, int blockZ, Entity entity, float width, float height){
 		final float x = entity.getX() - blockX;
 		final float y = entity.getY() - blockY;
 		final float z = entity.getZ() - blockZ;
-		
-		final float width = entity.getType().getWidth();
-		final float height = entity.getType().getHeight();
 		
 		List<Cube> entries = null;
 		

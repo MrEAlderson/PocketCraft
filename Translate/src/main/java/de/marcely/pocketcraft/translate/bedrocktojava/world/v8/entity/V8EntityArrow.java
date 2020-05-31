@@ -32,6 +32,16 @@ public class V8EntityArrow extends V8EntityProjectile implements V8EntityObject 
 	}
 	
 	@Override
+	protected float getBlockCollisionWidth(){
+		return 0.01F;
+	}
+	
+	@Override
+	protected float getBlockCollisionHeight(){
+		return 0.01F;
+	}
+	
+	@Override
 	public void read(V8EntityMetadata meta, int key){
 		if(key == 16)
 			this.setDataFlag(EntityDataType.FLAG_CRITICAL, meta.readBoolean(key));
