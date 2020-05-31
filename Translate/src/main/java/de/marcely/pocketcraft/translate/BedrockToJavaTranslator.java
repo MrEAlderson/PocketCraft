@@ -5,6 +5,7 @@ import java.net.InetSocketAddress;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -29,7 +30,6 @@ import de.marcely.pocketcraft.translate.bedrocktojava.world.Entity;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.World;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.v8.entity.*;
-import de.marcely.pocketcraft.utils.callback.R1Callback;
 import de.marcely.pocketcraft.utils.scheduler.Scheduler;
 import lombok.Getter;
 
@@ -68,18 +68,18 @@ public class BedrockToJavaTranslator extends Translator {
 		return true;
 	}
 	
-	public void openConnection(R1Callback<JavaClient> callback, LoginGoal goal){
+	public void openConnection(Consumer<JavaClient> callback, LoginGoal goal){
 		openConnection(callback, goal, "Steve");
 	}
 	
-	public void openConnection(R1Callback<JavaClient> callback, LoginGoal goal, String username){
+	public void openConnection(Consumer<JavaClient> callback, LoginGoal goal, String username){
 		final JavaClient client = new JavaClient(this.javaConnection.clone(), this.javaProtocol, goal, username);
 		
 		client.registerListener(new ClientAdapter(){
 			public void onReady(){
 				client.unregisterListener(this);
 				
-				callback.call(client);
+				callback.accept(client);
 			}
 		});
 		
@@ -88,7 +88,7 @@ public class BedrockToJavaTranslator extends Translator {
 				throw new IOException("Failed for unkown reason");
 		}catch(IOException e){
 			e.printStackTrace();
-			callback.call(null);
+			callback.accept(null);
 		}
 	}
 	
