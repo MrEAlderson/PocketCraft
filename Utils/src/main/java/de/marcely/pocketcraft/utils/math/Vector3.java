@@ -1,10 +1,11 @@
 package de.marcely.pocketcraft.utils.math;
 
 import lombok.Getter;
+import lombok.Setter;
 
 public class Vector3 implements Cloneable {
 	
-	@Getter private float x, y, z;
+	@Getter @Setter private float x, y, z;
 	
 	public Vector3(){
 		this(0, 0, 0);
@@ -136,6 +137,14 @@ public class Vector3 implements Cloneable {
 		this.x = 0;
 		this.y = 0;
 		this.z = 0;
+		
+		return this;
+	}
+	
+	public Vector3 set(float x, float y, float z){
+		this.x = x;
+		this.y = y;
+		this.z = z;
 		
 		return this;
 	}
