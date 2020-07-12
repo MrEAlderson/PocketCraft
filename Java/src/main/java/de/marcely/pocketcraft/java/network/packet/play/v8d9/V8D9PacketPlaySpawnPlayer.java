@@ -2,7 +2,7 @@ package de.marcely.pocketcraft.java.network.packet.play.v8d9;
 
 import java.util.UUID;
 
-import de.marcely.pocketcraft.java.component.entity.meta.V8EntityMetadata;
+import de.marcely.pocketcraft.java.component.v8.entity.meta.V8EntityMetadata;
 import de.marcely.pocketcraft.java.network.packet.PacketProperties;
 import de.marcely.pocketcraft.java.network.packet.PlayPacket;
 import de.marcely.pocketcraft.java.util.EByteBuf;

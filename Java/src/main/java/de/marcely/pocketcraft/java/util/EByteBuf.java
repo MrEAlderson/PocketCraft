@@ -9,11 +9,11 @@ import java.util.UUID;
 
 import org.jetbrains.annotations.Nullable;
 
-import de.marcely.pocketcraft.java.component.Item;
 import de.marcely.pocketcraft.java.component.chat.ChatBaseComponent;
-import de.marcely.pocketcraft.java.component.entity.meta.V8EntityMetadata;
 import de.marcely.pocketcraft.java.component.nbt.NBTBase;
 import de.marcely.pocketcraft.java.component.nbt.NBTTagCompound;
+import de.marcely.pocketcraft.java.component.v8.entity.meta.V8EntityMetadata;
+import de.marcely.pocketcraft.java.component.v8.item.V8Item;
 import de.marcely.pocketcraft.utils.math.Vector3;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufInputStream;
@@ -162,7 +162,7 @@ public class EByteBuf {
 		}
 	}
 	
-	public void writeItem(Item item){
+	public void writeV8Item(V8Item item){
 		if(item == null){
 			writeShort(-1);
 			return;
@@ -170,8 +170,8 @@ public class EByteBuf {
 		
 		writeShort(item.getType());
 		writeByte(item.getAmount());
-		writeShort(item.getData());
-		writeNBT(item.getNBT());
+		writeShort(item.getDurability());
+		writeNBT(item.getMeta() != null ? item.getMeta().getNBT() : new NBTTagCompound());
 	}
 	
 	public void writeV8EntityMetadata(V8EntityMetadata meta){
@@ -339,7 +339,7 @@ public class EByteBuf {
 		return null;
 	}
 	
-	public @Nullable Item readItem(){
+	public @Nullable V8Item readV8Item(){
 		final short type = readShort();
 		
 		if(type < 0)
@@ -350,7 +350,7 @@ public class EByteBuf {
 			final short data = readShort();
 			final NBTTagCompound nbt = readNBT();
 			
-			return new Item(type, amount, data, nbt);
+			return new V8Item(type, amount, data, nbt);
 		}
 	}
 	

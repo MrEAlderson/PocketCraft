@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.Nullable;
 
-import de.marcely.pocketcraft.bedrock.component.inventory.BEnchantment;
 import de.marcely.pocketcraft.bedrock.component.nbt.BNBTCompound;
 import de.marcely.pocketcraft.bedrock.component.nbt.value.BNBTValueCompound;
 import de.marcely.pocketcraft.bedrock.component.nbt.value.BNBTValueString;

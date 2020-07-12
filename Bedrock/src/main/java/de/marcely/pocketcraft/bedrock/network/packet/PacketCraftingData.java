@@ -116,14 +116,14 @@ public class PacketCraftingData extends PCPacket {
 		public BItem input;
 		
 		@Override
-		public int getType(){ return input.getData() != 0 ? 3 : 2; }
+		public int getType(){ return input.getDurability() != 0 ? 3 : 2; }
 
 		@Override
 		public void encode(EByteArrayWriter writer) throws Exception {
 			writer.writeSignedVarInt(input.getType());
 			
-			if(input.getData() != 0)
-				writer.writeSignedVarInt(input.getData());
+			if(input.getDurability() != 0)
+				writer.writeSignedVarInt(input.getDurability());
 			
 			result.write(writer);
 		}

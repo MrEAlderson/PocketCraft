@@ -1,7 +1,7 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.world.v8.entity;
 
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityType;
-import de.marcely.pocketcraft.java.component.entity.meta.V8EntityMetadata;
+import de.marcely.pocketcraft.java.component.v8.entity.meta.V8EntityMetadata;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.World;
 
 public class V8EntitySkeleton extends V8EntityInsentient {

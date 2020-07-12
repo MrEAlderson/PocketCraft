@@ -1,14 +1,15 @@
-package de.marcely.pocketcraft.java.component.entity.meta;
+package de.marcely.pocketcraft.java.component.v8.entity.meta;
 
+import de.marcely.pocketcraft.java.component.MetaEntry;
 import de.marcely.pocketcraft.java.util.EByteBuf;
 
-class MetaEntryInt extends MetaEntry<Integer> implements MetaEntryV8<Integer> {
+class V8MetaEntryInt extends MetaEntry<Integer> implements V8MetaEntry<Integer> {
 
-	public MetaEntryInt(){
+	public V8MetaEntryInt(){
 		this(0);
 	}
 	
-	public MetaEntryInt(int data){
+	public V8MetaEntryInt(int data){
 		this.data = data;
 	}
 	

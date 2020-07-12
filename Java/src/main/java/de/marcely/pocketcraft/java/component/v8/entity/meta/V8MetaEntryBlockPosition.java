@@ -1,15 +1,16 @@
-package de.marcely.pocketcraft.java.component.entity.meta;
+package de.marcely.pocketcraft.java.component.v8.entity.meta;
 
+import de.marcely.pocketcraft.java.component.MetaEntry;
 import de.marcely.pocketcraft.java.util.EByteBuf;
 import de.marcely.pocketcraft.utils.math.Vector3;
 
-class MetaEntryBlockPosition extends MetaEntry<Vector3> implements MetaEntryV8<Vector3> {
+class V8MetaEntryBlockPosition extends MetaEntry<Vector3> implements V8MetaEntry<Vector3> {
 
-	public MetaEntryBlockPosition(){
+	public V8MetaEntryBlockPosition(){
 		this(new Vector3());
 	}
 	
-	public MetaEntryBlockPosition(Vector3 data){
+	public V8MetaEntryBlockPosition(Vector3 data){
 		this.data = data;
 	}
 	

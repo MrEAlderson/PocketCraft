@@ -18,7 +18,7 @@ import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 public class BItem {
 	
 	@Getter private final int type;
-	@Getter @Setter private int amount, data;
+	@Getter @Setter private int amount, durability;
 	@Getter private final BItemMeta meta;
 	
 	public BItem(int type){
@@ -29,14 +29,14 @@ public class BItem {
 		this(type, amount, 0, new BNBTCompound());
 	}
 	
-	public BItem(int type, int amount, int data){
-		this(type, amount, data, new BNBTCompound());
+	public BItem(int type, int amount, int durability){
+		this(type, amount, durability, new BNBTCompound());
 	}
 	
-	public BItem(int type, int amount, int data, BNBTCompound nbt){
+	public BItem(int type, int amount, int durability, BNBTCompound nbt){
 		this.type = type;
 		this.amount = amount;
-		this.data = data;
+		this.durability = durability;
 		this.meta = type >= 1 ? BItemMeta.newInstance(type, nbt) : null;
 	}
 	
@@ -46,7 +46,7 @@ public class BItem {
 		if(this.type == 0)
 			return;
 		
-		stream.writeSignedVarInt(((this.data >= 0 ? (this.data & 0x7fff) : -1) << 8) | this.amount);
+		stream.writeSignedVarInt(((this.durability >= 0 ? (this.durability & 0x7fff) : -1) << 8) | this.amount);
 		
 		this.meta.write(stream);
 		

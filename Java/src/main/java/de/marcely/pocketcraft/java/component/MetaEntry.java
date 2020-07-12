@@ -1,9 +1,9 @@
-package de.marcely.pocketcraft.java.component.entity.meta;
+package de.marcely.pocketcraft.java.component;
 
 import de.marcely.pocketcraft.java.util.EByteBuf;
 import lombok.Getter;
 
-abstract class MetaEntry<T> {
+public abstract class MetaEntry<T> {
 	
 	@Getter protected T data;
 	

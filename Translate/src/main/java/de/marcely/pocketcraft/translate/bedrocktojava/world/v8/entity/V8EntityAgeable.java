@@ -1,7 +1,7 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.world.v8.entity;
 
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityDataType;
-import de.marcely.pocketcraft.java.component.entity.meta.V8EntityMetadata;
+import de.marcely.pocketcraft.java.component.v8.entity.meta.V8EntityMetadata;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.World;
 
 public abstract class V8EntityAgeable extends V8EntityLiving {

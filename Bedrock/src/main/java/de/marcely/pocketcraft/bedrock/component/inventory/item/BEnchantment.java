@@ -1,4 +1,4 @@
-package de.marcely.pocketcraft.bedrock.component.inventory;
+package de.marcely.pocketcraft.bedrock.component.inventory.item;
 
 import org.jetbrains.annotations.Nullable;
 

@@ -1,6 +1,6 @@
 package de.marcely.pocketcraft.java.network.packet.play.v8d9;
 
-import de.marcely.pocketcraft.java.component.Item;
+import de.marcely.pocketcraft.java.component.v8.item.V8Item;
 import de.marcely.pocketcraft.java.network.packet.PacketProperties;
 import de.marcely.pocketcraft.java.network.packet.PlayPacket;
 import de.marcely.pocketcraft.java.util.EByteBuf;
@@ -42,7 +42,7 @@ public class V8D9PacketPlayWindowClick extends PlayPacket {
 	public byte button;
 	public short slot;
 	public short transactionId; // server will send a window click response back with the id. starts at 1
-	public Item clickedItem; // -1 = drop
+	public V8Item clickedItem; // -1 = drop
 	
 	@Override
 	public void write(EByteBuf stream) throws Exception {
@@ -51,7 +51,7 @@ public class V8D9PacketPlayWindowClick extends PlayPacket {
 		stream.writeByte(this.button);
 		stream.writeShort(this.transactionId);
 		stream.writeByte(this.mode);
-		stream.writeItem(this.clickedItem);
+		stream.writeV8Item(this.clickedItem);
 	}
 
 	@Override
@@ -61,7 +61,7 @@ public class V8D9PacketPlayWindowClick extends PlayPacket {
 		this.button = stream.readByte();
 		this.transactionId = stream.readShort();
 		this.mode = stream.readByte();
-		this.clickedItem = stream.readItem();
+		this.clickedItem = stream.readV8Item();
 	}
 
 	@Override

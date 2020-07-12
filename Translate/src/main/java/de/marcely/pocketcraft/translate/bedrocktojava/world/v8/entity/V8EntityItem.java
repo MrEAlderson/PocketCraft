@@ -4,7 +4,7 @@ import de.marcely.pocketcraft.bedrock.component.inventory.item.BItem;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityType;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketDestroyEntity;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketSpawnEntityItem;
-import de.marcely.pocketcraft.java.component.entity.meta.V8EntityMetadata;
+import de.marcely.pocketcraft.java.component.v8.entity.meta.V8EntityMetadata;
 import de.marcely.pocketcraft.translate.bedrocktojava.component.TranslateComponents;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.World;
 
