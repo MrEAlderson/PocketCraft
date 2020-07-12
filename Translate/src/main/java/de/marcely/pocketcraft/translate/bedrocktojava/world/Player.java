@@ -95,6 +95,8 @@ public class Player {
 		return this.java.getId();
 	}
 	
+	boolean oldOnGround = false;
+	
 	public void tick(){
 		final long start = System.currentTimeMillis();
 		
@@ -254,8 +256,10 @@ public class Player {
     						final BlockCollision.Cube cube = Collections.max(event.getIntersecting(), (c1, c2) -> Float.compare(c1.getY() + c1.getHeight(), c2.getY() + c2.getHeight()));
     						final float newY = event.getY() + cube.getY() + cube.getHeight();
     						
-    						if(newY - this.y <= 0.7F && newY - this.y >= 0)
+    						if(newY - this.y <= 0.7F && newY - this.y >= 0){
     							this.getEntity().setY(this.y = newY);
+    							this.isOnGround = true;
+    						}
     					}
     						
     				}

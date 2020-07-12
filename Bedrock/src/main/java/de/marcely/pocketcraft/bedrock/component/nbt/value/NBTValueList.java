@@ -8,8 +8,9 @@ import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTValue;
 
 public class NBTValueList extends NBTValue<List<NBTValue<?>>> {
 
-	public NBTValueList(List<NBTValue<?>> value){
-		super(value);
+	@SuppressWarnings("unchecked")
+	public <T extends NBTValue<?>> NBTValueList(List<T> value){
+		super((List<NBTValue<?>>) value);
 	}
 
 	@Override

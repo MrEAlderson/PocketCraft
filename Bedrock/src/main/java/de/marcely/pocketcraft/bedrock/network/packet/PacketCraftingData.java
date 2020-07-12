@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
-import de.marcely.pocketcraft.bedrock.component.inventory.Item;
+import de.marcely.pocketcraft.bedrock.component.inventory.item.Item;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
 public class PacketCraftingData extends PCPacket {
@@ -116,12 +116,15 @@ public class PacketCraftingData extends PCPacket {
 		public Item input;
 		
 		@Override
-		public int getType(){ return input.data != 0 ? 3 : 2; }
+		public int getType(){ return input.getData() != 0 ? 3 : 2; }
 
 		@Override
 		public void encode(EByteArrayWriter writer) throws Exception {
-			writer.writeSignedVarInt(input.id);
-			if(input.data != 0) writer.writeSignedVarInt(input.data);
+			writer.writeSignedVarInt(input.getType());
+			
+			if(input.getData() != 0)
+				writer.writeSignedVarInt(input.getData());
+			
 			result.write(writer);
 		}
 	}

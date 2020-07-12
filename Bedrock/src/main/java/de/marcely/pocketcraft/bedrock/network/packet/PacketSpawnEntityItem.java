@@ -1,7 +1,7 @@
 package de.marcely.pocketcraft.bedrock.network.packet;
 
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
-import de.marcely.pocketcraft.bedrock.component.inventory.Item;
+import de.marcely.pocketcraft.bedrock.component.inventory.item.Item;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityMetadata;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 

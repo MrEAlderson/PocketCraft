@@ -1,6 +1,6 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.packet.java;
 
-import de.marcely.pocketcraft.bedrock.component.inventory.Item;
+import de.marcely.pocketcraft.bedrock.component.inventory.item.Item;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityDataType;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityLink;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityArmor;

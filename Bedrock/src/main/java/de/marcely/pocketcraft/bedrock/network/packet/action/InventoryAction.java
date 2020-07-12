@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
 import lombok.ToString;
-import de.marcely.pocketcraft.bedrock.component.inventory.Item;
+import de.marcely.pocketcraft.bedrock.component.inventory.item.Item;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
 @ToString

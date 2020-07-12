@@ -2,7 +2,7 @@ package de.marcely.pocketcraft.translate.bedrocktojava.packet.java;
 
 import java.util.Arrays;
 
-import de.marcely.pocketcraft.bedrock.component.inventory.Item;
+import de.marcely.pocketcraft.bedrock.component.inventory.item.Item;
 import de.marcely.pocketcraft.bedrock.network.InventoryId;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketInventoryContent;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayWindowItems;

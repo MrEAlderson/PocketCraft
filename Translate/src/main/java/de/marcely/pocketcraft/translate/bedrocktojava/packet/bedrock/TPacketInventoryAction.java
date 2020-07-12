@@ -15,7 +15,7 @@ import de.marcely.pocketcraft.translate.bedrocktojava.world.block.BlockState;
 import de.marcely.pocketcraft.utils.math.Vector3;
 
 import de.marcely.pocketcraft.bedrock.component.BlockMapping;
-import de.marcely.pocketcraft.bedrock.component.inventory.Item;
+import de.marcely.pocketcraft.bedrock.component.inventory.item.Item;
 import de.marcely.pocketcraft.bedrock.network.InventoryId;
 
 import static de.marcely.pocketcraft.bedrock.network.packet.action.InventoryAction.*;

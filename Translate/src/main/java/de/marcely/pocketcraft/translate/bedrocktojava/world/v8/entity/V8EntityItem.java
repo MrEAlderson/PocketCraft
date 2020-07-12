@@ -1,6 +1,6 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.world.v8.entity;
 
-import de.marcely.pocketcraft.bedrock.component.inventory.Item;
+import de.marcely.pocketcraft.bedrock.component.inventory.item.Item;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityType;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketDestroyEntity;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketSpawnEntityItem;

@@ -112,12 +112,12 @@ public class NBTCompound {
 		add(new NBTTag(name, new NBTValueString(value)));
 	}
 	
-	public void addList(String name, List<NBTValue<?>> value){
+	public <T extends NBTValue<?>> void addList(String name, List<T> value){
 		add(new NBTTag(name, new NBTValueList(value)));
 	}
 	
-	public void addCompound(String name, NBTValueCompound value){
-		add(new NBTTag(name, value));
+	public void addCompound(String name, NBTCompound value){
+		add(new NBTTag(name, new NBTValueCompound(value)));
 	}
 	
 	public void addIntArray(String name, int[] value){
@@ -163,7 +163,7 @@ public class NBTCompound {
 		return getValue(name);
 	}
 	
-	public @Nullable List<NBTValue<?>> getList(String name){
+	public @Nullable <T extends NBTValue<?>> List<T> getList(String name){
 		return getValue(name);
 	}
 	

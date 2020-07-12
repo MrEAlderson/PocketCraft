@@ -2,7 +2,7 @@ package de.marcely.pocketcraft.bedrock.network.packet.action;
 
 import java.io.IOException;
 
-import de.marcely.pocketcraft.bedrock.component.inventory.Item;
+import de.marcely.pocketcraft.bedrock.component.inventory.item.Item;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 import de.marcely.pocketcraft.utils.math.Vector3;
 import lombok.Getter;
