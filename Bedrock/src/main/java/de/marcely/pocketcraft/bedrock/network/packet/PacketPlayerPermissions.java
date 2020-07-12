@@ -1,16 +1,16 @@
 package de.marcely.pocketcraft.bedrock.network.packet;
 
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
-import de.marcely.pocketcraft.bedrock.component.permission.CommandPermissionLevel;
-import de.marcely.pocketcraft.bedrock.component.permission.PermissionLevel;
-import de.marcely.pocketcraft.bedrock.component.permission.PlayerPermissions;
+import de.marcely.pocketcraft.bedrock.component.permission.BCommandPermissionLevel;
+import de.marcely.pocketcraft.bedrock.component.permission.BPermissionLevel;
+import de.marcely.pocketcraft.bedrock.component.permission.BPlayerPermissions;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
 public class PacketPlayerPermissions extends PCPacket {
 	
 	public long entityUID;
 	public long customFlags;
-	public PlayerPermissions permissions;
+	public BPlayerPermissions permissions;
 	
 	public PacketPlayerPermissions(){
 		super(PacketType.PlayerPermissions);
@@ -28,12 +28,12 @@ public class PacketPlayerPermissions extends PCPacket {
 	
 	@Override
 	public void decode(EByteArrayReader reader) throws Exception {
-		this.permissions = new PlayerPermissions();
+		this.permissions = new BPlayerPermissions();
 		
 		this.permissions.setFlags1((short) reader.readUnsignedVarInt());
-		this.permissions.setCommandLevel(CommandPermissionLevel.getById((int) reader.readUnsignedVarInt()));
+		this.permissions.setCommandLevel(BCommandPermissionLevel.getById((int) reader.readUnsignedVarInt()));
 		this.permissions.setFlags2((short) reader.readUnsignedVarInt());
-		this.permissions.setLevel(PermissionLevel.getById((int) reader.readUnsignedVarInt()));
+		this.permissions.setLevel(BPermissionLevel.getById((int) reader.readUnsignedVarInt()));
 		this.customFlags = reader.readUnsignedVarInt();
 		this.entityUID = reader.readLLong();
 	}

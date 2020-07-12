@@ -1,6 +1,6 @@
 package de.marcely.pocketcraft.bedrock.component.world.blockentity;
 
-import de.marcely.pocketcraft.bedrock.component.nbt.NBTCompound;
+import de.marcely.pocketcraft.bedrock.component.nbt.BNBTCompound;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,14 +18,14 @@ public class BlockEntityHopper extends BlockEntity implements BlockEntityNameabl
 	}
 
 	@Override
-	protected void _write(NBTCompound nbt){
+	protected void _write(BNBTCompound nbt){
 		if(hasCustomName()){
 			nbt.addString("CustomName", this.customName);
 		}
 	}
 
 	@Override
-	protected void _read(NBTCompound nbt){
+	protected void _read(BNBTCompound nbt){
 		if(nbt.contains("CustomName")){
 			this.customName = nbt.get("CustomName").getValueData();
 		}

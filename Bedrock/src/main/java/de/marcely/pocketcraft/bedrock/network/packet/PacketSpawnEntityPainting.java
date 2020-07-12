@@ -1,14 +1,14 @@
 package de.marcely.pocketcraft.bedrock.network.packet;
 
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
-import de.marcely.pocketcraft.bedrock.component.BlockFace;
+import de.marcely.pocketcraft.bedrock.component.BBlockFace;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
 public class PacketSpawnEntityPainting extends PCPacket {
 
 	public long entityUniqueId, entityRuntimeId;
 	public float x, y, z;
-	public BlockFace direction; // only horizontal!
+	public BBlockFace direction; // only horizontal!
 	public String title;
 	
 	public PacketSpawnEntityPainting(){

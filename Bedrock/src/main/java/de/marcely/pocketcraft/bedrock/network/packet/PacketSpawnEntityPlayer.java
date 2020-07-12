@@ -3,7 +3,7 @@ package de.marcely.pocketcraft.bedrock.network.packet;
 import java.util.UUID;
 
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
-import de.marcely.pocketcraft.bedrock.component.inventory.item.Item;
+import de.marcely.pocketcraft.bedrock.component.inventory.item.BItem;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityLink;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityMetadata;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
@@ -16,7 +16,7 @@ public class PacketSpawnEntityPlayer extends PCPacket {
 	public String platformChatId = "";
 	public float x, y, z, yaw, headYaw, pitch;
 	public float veloX, veloY, veloZ;
-	public Item itemOnHand;
+	public BItem itemOnHand;
 	public EntityMetadata metadata;
 	
 	public long[] adventureSettings = new long[5];

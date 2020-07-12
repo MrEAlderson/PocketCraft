@@ -1,12 +1,12 @@
 package de.marcely.pocketcraft.bedrock.network.packet;
 
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
-import de.marcely.pocketcraft.bedrock.component.GameMode;
+import de.marcely.pocketcraft.bedrock.component.BGameMode;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
 public class PacketGameMode extends PCPacket {
 	
-	public GameMode mode;
+	public BGameMode mode;
 	
 	public PacketGameMode(){
 		super(PacketType.GameMode);

@@ -1,6 +1,6 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.world.v8.entity;
 
-import de.marcely.pocketcraft.bedrock.component.inventory.item.Item;
+import de.marcely.pocketcraft.bedrock.component.inventory.item.BItem;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityType;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketDestroyEntity;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketSpawnEntityItem;
@@ -10,7 +10,7 @@ import de.marcely.pocketcraft.translate.bedrocktojava.world.World;
 
 public class V8EntityItem extends V8EntityProjectile implements V8EntityObject {
 
-	private Item item;
+	private BItem item;
 	
 	public V8EntityItem(World world, int id){
 		super(world, id);
@@ -39,10 +39,10 @@ public class V8EntityItem extends V8EntityProjectile implements V8EntityObject {
 	@Override
 	public void read(V8EntityMetadata meta, int key){
 		if(key == 10){
-			Item newItem = this.getWorld().getTranslateComponents().toBedrock(meta.readItem(key), TranslateComponents.ITEM);
+			BItem newItem = this.getWorld().getTranslateComponents().toBedrock(meta.readItem(key), TranslateComponents.ITEM);
 			
 			if(newItem == null)
-				newItem = new Item(248); // error item
+				newItem = new BItem(248); // error item
 			
 			if(this.item != null && this.item.equals(newItem))
 				return;

@@ -1,6 +1,6 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.packet.bedrock;
 
-import de.marcely.pocketcraft.bedrock.component.permission.PlayerPermissions;
+import de.marcely.pocketcraft.bedrock.component.permission.BPlayerPermissions;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketPlayerPermissions;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayAbilities;
 import de.marcely.pocketcraft.translate.bedrocktojava.BedrockPacketTranslator;
@@ -12,7 +12,7 @@ public class TPacketPlayerPermissions extends BedrockPacketTranslator<PacketPlay
 	public void handle(PacketPlayerPermissions packet, Player player){
 		// toggle flight
 		if(packet.permissions.isFlying() != player.getPermissions().isFlying()){
-			final PlayerPermissions perms = player.getPermissions();
+			final BPlayerPermissions perms = player.getPermissions();
 			
 			perms.setFlying(packet.permissions.isFlying());
 			player.updateSpeed();

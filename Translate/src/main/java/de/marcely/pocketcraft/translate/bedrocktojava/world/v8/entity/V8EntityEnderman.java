@@ -1,6 +1,6 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.world.v8.entity;
 
-import de.marcely.pocketcraft.bedrock.component.BlockMapping;
+import de.marcely.pocketcraft.bedrock.component.BBlockMapping;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityDataType;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityType;
 import de.marcely.pocketcraft.java.component.entity.meta.V8EntityMetadata;
@@ -33,7 +33,7 @@ public class V8EntityEnderman extends V8EntityInsentient {
 			this.carriedBlockId = meta.readShort(key);
 			
 			this.metadata.setShort(EntityDataType.ENDERMAN_HELD_ITEM_RUNTIME_ID,
-					(short) BlockMapping.INSTANCE.getRuntimeId(this.carriedBlockId, this.carriedBlockData));
+					(short) BBlockMapping.INSTANCE.getRuntimeId(this.carriedBlockId, this.carriedBlockData));
 		}
 		break;
 		
@@ -42,7 +42,7 @@ public class V8EntityEnderman extends V8EntityInsentient {
 			this.carriedBlockData = meta.readByte(key);
 			
 			this.metadata.setShort(EntityDataType.ENDERMAN_HELD_ITEM_RUNTIME_ID,
-					(short) BlockMapping.INSTANCE.getRuntimeId(this.carriedBlockId, this.carriedBlockData));
+					(short) BBlockMapping.INSTANCE.getRuntimeId(this.carriedBlockId, this.carriedBlockData));
 		}
 		break;
 		

@@ -1,6 +1,6 @@
 package de.marcely.pocketcraft.bedrock.component.world.blockentity;
 
-import de.marcely.pocketcraft.bedrock.component.nbt.NBTCompound;
+import de.marcely.pocketcraft.bedrock.component.nbt.BNBTCompound;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,7 +19,7 @@ public class BlockEntityShulkerBox extends BlockEntity implements BlockEntityNam
 	}
 
 	@Override
-	protected void _write(NBTCompound nbt){
+	protected void _write(BNBTCompound nbt){
 		nbt.addByte("facing", this.facing);
 		
 		if(hasCustomName()){
@@ -28,7 +28,7 @@ public class BlockEntityShulkerBox extends BlockEntity implements BlockEntityNam
 	}
 
 	@Override
-	protected void _read(NBTCompound nbt){
+	protected void _read(BNBTCompound nbt){
 		this.facing = nbt.get("facing").getValueData();
 		
 		if(nbt.contains("CustomName")){

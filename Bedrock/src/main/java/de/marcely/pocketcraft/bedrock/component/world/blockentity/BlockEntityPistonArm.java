@@ -1,6 +1,6 @@
 package de.marcely.pocketcraft.bedrock.component.world.blockentity;
 
-import de.marcely.pocketcraft.bedrock.component.nbt.NBTCompound;
+import de.marcely.pocketcraft.bedrock.component.nbt.BNBTCompound;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,7 +27,7 @@ public class BlockEntityPistonArm extends BlockEntity {
 	}
 
 	@Override
-	protected void _write(NBTCompound nbt){
+	protected void _write(BNBTCompound nbt){
 		nbt.addByte("isMovable", this.isMovable ? 1 : 0);
 		nbt.addByte("State", this.state);
 		nbt.addByte("NewState", this.newState);
@@ -37,7 +37,7 @@ public class BlockEntityPistonArm extends BlockEntity {
 	}
 
 	@Override
-	protected void _read(NBTCompound nbt){
+	protected void _read(BNBTCompound nbt){
 		this.isMovable = nbt.getByte("isMovable") == 1;
 		this.state = nbt.getByte("State");
 		this.newState = nbt.getByte("NewState");

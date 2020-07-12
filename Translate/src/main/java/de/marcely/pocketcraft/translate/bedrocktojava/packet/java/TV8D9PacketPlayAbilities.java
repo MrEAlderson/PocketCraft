@@ -1,6 +1,6 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.packet.java;
 
-import de.marcely.pocketcraft.bedrock.component.permission.PlayerPermissions;
+import de.marcely.pocketcraft.bedrock.component.permission.BPlayerPermissions;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayAbilities;
 import de.marcely.pocketcraft.translate.bedrocktojava.JavaPacketTranslator;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
@@ -12,7 +12,7 @@ public class TV8D9PacketPlayAbilities extends JavaPacketTranslator<V8D9PacketPla
 		boolean updateSpeed = false;
 		
 		{
-			final PlayerPermissions perms = player.getPermissions();
+			final BPlayerPermissions perms = player.getPermissions();
 			
 			if(perms.isFlying() != packet.isFlying)
 				updateSpeed = true;

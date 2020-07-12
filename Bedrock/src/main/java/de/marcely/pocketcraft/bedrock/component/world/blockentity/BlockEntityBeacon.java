@@ -1,6 +1,6 @@
 package de.marcely.pocketcraft.bedrock.component.world.blockentity;
 
-import de.marcely.pocketcraft.bedrock.component.nbt.NBTCompound;
+import de.marcely.pocketcraft.bedrock.component.nbt.BNBTCompound;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,7 +21,7 @@ public class BlockEntityBeacon extends BlockEntity {
 	}
 
 	@Override
-	protected void _write(NBTCompound nbt){
+	protected void _write(BNBTCompound nbt){
 		nbt.addString("Lock", this.lock);
 		nbt.addInt("Levels", this.levels);
 		nbt.addInt("Primary", this.primary);
@@ -29,7 +29,7 @@ public class BlockEntityBeacon extends BlockEntity {
 	}
 
 	@Override
-	protected void _read(NBTCompound nbt){
+	protected void _read(BNBTCompound nbt){
 		this.lock = nbt.get("Lock").getValueData();
 		this.levels = nbt.get("Levels").getValueData();
 		this.primary = nbt.get("Primary").getValueData();

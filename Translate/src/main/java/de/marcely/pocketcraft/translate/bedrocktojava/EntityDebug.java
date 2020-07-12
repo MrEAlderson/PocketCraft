@@ -2,7 +2,7 @@ package de.marcely.pocketcraft.translate.bedrocktojava;
 
 import org.jetbrains.annotations.Nullable;
 
-import de.marcely.pocketcraft.bedrock.component.TextFormat;
+import de.marcely.pocketcraft.bedrock.component.BTextFormat;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityDataType;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityDataValueType;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityType;
@@ -57,7 +57,7 @@ public class EntityDebug {
 		
 		this.oldIndex = this.index;
 		
-		this.player.sendChatMessage(TextFormat.GRAY + "Index: " + TextFormat.RESET + index);
+		this.player.sendChatMessage(BTextFormat.GRAY + "Index: " + BTextFormat.RESET + index);
 	}
 	
 	private void apply(Entity entity){
@@ -161,7 +161,7 @@ public class EntityDebug {
 			
 			entity.sendAllMetadata(this.player.getBedrock());
 			
-			this.player.sendChatMessage(TextFormat.GRAY + " (Data: " + data.name() + ")");
+			this.player.sendChatMessage(BTextFormat.GRAY + " (Data: " + data.name() + ")");
 		}
 		break;
 		}

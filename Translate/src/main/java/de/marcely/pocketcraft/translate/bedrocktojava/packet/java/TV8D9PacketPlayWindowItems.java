@@ -2,7 +2,7 @@ package de.marcely.pocketcraft.translate.bedrocktojava.packet.java;
 
 import java.util.Arrays;
 
-import de.marcely.pocketcraft.bedrock.component.inventory.item.Item;
+import de.marcely.pocketcraft.bedrock.component.inventory.item.BItem;
 import de.marcely.pocketcraft.bedrock.network.InventoryId;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketInventoryContent;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayWindowItems;
@@ -36,7 +36,7 @@ public class TV8D9PacketPlayWindowItems extends JavaPacketTranslator<V8D9PacketP
 		final PacketInventoryContent out = new PacketInventoryContent();
 		
 		out.inventoryId = inventoryId;
-		out.items = new Item[items.length];
+		out.items = new BItem[items.length];
 		
 		for(int i=0; i<items.length; i++)
 			out.items[i] = player.getTranslateComponents().toBedrock(items[i], TranslateComponents.ITEM);

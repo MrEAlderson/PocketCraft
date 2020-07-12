@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
-import de.marcely.pocketcraft.bedrock.component.inventory.item.Item;
+import de.marcely.pocketcraft.bedrock.component.inventory.item.BItem;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
 public class PacketCraftingData extends PCPacket {
@@ -40,7 +40,7 @@ public class PacketCraftingData extends PCPacket {
 	public static abstract class Resultable {
 		
 		public UUID id;
-		public Item result;
+		public BItem result;
 	}
 	
 	public static interface CraftingDataEntry {
@@ -52,7 +52,7 @@ public class PacketCraftingData extends PCPacket {
 	
 	public static class ShapelessRecipe extends Resultable implements CraftingDataEntry {
 		
-		public List<Item> ingredients;
+		public List<BItem> ingredients;
 		
 		@Override
 		public int getType(){ return 0; }
@@ -61,7 +61,7 @@ public class PacketCraftingData extends PCPacket {
 		public void encode(EByteArrayWriter writer) throws Exception {
 			writer.writeUnsignedVarInt(ingredients.size());
 			
-			for(Item item:ingredients)
+			for(BItem item:ingredients)
 				item.write(writer);
 			
 			writer.writeUnsignedVarInt(1);
@@ -73,7 +73,7 @@ public class PacketCraftingData extends PCPacket {
 	public static class ShapedRecipe extends Resultable implements CraftingDataEntry {
 		
 		public Character[][] shape;
-		public Map<Character, Item> indegridients;
+		public Map<Character, BItem> indegridients;
 		
 		@Override
 		public int getType(){ return 1; }
@@ -97,23 +97,23 @@ public class PacketCraftingData extends PCPacket {
 			writer.writeUUID(id);
 		}
 		
-		public Item getIndegridientAt(int x, int y){
+		public BItem getIndegridientAt(int x, int y){
 			final Character c = shape[x][y];
 			
 			if(c != null){
-				final Item item = indegridients.get(c);
+				final BItem item = indegridients.get(c);
 				
 				if(item != null)
 					return item;
 			}
 			
-			return new Item(0);
+			return new BItem(0);
 		}
 	}
 	
 	public static class FurnaceRecipe extends Resultable implements CraftingDataEntry {
 		
-		public Item input;
+		public BItem input;
 		
 		@Override
 		public int getType(){ return input.getData() != 0 ? 3 : 2; }

@@ -1,10 +1,10 @@
 package de.marcely.pocketcraft.bedrock.network.packet;
 
-import de.marcely.pocketcraft.bedrock.component.BlockMapping;
-import de.marcely.pocketcraft.bedrock.component.Difficulty;
-import de.marcely.pocketcraft.bedrock.component.GameMode;
-import de.marcely.pocketcraft.bedrock.component.GameRules;
-import de.marcely.pocketcraft.bedrock.component.ItemMapping;
+import de.marcely.pocketcraft.bedrock.component.BBlockMapping;
+import de.marcely.pocketcraft.bedrock.component.BDifficulty;
+import de.marcely.pocketcraft.bedrock.component.BGameMode;
+import de.marcely.pocketcraft.bedrock.component.BGameRules;
+import de.marcely.pocketcraft.bedrock.component.BItemMapping;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
@@ -23,15 +23,15 @@ public class PacketGame extends PCPacket {
 	
     public long entityUniqueId;
     public long entityRuntimeId;
-    public GameMode gamemode;
+    public BGameMode gamemode;
     public float x, y, z;
     public float yaw, pitch;
     
     public int seed;
     public byte dimension;
     public int generator;
-    public GameMode worldGamemode;
-    public Difficulty difficulty;
+    public BGameMode worldGamemode;
+    public BDifficulty difficulty;
     public int spawnX, spawnY, spawnZ;
     public boolean hasAchievementsDisabled;
     public int time;
@@ -46,7 +46,7 @@ public class PacketGame extends PCPacket {
     public int platformBroadcastMode;
     public boolean commandsEnabled;
     public boolean isTexturePacksRequired;
-    public GameRules gameRules;
+    public BGameRules gameRules;
     public boolean bonusChest;
     public boolean startWithMap;
     public int defaultPermissionLevel;
@@ -126,10 +126,10 @@ public class PacketGame extends PCPacket {
         
         writer.writeSignedVarInt(this.enchantmentSeed);
         
-        writer.write(BlockMapping.INSTANCE.getPalette());
+        writer.write(BBlockMapping.INSTANCE.getPalette());
         
-        writer.writeUnsignedVarInt(ItemMapping.INSTANCE.cachedTableSize);
-        writer.write(ItemMapping.INSTANCE.cachedTable);
+        writer.writeUnsignedVarInt(BItemMapping.INSTANCE.cachedTableSize);
+        writer.write(BItemMapping.INSTANCE.cachedTable);
         
         writer.writeString(this.multiplayerCorrelationID);
 	}

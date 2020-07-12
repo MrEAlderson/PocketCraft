@@ -1,6 +1,6 @@
 package de.marcely.pocketcraft.bedrock.component.world.blockentity;
 
-import de.marcely.pocketcraft.bedrock.component.nbt.NBTCompound;
+import de.marcely.pocketcraft.bedrock.component.nbt.BNBTCompound;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,7 +20,7 @@ public class BlockEntityMovingBlock extends BlockEntity {
 	}
 
 	@Override
-	protected void _write(NBTCompound nbt){
+	protected void _write(BNBTCompound nbt){
 		nbt.addFloat("movingBlockId", this.movingBlockId);
 		nbt.addFloat("movingBlockData", this.movingBlockData);
 		nbt.addInt("pistonPosX", this.pistonPosX);
@@ -29,7 +29,7 @@ public class BlockEntityMovingBlock extends BlockEntity {
 	}
 
 	@Override
-	protected void _read(NBTCompound nbt){
+	protected void _read(BNBTCompound nbt){
 		this.movingBlockId = nbt.get("movingBlockId").getValueData();
 		this.movingBlockData = nbt.get("movingBlockData").getValueData();
 		this.pistonPosX = nbt.get("pistonPosX").getValueData();

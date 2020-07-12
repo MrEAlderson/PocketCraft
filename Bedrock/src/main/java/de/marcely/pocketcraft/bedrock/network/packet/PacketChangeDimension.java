@@ -1,12 +1,12 @@
 package de.marcely.pocketcraft.bedrock.network.packet;
 
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
-import de.marcely.pocketcraft.bedrock.component.Dimension;
+import de.marcely.pocketcraft.bedrock.component.BDimension;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
 public class PacketChangeDimension extends PCPacket {
 
-	public Dimension dimension;
+	public BDimension dimension;
 	public float posX, posY, posZ;
 	// true: player dies in an dimension other than the overworld
 	public boolean respawn;

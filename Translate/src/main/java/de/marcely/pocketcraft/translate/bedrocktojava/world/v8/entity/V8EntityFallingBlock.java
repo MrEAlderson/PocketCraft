@@ -1,6 +1,6 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.world.v8.entity;
 
-import de.marcely.pocketcraft.bedrock.component.BlockMapping;
+import de.marcely.pocketcraft.bedrock.component.BBlockMapping;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityDataType;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityType;
 import de.marcely.pocketcraft.translate.bedrocktojava.component.TranslateComponents;
@@ -29,6 +29,6 @@ public class V8EntityFallingBlock extends V8Entity implements V8EntityObject {
 				new Pair<Short, Byte>((short) (data & 0x0FFF), (byte) ((data & 0xF000) >> 12)),
 				TranslateComponents.BLOCK);
 		
-		this.getMetadata().setInt(EntityDataType.VARIANT, BlockMapping.INSTANCE.getRuntimeId(material.getEntry1(), material.getEntry2()));
+		this.getMetadata().setInt(EntityDataType.VARIANT, BBlockMapping.INSTANCE.getRuntimeId(material.getEntry1(), material.getEntry2()));
 	}
 }

@@ -2,8 +2,8 @@ package de.marcely.pocketcraft.bedrock.network.packet.action;
 
 import java.io.IOException;
 
-import de.marcely.pocketcraft.bedrock.component.BlockFace;
-import de.marcely.pocketcraft.bedrock.component.inventory.item.Item;
+import de.marcely.pocketcraft.bedrock.component.BBlockFace;
+import de.marcely.pocketcraft.bedrock.component.inventory.item.BItem;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 import lombok.Getter;
 
@@ -15,14 +15,14 @@ public class UseItemAction extends Action {
 	
 	public final long actionType;
 	public final int blockPosX, blockPosY, blockPosZ;
-	public final BlockFace face;
+	public final BBlockFace face;
 	@Getter public final int hotbarSlot;
-	public final Item item;
+	public final BItem item;
 	public final float playerPosX, playerPosY, playerPosZ;
 	public final float clickPosX, clickPosY, clickPosZ;
 	
-	public UseItemAction(long actionType, int blockPosX, int blockPosY, int blockPosZ, BlockFace face,
-					     int hotbarSlot, Item item, float playerPosX, float playerPosY, float playerPosZ,
+	public UseItemAction(long actionType, int blockPosX, int blockPosY, int blockPosZ, BBlockFace face,
+					     int hotbarSlot, BItem item, float playerPosX, float playerPosY, float playerPosZ,
 					     float clickPosX, float clickPosY, float clickPosZ){
 		
 		this.actionType = actionType;
@@ -51,9 +51,9 @@ public class UseItemAction extends Action {
 		final int blockPosY = (int) stream.readUnsignedVarInt();
 		final int blockPosZ = stream.readSignedVarInt();
 		final int f = stream.readSignedVarInt();
-		final BlockFace face = BlockFace.getById((byte) f);
+		final BBlockFace face = BBlockFace.getById((byte) f);
 		final int hotbarSlot = stream.readSignedVarInt();
-		final Item item = Item.read(stream);
+		final BItem item = BItem.read(stream);
 		final float playerPosX = stream.readLFloat();
 		final float playerPosY = stream.readLFloat();
 		final float playerPosZ = stream.readLFloat();

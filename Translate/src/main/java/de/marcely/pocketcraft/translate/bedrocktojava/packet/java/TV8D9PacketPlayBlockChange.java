@@ -1,6 +1,6 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.packet.java;
 
-import de.marcely.pocketcraft.bedrock.component.BlockMapping;
+import de.marcely.pocketcraft.bedrock.component.BBlockMapping;
 import de.marcely.pocketcraft.bedrock.component.world.blockentity.BlockEntity;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketBlockChange;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayBlockChange;
@@ -47,7 +47,7 @@ public class TV8D9PacketPlayBlockChange extends JavaPacketTranslator<V8D9PacketP
 			out.x = packet.x;
 			out.y = packet.y;
 			out.z = packet.z;
-			out.blockRuntimeId = BlockMapping.INSTANCE.getRuntimeId(pair.getEntry1(), pair.getEntry2());
+			out.blockRuntimeId = BBlockMapping.INSTANCE.getRuntimeId(pair.getEntry1(), pair.getEntry2());
 			out.flag = PacketBlockChange.FLAG_ALL;
 			
 			player.sendPacket(out);

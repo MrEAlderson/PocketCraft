@@ -9,10 +9,10 @@ import java.util.Queue;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import de.marcely.pocketcraft.bedrock.component.nbt.NBTTag;
-import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTValueCompound;
-import de.marcely.pocketcraft.bedrock.component.permission.PlayerPermissions;
-import de.marcely.pocketcraft.bedrock.component.world.ParticleType;
+import de.marcely.pocketcraft.bedrock.component.nbt.BNBTTag;
+import de.marcely.pocketcraft.bedrock.component.nbt.value.BNBTValueCompound;
+import de.marcely.pocketcraft.bedrock.component.permission.BPlayerPermissions;
+import de.marcely.pocketcraft.bedrock.component.world.BParticleType;
 import de.marcely.pocketcraft.bedrock.component.world.blockentity.BlockEntity;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityAttribute;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityAttributeType;
@@ -51,7 +51,7 @@ public class Player {
 	@Getter private final TranslateComponents translateComponents = new TranslateComponents();
 	
 	@Getter private final World world = new World(this);
-	@Getter private final PlayerPermissions permissions = PlayerPermissions.newDefaultInstance();
+	@Getter private final BPlayerPermissions permissions = BPlayerPermissions.newDefaultInstance();
 	
 	private float oldX, oldY, oldZ, oldYaw, oldPitch;
 	@Getter @Setter private float x, y, z, yaw, pitch;
@@ -450,11 +450,11 @@ public class Player {
 		out.z = entity.getZ();
 		
 		{
-			final NBTValueCompound nbt = new NBTValueCompound();
+			final BNBTValueCompound nbt = new BNBTValueCompound();
 			
 			entity.write(nbt.getData());
 			
-			out.data = new NBTTag("", nbt);
+			out.data = new BNBTTag("", nbt);
 		}
 		
 		sendPacket(out);
@@ -473,7 +473,7 @@ public class Player {
 		return this.bedrock.getClient().isConnected() && this.java.isRunning();
 	}
 	
-	public void playParticle(float x, float y, float z, ParticleType type, int data){
+	public void playParticle(float x, float y, float z, BParticleType type, int data){
 		final PacketWorldEvent out = new PacketWorldEvent();
 		
 		out.x = x;

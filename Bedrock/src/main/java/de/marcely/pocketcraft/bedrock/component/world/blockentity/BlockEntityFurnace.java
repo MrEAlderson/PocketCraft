@@ -1,6 +1,6 @@
 package de.marcely.pocketcraft.bedrock.component.world.blockentity;
 
-import de.marcely.pocketcraft.bedrock.component.nbt.NBTCompound;
+import de.marcely.pocketcraft.bedrock.component.nbt.BNBTCompound;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,7 +22,7 @@ public class BlockEntityFurnace extends BlockEntity implements BlockEntityNameab
 	}
 
 	@Override
-	protected void _write(NBTCompound nbt){
+	protected void _write(BNBTCompound nbt){
 		nbt.addShort("BurnDuration", this.burnDuration);
 		nbt.addShort("BurnTime", this.burnTime);
 		nbt.addShort("CookTime", this.cookTime);
@@ -33,7 +33,7 @@ public class BlockEntityFurnace extends BlockEntity implements BlockEntityNameab
 	}
 
 	@Override
-	protected void _read(NBTCompound nbt){
+	protected void _read(BNBTCompound nbt){
 		this.burnDuration = nbt.get("BurnDuration").getValueData();
 		this.burnTime = nbt.get("BurnTime").getValueData();
 		this.cookTime = nbt.get("CookTime").getValueData();

@@ -1,6 +1,6 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.packet.java;
 
-import de.marcely.pocketcraft.bedrock.component.inventory.item.Item;
+import de.marcely.pocketcraft.bedrock.component.inventory.item.BItem;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityDataType;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityLink;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketEntityArmor;
@@ -73,7 +73,7 @@ public class TV8D9PacketPlaySpawnPlayer extends JavaPacketTranslator<V8D9PacketP
 			out.yaw = entity.getYaw();
 			out.headYaw = entity.getHeadYaw();
 			out.pitch = entity.getPitch();
-			out.itemOnHand = new Item(0);
+			out.itemOnHand = new BItem(0);
 			out.metadata = entity.getMetadata();
 			out.links = new EntityLink[0];
 			
@@ -86,7 +86,7 @@ public class TV8D9PacketPlaySpawnPlayer extends JavaPacketTranslator<V8D9PacketP
 			out.entityId = packet.entityId;
 			
 			for(int i=0; i<out.items.length; i++)
-				out.items[i] = new Item(0);
+				out.items[i] = new BItem(0);
 			
 			player.sendPacket(out);
 		}

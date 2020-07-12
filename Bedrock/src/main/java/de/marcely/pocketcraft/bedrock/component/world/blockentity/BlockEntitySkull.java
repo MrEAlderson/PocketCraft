@@ -1,6 +1,6 @@
 package de.marcely.pocketcraft.bedrock.component.world.blockentity;
 
-import de.marcely.pocketcraft.bedrock.component.nbt.NBTCompound;
+import de.marcely.pocketcraft.bedrock.component.nbt.BNBTCompound;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,13 +19,13 @@ public class BlockEntitySkull extends BlockEntity {
 	}
 
 	@Override
-	protected void _write(NBTCompound nbt){
+	protected void _write(BNBTCompound nbt){
 		nbt.addByte("SkullType", this.skullType);
 		nbt.addByte("Rot", this.rotation);
 	}
 
 	@Override
-	protected void _read(NBTCompound nbt){
+	protected void _read(BNBTCompound nbt){
 		this.skullType = nbt.get("SkullType").getValueData();
 		this.rotation = nbt.get("Rot").getValueData();
 	}

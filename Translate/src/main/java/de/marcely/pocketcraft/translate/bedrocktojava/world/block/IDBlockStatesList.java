@@ -16,7 +16,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import de.marcely.pocketcraft.bedrock.component.BlockMapping;
+import de.marcely.pocketcraft.bedrock.component.BBlockMapping;
 import de.marcely.pocketcraft.utils.Application;
 import de.marcely.pocketcraft.utils.logger.Logger;
 
@@ -45,7 +45,7 @@ public class IDBlockStatesList {
 	public static IDBlockStatesList load(JsonObject root) throws Exception {
 		final List<BlockCollision> collisionInstances = new ArrayList<>();
 		final Map<String, BlockCollision> collisionBaseList = new HashMap<>();
-		final Map<String, Integer> idsMap = BlockMapping.loadIdsMap();
+		final Map<String, Integer> idsMap = BBlockMapping.loadIdsMap();
 		
 		// helper
 		final Function<Object, BlockCollision> collisionSupplier = (element) -> {

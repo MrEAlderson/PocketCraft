@@ -1,7 +1,7 @@
 package de.marcely.pocketcraft.bedrock.network.packet;
 
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
-import de.marcely.pocketcraft.bedrock.component.inventory.item.Item;
+import de.marcely.pocketcraft.bedrock.component.inventory.item.BItem;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
 public class PacketEntityArmor extends PCPacket {
@@ -12,7 +12,7 @@ public class PacketEntityArmor extends PCPacket {
 	public static final byte SLOT_BOOTS = 3;
 	
 	public long entityId;
-	public Item[] items = new Item[4];
+	public BItem[] items = new BItem[4];
 	
 	public PacketEntityArmor(){
 		super(PacketType.EntityArmor);

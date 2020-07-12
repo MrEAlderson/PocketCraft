@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
 import lombok.ToString;
-import de.marcely.pocketcraft.bedrock.component.inventory.item.Item;
+import de.marcely.pocketcraft.bedrock.component.inventory.item.BItem;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
 @ToString
@@ -22,9 +22,9 @@ public class InventoryAction {
 	public final int inventoryId;
 	public final int sourceFlags;
 	public final int slot;
-	public final Item newItem, oldItem;
+	public final BItem newItem, oldItem;
 	
-	public InventoryAction(int sourceType, int inventoryId, int sourceFlags, int slot, Item newItem, Item oldItem){
+	public InventoryAction(int sourceType, int inventoryId, int sourceFlags, int slot, BItem newItem, BItem oldItem){
 		this.sourceType = sourceType;
 		this.inventoryId = inventoryId;
 		this.sourceFlags = sourceFlags;
@@ -40,7 +40,7 @@ public class InventoryAction {
 		int inventoryId = 0xFF;
 		int sourceFlags = 0xFF;
 		int slot = 0xFF;
-		Item newItem = null, oldItem = null;
+		BItem newItem = null, oldItem = null;
 		
 		switch(sourceType){
 		case SOURCE_TYPE_CONTAINER:
@@ -64,8 +64,8 @@ public class InventoryAction {
 		}
 		
 		slot = (int) reader.readUnsignedVarInt();
-		oldItem = Item.read(reader);
-		newItem = Item.read(reader);
+		oldItem = BItem.read(reader);
+		newItem = BItem.read(reader);
 		
 		return new InventoryAction(sourceType, inventoryId, sourceFlags, slot, newItem, oldItem);
 	}

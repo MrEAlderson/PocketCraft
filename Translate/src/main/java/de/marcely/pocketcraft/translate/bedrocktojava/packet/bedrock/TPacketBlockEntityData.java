@@ -1,6 +1,6 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.packet.bedrock;
 
-import de.marcely.pocketcraft.bedrock.component.nbt.value.NBTValueCompound;
+import de.marcely.pocketcraft.bedrock.component.nbt.value.BNBTValueCompound;
 import de.marcely.pocketcraft.bedrock.component.world.blockentity.BlockEntity;
 import de.marcely.pocketcraft.bedrock.component.world.blockentity.BlockEntityType;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketBlockEntityData;
@@ -19,7 +19,7 @@ public class TPacketBlockEntityData extends BedrockPacketTranslator<PacketBlockE
 			return;
 		
 		if(rawEntity.getType() == BlockEntityType.SIGN){
-			final String rawLines = (String) ((NBTValueCompound) packet.data.getValue()).getData().get("Text").getValue().getData();
+			final String rawLines = (String) ((BNBTValueCompound) packet.data.getValue()).getData().get("Text").getValue().getData();
 			final String[] lines = rawLines.split("\n");
 			
 			// problem: player is sending this packet for every char that he writes and does not have a proper packet

@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.jetbrains.annotations.Nullable;
 
-import de.marcely.pocketcraft.bedrock.component.Dimension;
+import de.marcely.pocketcraft.bedrock.component.BDimension;
 import de.marcely.pocketcraft.bedrock.component.world.blockentity.BlockEntity;
 import de.marcely.pocketcraft.translate.bedrocktojava.component.TranslateComponents;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.block.BlockState;
@@ -20,7 +20,7 @@ public class World {
 	@Getter private Map<Long, Chunk> chunksMap = new ConcurrentHashMap<>();
 	@Getter private Map<Integer, Entity> entitiesMap = new ConcurrentHashMap<>();
 	
-	@Getter @Setter private Dimension dimension;
+	@Getter @Setter private BDimension dimension;
 	@Getter @Setter private int spawnX, spawnY, spawnZ;
 	
 	@Getter private PlayerList playerList = new PlayerList();

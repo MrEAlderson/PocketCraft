@@ -10,7 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
-import de.marcely.pocketcraft.bedrock.component.UserInfo;
+import de.marcely.pocketcraft.bedrock.component.BUserInfo;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
@@ -24,7 +24,7 @@ public class PacketLogin extends PCPacket {
 	public String xuid;
 	public String publicIdentityKey;
 	
-	public UserInfo info;
+	public BUserInfo info;
 	
 	public PacketLogin(){
 		super(PacketType.Login);
@@ -64,7 +64,7 @@ public class PacketLogin extends PCPacket {
 		
 		// read more data
 		{
-			this.info = UserInfo.parse(decodeToken(new String(reader2.read(reader2.readLInt()), StandardCharsets.UTF_8)));
+			this.info = BUserInfo.parse(decodeToken(new String(reader2.read(reader2.readLInt()), StandardCharsets.UTF_8)));
 		}
 		
 		reader2.close();

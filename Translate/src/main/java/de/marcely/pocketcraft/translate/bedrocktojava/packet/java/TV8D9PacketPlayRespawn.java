@@ -1,6 +1,6 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.packet.java;
 
-import de.marcely.pocketcraft.bedrock.component.Dimension;
+import de.marcely.pocketcraft.bedrock.component.BDimension;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketGameDifficulty;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketGameMode;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketRespawn;
@@ -21,7 +21,7 @@ public class TV8D9PacketPlayRespawn extends JavaPacketTranslator<V8D9PacketPlayR
 	public void handle(V8D9PacketPlayRespawn packet, Player player){	
 		// dimension
 		{
-			final Dimension dimension = player.getTranslateComponents().toBedrock(packet.dimension, TranslateComponents.DIMENSION);
+			final BDimension dimension = player.getTranslateComponents().toBedrock(packet.dimension, TranslateComponents.DIMENSION);
 			
 			player.getWorld().setDimension(dimension);
 			player.unloadChunks();

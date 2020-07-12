@@ -1,6 +1,6 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.packet.java;
 
-import de.marcely.pocketcraft.bedrock.component.Dimension;
+import de.marcely.pocketcraft.bedrock.component.BDimension;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayMapChunkBulk;
 import de.marcely.pocketcraft.java.util.EByteBuf;
 import de.marcely.pocketcraft.translate.bedrocktojava.JavaPacketTranslator;
@@ -35,7 +35,7 @@ public class TV8D9PacketPlayMapChunkBulk extends JavaPacketTranslator<V8D9Packet
 						new V8Chunk(de.marcely.pocketcraft.java.component.v8.V8Chunk.read(
 						buf,
 						primaryBitMask,
-						(player.getWorld().getDimension() == Dimension.OVERWORLD),
+						(player.getWorld().getDimension() == BDimension.OVERWORLD),
 						true,
 						(oldChunk != null ? oldChunk.getReference() : null)), player.getWorld(), x, z);
 				

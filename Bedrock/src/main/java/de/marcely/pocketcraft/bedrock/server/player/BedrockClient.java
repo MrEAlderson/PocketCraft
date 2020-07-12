@@ -12,8 +12,8 @@ import com.whirvis.jraknet.peer.RakNetClientPeer;
 import com.whirvis.jraknet.protocol.Reliability;
 
 import de.marcely.pocketcraft.bedrock.BedrockConfig;
-import de.marcely.pocketcraft.bedrock.component.GameRules;
-import de.marcely.pocketcraft.bedrock.component.UserInfo;
+import de.marcely.pocketcraft.bedrock.component.BGameRules;
+import de.marcely.pocketcraft.bedrock.component.BUserInfo;
 import de.marcely.pocketcraft.bedrock.component.world.entity.Entity;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityType;
 import de.marcely.pocketcraft.bedrock.network.packet.PCPacket;
@@ -35,7 +35,7 @@ public class BedrockClient {
 	@Getter private final List<PacketListener> packetListeners = new ArrayList<>(4);
 	
 	@Getter @Setter private Entity entity;
-	@Getter @Setter private UserInfo info;
+	@Getter @Setter private BUserInfo info;
 	@Getter @Setter private String username;
 	
 	public BedrockClient(BedrockServer server, RakNetClientPeer client){
@@ -149,7 +149,7 @@ public class BedrockClient {
 		};
 	}
 	
-	public void sendGameRules(GameRules gr){
+	public void sendGameRules(BGameRules gr){
 		final PacketGameRules packet = (PacketGameRules) PacketType.GameRules.newInstance();
 		
 		packet.gameRules = gr;

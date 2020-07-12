@@ -1,13 +1,13 @@
 package de.marcely.pocketcraft.bedrock.network.packet;
 
-import de.marcely.pocketcraft.bedrock.component.ResourcePack;
+import de.marcely.pocketcraft.bedrock.component.BResourcePack;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
 public class PacketAvailableResourcePacks extends PCPacket {
 
 	public boolean mustAccept = false, hasScripts = false;
-	public ResourcePack[] resourcePacks, behaviourPacks;
+	public BResourcePack[] resourcePacks, behaviourPacks;
 	
 	public PacketAvailableResourcePacks(){
 		super(PacketType.AvailableResourcePacks);
@@ -21,7 +21,7 @@ public class PacketAvailableResourcePacks extends PCPacket {
 		{
 			writer.writeLShort(behaviourPacks.length);
 			
-			for(ResourcePack pack:behaviourPacks){
+			for(BResourcePack pack:behaviourPacks){
 				writer.writeString(pack.id);
 				writer.writeString(pack.version);
 				writer.writeLLong(pack.data.length);
@@ -35,7 +35,7 @@ public class PacketAvailableResourcePacks extends PCPacket {
 		{
 			writer.writeLShort(resourcePacks.length);
 			
-			for(ResourcePack pack:resourcePacks){
+			for(BResourcePack pack:resourcePacks){
 				writer.writeString(pack.id);
 				writer.writeString(pack.version);
 				writer.writeLLong(pack.data.length);

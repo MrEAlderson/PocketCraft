@@ -1,23 +1,25 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.component.v8;
 
+import de.marcely.pocketcraft.bedrock.component.inventory.item.BItem;
+import de.marcely.pocketcraft.java.component.Item;
 import de.marcely.pocketcraft.translate.bedrocktojava.component.ComponentTranslator;
 import de.marcely.pocketcraft.translate.bedrocktojava.component.TranslateComponents;
 
-public class V8ItemTranslator implements ComponentTranslator<de.marcely.pocketcraft.java.component.Item, de.marcely.pocketcraft.bedrock.component.inventory.item.Item> {
+public class V8ItemTranslator implements ComponentTranslator<Item, BItem> {
 	
 	@Override
-	public de.marcely.pocketcraft.java.component.Item toJava(TranslateComponents translate, de.marcely.pocketcraft.bedrock.component.inventory.item.Item item){
-		if(item.id == 0)
+	public Item toJava(TranslateComponents translate, BItem item){
+		if(item.getType() == 0)
 			return null;
 		
-		return new de.marcely.pocketcraft.java.component.Item((short) item.id, item.amount, (short) item.data);
+		return new Item((short) item.getType(), item.getAmount(), (short) item.getData());
 	}
 
 	@Override
-	public de.marcely.pocketcraft.bedrock.component.inventory.item.Item toBedrock(TranslateComponents translate, de.marcely.pocketcraft.java.component.Item item){
+	public BItem toBedrock(TranslateComponents translate, Item item){
 		if(item == null)
-			return new de.marcely.pocketcraft.bedrock.component.inventory.item.Item(0);
+			return new BItem(0);
 		
-		return new de.marcely.pocketcraft.bedrock.component.inventory.item.Item(item.getType(), item.getAmount(), item.getData());
+		return new BItem(item.getType(), item.getAmount(), item.getData());
 	}
 }

@@ -1,13 +1,13 @@
 package de.marcely.pocketcraft.bedrock.network.packet;
 
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
-import de.marcely.pocketcraft.bedrock.component.inventory.WindowType;
+import de.marcely.pocketcraft.bedrock.component.inventory.BWindowType;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
 public class PacketContainerOpen extends PCPacket {
 
 	public byte windowID;
-	public WindowType type;
+	public BWindowType type;
 	public int x, y, z;
 	public int entityID = -1;
 	

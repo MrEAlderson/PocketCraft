@@ -1,8 +1,8 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.packet.java;
 
-import de.marcely.pocketcraft.bedrock.component.Dimension;
-import de.marcely.pocketcraft.bedrock.component.GameRule;
-import de.marcely.pocketcraft.bedrock.component.GameRules;
+import de.marcely.pocketcraft.bedrock.component.BDimension;
+import de.marcely.pocketcraft.bedrock.component.BGameRule;
+import de.marcely.pocketcraft.bedrock.component.BGameRules;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityAttribute;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityAttributeType;
 import de.marcely.pocketcraft.bedrock.network.Protocol;
@@ -26,7 +26,7 @@ public class TV8D9PacketPlayLogin extends JavaPacketTranslator<V8D9PacketPlayLog
 		{
 			// init player
 			{
-				final Dimension dimension = player.getTranslateComponents().toBedrock(packet.dimension, TranslateComponents.DIMENSION);
+				final BDimension dimension = player.getTranslateComponents().toBedrock(packet.dimension, TranslateComponents.DIMENSION);
 				
 				player.getBedrock().initEntity(packet.entityId);
 				player.getWorld().setDimension(dimension);
@@ -60,11 +60,11 @@ public class TV8D9PacketPlayLogin extends JavaPacketTranslator<V8D9PacketPlayLog
 			// game rules
 			{
 				final PacketGameRules out = new PacketGameRules();
-				final GameRules rules = new GameRules();
+				final BGameRules rules = new BGameRules();
 				
 				{
-					rules.setValue(GameRule.DO_DAYLIGHT_CYCLE, false);
-					rules.setValue(GameRule.DO_WEATHER_CYCLE, false);
+					rules.setValue(BGameRule.DO_DAYLIGHT_CYCLE, false);
+					rules.setValue(BGameRule.DO_WEATHER_CYCLE, false);
 				}
 				
 				out.gameRules = rules;
@@ -117,7 +117,7 @@ public class TV8D9PacketPlayLogin extends JavaPacketTranslator<V8D9PacketPlayLog
 		out.yaw = 0F;
 		out.pitch = 0F;
 		out.seed = -1;
-		out.dimension = Dimension.OVERWORLD.getId(); // (byte) ((Dimension) player.getTranslateComponents().toBedrock(packet.dimension, TranslateComponents.DIMENSION)).getId();
+		out.dimension = BDimension.OVERWORLD.getId(); // (byte) ((Dimension) player.getTranslateComponents().toBedrock(packet.dimension, TranslateComponents.DIMENSION)).getId();
 		/* 0 = old
 		 * 1 = infinite
 		 * 2 = flat */
@@ -156,7 +156,7 @@ public class TV8D9PacketPlayLogin extends JavaPacketTranslator<V8D9PacketPlayLog
 		out.isFromWorldTemplate = false;
 		out.isWorldTemplateOptionLocked = false;
 		out.enchantmentSeed = 0;
-		out.gameRules = GameRules.newDefaultInstance();
+		out.gameRules = BGameRules.newDefaultInstance();
 		out.multiplayerCorrelationID = "";
 		
 		player.sendPacket(out);

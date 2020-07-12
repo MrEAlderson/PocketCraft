@@ -1,6 +1,6 @@
 package de.marcely.pocketcraft.bedrock.server.player.sequence;
 
-import de.marcely.pocketcraft.bedrock.component.ResourcePack;
+import de.marcely.pocketcraft.bedrock.component.BResourcePack;
 import de.marcely.pocketcraft.bedrock.network.Protocol;
 import de.marcely.pocketcraft.bedrock.network.packet.PCPacket;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketLogin;
@@ -58,8 +58,8 @@ public class LoginSequence extends Sequence {
 			final PacketAvailableResourcePacks out = (PacketAvailableResourcePacks) PacketType.AvailableResourcePacks.newInstance();
 			
 			out.mustAccept = true;
-			out.behaviourPacks = new ResourcePack[0];
-			out.resourcePacks = new ResourcePack[0];
+			out.behaviourPacks = new BResourcePack[0];
+			out.resourcePacks = new BResourcePack[0];
 			
 			player.sendPacket(out);
 		}
@@ -78,8 +78,8 @@ public class LoginSequence extends Sequence {
 				final PacketAvailableResourcePacks2 out = (PacketAvailableResourcePacks2) PacketType.AvailableResourcePacks2.newInstance();
 				
 				out.mustAccept = false;
-				out.behaviourPacks = new ResourcePack[0];
-				out.resourcePacks = new ResourcePack[0];
+				out.behaviourPacks = new BResourcePack[0];
+				out.resourcePacks = new BResourcePack[0];
 				out.isExperimental = false;
 				out.gameVersion = Protocol.VERSION_NAME;
 				

@@ -8,7 +8,7 @@ import de.marcely.pocketcraft.utils.Pair;
 
 import static de.marcely.pocketcraft.bedrock.network.packet.PacketWorldEvent.*;
 
-import de.marcely.pocketcraft.bedrock.component.BlockMapping;
+import de.marcely.pocketcraft.bedrock.component.BBlockMapping;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketWorldEvent;
 
 public class TV8D9PacketWorldEvent extends JavaPacketTranslator<V8D9PacketPlayWorldEvent> {
@@ -113,7 +113,7 @@ public class TV8D9PacketWorldEvent extends JavaPacketTranslator<V8D9PacketPlayWo
 			final int data = (packet.data & 0xF000) >> 12;
 			final Pair<Short, Byte> result = player.getTranslateComponents().toBedrock(new Pair<Short, Byte>((short) id, (byte) data), TranslateComponents.BLOCK);
 			
-			playWorldEvent(player, packet, TYPE_PARTICLE_DESTROY, BlockMapping.INSTANCE.getRuntimeId(result.getEntry1(), result.getEntry2()));
+			playWorldEvent(player, packet, TYPE_PARTICLE_DESTROY, BBlockMapping.INSTANCE.getRuntimeId(result.getEntry1(), result.getEntry2()));
 		}
 		break;
 		// Splash potion. Particle effect + glass break sound.

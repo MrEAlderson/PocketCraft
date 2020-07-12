@@ -1,12 +1,12 @@
 package de.marcely.pocketcraft.bedrock.network.packet;
 
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
-import de.marcely.pocketcraft.bedrock.component.Difficulty;
+import de.marcely.pocketcraft.bedrock.component.BDifficulty;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
 public class PacketGameDifficulty extends PCPacket {
 	
-	public Difficulty difficulty;
+	public BDifficulty difficulty;
 	
 	public PacketGameDifficulty(){
 		super(PacketType.GameDifficulty);

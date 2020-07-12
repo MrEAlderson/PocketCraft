@@ -1,13 +1,13 @@
 package de.marcely.pocketcraft.bedrock.network.packet;
 
-import de.marcely.pocketcraft.bedrock.component.ResourcePack;
+import de.marcely.pocketcraft.bedrock.component.BResourcePack;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
 public class PacketAvailableResourcePacks2 extends PCPacket {
 	
 	public boolean mustAccept = false;
-	public ResourcePack[] resourcePacks, behaviourPacks;
+	public BResourcePack[] resourcePacks, behaviourPacks;
 	public boolean isExperimental;
 	public String gameVersion;
 	
@@ -20,13 +20,13 @@ public class PacketAvailableResourcePacks2 extends PCPacket {
 		writer.writeBoolean(mustAccept);
 		
 		writer.writeUnsignedVarInt(behaviourPacks.length);
-		for(ResourcePack pack:behaviourPacks){
+		for(BResourcePack pack:behaviourPacks){
 			writer.writeString(pack.id);
 			writer.writeString(pack.version);
 		}
 		
 		writer.writeUnsignedVarInt(resourcePacks.length);
-		for(ResourcePack pack:resourcePacks){
+		for(BResourcePack pack:resourcePacks){
 			writer.writeString(pack.id);
 			writer.writeString(pack.version);
 		}

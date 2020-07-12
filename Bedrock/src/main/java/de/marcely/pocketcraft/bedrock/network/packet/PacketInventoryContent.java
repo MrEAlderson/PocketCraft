@@ -1,13 +1,13 @@
 package de.marcely.pocketcraft.bedrock.network.packet;
 
 import de.marcely.pocketcraft.bedrock.util.EByteArrayWriter;
-import de.marcely.pocketcraft.bedrock.component.inventory.item.Item;
+import de.marcely.pocketcraft.bedrock.component.inventory.item.BItem;
 import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
 public class PacketInventoryContent extends PCPacket {
 
     public int inventoryId;
-    public Item[] items;
+    public BItem[] items;
 	
 	public PacketInventoryContent(){
 		super(PacketType.InventoryContent);
@@ -18,7 +18,7 @@ public class PacketInventoryContent extends PCPacket {
         writer.writeUnsignedVarInt(this.inventoryId);
         writer.writeUnsignedVarInt(this.items.length);
         
-        for(Item item:this.items)
+        for(BItem item:this.items)
         	item.write(writer);
 	}
 

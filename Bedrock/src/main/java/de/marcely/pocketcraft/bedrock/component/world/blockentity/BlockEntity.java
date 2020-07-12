@@ -2,7 +2,7 @@ package de.marcely.pocketcraft.bedrock.component.world.blockentity;
 
 import org.jetbrains.annotations.Nullable;
 
-import de.marcely.pocketcraft.bedrock.component.nbt.NBTCompound;
+import de.marcely.pocketcraft.bedrock.component.nbt.BNBTCompound;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -19,11 +19,11 @@ public abstract class BlockEntity {
 	
 	public abstract BlockEntityType getType();
 	
-	protected abstract void _write(NBTCompound nbt);
+	protected abstract void _write(BNBTCompound nbt);
 	
-	protected abstract void _read(NBTCompound nbt);
+	protected abstract void _read(BNBTCompound nbt);
 	
-	public void write(NBTCompound nbt){
+	public void write(BNBTCompound nbt){
 		nbt.addString("id", getType().getId());
 		nbt.addInt("x", this.x);
 		nbt.addInt("y", this.y);
@@ -32,7 +32,7 @@ public abstract class BlockEntity {
 		_write(nbt);
 	}
 	
-	public static @Nullable BlockEntity read(NBTCompound nbt){
+	public static @Nullable BlockEntity read(BNBTCompound nbt){
 		final BlockEntityType type = BlockEntityType.getById(nbt.get("id").getValueData());
 		
 		if(type == null)

@@ -1,6 +1,6 @@
 package de.marcely.pocketcraft.bedrock.component.world.blockentity;
 
-import de.marcely.pocketcraft.bedrock.component.nbt.NBTCompound;
+import de.marcely.pocketcraft.bedrock.component.nbt.BNBTCompound;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,7 +21,7 @@ public class BlockEntityBrewingStand extends BlockEntity implements BlockEntityN
 	}
 
 	@Override
-	protected void _write(NBTCompound nbt){
+	protected void _write(BNBTCompound nbt){
 		nbt.addShort("FuelTotal", this.fuelTotal);
 		nbt.addShort("FuelAmount", this.fuelAmount);
 		
@@ -35,7 +35,7 @@ public class BlockEntityBrewingStand extends BlockEntity implements BlockEntityN
 	}
 
 	@Override
-	protected void _read(NBTCompound nbt){
+	protected void _read(BNBTCompound nbt){
 		this.fuelTotal = nbt.get("FuelTotal").getValueData();
 		this.fuelAmount = nbt.get("FuelAmount").getValueData();
 		

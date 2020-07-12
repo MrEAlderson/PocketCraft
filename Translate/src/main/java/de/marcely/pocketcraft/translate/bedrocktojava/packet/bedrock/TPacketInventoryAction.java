@@ -14,8 +14,8 @@ import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.block.BlockState;
 import de.marcely.pocketcraft.utils.math.Vector3;
 
-import de.marcely.pocketcraft.bedrock.component.BlockMapping;
-import de.marcely.pocketcraft.bedrock.component.inventory.item.Item;
+import de.marcely.pocketcraft.bedrock.component.BBlockMapping;
+import de.marcely.pocketcraft.bedrock.component.inventory.item.BItem;
 import de.marcely.pocketcraft.bedrock.network.InventoryId;
 
 import static de.marcely.pocketcraft.bedrock.network.packet.action.InventoryAction.*;
@@ -78,7 +78,7 @@ public class TPacketInventoryAction extends BedrockPacketTranslator<PacketInvent
     				final PacketWorldEvent out = new PacketWorldEvent();
     				
     				out.type = PacketWorldEvent.TYPE_PARTICLE_DESTROY;
-    				out.data = BlockMapping.INSTANCE.getRuntimeId(state.getBedrockId(), state.getBedrockData());
+    				out.data = BBlockMapping.INSTANCE.getRuntimeId(state.getBedrockId(), state.getBedrockData());
     				out.x = action.blockPosX;
     				out.y = action.blockPosY;
     				out.z = action.blockPosZ;
@@ -131,7 +131,7 @@ public class TPacketInventoryAction extends BedrockPacketTranslator<PacketInvent
 		player.sendPacket(out);
 	}
 	
-	private Item cursor;
+	private BItem cursor;
 	private short transactionId = 1;
 	
 	private void handleInventoryActions(InventoryAction[] actions, Player player){
@@ -150,7 +150,7 @@ public class TPacketInventoryAction extends BedrockPacketTranslator<PacketInvent
 				// final int slot = source.slot; <-- hotbar slot TODO: Held change server mitteilen
 				
 				// stack drop
-				if(source.newItem.amount == 0 && source.oldItem.amount >= 2)
+				if(source.newItem.getAmount() == 0 && source.oldItem.getAmount() >= 2)
 					out.status = V8D9PacketPlayBlockDig.STATUS_DROP_ITEM_STACK;
 				else
 					out.status = V8D9PacketPlayBlockDig.STATUS_DROP_ITEM_SINGLE;
@@ -167,9 +167,9 @@ public class TPacketInventoryAction extends BedrockPacketTranslator<PacketInvent
 				final V8D9PacketPlayWindowClick out = new V8D9PacketPlayWindowClick();
 				final int inventoryId = actions[0].inventoryId;
 				final int slot = actions[0].slot;
-				final Item oldSlotItem = actions[0].oldItem;
-				final Item newSlotItem = actions[0].newItem;
-				final Item newCursorItem = actions[1].newItem;
+				final BItem oldSlotItem = actions[0].oldItem;
+				final BItem newSlotItem = actions[0].newItem;
+				final BItem newCursorItem = actions[1].newItem;
 				
 				// take/place all (left click)
 				if(oldSlotItem.equals(newCursorItem)){

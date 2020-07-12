@@ -2,7 +2,7 @@ package de.marcely.pocketcraft.bedrock.component.world.blockentity;
 
 import java.util.Arrays;
 
-import de.marcely.pocketcraft.bedrock.component.nbt.NBTCompound;
+import de.marcely.pocketcraft.bedrock.component.nbt.BNBTCompound;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,7 +20,7 @@ public class BlockEntitySign extends BlockEntity {
 	}
 
 	@Override
-	protected void _write(NBTCompound nbt){
+	protected void _write(BNBTCompound nbt){
 		nbt.addString("Text", String.join("\n", Arrays.stream(this.lines).map((line) -> {
 			if(line.getBytes().length >= 16)
 				return new String(Arrays.copyOf(line.getBytes(), 16));
@@ -30,7 +30,7 @@ public class BlockEntitySign extends BlockEntity {
 	}
 
 	@Override
-	protected void _read(NBTCompound nbt){
+	protected void _read(BNBTCompound nbt){
 		final String rawLines = nbt.get("Text").getValueData();
 		
 		this.lines = rawLines.split("\n", 4);

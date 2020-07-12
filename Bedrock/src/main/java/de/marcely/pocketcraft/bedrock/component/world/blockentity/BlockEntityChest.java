@@ -1,6 +1,6 @@
 package de.marcely.pocketcraft.bedrock.component.world.blockentity;
 
-import de.marcely.pocketcraft.bedrock.component.nbt.NBTCompound;
+import de.marcely.pocketcraft.bedrock.component.nbt.BNBTCompound;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,7 +19,7 @@ public class BlockEntityChest extends BlockEntity implements BlockEntityNameable
 	}
 
 	@Override
-	protected void _write(NBTCompound nbt){
+	protected void _write(BNBTCompound nbt){
 		if(isPaired()){
 			nbt.addInt("pairx", this.pairX);
 			nbt.addInt("pairz", this.pairZ);
@@ -31,7 +31,7 @@ public class BlockEntityChest extends BlockEntity implements BlockEntityNameable
 	}
 
 	@Override
-	protected void _read(NBTCompound nbt){
+	protected void _read(BNBTCompound nbt){
 		if(nbt.contains("pairx")){
 			this.pairX = nbt.get("pairx").getValueData();
 			this.pairZ = nbt.get("pairz").getValueData();

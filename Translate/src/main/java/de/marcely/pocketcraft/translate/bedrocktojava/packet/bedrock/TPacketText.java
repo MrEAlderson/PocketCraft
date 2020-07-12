@@ -1,7 +1,7 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.packet.bedrock;
 
-import de.marcely.pocketcraft.bedrock.component.TextFormat;
-import de.marcely.pocketcraft.bedrock.component.world.ParticleType;
+import de.marcely.pocketcraft.bedrock.component.BTextFormat;
+import de.marcely.pocketcraft.bedrock.component.world.BParticleType;
 import de.marcely.pocketcraft.bedrock.component.world.entity.EntityType;
 import de.marcely.pocketcraft.bedrock.network.packet.PacketText;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayClientChatMessage;
@@ -28,25 +28,25 @@ public class TPacketText extends BedrockPacketTranslator<PacketText> {
 			
 			if(command.equals("entity")){
 				EntityDebug.INSTANCE = new EntityDebug(player, Byte.parseByte(args[1]), EntityType.valueOf(args[2].toUpperCase()), Float.parseFloat(args[3]));
-				player.sendChatMessage(TextFormat.GREEN + "Ok. Enabled entity debug");
+				player.sendChatMessage(BTextFormat.GREEN + "Ok. Enabled entity debug");
 				
 			}else if(command.equals("stop")){
 				EntityDebug.INSTANCE = null;
-				player.sendChatMessage(TextFormat.GREEN + "Ok. Disabled debug");
+				player.sendChatMessage(BTextFormat.GREEN + "Ok. Disabled debug");
 				
 			}else if(command.equals("blockinfo")){
 				final int x = (int) player.getEntity().getX();
 				final int y = (int) player.getEntity().getY() - 1;
 				final int z = (int) player.getEntity().getZ();
 				
-				player.sendChatMessage(TextFormat.AQUA + "X" + x + " Y" + y + " Z" + z);
-				player.sendChatMessage("" + TextFormat.GREEN + TextFormat.BOLD + "State: " + TextFormat.GREEN + player.getWorld().getBlockState(x, y, z));
+				player.sendChatMessage(BTextFormat.AQUA + "X" + x + " Y" + y + " Z" + z);
+				player.sendChatMessage("" + BTextFormat.GREEN + BTextFormat.BOLD + "State: " + BTextFormat.GREEN + player.getWorld().getBlockState(x, y, z));
 				
 			}else if(command.equals("resendchunks")){
 				for(Chunk c:player.getWorld().getChunks())
 					c.setSent(false);
 				
-				player.sendChatMessage(TextFormat.GREEN + "" + player.getWorld().getChunks().size() + " chunks were marked as \"not sent\"");
+				player.sendChatMessage(BTextFormat.GREEN + "" + player.getWorld().getChunks().size() + " chunks were marked as \"not sent\"");
 				
 			}else if(command.equals("blockcollision")){
 				Scheduler.runRepeated(() -> {
@@ -67,9 +67,9 @@ public class TPacketText extends BedrockPacketTranslator<PacketText> {
 					}
 				}, 0, 500);
 				
-				player.sendChatMessage(TextFormat.GREEN + "Now sending block collisions");
+				player.sendChatMessage(BTextFormat.GREEN + "Now sending block collisions");
 			}else{
-				player.sendChatMessage(TextFormat.YELLOW + "Debug Commands:");
+				player.sendChatMessage(BTextFormat.YELLOW + "Debug Commands:");
 				player.sendChatMessage(" p!entity <mode [0=event, 1=flag1, 2=flag2, 3=flag_palyer, 4=animate, 5=armor, 6=meta]> <entity type> <data>");
 				player.sendChatMessage(" p!stop");
 				player.sendChatMessage(" p!blockinfo (displays block info of the block below you)");
@@ -126,7 +126,7 @@ public class TPacketText extends BedrockPacketTranslator<PacketText> {
 		for(float ix=minX; ix<=maxX; ix += accuracy){
 			for(float iy=minY; iy<=maxY; iy += accuracy){
 				for(float iz=minZ; iz<=maxZ; iz += accuracy){
-					player.playParticle(ix, iy, iz, ParticleType.DUST, (0xFF << 24) | (((int) (1 * 255F) & 0xFF) << 16) | (((int) (0 * 255F) & 0xFF) << 8) | ((int) (0 * 255F) & 0xFF));
+					player.playParticle(ix, iy, iz, BParticleType.DUST, (0xFF << 24) | (((int) (1 * 255F) & 0xFF) << 16) | (((int) (0 * 255F) & 0xFF) << 8) | ((int) (0 * 255F) & 0xFF));
 				}
 			}
 		}

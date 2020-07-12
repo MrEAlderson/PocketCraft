@@ -1,6 +1,6 @@
 package de.marcely.pocketcraft.translate.bedrocktojava.packet.java;
 
-import de.marcely.pocketcraft.bedrock.component.world.ParticleType;
+import de.marcely.pocketcraft.bedrock.component.world.BParticleType;
 import de.marcely.pocketcraft.java.network.packet.play.v8d9.V8D9PacketPlayParticles;
 import de.marcely.pocketcraft.translate.bedrocktojava.JavaPacketTranslator;
 import de.marcely.pocketcraft.translate.bedrocktojava.world.Player;
@@ -43,25 +43,25 @@ public class TV8D9PacketPlayParticles extends JavaPacketTranslator<V8D9PacketPla
 	private static void handleSpawn(V8D9PacketPlayParticles packet, Player player){
 		switch(packet.type){
 		case 0: // explode
-			playParticle(packet, player, ParticleType.EXPLOSION, 0);
+			playParticle(packet, player, BParticleType.EXPLOSION, 0);
 			break;
 		case 1: // largeexplosion
-			playParticle(packet, player, ParticleType.EXPLOSION_LARGE, 0);
+			playParticle(packet, player, BParticleType.EXPLOSION_LARGE, 0);
 			break;
 		case 2: // hugeexplosion
-			playParticle(packet, player, ParticleType.EXPLOSION_HUGE, 0);
+			playParticle(packet, player, BParticleType.EXPLOSION_HUGE, 0);
 			break;
 		case 3: // fireworksSpark
-			playParticle(packet, player, ParticleType.FIREWORKS_SPARKS, 0);
+			playParticle(packet, player, BParticleType.FIREWORKS_SPARKS, 0);
 			break;
 		case 4: // bubble
-			playParticle(packet, player, ParticleType.BUBBLE, 0);
+			playParticle(packet, player, BParticleType.BUBBLE, 0);
 			break;
 		case 5: // splash
-			playParticle(packet, player, ParticleType.SPLASH, 0);
+			playParticle(packet, player, BParticleType.SPLASH, 0);
 			break;
 		case 6: // wake
-			playParticle(packet, player, ParticleType.WATER_WAKE, 0);
+			playParticle(packet, player, BParticleType.WATER_WAKE, 0);
 			break;
 		case 7: // suspended
 			// playParticles(packet, player, ParticleType.EXPLOSION, 0);
@@ -70,16 +70,16 @@ public class TV8D9PacketPlayParticles extends JavaPacketTranslator<V8D9PacketPla
 			
 			break;
 		case 9: // crit
-			playParticle(packet, player, ParticleType.CRITICAL, 0);
+			playParticle(packet, player, BParticleType.CRITICAL, 0);
 			break;
 		case 10: // magicCrit
 			// playParticles(packet, player, ParticleType.CRITICAL, 0);
 			break;
 		case 11: // smoke
-			playParticle(packet, player, ParticleType.SMOKE, 0);
+			playParticle(packet, player, BParticleType.SMOKE, 0);
 			break;
 		case 12: // largesmoke
-			playParticle(packet, player, ParticleType.LARGE_SMOKE, 0);
+			playParticle(packet, player, BParticleType.LARGE_SMOKE, 0);
 			break;
 		case 13: // spell
 			// playParticles(packet, player, ParticleType.MOB_SPELL, 0);
@@ -88,43 +88,43 @@ public class TV8D9PacketPlayParticles extends JavaPacketTranslator<V8D9PacketPla
 			// playParticles(packet, player, ParticleType.mob, 0);
 			break;
 		case 15: // mobSpell
-			playParticle(packet, player, ParticleType.MOB_SPELL, colorToData(packet, 255));
+			playParticle(packet, player, BParticleType.MOB_SPELL, colorToData(packet, 255));
 			break;
 		case 16: // mobSpellAmbient
-			playParticle(packet, player, ParticleType.MOB_SPELL_AMBIENT, colorToData(packet, 38));
+			playParticle(packet, player, BParticleType.MOB_SPELL_AMBIENT, colorToData(packet, 38));
 			break;
 		case 17: // witchMagic
-			playParticle(packet, player, ParticleType.WITCH_SPELL, 0);
+			playParticle(packet, player, BParticleType.WITCH_SPELL, 0);
 			break;
 		case 18: // dripWater
-			playParticle(packet, player, ParticleType.WATER_DRIP, 0);
+			playParticle(packet, player, BParticleType.WATER_DRIP, 0);
 			break;
 		case 19: // dripLava
-			playParticle(packet, player, ParticleType.LAVA_DRIP, 0);
+			playParticle(packet, player, BParticleType.LAVA_DRIP, 0);
 			break;
 		case 20: // angryVillager
-			playParticle(packet, player, ParticleType.VILLAGER_ANGRY, 0);
+			playParticle(packet, player, BParticleType.VILLAGER_ANGRY, 0);
 			break;
 		case 21: // happyVillager
-			playParticle(packet, player, ParticleType.VILLAGER_HAPPY, 0);
+			playParticle(packet, player, BParticleType.VILLAGER_HAPPY, 0);
 			break;
 		case 22: // townaura
-			playParticle(packet, player, ParticleType.TOWN, 0);
+			playParticle(packet, player, BParticleType.TOWN, 0);
 			break;
 		case 23: // note
-			playParticle(packet, player, ParticleType.NOTE, (int) packet.data);
+			playParticle(packet, player, BParticleType.NOTE, (int) packet.data);
 			break;
 		case 24: // portal
-			playParticle(packet, player, ParticleType.PORTAL, 0);
+			playParticle(packet, player, BParticleType.PORTAL, 0);
 			break;
 		case 25: // enchantmenttable
-			playParticle(packet, player, ParticleType.ENCHANTMENT_TABLE, 0);
+			playParticle(packet, player, BParticleType.ENCHANTMENT_TABLE, 0);
 			break;
 		case 26: // flame
-			playParticle(packet, player, ParticleType.FLAME, 0);
+			playParticle(packet, player, BParticleType.FLAME, 0);
 			break;
 		case 27: // lava
-			playParticle(packet, player, ParticleType.LAVA, 0);
+			playParticle(packet, player, BParticleType.LAVA, 0);
 			break;
 		case 28: // footstep
 			
@@ -133,19 +133,19 @@ public class TV8D9PacketPlayParticles extends JavaPacketTranslator<V8D9PacketPla
 			// playParticles(packet, player, ParticleType.EXPLOSION, 0);
 			break;
 		case 30: // reddust
-			playParticle(packet, player, ParticleType.DUST, colorToData(packet, 255));
+			playParticle(packet, player, BParticleType.DUST, colorToData(packet, 255));
 			break;
 		case 31: // snowballpoof
-			playParticle(packet, player, ParticleType.SNOWBALL_POOF, 0);
+			playParticle(packet, player, BParticleType.SNOWBALL_POOF, 0);
 			break;
 		case 32: // snowshovel
 			// playParticles(packet, player, ParticleType.SNOWBALL_POOF, 0);
 			break;
 		case 33: // slime
-			playParticle(packet, player, ParticleType.SLIME, 0);
+			playParticle(packet, player, BParticleType.SLIME, 0);
 			break;
 		case 34: // heart
-			playParticle(packet, player, ParticleType.HEART, 0);
+			playParticle(packet, player, BParticleType.HEART, 0);
 			break;
 		case 35: // barrier
 			// playParticles(packet, player, ParticleType.SNOWBALL_POOF, 0);
@@ -171,7 +171,7 @@ public class TV8D9PacketPlayParticles extends JavaPacketTranslator<V8D9PacketPla
 		}
 	}
 	
-	private static void playParticle(V8D9PacketPlayParticles packet, Player player, ParticleType type, int data){
+	private static void playParticle(V8D9PacketPlayParticles packet, Player player, BParticleType type, int data){
 		player.playParticle(packet.x, packet.y, packet.z, type, data);
 	}
 	
