@@ -46,6 +46,8 @@ public class LoginSequence extends Sequence {
 		player.setInfo(packet.info);
 		player.setUsername(packet.username);
 		
+		System.out.println(packet.protocolVersion + " " + Protocol.VERSION);
+		
 		{
 			final PacketLoginStatus out = (PacketLoginStatus) PacketType.LoginStatus.newInstance();
 			

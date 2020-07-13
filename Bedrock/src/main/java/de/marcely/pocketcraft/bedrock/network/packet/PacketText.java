@@ -14,8 +14,9 @@ public class PacketText extends PCPacket {
     public static final byte TYPE_SYSTEM = 6;
     public static final byte TYPE_WHISPER = 7;
     public static final byte TYPE_ANNOUNCEMENT = 8;
-    public static final byte TYPE_JSON = 9;
-	
+    public static final byte TYPE_OBJECT = 9;
+    public static final byte TYPE_OBJECT_WHISPER = 10;
+    
 	public byte type;
 	public String source = "", message = "";
     public String[] parameters = new String[0];
@@ -41,7 +42,8 @@ public class PacketText extends PCPacket {
         case TYPE_RAW:
         case TYPE_TIP:
         case TYPE_SYSTEM:
-        case TYPE_JSON:
+        case TYPE_OBJECT:
+        case TYPE_OBJECT_WHISPER:
         	writer.writeString(this.message);
         	break;
         
@@ -75,7 +77,8 @@ public class PacketText extends PCPacket {
         case TYPE_RAW:
         case TYPE_TIP:
         case TYPE_SYSTEM:
-        case TYPE_JSON:
+        case TYPE_OBJECT:
+        case TYPE_OBJECT_WHISPER:
         	this.message = reader.readString();
         	break;
         

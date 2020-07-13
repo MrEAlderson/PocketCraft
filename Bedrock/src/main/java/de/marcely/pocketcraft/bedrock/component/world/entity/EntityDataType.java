@@ -22,7 +22,7 @@ public enum EntityDataType {
 	PADDLE_TIME_LEFT(13, EntityDataValueType.FLOAT),
 	PADDLE_TIME_RIGHT(14, EntityDataValueType.FLOAT),
 	EXPERIENCE(15, EntityDataValueType.INT),
-	DISPLAY_ITEM(16, EntityDataValueType.INT),
+	/* 16 */
 	DISPLAY_OFFSET(17, EntityDataValueType.INT),
 	HAS_DISPLAY(18, EntityDataValueType.BYTE /* BOOL */),
 	CHARGED(22, EntityDataValueType.BYTE),
@@ -39,10 +39,10 @@ public enum EntityDataType {
 	 * 33
 	 * 34
 	 * 35 */
-	// POTION_AUX_VALUE(36, EntityDataValueType.SHORT),
+	POTION_AUX_VALUE(36, EntityDataValueType.SHORT),
 	LEAD_HOLDER_ID(37, EntityDataValueType.LONG),
 	SCALE(38, EntityDataValueType.FLOAT),
-	// INTERACTIVE_TAG(39, EntityDataValueType.STRING),
+	HAS_NPC_COMPONENT(39, EntityDataValueType.BYTE),
 	NPC_SKIN_ID(40, EntityDataValueType.STRING),
 	URL_TAG(41, EntityDataValueType.STRING),
 	MAX_AIR(42, EntityDataValueType.SHORT),
@@ -88,25 +88,31 @@ public enum EntityDataType {
 	/* 82 */
 	SCORE_TAG(83, EntityDataValueType.STRING),
 	BALLOON_ATTACHED_ENTITY(84, EntityDataValueType.LONG),
-	PUFFERFISH_SIZE(85, null /* TODO */),
-	/* 86 */
-	/* 87 */
+	PUFFERFISH_SIZE(85, EntityDataValueType.BYTE),
+	BOAT_BUBBLE_TIME(86, EntityDataValueType.INT),
+	PLAYER_AGENT_EID(87, EntityDataValueType.LONG),
 	/* 88 */
 	/* 89 */
-	/* 90 */
+	EAT_COUNTER(90, EntityDataValueType.INT),
 	FLAGS_EXTENDED(91, EntityDataValueType.LONG),
 	/* 92 */
 	/* 93 */
-	/* 94 */
-	/* 95 */
-	/* 96 */
-	/* 97 */
-	/* 98 */
-	/* 99 */
-	/* 100 */
-	/* 101 */
-	/* 102 */
-	SKIN_ID(103, EntityDataValueType.INT);
+	AREA_EFFECT_CLOUD_DURATION(94, EntityDataValueType.INT),
+	AREA_EFFECT_CLOUD_SPAWN_TIME(95, EntityDataValueType.INT),
+	AREA_EFFECT_CLOUD_RADIUS_PER_TICK(96, EntityDataValueType.FLOAT),
+	AREA_EFFECT_CLOUD_RADIUS_CHANGE_ON_PICKUP(97, EntityDataValueType.FLOAT),
+	AREA_EFFECT_CLOUD_PICKUP_COUNT(98, EntityDataValueType.INT),
+	INTERACTIVE_TAG(99, EntityDataValueType.STRING),
+	TRADE_TIER(100, EntityDataValueType.INT),
+	TRADE_TIER_MAX(101, EntityDataValueType.INT),
+	TRADE_XP(102, EntityDataValueType.INT),
+	SKIN_ID(103, EntityDataValueType.INT),
+	/* 104 */
+	COMMAND_BLOCK_TICK_DELAY(105, EntityDataValueType.INT),
+	COMMAND_BLOCK_EXECUTE_ON_FIRST_TICK(106, EntityDataValueType.BYTE),
+	AMBIENT_SOUND_INTERVAL_MIN(107, EntityDataValueType.FLOAT),
+	AMBIENT_SOUND_INTERVAL_RANGE(108, EntityDataValueType.FLOAT),
+	AMBIENT_SOUND_EVENT(109, EntityDataValueType.STRING);
 	
     public static final int FLAG_ONFIRE = 0;
     public static final int FLAG_SNEAKING = 1;
@@ -181,9 +187,9 @@ public enum EntityDataType {
 	public static final int FLAG_OVER_SCAFFOLDING = 69;
 	public static final int FLAG_FALL_THROUGH_SCAFFOLDING = 70;
 	public static final int FLAG_BLOCKING = 71; //shield
-	public static final int FLAG_DISABLE_BLOCKING = 72;
-	//73 is set when a player is attacked while using shield, unclear on purpose
-	//74 related to shield usage, needs further investigation
+	public static final int FLAG_TRANSITION_BLOCKING = 72;
+	public static final int FLAG_BLOCKED_USING_SHIELD = 73;
+	public static final int FLAG_BLOCKED_USING_DAMAGE_SHIELD = 74;
 	public static final int FLAG_SLEEPING = 75;
 	public static final int FLAG_WANTS_TO_WAKE = 76;
 	public static final int FLAG_TRADE_INTEREST = 77;
@@ -195,8 +201,15 @@ public enum EntityDataType {
 	public static final int FLAG_ROARING = 83;
 	public static final int FLAG_DELAYED_ATTACKING = 84;
 	public static final int FLAG_AVOIDING_MOBS = 85;
-	//86 used by RangedAttackGoal
-	//87 used by NearestAttackableTargetGoal
+	public static final int FLAG_AVOIDING_BLOCK = 86;
+	public static final int FLAG_FACING_TARGET_TO_RANGE_ATTACK = 87;
+	public static final int FLAG_HIDDEN_WHEN_INVISIBLE = 88;
+	public static final int FLAG_IS_IN_UI = 89;
+	public static final int FLAG_STALKING = 90;
+	public static final int FLAG_EMOTING = 91;
+	public static final int FLAG_CELEBRATING = 92;
+	public static final int FLAG_ADMIRING = 93;
+	public static final int FLAG_CELEBRATING_SPECIAL = 94;
 	
 	public static final int PLAYER_FLAG_SLEEP = 1;
 	public static final int PLAYER_FLAG_DEAD = 2;

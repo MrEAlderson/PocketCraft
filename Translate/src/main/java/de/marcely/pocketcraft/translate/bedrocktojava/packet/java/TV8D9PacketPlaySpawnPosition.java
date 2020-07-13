@@ -23,7 +23,6 @@ public class TV8D9PacketPlaySpawnPosition extends JavaPacketTranslator<V8D9Packe
 			out.x = packet.x;
 			out.y = packet.y;
 			out.z = packet.z;
-			out.forceSpawn = false;
 			
 			player.sendPacket(out);
 		}

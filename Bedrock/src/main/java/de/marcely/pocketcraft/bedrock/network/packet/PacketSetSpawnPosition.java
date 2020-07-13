@@ -12,7 +12,7 @@ public class PacketSetSpawnPosition extends PCPacket {
 	public int x;
 	public int y;
 	public int z;
-	public boolean forceSpawn;
+	public int dimension;
 	
 	public PacketSetSpawnPosition(){
 		super(PacketType.SetSpawnPosition);
@@ -22,7 +22,8 @@ public class PacketSetSpawnPosition extends PCPacket {
 	public void encode(EByteArrayWriter writer) throws Exception {
 		writer.writeSignedVarInt(this.type);
 		writer.writeBlockPosition(this.x, this.y, this.z);
-		writer.writeBoolean(this.forceSpawn);
+		writer.writeSignedVarInt(this.dimension);
+		writer.writeBlockPosition(this.x, this.y, this.z);
 	}
 
 	@Override

@@ -17,6 +17,7 @@ public class PacketInventorySetItem extends PCPacket {
 	public void encode(EByteArrayWriter writer) throws Exception {
 		writer.writeUnsignedVarInt(this.inventoryId);
 		writer.writeUnsignedVarInt(this.slot);
+		writer.writeSignedVarInt(this.item.getType());
 		this.item.write(writer);
 	}
 

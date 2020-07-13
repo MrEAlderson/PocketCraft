@@ -28,7 +28,8 @@ public class TV8D9PacketPlayEntityAttach extends JavaPacketTranslator<V8D9Packet
 				EntityLinkType.RIDER,
 				packet.vehicleEntityId,
 				packet.riderEntityId,
-				true);
+				true,
+				false);
 			
 			rider.setVehicleEntityId(packet.vehicleEntityId);
 			
@@ -52,7 +53,8 @@ public class TV8D9PacketPlayEntityAttach extends JavaPacketTranslator<V8D9Packet
 				EntityLinkType.REMOVE,
 				rider.getVehicleEntityId(),
 				packet.riderEntityId,
-				true);
+				true,
+				false);
 			
 			rider.dismount();
 		}

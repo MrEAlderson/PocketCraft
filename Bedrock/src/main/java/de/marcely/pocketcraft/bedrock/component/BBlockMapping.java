@@ -3,6 +3,7 @@ package de.marcely.pocketcraft.bedrock.component;
 import java.io.InputStreamReader;
 import java.nio.ByteOrder;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
@@ -70,15 +71,19 @@ public class BBlockMapping {
 					runtimeId++;
 					
 					final BNBTCompound entry = ((BNBTValueCompound) rawEntry).getData();
-					final BNBTTag meta = entry.remove("meta"); // No point in sending this since the client doesn't use it
 					
-					if(meta == null)
+					if(!entry.contains("LegacyState"))
 						continue;
 					
-					final int id = entry.getShort("id");
+					entry.remove("meta"); // No point in sending this since the client doesn't use it
 					
-					for(int m:(int[]) meta.getValueData())
-						instance.legacyToRuntimeIds.put(id << 6 | m, runtimeId);
+					final List<BNBTValueCompound> legacyStates = entry.getList("LegacyStates");
+					
+					for(BNBTValueCompound state:legacyStates){
+						final int legacyId = state.getData().getInt("id") << 6 | state.getData().getShort("val");
+						
+						instance.legacyToRuntimeIds.put(legacyId, runtimeId);
+					}
 				}
 				
 				instance.palette = tag.write(ByteOrder.LITTLE_ENDIAN, true);

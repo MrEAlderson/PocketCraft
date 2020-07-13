@@ -65,6 +65,7 @@ public class PacketGame extends PCPacket {
     public String premiumWorldTemplateID;
     public boolean isTrial;
     public boolean isMovementServerAuthoritative;
+    public boolean isInventoryServerAuthoritative;
     public long currentTick;
     public int enchantmentSeed;
 	public String multiplayerCorrelationID;
@@ -85,6 +86,8 @@ public class PacketGame extends PCPacket {
         writer.writeLFloat(this.yaw);
         
         writer.writeSignedVarInt(this.seed);
+        writer.writeLShort(0x00); // SpawnBiomeType
+        writer.writeString(""); // UserDefinedBiomeName
         writer.writeSignedVarInt(this.dimension);
         writer.writeSignedVarInt(this.generator);
         writer.writeSignedVarInt(this.worldGamemode.getId() & 0x03 /* */);
@@ -94,6 +97,7 @@ public class PacketGame extends PCPacket {
         writer.writeSignedVarInt(this.time);
         writer.writeSignedVarInt(this.eduEditionOffer);
         writer.writeBoolean(this.hasEduFeaturesEnabled);
+        writer.writeString(""); // Unkown
         writer.writeLFloat(this.rainLevel);
         writer.writeLFloat(this.lightningLevel);
         writer.writeBoolean(this.hasConfirmedPlatformLockedContent);
@@ -117,6 +121,10 @@ public class PacketGame extends PCPacket {
         writer.writeBoolean(this.isOnlySpawningV1Villagers);
         
         writer.writeString(this.vanillaVersion);
+        writer.writeLInt(0); // unkown
+        writer.writeLInt(0); // unkown
+        writer.writeBoolean(false); // unkown
+        writer.writeBoolean(false); // unkown
         writer.writeString(this.levelId);
         writer.writeString(this.worldName);
         writer.writeString(this.premiumWorldTemplateID);
@@ -124,7 +132,7 @@ public class PacketGame extends PCPacket {
         writer.writeBoolean(this.isMovementServerAuthoritative);
         writer.writeLLong(this.currentTick);
         
-        writer.writeSignedVarInt(this.enchantmentSeed);
+        // writer.writeSignedVarInt(this.enchantmentSeed);
         
         writer.write(BBlockMapping.INSTANCE.getPalette());
         
@@ -132,6 +140,7 @@ public class PacketGame extends PCPacket {
         writer.write(BItemMapping.INSTANCE.cachedTable);
         
         writer.writeString(this.multiplayerCorrelationID);
+        writer.writeBoolean(this.isInventoryServerAuthoritative);
 	}
 
 	@Override

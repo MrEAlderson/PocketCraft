@@ -39,7 +39,8 @@ public enum BEnchantment {
 	CHANNELING, // 32
 	MULTISHOT, // 33
 	PIERCING, // 34
-	QUICK_CHARGE; // 35
+	QUICK_CHARGE, // 35
+	SOUL_SPEED; // 36
 	
 	public int getId(){
 		return this.ordinal();

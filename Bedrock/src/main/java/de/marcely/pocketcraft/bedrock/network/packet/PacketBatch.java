@@ -38,7 +38,7 @@ public class PacketBatch extends PCPacket {
 		{
 			final byte[] buffer = new byte[COMPRESSION_BUFFER_SIZE];
 			
-			reader = new EByteArrayReader(buffer, 0, ZLib.inflate(this.payload, buffer));
+			reader = new EByteArrayReader(buffer, 0, ZLib.inflateRaw(this.payload, buffer));
 		}
 		
 		while(reader.available() >= 1){
@@ -82,7 +82,7 @@ public class PacketBatch extends PCPacket {
 		
 		{
 			this.payload = new byte[COMPRESSION_BUFFER_SIZE];
-			this.payloadSize = ZLib.deflate(writer.toByteArray(), this.payload, compressionLevel);
+			this.payloadSize = ZLib.deflateRaw(writer.toByteArray(), this.payload, compressionLevel);
 		}
 		
 		writer.close();

@@ -18,8 +18,10 @@ public class PacketInventoryContent extends PCPacket {
         writer.writeUnsignedVarInt(this.inventoryId);
         writer.writeUnsignedVarInt(this.items.length);
         
-        for(BItem item:this.items)
+        for(BItem item:this.items){
+        	writer.writeSignedVarInt(item.getType());
         	item.write(writer);
+        }
 	}
 
 	@Override

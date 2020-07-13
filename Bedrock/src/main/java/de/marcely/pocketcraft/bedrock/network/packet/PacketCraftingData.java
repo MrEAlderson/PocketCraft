@@ -10,8 +10,16 @@ import de.marcely.pocketcraft.bedrock.util.EByteArrayReader;
 
 public class PacketCraftingData extends PCPacket {
 	
+    public static final String CRAFTING_TAG_CRAFTING_TABLE = "crafting_table";
+    public static final String CRAFTING_TAG_CARTOGRAPHY_TABLE = "cartography_table";
+    public static final String CRAFTING_TAG_STONECUTTER = "stonecutter";
+    public static final String CRAFTING_TAG_FURNACE = "furnace";
+    public static final String CRAFTING_TAG_CAMPFIRE = "campfire";
+    public static final String CRAFTING_TAG_BLAST_FURNACE = "blast_furnace";
+    public static final String CRAFTING_TAG_SMOKER = "smoker";
+	
 	public CraftingDataEntry[] entries;
-	 public boolean cleanRecipes;
+	public boolean cleanRecipes;
 	
 	public PacketCraftingData(){
 		super(PacketType.CraftingData);
@@ -52,26 +60,33 @@ public class PacketCraftingData extends PCPacket {
 	
 	public static class ShapelessRecipe extends Resultable implements CraftingDataEntry {
 		
+		public String recipeId;
 		public List<BItem> ingredients;
+		public int priority;
 		
 		@Override
 		public int getType(){ return 0; }
 		
 		@Override
 		public void encode(EByteArrayWriter writer) throws Exception {
-			writer.writeUnsignedVarInt(ingredients.size());
+			writer.writeString(this.recipeId);
+			writer.writeUnsignedVarInt(this.ingredients.size());
 			
-			for(BItem item:ingredients)
+			for(BItem item:this.ingredients)
 				item.write(writer);
 			
 			writer.writeUnsignedVarInt(1);
 			result.write(writer);
-			writer.writeUUID(id);
+			writer.writeUUID(this.id);
+			writer.writeString(CRAFTING_TAG_CRAFTING_TABLE);
+			writer.writeSignedVarInt(this.priority);
+			writer.writeUnsignedVarInt(0);
 		}
 	}
 	
 	public static class ShapedRecipe extends Resultable implements CraftingDataEntry {
 		
+		public String recipeId;
 		public Character[][] shape;
 		public Map<Character, BItem> indegridients;
 		
@@ -80,9 +95,10 @@ public class PacketCraftingData extends PCPacket {
 
 		@Override
 		public void encode(EByteArrayWriter writer) throws Exception {
-			final int width = shape.length;
-			final int height = shape[0].length;
+			final int width = this.shape.length;
+			final int height = this.shape[0].length;
 			
+			writer.writeString(this.recipeId);
 			writer.writeSignedVarInt(width);
 			writer.writeSignedVarInt(height);
 			
